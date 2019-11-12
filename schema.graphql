@@ -1,0 +1,76 @@
+scalar Upload
+
+ type Query{
+      getUsersTableEmployees(email:String):[JsonEmployee]
+ }        
+type Mutation {
+  signup(data: UserCreateInput!): Auth!
+  login(email: String!, password: String!): Auth!
+  createUser(data: UserCreateInput!): Auth!
+  registerEmployee(data:[String]!):Data!
+  registerRS(data: [String]):Data
+}
+
+
+type  JsonEmployee{
+
+  nombre: String,
+  Apellidos: String,
+  RFC:String,
+  RazonSocial:String,
+  Usuario:String,
+  correo:String,
+
+}
+
+type Auth {
+  message: String
+}
+
+# type data {
+#   nombre: String,
+#   Apellidos: String,
+#   RFC: String,
+#   RazonSocial:String,
+#   Usuario:String,
+#   correo:String,
+# }
+
+input UserCreateInput {
+  first_name: String
+  last_name: String
+  rfc:String!
+  razon_social:String!
+  user:String!
+  email: String!
+  password: String!
+}
+
+
+input InsertData {
+idempresas:Int!
+rfc:String!
+razon_social:String!
+telefono1:String!
+telefono2:String
+email1:String!
+email2:String!
+direccion:String!
+}
+
+
+# type data {
+#   nombre: String
+#   idempresas: String
+#   rfc: String
+#   razon_social: String
+#   telefono1: String
+# }
+
+# type File {
+#     email: String!
+#   }
+
+type Data {
+  message: String
+}
