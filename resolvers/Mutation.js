@@ -44,7 +44,6 @@ const registerRS =async (_,  data ) => {
                    return datosRS;
 };
 
-
 module.exports = {
     signup,
     login,

@@ -24,7 +24,8 @@ type  JsonEmployee{
 }
 
 type Auth {
-  message: String
+message:String!
+token:String!
 }
 
 # type data {

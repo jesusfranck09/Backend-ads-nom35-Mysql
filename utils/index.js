@@ -1,15 +1,15 @@
-// const jwt = require('jsonwebtoken');
-// const User = require('../models/User');
-// const cloudinary = require('cloudinary');
+const jwt = require('jsonwebtoken');
+const User = require('../models/User');
+const cloudinary = require('cloudinary');
 
-// const createToken = (email) => {
-//     const payload = {
-//         //_id,
-//         email,
-//         //first_name,
-//     }
-//     return jwt.sign(payload, process.env.JWT_SECRET);
-// };
+const createToken = (email ,password) => {
+    const payload = {
+        //_id,
+        email,
+        password
+    }
+    return jwt.sign(payload, process.env.JWT_SECRET);
+};
 
 // const authUserById = (context) => {
 //     const Authorization = context.request.get("Authorization");
@@ -39,8 +39,8 @@
 //     });
 // }
 
-// module.exports = {
-//     createToken,
-//     authUserById,
-//     storeUpload,
-// }
+module.exports = {
+    createToken,
+    // authUserById,
+    // storeUpload,
+}
