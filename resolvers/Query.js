@@ -7,7 +7,7 @@ const getUsersTableEmployees = (_,args ) => {
       
  
      
-     //    return  client.query(`SELECT * FROM usuarios where correo = '${args.email}'`, (err, result) => {
+     //    return  client.query(`SELECT * FROM administrador where correo = '${args.email}'`, (err, result) => {
      //           if(err) throw err;
      //        console.log("result" , result)
      //           return res.send(result);

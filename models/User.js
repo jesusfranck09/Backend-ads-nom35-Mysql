@@ -44,5 +44,5 @@
 
 
 // const user =  () => {
-//     return client.query(`insert into usuarios(id_user,email,password) values ('${user.id}', '${user.email}', '${user.password}')`);
+//     return client.query(`insert into administrador(id_user,email,password) values ('${user.id}', '${user.email}', '${user.password}')`);
 // };

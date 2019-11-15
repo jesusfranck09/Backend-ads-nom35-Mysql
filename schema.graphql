@@ -7,12 +7,14 @@ type Mutation {
   signup(data: UserCreateInput!): Auth!
   login(email: String!, password: String!): Auth!
   createUser(data: UserCreateInput!): Auth!
-  registerEmployee(data:[String]!):Data!
-  registerRS(data: [String]):Data
+  registerEmployee(data:[String]!,email:String):Data!
+  fkEmployee(email:String!,password:String!):Auth
+  registerRS(data:[String]):Data
 }
 
 
 type  JsonEmployee{
+
 
   nombre: String,
   Apellidos: String,
@@ -20,7 +22,7 @@ type  JsonEmployee{
   RazonSocial:String,
   Usuario:String,
   correo:String,
-
+  # correoAdmin:String!
 }
 
 type Auth {
