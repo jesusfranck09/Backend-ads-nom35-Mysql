@@ -11,15 +11,18 @@ const login = async (_, {email, password}) => {
 };
 
 
-const registerEmployee =async (_,{ data,email} ) => {
-    // console.log("la data es")
+const registerEmployee =async (_,  data ) => {
+    // console.log("la data en la mutation es es" , data)
+
     // var nombre = data.data
     // var nombres = nombre.split(",");
-    console.log("esta es la data" , data)
-    console.log("email" , email)
-  
+    
+
+    var miCadena =data.data[0];
+var divisiones = miCadena.split(",");
+// console.log("la nueva data es " , divisiones)
     // console.log("la data en la mutation es " ,data.data)
-    const datosEmployee = await  actions.registerEm(data)
+    const datosEmployee = await  actions.registerEm(divisiones)
                    return datosEmployee;
 };
 

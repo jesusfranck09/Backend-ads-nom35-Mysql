@@ -7,8 +7,7 @@ type Mutation {
   signup(data: UserCreateInput!): Auth!
   login(email: String!, password: String!): Auth!
   createUser(data: UserCreateInput!): Auth!
-  registerEmployee(data:[String]!,email:String):Data!
-  fkEmployee(email:String!,password:String!):Auth
+  registerEmployee(data:[String]!):Data!
   registerRS(data:[String]):Data
 }
 
