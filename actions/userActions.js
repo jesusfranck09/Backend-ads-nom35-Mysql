@@ -59,27 +59,45 @@ const  login = async (email,password) => {
 
 
   const registerEm =  async (data) => {
-    console.log("la data en useraction es " , data[9])
+    console.log("la data en useraction es " , data[20])
 
     return new Promise((resolve, reject) => {
       client
-      .query(`select * from  administrador where correo='${data[9]}' and contraseña='${data[10]}'`,
+      .query(`select * from  administrador where correo='${data[20]}' and contraseña='${data[21]}'`,
      function (error, results, fields) {
         var string=JSON.stringify(results);
         var resultados =  JSON.parse(string); 
 
-        console.log("los resultados son  " , resultados[0].id)
+         console.log("los resultados son  " , data)
          client
-        .query(`insert into empleados (nombre,ApellidoP,ApellidoM,Curp,RFC,Sexo,CP,fk_administrador) values ('${data[0]}', '${data[1]}', '${data[2]}', '${data[3]}', '${data[4]}', '${data[5]}', '${data[6]}','${resultados[0].id}')`); 
+        .query(`insert into empleados (nombre,ApellidoP,ApellidoM,Curp,RFC,FechaNacimiento,Sexo,CP,EstadoCivil,correo,AreaTrabajo,Puesto,Ciudad,NivelEstudios,TipoPersonal,JornadaTrabajo,TipoContratacion,TiempoPuesto,ExperienciaLaboral,RotacionTurnos,fk_administrador) values ('${data[0]}', '${data[1]}', '${data[2]}', '${data[3]}', '${data[4]}', '${data[5]}', '${data[6]}', '${data[7]}', '${data[8]}', '${data[9]}', '${data[10]}', '${data[11]}', '${data[12]}', '${data[13]}', '${data[14]}', '${data[15]}', '${data[16]}', '${data[17]}', '${data[18]}', '${data[19]}','${resultados[0].id}')`); 
         return  client
       },
     )
     })
 
-
- 
   };
   
+
+  const registerSingleEm =  async (data) => {
+    console.log("la data en useraction es " , data)
+
+    return new Promise((resolve, reject) => {
+      client
+      .query(`select * from  administrador where correo='${data[20]}' and contraseña='${data[21]}'`,
+     function (error, results, fields) {
+        var string=JSON.stringify(results);
+        var resultados =  JSON.parse(string); 
+
+         console.log("los resultados son  " , data)
+         client
+        .query(`insert into empleados (nombre,ApellidoP,ApellidoM,Curp,RFC,FechaNacimiento,Sexo,CP,EstadoCivil,correo,AreaTrabajo,Puesto,Ciudad,NivelEstudios,TipoPersonal,JornadaTrabajo,TipoContratacion,TiempoPuesto,ExperienciaLaboral,RotacionTurnos,fk_administrador) values ('${data[0]}', '${data[1]}', '${data[2]}', '${data[3]}', '${data[4]}', '${data[5]}', '${data[6]}', '${data[7]}', '${data[8]}', '${data[9]}', '${data[10]}', '${data[11]}', '${data[12]}', '${data[13]}', '${data[14]}', '${data[15]}', '${data[16]}', '${data[17]}', '${data[18]}', '${data[19]}','${resultados[0].id}')`); 
+        return  client
+      },
+    )
+    })
+
+  };
 
 
 const registerRazonS = async data => {
@@ -125,5 +143,5 @@ module.exports = {
   registerEm,
   registerRazonS,
   getUsers,
-  // addfkemployees
+  registerSingleEm
 }

@@ -12,24 +12,20 @@ const login = async (_, {email, password}) => {
 
 
 const registerEmployee =async (_,  data ) => {
-    // console.log("la data en la mutation es es" , data)
-
-    // var nombre = data.data
-    // var nombres = nombre.split(",");
-    
-
     var miCadena =data.data[0];
 var divisiones = miCadena.split(",");
-// console.log("la nueva data es " , divisiones)
-    // console.log("la data en la mutation es " ,data.data)
     const datosEmployee = await  actions.registerEm(divisiones)
                    return datosEmployee;
 };
 
-// const fkEmployee= async (_,email,password)=>{
 
-//     return actions.addfkemployees(email,password) 
-// }
+const registerSingleEmployee =async (_,  data ) => {
+    console.log("la data en mutation registersingleemployee es " , data)
+    var miCadena =data.data[0];
+    var divisiones = miCadena.split(",");
+    const datosEmployee = await  actions.registerSingleEm(divisiones)
+                   return datosEmployee;
+};
 
 
 const registerRS = async (_,  data ) => {
@@ -46,7 +42,5 @@ module.exports = {
     login,
     registerEmployee,
     registerRS,
-    // fkEmployee
-
-    // uploadFile,
+    registerSingleEmployee
 };
