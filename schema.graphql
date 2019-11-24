@@ -9,9 +9,8 @@ type Mutation {
   createUser(data: UserCreateInput!): Auth!
   registerEmployee(data:[String]!):Data!
   registerRS(data:[String]):Data
-  registerSingleEmployee(data:[String]):Data!
+  registerSingleEmployee(data:[String]!):Data!
 }
-
 
 type  JsonEmployee{
 

@@ -68,7 +68,7 @@ const  login = async (email,password) => {
         var string=JSON.stringify(results);
         var resultados =  JSON.parse(string); 
 
-         console.log("los resultados son  " , data)
+         console.log("los data son  " , data)
          client
         .query(`insert into empleados (nombre,ApellidoP,ApellidoM,Curp,RFC,FechaNacimiento,Sexo,CP,EstadoCivil,correo,AreaTrabajo,Puesto,Ciudad,NivelEstudios,TipoPersonal,JornadaTrabajo,TipoContratacion,TiempoPuesto,ExperienciaLaboral,RotacionTurnos,fk_administrador) values ('${data[0]}', '${data[1]}', '${data[2]}', '${data[3]}', '${data[4]}', '${data[5]}', '${data[6]}', '${data[7]}', '${data[8]}', '${data[9]}', '${data[10]}', '${data[11]}', '${data[12]}', '${data[13]}', '${data[14]}', '${data[15]}', '${data[16]}', '${data[17]}', '${data[18]}', '${data[19]}','${resultados[0].id}')`); 
         return  client
@@ -80,16 +80,12 @@ const  login = async (email,password) => {
   
 
   const registerSingleEm =  async (data) => {
-    console.log("la data en useraction es " , data)
-
     return new Promise((resolve, reject) => {
       client
       .query(`select * from  administrador where correo='${data[20]}' and contraseña='${data[21]}'`,
      function (error, results, fields) {
         var string=JSON.stringify(results);
         var resultados =  JSON.parse(string); 
-
-         console.log("los resultados son  " , data)
          client
         .query(`insert into empleados (nombre,ApellidoP,ApellidoM,Curp,RFC,FechaNacimiento,Sexo,CP,EstadoCivil,correo,AreaTrabajo,Puesto,Ciudad,NivelEstudios,TipoPersonal,JornadaTrabajo,TipoContratacion,TiempoPuesto,ExperienciaLaboral,RotacionTurnos,fk_administrador) values ('${data[0]}', '${data[1]}', '${data[2]}', '${data[3]}', '${data[4]}', '${data[5]}', '${data[6]}', '${data[7]}', '${data[8]}', '${data[9]}', '${data[10]}', '${data[11]}', '${data[12]}', '${data[13]}', '${data[14]}', '${data[15]}', '${data[16]}', '${data[17]}', '${data[18]}', '${data[19]}','${resultados[0].id}')`); 
         return  client
@@ -98,7 +94,6 @@ const  login = async (email,password) => {
     })
 
   };
-
 
 const registerRazonS = async data => {
 new Promise((resolve, reject) => {
@@ -110,8 +105,8 @@ new Promise((resolve, reject) => {
       var resultados =  JSON.parse(string); 
       resolve(resultados)
        client
-      .query(`insert into usuarios (RFC,Razon_social,Empleados,Representante,Direccion,Telefono,Correo,fk_administrador) values ('${data[0]}', '${data[1]}', '${data[2]}', '${data[3]}', '${data[4]}', '${data[5]}', '${data[6]}' , '${resultados[0].id}')`); 
-      return  client
+       .query(`insert into empleados (nombre,ApellidoP,ApellidoM,Curp,RFC,FechaNacimiento,Sexo,CP,EstadoCivil,correo,AreaTrabajo,Puesto,Ciudad,NivelEstudios,TipoPersonal,JornadaTrabajo,TipoContratacion,TiempoPuesto,ExperienciaLaboral,RotacionTurnos,fk_administrador) values ('${data[0]}', '${data[1]}', '${data[2]}', '${data[3]}', '${data[4]}', '${data[5]}', '${data[6]}', '${data[7]}', '${data[8]}', '${data[9]}', '${data[10]}', '${data[11]}', '${data[12]}', '${data[13]}', '${data[14]}', '${data[15]}', '${data[16]}', '${data[17]}', '${data[18]}', '${data[19]}','${resultados[0].id}')`); 
+       return  client
     },
   )
   })

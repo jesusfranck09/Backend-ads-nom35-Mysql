@@ -1,3 +1,5 @@
+
+
 const actions = require('../actions');
 // const { authUserById } = require('../utils');
 const signup = (_, { data }) => {
@@ -20,8 +22,8 @@ var divisiones = miCadena.split(",");
 
 
 const registerSingleEmployee =async (_,  data ) => {
-    console.log("la data en mutation registersingleemployee es " , data)
     var miCadena =data.data[0];
+
     var divisiones = miCadena.split(",");
     const datosEmployee = await  actions.registerSingleEm(divisiones)
                    return datosEmployee;
