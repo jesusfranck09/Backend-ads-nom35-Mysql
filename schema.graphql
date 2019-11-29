@@ -27,8 +27,25 @@ type Mutation {
   rpValidadorPage7(data:[String]!):Data!
   rpValidadorPage8(data:[String]!):Data!
 
+
+  eeoPage1(data:[String]!):Data!
+  eeoPage2(data:[String]!):Data!
+  eeoPage3(data:[String]!):Data!
+  eeoPage4(data:[String]!):Data!
+  eeoPage5(data:[String]!):Data!
+  eeoPage6(data:[String]!):Data!
+  eeoPage7(data:[String]!):Data!
+  eeoPage8(data:[String]!):Data!
+  eeoPage9(data:[String]!):Data!
+  eeoPage10(data:[String]!):Data!
+  eeoPage11(data:[String]!):Data!
+  eeoPage12(data:[String]!):Data!
+  eeoPage13(data:[String]!):Data!
+  eeoPage14(data:[String]!):Data!
+
   rpPoliticaPrivacidad(data:[String]!):Data!
   atsPoliticaPrivacidad(data:[String]!):Data!
+  eeoPoliticaPrivacidad(data:[String]!):Data!
 }
 
 type  JsonEmployee{

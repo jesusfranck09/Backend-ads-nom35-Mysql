@@ -51,13 +51,6 @@ const  login = async (email,password) => {
   })
   }
 
-  // const  addfkemployees  =  (args) =>{
-
-
-  //   console.log("los args son deben de ser " , args)
-  //   }  
-
-
   const registerEm =  async (data) => {
     console.log("la data en useraction es " , data[20])
 
@@ -423,96 +416,449 @@ const AtsPage1 = async data => {
                       )
                       })
                     };
-        
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////77
+                  const EEOPage1 = async data => {
+                          
+                    console.log("useractions eEOpage1" , data)
+                    return new Promise((resolve, reject) => {
+                        client
+                        .query(`select * from  empleados where correo='${data[5]}'`,
+                        function (error, results, fields) {
+                        if (error) reject(error) 
+                          var string=JSON.stringify(results);
+                          var resultados =  JSON.parse(string); 
+                          resolve(resultados)
+                            client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[0]}','1','${resultados[0].id}')`); 
+                            client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[1]}','2','${resultados[0].id}')`); 
+                            client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[2]}','3','${resultados[0].id}')`); 
+                            client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[3]}','4','${resultados[0].id}')`); 
+                            client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[4]}','5','${resultados[0].id}')`); 
+                            return  client       
+                        },
+                      )
+                      })
+                    };
+
+                    const EEOPage2 = async data => {
+                          
+                      console.log("useractions eEOpage2" , data)
+                      return new Promise((resolve, reject) => {
+                          client
+                          .query(`select * from  empleados where correo='${data[3]}'`,
+                          function (error, results, fields) {
+                          if (error) reject(error) 
+                            var string=JSON.stringify(results);
+                            var resultados =  JSON.parse(string); 
+                            resolve(resultados)
+                              client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[0]}','6','${resultados[0].id}')`); 
+                              client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[1]}','7','${resultados[0].id}')`); 
+                              client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[2]}','8','${resultados[0].id}')`); 
+                              
+                              return  client       
+                          },
+                        )
+                        })
+                      };
+                      const EEOPage3 = async data => {
+                          
+                        console.log("useractions eEOpage3" , data)
+                        return new Promise((resolve, reject) => {
+                            client
+                            .query(`select * from  empleados where correo='${data[4]}'`,
+                            function (error, results, fields) {
+                            if (error) reject(error) 
+                              var string=JSON.stringify(results);
+                              var resultados =  JSON.parse(string); 
+                              resolve(resultados)
+                                client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[0]}','9','${resultados[0].id}')`); 
+                                client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[1]}','10','${resultados[0].id}')`); 
+                                client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[2]}','11','${resultados[0].id}')`); 
+                                client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[3]}','12','${resultados[0].id}')`); 
+
+                                return  client       
+                            },
+                          )
+                          })
+                        };
+
+
+                        const EEOPage4 = async data => {
+                          
+                          console.log("useractions eEOpage4" , data)
+                          return new Promise((resolve, reject) => {
+                              client
+                              .query(`select * from  empleados where correo='${data[4]}'`,
+                              function (error, results, fields) {
+                              if (error) reject(error) 
+                                var string=JSON.stringify(results);
+                                var resultados =  JSON.parse(string); 
+                                resolve(resultados)
+                                  client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[0]}','13','${resultados[0].id}')`); 
+                                  client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[1]}','14','${resultados[0].id}')`); 
+                                  client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[2]}','15','${resultados[0].id}')`); 
+                                  client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[3]}','16','${resultados[0].id}')`); 
+  
+                                  return  client       
+                              },
+                            )
+                            })
+                          };
+
+                          const EEOPage5 = async data => {
+                          
+                            console.log("useractions eEOpage5" , data)
+                            return new Promise((resolve, reject) => {
+                                client
+                                .query(`select * from  empleados where correo='${data[6]}'`,
+                                function (error, results, fields) {
+                                if (error) reject(error) 
+                                  var string=JSON.stringify(results);
+                                  var resultados =  JSON.parse(string); 
+                                  resolve(resultados)
+                                    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[0]}','17','${resultados[0].id}')`); 
+                                    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[1]}','18','${resultados[0].id}')`); 
+                                    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[2]}','19','${resultados[0].id}')`); 
+                                    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[3]}','20','${resultados[0].id}')`); 
+                                    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[4]}','21','${resultados[0].id}')`); 
+                                    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[5]}','22','${resultados[0].id}')`); 
+    
+                                    return  client       
+                                },
+                              )
+                              })
+                            };
+
+                            const EEOPage6 = async data => {
+                          
+                              console.log("useractions eEOpage5" , data)
+                              return new Promise((resolve, reject) => {
+                                  client
+                                  .query(`select * from  empleados where correo='${data[6]}'`,
+                                  function (error, results, fields) {
+                                  if (error) reject(error) 
+                                    var string=JSON.stringify(results);
+                                    var resultados =  JSON.parse(string); 
+                                    resolve(resultados)
+                                      client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[0]}','23','${resultados[0].id}')`); 
+                                      client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[1]}','24','${resultados[0].id}')`); 
+                                      client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[2]}','25','${resultados[0].id}')`); 
+                                      client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[3]}','26','${resultados[0].id}')`); 
+                                      client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[4]}','27','${resultados[0].id}')`); 
+                                      client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[5]}','28','${resultados[0].id}')`); 
+      
+                                      return  client       
+                                  },
+                                )
+                                })
+                              };
+
+                              const EEOPage7 = async data => {
+                          
+                                console.log("useractions eEOpage5" , data)
+                                return new Promise((resolve, reject) => {
+                                    client
+                                    .query(`select * from  empleados where correo='${data[2]}'`,
+                                    function (error, results, fields) {
+                                    if (error) reject(error) 
+                                      var string=JSON.stringify(results);
+                                      var resultados =  JSON.parse(string); 
+                                      resolve(resultados)
+                                        client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[0]}','29','${resultados[0].id}')`); 
+                                        client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[1]}','30','${resultados[0].id}')`); 
+                              
+                                        return  client       
+                                    },
+                                  )
+                                  })
+                                };
+
+                                const EEOPage8 = async data => {
+                          
+                                  console.log("useractions eEOpage5" , data)
+                                  return new Promise((resolve, reject) => {
+                                      client
+                                      .query(`select * from  empleados where correo='${data[6]}'`,
+                                      function (error, results, fields) {
+                                      if (error) reject(error) 
+                                        var string=JSON.stringify(results);
+                                        var resultados =  JSON.parse(string); 
+                                        resolve(resultados)
+                                          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[0]}','31','${resultados[0].id}')`); 
+                                          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[1]}','32','${resultados[0].id}')`); 
+                                          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[2]}','33','${resultados[0].id}')`); 
+                                          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[3]}','34','${resultados[0].id}')`); 
+                                          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[4]}','35','${resultados[0].id}')`); 
+                                          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[5]}','36','${resultados[0].id}')`); 
+          
+                                          return  client       
+                                      },
+                                    )
+                                    })
+                                  };
+
+                                  const EEOPage9 = async data => {
+                          
+                                    console.log("useractions eEOpage5" , data)
+                                    return new Promise((resolve, reject) => {
+                                        client
+                                        .query(`select * from  empleados where correo='${data[5]}'`,
+                                        function (error, results, fields) {
+                                        if (error) reject(error) 
+                                          var string=JSON.stringify(results);
+                                          var resultados =  JSON.parse(string); 
+                                          resolve(resultados)
+                                            client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[0]}','37','${resultados[0].id}')`); 
+                                            client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[1]}','38','${resultados[0].id}')`); 
+                                            client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[2]}','39','${resultados[0].id}')`); 
+                                            client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[3]}','40','${resultados[0].id}')`); 
+                                            client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[4]}','41','${resultados[0].id}')`); 
+            
+                                            return  client       
+                                        },
+                                      )
+                                      })
+                                    };
+                                    const EEOPage10 = async data => {
+                          
+                                      console.log("useractions eEOpage10" , data)
+                                      return new Promise((resolve, reject) => {
+                                          client
+                                          .query(`select * from  empleados where correo='${data[5]}'`,
+                                          function (error, results, fields) {
+                                          if (error) reject(error) 
+                                            var string=JSON.stringify(results);
+                                            var resultados =  JSON.parse(string); 
+                                            resolve(resultados)
+                                              client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[0]}','42','${resultados[0].id}')`); 
+                                              client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[1]}','43','${resultados[0].id}')`); 
+                                              client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[2]}','44','${resultados[0].id}')`); 
+                                              client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[3]}','45','${resultados[0].id}')`); 
+                                              client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[4]}','46','${resultados[0].id}')`); 
+              
+                                              return  client       
+                                          },
+                                        )
+                                        })
+                                      };
+
+                                      const EEOPage11 = async data => {
+                          
+                                        console.log("useractions eEOpage10" , data)
+                                        return new Promise((resolve, reject) => {
+                                            client
+                                            .query(`select * from  empleados where correo='${data[10]}'`,
+                                            function (error, results, fields) {
+                                            if (error) reject(error) 
+                                              var string=JSON.stringify(results);
+                                              var resultados =  JSON.parse(string); 
+                                              resolve(resultados)
+                                                client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[0]}','47','${resultados[0].id}')`); 
+                                                client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[1]}','48','${resultados[0].id}')`); 
+                                                client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[2]}','49','${resultados[0].id}')`); 
+                                                client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[3]}','50','${resultados[0].id}')`); 
+                                                client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[4]}','51','${resultados[0].id}')`); 
+                                                client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[5]}','52','${resultados[0].id}')`); 
+                                                client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[6]}','53','${resultados[0].id}')`); 
+                                                client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[7]}','54','${resultados[0].id}')`); 
+                                                client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[8]}','55','${resultados[0].id}')`); 
+                                                client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[9]}','56','${resultados[0].id}')`); 
+                
+                                                return  client       
+                                            },
+                                          )
+                                          })
+                                        };
+
+                                        const EEOPage12 = async data => {
+                          
+                                          console.log("useractions eEOpage12" , data)
+                                          return new Promise((resolve, reject) => {
+                                              client
+                                              .query(`select * from  empleados where correo='${data[8]}'`,
+                                              function (error, results, fields) {
+                                              if (error) reject(error) 
+                                                var string=JSON.stringify(results);
+                                                var resultados =  JSON.parse(string); 
+                                                resolve(resultados)
+                                                  client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[0]}','57','${resultados[0].id}')`); 
+                                                  client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[1]}','58','${resultados[0].id}')`); 
+                                                  client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[2]}','59','${resultados[0].id}')`); 
+                                                  client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[3]}','60','${resultados[0].id}')`); 
+                                                  client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[4]}','61','${resultados[0].id}')`); 
+                                                  client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[5]}','62','${resultados[0].id}')`); 
+                                            
+                                                  client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[6]}','63','${resultados[0].id}')`); 
+                                                  client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[7]}','64','${resultados[0].id}')`); 
+                                                  
+                                                  return  client       
+                                              },
+                                            )
+                                            })
+                                          };
+
+                                          const EEOPage13 = async data => {
+                          
+                                            console.log("useractions eEOpage10" , data)
+                                            return new Promise((resolve, reject) => {
+                                                client
+                                                .query(`select * from  empleados where correo='${data[4]}'`,
+                                                function (error, results, fields) {
+                                                if (error) reject(error) 
+                                                  var string=JSON.stringify(results);
+                                                  var resultados =  JSON.parse(string); 
+                                                  resolve(resultados)
+                                                    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[0]}','65','${resultados[0].id}')`); 
+                                                    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[1]}','66','${resultados[0].id}')`); 
+                                                    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[2]}','67','${resultados[0].id}')`); 
+                                                    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[3]}','68','${resultados[0].id}')`); 
+                                                   
+                                                    return  client       
+                                                },
+                                              )
+                                              })
+                                            };
+
+                                            const EEOPage14 = async data => {
+                          
+                                              console.log("useractions eEOpage14" , data)
+                                              return new Promise((resolve, reject) => {
+                                                  client
+                                                  .query(`select * from  empleados where correo='${data[4]}'`,
+                                                  function (error, results, fields) {
+                                                  if (error) reject(error) 
+                                                    var string=JSON.stringify(results);
+                                                    var resultados =  JSON.parse(string); 
+                                                    resolve(resultados)
+                                                      client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[0]}','69','${resultados[0].id}')`); 
+                                                      client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[1]}','70','${resultados[0].id}')`); 
+                                                      client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[2]}','71','${resultados[0].id}')`); 
+                                                      client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[3]}','72','${resultados[0].id}')`); 
+                                                     
+                                                      return  client       
+                                                  },
+                                                )
+                                                })
+                                              };
+  
+
+                                
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  const AtsPoliticaPrivacidad = async data => {
-     return  new Promise((resolve, reject) => {
-          client
-          .query(`select * from  empleados where correo='${data[0]}' `,
-           function (error, results, fields) {
-           if (error) reject(error) 
-            var string=JSON.stringify(results);
-            var resultados =  JSON.parse(string); 
-            resolve(resultados) 
-             client
-             .query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados) values ('${data[1]}','11','${resultados[0].id}')`); 
-             return  client
-          },
-        )
-        })
-      };
+                  const AtsPoliticaPrivacidad = async data => {
+                    return  new Promise((resolve, reject) => {
+                          client
+                          .query(`select * from  empleados where correo='${data[0]}' `,
+                          function (error, results, fields) {
+                          if (error) reject(error) 
+                            var string=JSON.stringify(results);
+                            var resultados =  JSON.parse(string); 
+                            resolve(resultados) 
+                            client
+                            .query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados) values ('${data[1]}','11','${resultados[0].id}')`); 
+                            return  client
+                          },
+                        )
+                        })
+                      };
 
 
-      const RPPoliticaPrivacidad = async data => {
+                  const RPPoliticaPrivacidad = async data => {
 
-        console.log("datauseraction" ,  data)
+                    console.log("datauseraction" ,  data)
 
-        return  new Promise((resolve, reject) => {
-             client
-             .query(`select * from  empleados where correo='${data[0]}' `,
-              function (error, results, fields) {
-              if (error) reject(error) 
-               var string=JSON.stringify(results);
-               var resultados =  JSON.parse(string); 
-               resolve(resultados) 
-                client
-                .query(`insert into respuestasRP(Respuestas,fk_preguntasRP,fk_EmpleadosRP) values ('${data[1]}','47','${resultados[0].id}')`); 
-                return  client
-             },
-           )
-           })
-         };
+                    return  new Promise((resolve, reject) => {
+                        client
+                        .query(`select * from  empleados where correo='${data[0]}' `,
+                          function (error, results, fields) {
+                          if (error) reject(error) 
+                          var string=JSON.stringify(results);
+                          var resultados =  JSON.parse(string); 
+                          resolve(resultados) 
+                            client
+                            .query(`insert into respuestasRP(Respuestas,fk_preguntasRP,fk_EmpleadosRP) values ('${data[1]}','47','${resultados[0].id}')`); 
+                            return  client
+                        },
+                      )
+                      })
+                    };
 
-
-
-
-
-const  getUsers = async (args) => {
-return new Promise((resolve, reject) => {
-  client.query({
-    sql: 'SELECT * FROM `administrador` WHERE `correo` = ?',
-    timeout: 40000, // 40s
-  },
-  [`${args.email}`],
- function fun (error, results, fields) {
-    if (error) reject(error)
-    console.log("error" ,  error)
-    var string=JSON.stringify(results);
-    var resultados =  JSON.parse(string); 
-    resolve(resultados)
-  }
-)
-})
-}
-
-module.exports = {
-  signup,
-  login,
-  registerEm,
-  registerRazonS,
-  getUsers,
-  registerSingleEm,
-  AtsPage1,
-  AtsPage2,
-  AtsPage3,
-  AtsPage4,
-
-  RPPage1,
-  RPPage2,
-  RPPage3,
-  RPPage4,
-  RPPage5,
-  RPPage6,
-  RPPage7,
-  RPPage8,
-  
-  RPValidadorPage7,
-  RPValidadorPage8,
+                    const EEOPoliticaPrivacidad = async data => {
+                      return  new Promise((resolve, reject) => {
+                          client
+                          .query(`select * from  empleados where correo='${data[0]}' `,
+                            function (error, results, fields) {
+                            if (error) reject(error) 
+                            var string=JSON.stringify(results);
+                            var resultados =  JSON.parse(string); 
+                            resolve(resultados) 
+                              client
+                              .query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[1]}','73','${resultados[0].id}')`); 
+                              return  client
+                          },
+                        )
+                        })
+                      };
 
 
-  AtsPoliticaPrivacidad,
-  RPPoliticaPrivacidad
-}
+
+                    const  getUsers = async (args) => {
+                    return new Promise((resolve, reject) => {
+                      client.query({
+                        sql: 'SELECT * FROM `administrador` WHERE `correo` = ?',
+                        timeout: 40000, // 40s
+                      },
+                      [`${args.email}`],
+                    function fun (error, results, fields) {
+                        if (error) reject(error)
+                        console.log("error" ,  error)
+                        var string=JSON.stringify(results);
+                        var resultados =  JSON.parse(string); 
+                        resolve(resultados)
+                      }
+                    )
+                    })
+                    }
+
+                  module.exports = {
+                    signup,
+                    login,
+                    registerEm,
+                    registerRazonS,
+                    getUsers,
+                    registerSingleEm,
+                    AtsPage1,
+                    AtsPage2,
+                    AtsPage3,
+                    AtsPage4,
+
+                    RPPage1,
+                    RPPage2,
+                    RPPage3,
+                    RPPage4,
+                    RPPage5,
+                    RPPage6,
+                    RPPage7,
+                    RPPage8,
+                    
+                    RPValidadorPage7,
+                    RPValidadorPage8,
+                    EEOPage1,
+                    EEOPage2,
+                    EEOPage3,
+                    EEOPage4,
+                    EEOPage5,
+                    EEOPage6,
+                    EEOPage7,
+                    EEOPage8,
+                    EEOPage9,
+                    EEOPage10,
+                    EEOPage11,
+                    EEOPage12,
+                    EEOPage13,
+                    EEOPage14,
+                    AtsPoliticaPrivacidad,
+                    RPPoliticaPrivacidad,
+                    EEOPoliticaPrivacidad
+                  }

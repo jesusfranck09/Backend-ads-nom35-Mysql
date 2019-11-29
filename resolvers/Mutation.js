@@ -167,7 +167,125 @@ const rpValidadorPage8 = async (_,  data ) => {
                    return datosRS;
 };
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+const eeoPage1 = async (_,  data ) => {
+ 
+    console.log("la data en mutation es  rppage1" ,  data)
+    var miCadena =data.data[0];
+    var divisiones = miCadena.split(",");
+    const datosRS = await  actions.EEOPage1(divisiones)
+                   return datosRS;
+};
 
+
+const eeoPage2 = async (_,  data ) => {
+ 
+    console.log("la data en mutation es  rppage2" ,  data)
+    var miCadena =data.data[0];
+    var divisiones = miCadena.split(",");
+    const datosRS = await  actions.EEOPage2(divisiones)
+                   return datosRS;
+};
+const eeoPage3 = async (_,  data ) => {
+ 
+    console.log("la data en mutation es  rppage3" ,  data)
+    var miCadena =data.data[0];
+    var divisiones = miCadena.split(",");
+    const datosRS = await  actions.EEOPage3(divisiones)
+                   return datosRS;
+};
+const eeoPage4 = async (_,  data ) => {
+ 
+    console.log("la data en mutation es  rppage4" ,  data)
+    var miCadena =data.data[0];
+    var divisiones = miCadena.split(",");
+    const datosRS = await  actions.EEOPage4(divisiones)
+                   return datosRS;
+};
+const eeoPage5 = async (_,  data ) => {
+ 
+    console.log("la data en mutation es  rppage5" ,  data)
+    var miCadena =data.data[0];
+    var divisiones = miCadena.split(",");
+    const datosRS = await  actions.EEOPage5(divisiones)
+                   return datosRS;
+};
+const eeoPage6 = async (_,  data ) => {
+ 
+    console.log("la data en mutation es  rppage6" ,  data)
+    var miCadena =data.data[0];
+    var divisiones = miCadena.split(",");
+    const datosRS = await  actions.EEOPage6(divisiones)
+                   return datosRS;
+};
+const eeoPage7 = async (_,  data ) => {
+ 
+    console.log("la data en mutation es  rppage6" ,  data)
+    var miCadena =data.data[0];
+    var divisiones = miCadena.split(",");
+    const datosRS = await  actions.EEOPage7(divisiones)
+                   return datosRS;
+};
+const eeoPage8 = async (_,  data ) => {
+ 
+    console.log("la data en mutation es  rppage6" ,  data)
+    var miCadena =data.data[0];
+    var divisiones = miCadena.split(",");
+    const datosRS = await  actions.EEOPage8(divisiones)
+                   return datosRS;
+};
+const eeoPage9 = async (_,  data ) => {
+ 
+    console.log("la data en mutation es  rppage6" ,  data)
+    var miCadena =data.data[0];
+    var divisiones = miCadena.split(",");
+    const datosRS = await  actions.EEOPage9(divisiones)
+                   return datosRS;
+};
+
+const eeoPage10 = async (_,  data ) => {
+ 
+    console.log("la data en mutation es  rppage6" ,  data)
+    var miCadena =data.data[0];
+    var divisiones = miCadena.split(",");
+    const datosRS = await  actions.EEOPage10(divisiones)
+                   return datosRS;
+};
+const eeoPage11 = async (_,  data ) => {
+ 
+    console.log("la data en mutation es  rppage6" ,  data)
+    var miCadena =data.data[0];
+    var divisiones = miCadena.split(",");
+    const datosRS = await  actions.EEOPage11(divisiones)
+                   return datosRS;
+};
+
+const eeoPage12 = async (_,  data ) => {
+ 
+    console.log("la data en mutation es  rppage6" ,  data)
+    var miCadena =data.data[0];
+    var divisiones = miCadena.split(",");
+    const datosRS = await  actions.EEOPage12(divisiones)
+                   return datosRS;
+};
+
+const eeoPage13 = async (_,  data ) => {
+ 
+    console.log("la data en mutation es  rppage6" ,  data)
+    var miCadena =data.data[0];
+    var divisiones = miCadena.split(",");
+    const datosRS = await  actions.EEOPage13(divisiones)
+                   return datosRS;
+};
+
+const eeoPage14 = async (_,  data ) => {
+ 
+    console.log("la data en mutation es  rppage6" ,  data)
+    var miCadena =data.data[0];
+    var divisiones = miCadena.split(",");
+    const datosRS = await  actions.EEOPage14(divisiones)
+                   return datosRS;
+};
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const atsPoliticaPrivacidad = async (_,  data ) => {
     console.log("la data en mutation es politica" ,  data)
@@ -184,6 +302,14 @@ const rpPoliticaPrivacidad = async (_,  data ) => {
     const datosRS = await  actions.RPPoliticaPrivacidad(divisiones)
                    return datosRS;
 
+};
+
+const eeoPoliticaPrivacidad = async (_,  data ) => {
+    console.log("la data en mutation es  rppage1" ,  data)
+    var miCadena =data.data[0];
+    var divisiones = miCadena.split(",");
+    const datosRS = await  actions.EEOPoliticaPrivacidad(divisiones)
+                   return datosRS;
 };
 
 
@@ -214,6 +340,25 @@ module.exports = {
     rpValidadorPage7,
     rpValidadorPage8,
 
+    eeoPage1,
+    eeoPage2,
+    eeoPage3,
+    eeoPage4,
+    eeoPage5,
+    eeoPage6,
+    eeoPage7,
+    eeoPage8,
+    eeoPage9,
+    eeoPage10,
+    eeoPage11,
+    eeoPage12,
+    eeoPage13,
+    eeoPage14,
+    
+
+
+
     atsPoliticaPrivacidad,
-    rpPoliticaPrivacidad
+    rpPoliticaPrivacidad,
+    eeoPoliticaPrivacidad
 };
