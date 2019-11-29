@@ -1,4 +1,4 @@
-scalar Upload
+scalar Uploadd
 
  type Query{
       getUsersTableEmployees(email:String):[JsonEmployee]
@@ -10,6 +10,25 @@ type Mutation {
   registerEmployee(data:[String]!):Data!
   registerRS(data:[String]):Data
   registerSingleEmployee(data:[String]!):Data!
+  atsPage1(data:[String]!):Data!
+  atsPage2(data:[String]!):Data!
+  atsPage3(data:[String]!):Data!
+  atsPage4(data:[String]!):Data!
+
+  rpPage1(data:[String]!):Data!
+  rpPage2(data:[String]!):Data!
+  rpPage3(data:[String]!):Data!
+  rpPage4(data:[String]!):Data!
+  rpPage5(data:[String]!):Data!
+  rpPage6(data:[String]!):Data!
+  rpPage7(data:[String]!):Data!
+  rpPage8(data:[String]!):Data!
+
+  rpValidadorPage7(data:[String]!):Data!
+  rpValidadorPage8(data:[String]!):Data!
+
+  rpPoliticaPrivacidad(data:[String]!):Data!
+  atsPoliticaPrivacidad(data:[String]!):Data!
 }
 
 type  JsonEmployee{
