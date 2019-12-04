@@ -50,13 +50,28 @@ type Mutation {
 
 type  JsonEmployee{
 
-
+  id:String,
   nombre: String,
-  Apellidos: String,
-  RFC:String,
-  RazonSocial:String,
-  Usuario:String,
+  ApellidoP: String,
+  ApellidoM:String,
+  Curp:String,
+  rfc:String,
+  FechaNacimiento:String,
+  Sexo:String,
+  cp:String,
+  EstadoCivil:String,
   correo:String,
+  AreaTrabajo:String,
+  Puesto:String,
+  Ciudad:String,
+  NivelEstudios:String,
+  TipoPersonal:String,
+  JornadaTrabajo:String,
+  TipoContratacion:String,
+  TiempoPuesto:String,
+  ExperienciaLaboral:String,
+  RotacionTurnos:String,
+  fk_administrador:String
   # correoAdmin:String!
 }
 

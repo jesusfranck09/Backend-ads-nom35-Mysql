@@ -803,23 +803,41 @@ const AtsPage1 = async data => {
 
 
 
-                    const  getUsers = async (args) => {
-                    return new Promise((resolve, reject) => {
-                      client.query({
-                        sql: 'SELECT * FROM `administrador` WHERE `correo` = ?',
-                        timeout: 40000, // 40s
-                      },
-                      [`${args.email}`],
-                    function fun (error, results, fields) {
-                        if (error) reject(error)
-                        console.log("error" ,  error)
-                        var string=JSON.stringify(results);
-                        var resultados =  JSON.parse(string); 
-                        resolve(resultados)
-                      }
-                    )
-                    })
-                    }
+                    // const  getUsers = async (args) => {
+                    // return new Promise((resolve, reject) => {
+                    //   client.query({
+                    //     sql: 'SELECT * FROM `empleados inner join administrador on empleados.fk_administrador = administrador.id` WHERE `administrador.correo` = ?',
+                    //     timeout: 40000, // 40s
+                    //   },
+                    //   [`${args.email}`],
+                    // function fun (error, results, fields) {
+                    //     if (error) reject(error)
+                    //     console.log("error" ,  error)
+                    //     var string=JSON.stringify(results);
+                    //     console.log("los resultados",string)
+                    //     resolve(string)
+                    //   }
+                    // )
+                    // })
+                    // }
+
+                    const getUsers = async data => {
+
+                      console.log("datauseraction" ,  data)
+  
+                      return  new Promise((resolve, reject) => {
+                          client
+                          .query(`select empleados.id,empleados.nombre,empleados.ApellidoP,empleados.ApellidoM,empleados.Curp,empleados.rfc,empleados.FechaNacimiento,empleados.Sexo,empleados.cp,empleados.EstadoCivil,empleados.correo,empleados.AreaTrabajo,empleados.Puesto,empleados.Ciudad,empleados.NivelEstudios,empleados.TipoPersonal,empleados.JornadaTrabajo,empleados.TipoContratacion,empleados.TiempoPuesto,empleados.ExperienciaLaboral,empleados.RotacionTurnos,empleados.fk_administrador from empleados inner join administrador on empleados.fk_administrador= administrador.id where administrador.correo='${data.email}' `,
+                            function (error, results, fields) {
+                            if (error) reject(error) 
+                            var string=JSON.stringify(results);
+                            var resultados =  JSON.parse(string); 
+                            resolve(resultados) 
+                            console.log("resultados",resultados)
+                          },
+                        )
+                        })
+                      };
 
                   module.exports = {
                     signup,
