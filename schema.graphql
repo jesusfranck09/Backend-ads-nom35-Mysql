@@ -46,6 +46,8 @@ type Mutation {
   rpPoliticaPrivacidad(data:[String]!):Data!
   atsPoliticaPrivacidad(data:[String]!):Data!
   eeoPoliticaPrivacidad(data:[String]!):Data!
+
+  sendMail(data: [String]!): Data!
 }
 
 type  JsonEmployee{
@@ -79,6 +81,8 @@ type Auth {
 message:String!
 token:String!
 }
+
+
 
 # type data {
 #   nombre: String,

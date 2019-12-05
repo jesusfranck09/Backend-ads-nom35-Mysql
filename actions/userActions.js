@@ -3,7 +3,7 @@ const client = require('../database/');
 const bcrypt = require('bcrypt');
 const SALT_WORK_FACTOR = 10;
 const { createToken } = require('../utils');
-
+var nodemailer = require('nodemailer');
 
 
 const signup =   (user) => {
@@ -803,23 +803,32 @@ const AtsPage1 = async data => {
 
 
 
-                    // const  getUsers = async (args) => {
-                    // return new Promise((resolve, reject) => {
-                    //   client.query({
-                    //     sql: 'SELECT * FROM `empleados inner join administrador on empleados.fk_administrador = administrador.id` WHERE `administrador.correo` = ?',
-                    //     timeout: 40000, // 40s
-                    //   },
-                    //   [`${args.email}`],
-                    // function fun (error, results, fields) {
-                    //     if (error) reject(error)
-                    //     console.log("error" ,  error)
-                    //     var string=JSON.stringify(results);
-                    //     console.log("los resultados",string)
-                    //     resolve(string)
-                    //   }
-                    // )
-                    // })
-                    // }
+                    const  SendMail = async (args) => {
+                    console.log("args" , args)
+                    var transporter = nodemailer.createTransport({
+                      service: 'gmail',
+                      secure: true,
+                      auth: {
+                             user: 'd93409@gmail.com',
+                             pass: 'jesus33.',
+                             host: 'smtp.gmail.com',
+                             port: 465,
+                         }
+                     });
+                     const mailOptions = {
+                      from: 'd93409@gmail.com', // sender address
+                      to: `${args[0]}`, // list of receivers
+                      subject: 'Subject of your email', // Subject line
+                      html: '<p>Hola armando esto es una prueba del envio de correo desde el sistema</p>'// plain text body
+                    };
+
+                    transporter.sendMail(mailOptions, function (err, info) {
+                      if("este es el error" , err)
+                        console.log(err)
+                      else
+                        console.log("esta es la info" ,  info);
+                   });
+                  }
 
                     const getUsers = async data => {
 
@@ -878,5 +887,7 @@ const AtsPage1 = async data => {
                     EEOPage14,
                     AtsPoliticaPrivacidad,
                     RPPoliticaPrivacidad,
-                    EEOPoliticaPrivacidad
+                    EEOPoliticaPrivacidad,
+
+                    SendMail
                   }
