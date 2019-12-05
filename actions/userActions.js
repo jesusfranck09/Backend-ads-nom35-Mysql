@@ -144,15 +144,16 @@ const AtsPage1 = async data => {
     };
 
     const AtsPage3 = async data => {
-      
+      var resultados=""
       return new Promise((resolve, reject) => {
           client
           .query(`select * from  empleados where correo='${data[7]}'`,
            function (error, results, fields) {
            if (error) reject(error) 
             var string=JSON.stringify(results);
-            var resultados =  JSON.parse(string); 
+            resultados =  JSON.parse(string); 
             resolve(resultados)
+            console.log("los resultados de la primera consulta son " , resultados)
               client
               .query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados) values ('${data[0]}','4','${resultados[0].id}')`); 
               client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados) values ('${data[1]}','5','${resultados[0].id}')`); 
@@ -161,9 +162,20 @@ const AtsPage1 = async data => {
               client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados) values ('${data[4]}','8','${resultados[0].id}')`); 
               client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados) values ('${data[5]}','9','${resultados[0].id}')`); 
               client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados) values ('${data[6]}','10','${resultados[0].id}')`); 
-              return  client        
+              return  client   
+                  
           },
         )
+
+        // client.query(`select Max(id) from correos where fk_empleados=${resultados[0].id}}'`,
+        // function (error, resultss, fields) {
+        // if (error) reject(error) 
+        
+        //  resolve(resultss)
+        //  console.log(`select Max(id) from correos where fk_empleados=${resultados[0].id}}'`)
+        //  console.log("resultadores" , resultss)
+        // })
+
         })
       };
 
@@ -372,6 +384,7 @@ const AtsPage1 = async data => {
                             client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP) values ('${data[1]}','45','${resultados[0].id}')`); 
                             client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP) values ('${data[2]}','46','${resultados[0].id}')`); 
   
+                            
                             return  client       
                         },
                       )
@@ -804,7 +817,22 @@ const AtsPage1 = async data => {
 
 
                     const  SendMail = async (args) => {
-                    console.log("args" , args)
+                      
+                      var LaFecha=new Date();
+                      var Mes=new Array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+                      var diasem=new Array('domingo','lunes','martes','miercoles','jueves','viernes','sabado');
+                      var diasemana=LaFecha.getDay();
+                      var FechaCompleta="";
+                      var NumeroDeMes="";
+                      var hora = LaFecha.getHours() 
+                      var minuto = LaFecha.getMinutes() 
+                      var segundo = LaFecha.getSeconds() 
+                      
+                      NumeroDeMes=LaFecha.getMonth();
+                      FechaCompleta=diasem[diasemana]+" "+LaFecha.getDate()+" de "+Mes[NumeroDeMes]+" de "+LaFecha.getFullYear()+" "+hora+":"+minuto+":"+segundo;
+                     
+
+
                     var transporter = nodemailer.createTransport({
                       service: 'gmail',
                       secure: true,
@@ -828,6 +856,29 @@ const AtsPage1 = async data => {
                       else
                         console.log("esta es la info" ,  info);
                    });
+
+                    var encuesta = ""
+                    
+                    if(args[2]==1){
+
+                      encuesta="ATS"
+
+                    }if(args[2]==2){
+
+                      encuesta="RP"
+                    }
+                    if(args[2]==3){
+
+                      encuesta="EEO"
+                    }
+
+                   
+                   return  new Promise((resolve, reject) => {
+                    client
+                    .query(`insert into correos(Encuesta,fecha,fk_empleados,contestado) values ('${encuesta}','${FechaCompleta}','${args[1]}','false')`); 
+                    return  client
+                    
+                  })
                   }
 
                     const getUsers = async data => {
