@@ -80,6 +80,9 @@ type  JsonEmployee{
 type Auth {
 message:String!
 token:String!
+nombre:String
+Apellidos:String
+
 }
 
 

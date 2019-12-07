@@ -39,9 +39,12 @@ const  login = async (email,password) => {
       bcrypt.compare(password,resultados[0].contraseña, function(err, result) {
       console.log("password" ,password) 
        if(result){
+         console.log("los resultados son " , resultados[0].nombre)
         resolve({
                 message: 'Login exitoso',
-               token: createToken( resultados[0].correo, resultados[0].contraseña)
+               token: createToken( resultados[0].correo, resultados[0].contraseña),
+               nombre:resultados[0].nombre,
+               Apellidos:resultados[0].Apellidos
               });
               return result
       }
@@ -162,6 +165,7 @@ const AtsPage1 = async data => {
               client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados) values ('${data[4]}','8','${resultados[0].id}')`); 
               client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados) values ('${data[5]}','9','${resultados[0].id}')`); 
               client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados) values ('${data[6]}','10','${resultados[0].id}')`); 
+  
               return  client   
                   
           },
@@ -194,6 +198,20 @@ const AtsPage1 = async data => {
                 client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados) values ('${data[2]}','14','${resultados[0].id}')`); 
                 client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados) values ('${data[3]}','15','${resultados[0].id}')`); 
                 client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados) values ('${data[4]}','16','${resultados[0].id}')`);      
+                
+                client
+              .query(`select Max(id) as idMaximo from  correos where fk_empleados='${resultados[0].id}' and encuesta = "ATS"`,
+               function (error, redults, fields) {
+                var string=JSON.stringify(redults);
+              var resultados1 =  JSON.parse(string); 
+              resolve(resultados1)                
+              var maximo = resultados1[0].idMaximo
+              client.query(`update correos set contestado ='true' where id = ${maximo} `);    
+              return client    
+              }
+             
+              )
+                
                 return  client        
             },
           )
@@ -384,6 +402,17 @@ const AtsPage1 = async data => {
                             client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP) values ('${data[1]}','45','${resultados[0].id}')`); 
                             client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP) values ('${data[2]}','46','${resultados[0].id}')`); 
   
+                            client.query(`select Max(id) as idMaximo from  correos where fk_empleados='${resultados[0].id}' and encuesta = "RP"`,
+                            function (error, redults, fields) {
+                            var string=JSON.stringify(redults);
+                            var resultados1 =  JSON.parse(string); 
+                            resolve(resultados1)                
+                            var maximo = resultados1[0].idMaximo
+                            client.query(`update correos set contestado ='true' where id = ${maximo} `);    
+                            return client    
+                            }
+                           
+                            )
                             
                             return  client       
                         },
@@ -747,6 +776,18 @@ const AtsPage1 = async data => {
                                                       client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[2]}','71','${resultados[0].id}')`); 
                                                       client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[3]}','72','${resultados[0].id}')`); 
                                                      
+                                                      client
+                                                      .query(`select Max(id) as idMaximo from  correos where fk_empleados='${resultados[0].id}' and encuesta = "EEO"`,
+                                                       function (error, redults, fields) {
+                                                        var string=JSON.stringify(redults);
+                                                      var resultados1 =  JSON.parse(string); 
+                                                      resolve(resultados1)                
+                                                      var maximo = resultados1[0].idMaximo
+                                                      client.query(`update correos set contestado ='true' where id = ${maximo} `);    
+                                                      return client    
+                                                      }
+                                                     
+                                                      )
                                                       return  client       
                                                   },
                                                 )
@@ -857,7 +898,7 @@ const AtsPage1 = async data => {
                         console.log("esta es la info" ,  info);
                    });
 
-                    var encuesta = ""
+                    var encuesta =""
                     
                     if(args[2]==1){
 
