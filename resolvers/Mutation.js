@@ -322,10 +322,6 @@ const sendMail = async (_,  data ) => {
 };
 
 
-
-
-
-
 module.exports = {
     signup,
     login,

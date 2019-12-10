@@ -44,7 +44,7 @@ const  login = async (email,password) => {
                 message: 'Login exitoso',
                token: createToken( resultados[0].correo, resultados[0].contraseña),
                nombre:resultados[0].nombre,
-               Apellidos:resultados[0].Apellidos
+               Apellidos:resultados[0].nombre
               });
               return result
       }
@@ -933,14 +933,36 @@ const AtsPage1 = async data => {
                             if (error) reject(error) 
                             var string=JSON.stringify(results);
                             var resultados =  JSON.parse(string); 
-                            resolve(resultados) 
+                            resolve(
+                               resultados) 
                             console.log("resultados",resultados)
                           },
                         )
                         })
                       };
 
+
+                      const ResultSingleSurvey = async data => {
+
+                        console.log("datauseraction" ,  data.data[0])
+    
+                        return  new Promise((resolve, reject) => {
+                            client
+                            .query(`select * from respuestasATS inner join empleados on respuestasATS.fk_empleados = empleados.id where empleados.id = ${data.data[0]} `,
+                              function (error, results, fields) {
+                              if (error) reject(error) 
+                              var string=JSON.stringify(results);
+                              var resultados =  JSON.parse(string); 
+                              resolve(resultados) 
+                              console.log("resultados",resultados)
+                            },
+                          )
+                          return client
+                          })
+                        };
+
                   module.exports = {
+                    ResultSingleSurvey,
                     signup,
                     login,
                     registerEm,

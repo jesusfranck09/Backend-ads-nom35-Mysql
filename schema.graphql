@@ -1,7 +1,8 @@
-scalar Uploadd
+scalar Upload
 
  type Query{
       getUsersTableEmployees(email:String):[JsonEmployee]
+     resultSingleSurvey(data: [String]!):[ respuestas]
  }        
 type Mutation {
   signup(data: UserCreateInput!): Auth!
@@ -48,6 +49,7 @@ type Mutation {
   eeoPoliticaPrivacidad(data:[String]!):Data!
 
   sendMail(data: [String]!): Data!
+ 
 }
 
 type  JsonEmployee{
@@ -87,14 +89,35 @@ Apellidos:String
 
 
 
-# type data {
-#   nombre: String,
-#   Apellidos: String,
-#   RFC: String,
-#   RazonSocial:String,
-#   Usuario:String,
-#   correo:String,
-# }
+type respuestas {
+    id:String,
+    Respuestas:String,
+    fk_preguntasATS:String,
+    fk_Empleados:String,
+    nombre: String,
+    ApellidoP:String,
+    ApellidoM:String,
+    Curp:String,
+    RFC:String,
+    FechaNacimiento:String,
+    Sexo:String,
+    CP:String,
+    EstadoCivil:String,
+    correo:String,
+    AreaTrabajo:String,
+    Puesto:String,
+    Ciudad:String,
+    NivelEstudios:String,
+    TipoPersonal:String,
+    JornadaTrabajo:String,
+    TipoContratacion:String,
+    TiempoPuesto:String,
+    ExperienciaLaboral:String,
+    RotacionTurnos:String,
+    fk_administrador:String,
+    fk_correos:String
+
+}
 
 input UserCreateInput {
   first_name: String
