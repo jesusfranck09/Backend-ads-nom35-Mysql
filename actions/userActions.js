@@ -38,16 +38,21 @@ const  login = async (email,password) => {
       var resultados =  JSON.parse(string); 
       bcrypt.compare(password,resultados[0].contraseña, function(err, result) {
       console.log("password" ,password) 
-       if(result){
+     
          console.log("los resultados son " , resultados[0].nombre)
+         console.log("los resultados son " , resultados[0].Apellidos)
         resolve({
                 message: 'Login exitoso',
                token: createToken( resultados[0].correo, resultados[0].contraseña),
                nombre:resultados[0].nombre,
-               Apellidos:resultados[0].nombre
+               Apellidos:resultados[0].Apellidos,
+               RFC:resultados[0].RFC,
+               RazonSocial:resultados[0].RazonSocial,
+               Usuario:resultados[0].Usuario,
+               correo:resultados[0].correo
               });
               return result
-      }
+ 
     })
     },
   )

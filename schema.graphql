@@ -3,6 +3,7 @@ scalar Upload
  type Query{
       getUsersTableEmployees(email:String):[JsonEmployee]
      resultSingleSurvey(data: [String]!):[ respuestas]
+    
  }        
 type Mutation {
   signup(data: UserCreateInput!): Auth!
@@ -84,6 +85,10 @@ message:String!
 token:String!
 nombre:String
 Apellidos:String
+RFC:String
+RazonSocial:String
+Usuario:String
+correo:String
 
 }
 
