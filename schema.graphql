@@ -3,7 +3,7 @@ scalar Upload
  type Query{
       getUsersTableEmployees(email:String):[JsonEmployee]
      resultSingleSurvey(data: [String]!):[ respuestas]
-    
+      
  }        
 type Mutation {
   signup(data: UserCreateInput!): Auth!
@@ -50,7 +50,8 @@ type Mutation {
   eeoPoliticaPrivacidad(data:[String]!):Data!
 
   sendMail(data: [String]!): Data!
- 
+ getAdmin(data:[String]!):[Admin]
+ authRegisterSingleEmployee(data:[String]!):[regMAx]
 }
 
 type  JsonEmployee{
@@ -92,6 +93,11 @@ correo:String
 
 }
 
+type regMAx{
+
+max:String!
+
+}
 
 
 type respuestas {
@@ -121,9 +127,11 @@ type respuestas {
     RotacionTurnos:String,
     fk_administrador:String,
     fk_correos:String
-
 }
 
+type Admin {
+id:String!
+ }
 input UserCreateInput {
   first_name: String
   last_name: String

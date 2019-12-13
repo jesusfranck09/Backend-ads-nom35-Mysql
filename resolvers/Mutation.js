@@ -313,6 +313,8 @@ const eeoPoliticaPrivacidad = async (_,  data ) => {
 };
 
 
+
+
 const sendMail = async (_,  data ) => {
     console.log("la data en mutation es  rppage1" ,  data)
     var miCadena =data.data[0];
@@ -321,8 +323,22 @@ const sendMail = async (_,  data ) => {
                    return mail;
 };
 
+const getAdmin = (_, { data }) => {
+    console.log("data en la Mutation",data)
+    return actions.GetAdmin(data)
+                  .then( res => res)
+                  .catch( err => err );
+};
+
+const authRegisterSingleEmployee = (_, { data }) => {
+    console.log("data en la Mutation",data)
+    return actions.AuthRegisterSingleEmployee(data)
+                  .then( res => res)
+                  .catch( err => err );
+};
 
 module.exports = {
+    authRegisterSingleEmployee,
     signup,
     login,
     registerEmployee,
@@ -360,7 +376,7 @@ module.exports = {
     eeoPage14,
     
     sendMail,
-    
+    getAdmin,
 
 
 

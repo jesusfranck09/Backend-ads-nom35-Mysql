@@ -966,7 +966,62 @@ const AtsPage1 = async data => {
                           })
                         };
 
+                        const GetAdmin = async data => {
+
+                          console.log("datauseraction" ,  data)
+      
+                          return  new Promise((resolve, reject) => {
+                            client
+                            .query(`select empleados.id from empleados inner join administrador on empleados.fk_administrador = administrador.id where administrador.correo ='${data[0]}' `,
+                              function (error, results, fields) {
+                              if (error) reject(error) 
+                              var string=JSON.stringify(results);
+                              var resultados =  JSON.parse(string); 
+                              console.log("los resultados son  " , resultados)
+                              resolve(resultados) 
+
+                              // client
+                              // .query(`select empleados.id from empleados inner join administrador on empleados.fk_administrador = administrador.id where administrador.correo ='${data[0]}' `,
+                              //   function (error, results, fields) {
+                              //   if (error) reject(error) 
+                              //   var string=JSON.stringify(results);
+                              //   var resultados =  JSON.parse(string); 
+                              //   console.log("los resultados son  " , resultados)
+                              //   resolve(resultados) 
+                                  // client
+                                  // .query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[1]}','73','${resultados[0].id}')`); 
+                                  // return  client
+                            //   },
+                            // )
+                            },
+                          )
+                          })
+                          };
+
+                          const AuthRegisterSingleEmployee = async data => {
+                            return new Promise((resolve, reject) => {
+                              console.log("la sdata"  ,data)
+                              client.query(`select * from  administrador where correo='${data[0]}'`,
+                             function (error, results, fields) {
+                                var string=JSON.stringify(results);
+                                var resultados =  JSON.parse(string); 
+                                console.log("los resultados de la primera consulta son " , resultados)
+                                 client.query(`select count(id) as max from empleados where empleados.fk_administrador = ' ${resultados[0].id}'`,  function (error, valores, fields) {
+                                  var val=JSON.stringify(valores);
+                                  var valor =  JSON.parse(val); 
+                                  console.log("los resultados de la segunda consulta son " , valor)
+                                  resolve(valor) 
+                                  return  client
+                                }) 
+                                
+                              },
+                            )
+                            })
+                            };
+  
+
                   module.exports = {
+                    AuthRegisterSingleEmployee,
                     ResultSingleSurvey,
                     signup,
                     login,
@@ -1008,5 +1063,6 @@ const AtsPage1 = async data => {
                     RPPoliticaPrivacidad,
                     EEOPoliticaPrivacidad,
 
-                    SendMail
+                    SendMail,
+                    GetAdmin
                   }
