@@ -337,7 +337,16 @@ const authRegisterSingleEmployee = (_, { data }) => {
                   .catch( err => err );
 };
 
+
+
+const inactiveAdmin= (_, { data }) => {
+    return actions.InactiveAdmin(data)
+                  .then( res => res)
+                  .catch( err => err );
+};
+
 module.exports = {
+    inactiveAdmin,
     authRegisterSingleEmployee,
     signup,
     login,

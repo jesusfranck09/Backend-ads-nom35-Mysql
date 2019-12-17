@@ -36,11 +36,9 @@ const  login = async (email,password) => {
    function (error, results, fields) {
       var string=JSON.stringify(results);
       var resultados =  JSON.parse(string); 
-      bcrypt.compare(password,resultados[0].contraseña, function(err, result) {
-      console.log("password" ,password) 
-     
-         console.log("los resultados son " , resultados[0].nombre)
-         console.log("los resultados son " , resultados[0].Apellidos)
+
+      console.log("el resultado es " , resultados[0].Activo)
+       bcrypt.compare(password,resultados[0].contraseña, function(err, result) {
         resolve({
                 message: 'Login exitoso',
                token: createToken( resultados[0].correo, resultados[0].contraseña),
@@ -49,10 +47,10 @@ const  login = async (email,password) => {
                RFC:resultados[0].RFC,
                RazonSocial:resultados[0].RazonSocial,
                Usuario:resultados[0].Usuario,
-               correo:resultados[0].correo
+               correo:resultados[0].correo,
+               Activo:resultados[0].Activo
               });
               return result
- 
     })
     },
   )
@@ -1023,7 +1021,20 @@ const AtsPage1 = async data => {
                             };
   
 
+                            const InactiveAdmin = async data => {
+                      
+                              return  new Promise((resolve, reject) => {
+                                resolve({message:"Usuario Blqueado"})
+                                client
+                                .query(`update administrador set Activo='false' where correo  ='${data[0]}'` );
+                              
+                                // return  client
+                                })
+                              };
+        
+
                   module.exports = {
+                    InactiveAdmin,
                     AuthRegisterSingleEmployee,
                     ResultSingleSurvey,
                     signup,

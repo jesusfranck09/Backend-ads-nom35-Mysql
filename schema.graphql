@@ -52,6 +52,7 @@ type Mutation {
   sendMail(data: [String]!): Data!
  getAdmin(data:[String]!):[Admin]
  authRegisterSingleEmployee(data:[String]!):[regMAx]
+ inactiveAdmin(data:[String]!):Auth!
 }
 
 type  JsonEmployee{
@@ -90,7 +91,7 @@ RFC:String
 RazonSocial:String
 Usuario:String
 correo:String
-
+Activo:String
 }
 
 type regMAx{
