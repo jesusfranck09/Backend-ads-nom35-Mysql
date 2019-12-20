@@ -19,7 +19,7 @@ const signup =   (user) => {
           console.log(hash)
           resolve({ message: 'Signup exitoso',token:hash})
          client
-    .query(`insert into administrador(nombre,Apellidos, RFC,RazonSocial,Usuario, correo,contraseña) values ('${user.first_name}','${user.last_name}','${user.rfc}','${user.razonsocial}','${user.user}','${user.email}', '${hash}')`); 
+    .query(`insert into administrador(nombre,Apellidos, RFC,RazonSocial,Usuario, correo,contraseña,Activo) values ('${user.first_name}','${user.last_name}','${user.rfc}','${user.razonsocial}','${user.user}','${user.email}', '${hash}','true')`); 
     console.log("el response",user)
         }
       })
@@ -116,6 +116,7 @@ new Promise((resolve, reject) => {
 
 
 const AtsPage1 = async data => {
+  console.log("el correo en atspage1 es " ,data[1])
   return new Promise((resolve, reject) => {
       client
       .query(`select * from  empleados where correo='${data[1]}'`,
@@ -190,6 +191,7 @@ const AtsPage1 = async data => {
       };
 
       const AtsPage4 = async data => {      
+        console.log("atspage4" , data)
         return new Promise((resolve, reject) => {
             client
             .query(`select * from  empleados where correo='${data[5]}'`,
@@ -930,7 +932,7 @@ const AtsPage1 = async data => {
 
                     const getUsers = async data => {
 
-                      console.log("datauseraction" ,  data)
+                      // console.log("datauseraction getusers" ,  data)
   
                       return  new Promise((resolve, reject) => {
                           client
@@ -941,7 +943,7 @@ const AtsPage1 = async data => {
                             var resultados =  JSON.parse(string); 
                             resolve(
                                resultados) 
-                            console.log("resultados",resultados)
+                            // console.log("resultados getusers",resultados)
                           },
                         )
                         })
@@ -949,21 +951,19 @@ const AtsPage1 = async data => {
 
 
                       const ResultSingleSurvey = async data => {
-
-                        console.log("datauseraction" ,  data.data[0])
-    
+                      console.log(`select * from respuestasATS inner join empleados on respuestasATS.fk_empleados = empleados.id where empleados.id = ${data.data[0]} `)
                         return  new Promise((resolve, reject) => {
                             client
                             .query(`select * from respuestasATS inner join empleados on respuestasATS.fk_empleados = empleados.id where empleados.id = ${data.data[0]} `,
                               function (error, results, fields) {
-                              if (error) reject(error) 
                               var string=JSON.stringify(results);
                               var resultados =  JSON.parse(string); 
-                              resolve(resultados) 
-                              console.log("resultados",resultados)
+                              console.log("los resultados single survey  son ",resultados )
+                              resolve(resultados
+                              ) 
+                            
                             },
                           )
-                          return client
                           })
                         };
 
