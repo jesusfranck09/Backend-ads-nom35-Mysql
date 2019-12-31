@@ -941,8 +941,7 @@ const AtsPage1 = async data => {
                             if (error) reject(error) 
                             var string=JSON.stringify(results);
                             var resultados =  JSON.parse(string); 
-                            resolve(
-                               resultados) 
+                            resolve(resultados) 
                             // console.log("resultados getusers",resultados)
                           },
                         )
@@ -966,6 +965,38 @@ const AtsPage1 = async data => {
                           )
                           })
                         };
+
+
+                        const ResultSingleSurveyRP = async data => {
+                            return  new Promise((resolve, reject) => {
+                                client
+                                .query(`select * from empleados inner join respuestasrp on respuestasRP.fk_empleadosRP = empleados.id where empleados.id = ${data.data[0]} `,
+                                  function (error, results, fields) {
+                                  var string=JSON.stringify(results);
+                                  var resultados =  JSON.parse(string); 
+                                  console.log("los resultados single survey  son ",resultados )
+                                  resolve(resultados
+                                  ) 
+                                },
+                              )
+                              })
+                            };
+
+                            const ResultSingleSurveyEEO = async data => {
+                              return  new Promise((resolve, reject) => {
+                                  client
+                                  .query(`select * from empleados inner join respuestasEEO on respuestasEEO.fk_empleados = empleados.id where empleados.id = ${data.data[0]} `,
+                                    function (error, results, fields) {
+                                    var string=JSON.stringify(results);
+                                    var resultados =  JSON.parse(string); 
+                                    console.log("los resultados single survey  son ",resultados )
+                                    resolve(resultados
+                                    ) 
+                                  },
+                                )
+                                })
+                              };
+    
 
                         const GetAdmin = async data => {
 
@@ -1078,5 +1109,7 @@ const AtsPage1 = async data => {
                     EEOPoliticaPrivacidad,
 
                     SendMail,
-                    GetAdmin
+                    GetAdmin,
+                    ResultSingleSurveyRP,
+                    ResultSingleSurveyEEO
                   }

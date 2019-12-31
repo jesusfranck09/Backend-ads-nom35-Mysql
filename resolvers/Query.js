@@ -16,8 +16,25 @@ const resultSingleSurvey = (_,args ) => {
                  
 }
 
+
+const resultSingleSurveyRP = (_,args ) => {
+     return actions.ResultSingleSurveyRP(args)
+     .then( res => res)
+      .catch( err => err );
+                 
+}
+
+const resultSingleSurveyEEO = (_,args ) => {
+     return actions.ResultSingleSurveyEEO(args)
+     .then( res => res)
+      .catch( err => err );
+                 
+}
+
      
      module.exports = {
           getUsersTableEmployees,
-          resultSingleSurvey 
+          resultSingleSurvey ,
+          resultSingleSurveyRP,
+          resultSingleSurveyEEO
      }
