@@ -345,7 +345,9 @@ const inactiveAdmin= (_, { data }) => {
                   .catch( err => err );
 };
 
+
 module.exports = {
+ 
     inactiveAdmin,
     authRegisterSingleEmployee,
     signup,

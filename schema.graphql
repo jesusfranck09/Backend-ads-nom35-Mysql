@@ -5,8 +5,10 @@ scalar Upload
      resultSingleSurvey(data: [String]!):[ respuestas]
      resultSingleSurveyRP(data: [String]!):[ respuestasRP]
      resultSingleSurveyEEO(data: [String]!):[ respuestasEEO]
-      
+     verifiEmailSurvey(data: [String]!):[resCorreo]    
  }        
+
+ 
 type Mutation {
   signup(data: UserCreateInput!): Auth!
   login(email: String!, password: String!): Auth!
@@ -56,6 +58,12 @@ type Mutation {
  authRegisterSingleEmployee(data:[String]!):[regMAx]
  inactiveAdmin(data:[String]!):Auth!
 }
+
+type resCorreo{
+contestado:String
+fk_empleados:String
+}
+
 
 type  JsonEmployee{
 

@@ -1012,14 +1012,7 @@ const AtsPage1 = async data => {
                               console.log("los resultados son  " , resultados)
                               resolve(resultados) 
 
-                              // client
-                              // .query(`select empleados.id from empleados inner join administrador on empleados.fk_administrador = administrador.id where administrador.correo ='${data[0]}' `,
-                              //   function (error, results, fields) {
-                              //   if (error) reject(error) 
-                              //   var string=JSON.stringify(results);
-                              //   var resultados =  JSON.parse(string); 
-                              //   console.log("los resultados son  " , resultados)
-                              //   resolve(resultados) 
+                             
                                   // client
                                   // .query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[1]}','73','${resultados[0].id}')`); 
                                   // return  client
@@ -1062,9 +1055,26 @@ const AtsPage1 = async data => {
                                 // return  client
                                 })
                               };
+
+                              const VerifiEmailSurvey = async data => { 
+                                console.log("la data en useractions es " , data)
+                                return new Promise((resolve, reject) => {
+                                  client.query(`select  contestado,fk_empleados  from  correos where correos.fk_empleados='${data[0]}'`,
+                                 function (error, results, fields) {
+                                    var string=JSON.stringify(results);
+                                    var resultados =  JSON.parse(string);   
+                                    console.log("los resultados son ", resultados)
+                                    resolve(resultados)
+                                    return client
+                                  },
+                                )
+                                })
+                                };
+                              
         
 
                   module.exports = {
+                    VerifiEmailSurvey,
                     InactiveAdmin,
                     AuthRegisterSingleEmployee,
                     ResultSingleSurvey,
