@@ -30,15 +30,29 @@ const resultSingleSurveyEEO = (_,args ) => {
       .catch( err => err );
                  
 }
-const verifiEmailSurvey= (_, { data }) => {
+const verifiEmailSurveyATS= (_, { data }) => {
      console.log("la data en query es ", data)
-     return actions.VerifiEmailSurvey(data)
+     return actions.VerifiEmailSurveyATS(data)
+                   .then( res => res)
+                   .catch( err => err );
+ };
+ const verifiEmailSurveyRP= (_, { data }) => {
+     console.log("la data en query es ", data)
+     return actions.VerifiEmailSurveyRP(data)
+                   .then( res => res)
+                   .catch( err => err );
+ };
+ const verifiEmailSurveyEEO= (_, { data }) => {
+     console.log("la data en query es ", data)
+     return actions.VerifiEmailSurveyEEO(data)
                    .then( res => res)
                    .catch( err => err );
  };
      
      module.exports = {
-          verifiEmailSurvey,
+          verifiEmailSurveyEEO,
+          verifiEmailSurveyRP,
+          verifiEmailSurveyATS,
           getUsersTableEmployees,
           resultSingleSurvey ,
           resultSingleSurveyRP,

@@ -69,7 +69,7 @@ const  login = async (email,password) => {
 
          console.log("los data son  " , data)
          client
-        .query(`insert into empleados (nombre,ApellidoP,ApellidoM,Curp,RFC,FechaNacimiento,Sexo,CP,EstadoCivil,correo,AreaTrabajo,Puesto,Ciudad,NivelEstudios,TipoPersonal,JornadaTrabajo,TipoContratacion,TiempoPuesto,ExperienciaLaboral,RotacionTurnos,fk_administrador) values ('${data[0]}', '${data[1]}', '${data[2]}', '${data[3]}', '${data[4]}', '${data[5]}', '${data[6]}', '${data[7]}', '${data[8]}', '${data[9]}', '${data[10]}', '${data[11]}', '${data[12]}', '${data[13]}', '${data[14]}', '${data[15]}', '${data[16]}', '${data[17]}', '${data[18]}', '${data[19]}','${resultados[0].id}')`); 
+        .query(`insert into empleados (nombre,ApellidoP,ApellidoM,Curp,RFC,FechaNacimiento,Sexo,CP,EstadoCivil,correo,AreaTrabajo,Puesto,Ciudad,NivelEstudios,TipoPersonal,JornadaTrabajo,TipoContratacion,TiempoPuesto,ExperienciaLaboral,RotacionTurnos,fk_administrador,ATSContestado,RPContestado,EEOContestado) values ('${data[0]}', '${data[1]}', '${data[2]}', '${data[3]}', '${data[4]}', '${data[5]}', '${data[6]}', '${data[7]}', '${data[8]}', '${data[9]}', '${data[10]}', '${data[11]}', '${data[12]}', '${data[13]}', '${data[14]}', '${data[15]}', '${data[16]}', '${data[17]}', '${data[18]}', '${data[19]}','${resultados[0].id}','false','false','false')`); 
         return  client
       },
     )
@@ -86,7 +86,7 @@ const  login = async (email,password) => {
         var string=JSON.stringify(results);
         var resultados =  JSON.parse(string); 
          client
-        .query(`insert into empleados (nombre,ApellidoP,ApellidoM,Curp,RFC,FechaNacimiento,Sexo,CP,EstadoCivil,correo,AreaTrabajo,Puesto,Ciudad,NivelEstudios,TipoPersonal,JornadaTrabajo,TipoContratacion,TiempoPuesto,ExperienciaLaboral,RotacionTurnos,fk_administrador) values ('${data[0]}', '${data[1]}', '${data[2]}', '${data[3]}', '${data[4]}', '${data[5]}', '${data[6]}', '${data[7]}', '${data[8]}', '${data[9]}', '${data[10]}', '${data[11]}', '${data[12]}', '${data[13]}', '${data[14]}', '${data[15]}', '${data[16]}', '${data[17]}', '${data[18]}', '${data[19]}','${resultados[0].id}')`); 
+        .query(`insert into empleados (nombre,ApellidoP,ApellidoM,Curp,RFC,FechaNacimiento,Sexo,CP,EstadoCivil,correo,AreaTrabajo,Puesto,Ciudad,NivelEstudios,TipoPersonal,JornadaTrabajo,TipoContratacion,TiempoPuesto,ExperienciaLaboral,RotacionTurnos,fk_administrador,ATSContestado,RPContestado,EEOContestado) values ('${data[0]}', '${data[1]}', '${data[2]}', '${data[3]}', '${data[4]}', '${data[5]}', '${data[6]}', '${data[7]}', '${data[8]}', '${data[9]}', '${data[10]}', '${data[11]}', '${data[12]}', '${data[13]}', '${data[14]}', '${data[15]}', '${data[16]}', '${data[17]}', '${data[18]}', '${data[19]}','${resultados[0].id}','false','false','false')`); 
         resolve({
           message: 'registro exitoso',
         });
@@ -215,7 +215,9 @@ const AtsPage1 = async data => {
               resolve(resultados1)                
               var maximo = resultados1[0].idMaximo
               client.query(`update correos set contestado ='true' where id = ${maximo} `);    
-              return client    
+              client.query(`update empleados set ATSContestado ='true' where correo ='${data[5]}' `);    
+              return client   
+
               }
              
               )
@@ -417,6 +419,7 @@ const AtsPage1 = async data => {
                             resolve(resultados1)                
                             var maximo = resultados1[0].idMaximo
                             client.query(`update correos set contestado ='true' where id = ${maximo} `);    
+                            client.query(`update empleados set RPContestado ='true' where correo ='${data[3]}'`);   
                             return client    
                             }
                            
@@ -791,7 +794,8 @@ const AtsPage1 = async data => {
                                                       var resultados1 =  JSON.parse(string); 
                                                       resolve(resultados1)                
                                                       var maximo = resultados1[0].idMaximo
-                                                      client.query(`update correos set contestado ='true' where id = ${maximo} `);    
+                                                      client.query(`update correos set contestado ='true' where id = ${maximo} `); 
+                                                      client.query(`update empleados set EEOContestado ='true' where correo = '${data[4]}'`);    
                                                       return client    
                                                       }
                                                      
@@ -907,7 +911,7 @@ const AtsPage1 = async data => {
                    });
 
                     var encuesta =""
-                    
+                    console.log("estos son los args", args[2] )
                     if(args[2]==1){
 
                       encuesta="ATS"
@@ -936,7 +940,7 @@ const AtsPage1 = async data => {
   
                       return  new Promise((resolve, reject) => {
                           client
-                          .query(`select empleados.id,empleados.nombre,empleados.ApellidoP,empleados.ApellidoM,empleados.Curp,empleados.rfc,empleados.FechaNacimiento,empleados.Sexo,empleados.cp,empleados.EstadoCivil,empleados.correo,empleados.AreaTrabajo,empleados.Puesto,empleados.Ciudad,empleados.NivelEstudios,empleados.TipoPersonal,empleados.JornadaTrabajo,empleados.TipoContratacion,empleados.TiempoPuesto,empleados.ExperienciaLaboral,empleados.RotacionTurnos,empleados.fk_administrador from empleados inner join administrador on empleados.fk_administrador= administrador.id where administrador.correo='${data.email}' `,
+                          .query(`select empleados.id,empleados.nombre,empleados.ApellidoP,empleados.ApellidoM,empleados.Curp,empleados.rfc,empleados.FechaNacimiento,empleados.Sexo,empleados.cp,empleados.EstadoCivil,empleados.correo,empleados.AreaTrabajo,empleados.Puesto,empleados.Ciudad,empleados.NivelEstudios,empleados.TipoPersonal,empleados.JornadaTrabajo,empleados.TipoContratacion,empleados.TiempoPuesto,empleados.ExperienciaLaboral,empleados.RotacionTurnos,empleados.fk_administrador,empleados.ATSContestado,empleados.RPContestado, empleados.EEOContestado from empleados inner join administrador on empleados.fk_administrador= administrador.id where administrador.correo='${data.email}' `,
                             function (error, results, fields) {
                             if (error) reject(error) 
                             var string=JSON.stringify(results);
@@ -1056,10 +1060,10 @@ const AtsPage1 = async data => {
                                 })
                               };
 
-                              const VerifiEmailSurvey = async data => { 
+                              const VerifiEmailSurveyATS = async data => { 
                                 console.log("la data en useractions es " , data)
                                 return new Promise((resolve, reject) => {
-                                  client.query(`select  contestado,fk_empleados  from  correos where correos.fk_empleados='${data[0]}'`,
+                                  client.query(`select  ATSContestado  from  empleados where id='${data[0]}'`,
                                  function (error, results, fields) {
                                     var string=JSON.stringify(results);
                                     var resultados =  JSON.parse(string);   
@@ -1070,11 +1074,42 @@ const AtsPage1 = async data => {
                                 )
                                 })
                                 };
+                                const VerifiEmailSurveyRP = async data => { 
+                                  console.log("la data en useractions es " , data)
+                                  return new Promise((resolve, reject) => {
+                                    client.query(`select  RPContestado  from  empleados where id='${data[0]}'`,
+                                   function (error, results, fields) {
+                                      var string=JSON.stringify(results);
+                                      var resultados =  JSON.parse(string);   
+                                      console.log("los resultados son ", resultados)
+                                      resolve(resultados)
+                                      return client
+                                    },
+                                  )
+                                  })
+                                  };
+
+                                  const VerifiEmailSurveyEEO = async data => { 
+                                    console.log("la data en useractions es " , data)
+                                    return new Promise((resolve, reject) => {
+                                      client.query(`select  EEOContestado  from  empleados where id='${data[0]}'`,
+                                     function (error, results, fields) {
+                                        var string=JSON.stringify(results);
+                                        var resultados =  JSON.parse(string);   
+                                        console.log("los resultados son ", resultados)
+                                        resolve(resultados)
+                                        return client
+                                      },
+                                    )
+                                    })
+                                    };
                               
         
 
                   module.exports = {
-                    VerifiEmailSurvey,
+                    VerifiEmailSurveyEEO,
+                    VerifiEmailSurveyRP,
+                    VerifiEmailSurveyATS,
                     InactiveAdmin,
                     AuthRegisterSingleEmployee,
                     ResultSingleSurvey,

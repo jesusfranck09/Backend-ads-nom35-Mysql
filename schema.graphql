@@ -5,7 +5,9 @@ scalar Upload
      resultSingleSurvey(data: [String]!):[ respuestas]
      resultSingleSurveyRP(data: [String]!):[ respuestasRP]
      resultSingleSurveyEEO(data: [String]!):[ respuestasEEO]
-     verifiEmailSurvey(data: [String]!):[resCorreo]    
+     verifiEmailSurveyATS(data: [String]!):[resCorreo]    
+     verifiEmailSurveyRP(data: [String]!):[resCorreoRP] 
+     verifiEmailSurveyEEO(data: [String]!):[resCorreoEEO] 
  }        
 
  
@@ -60,9 +62,15 @@ type Mutation {
 }
 
 type resCorreo{
-contestado:String
-fk_empleados:String
+ATSContestado:String
 }
+type resCorreoRP {
+  RPContestado:String
+}
+type resCorreoEEO {
+  EEOContestado:String
+}
+
 
 
 type  JsonEmployee{
@@ -88,8 +96,10 @@ type  JsonEmployee{
   TiempoPuesto:String,
   ExperienciaLaboral:String,
   RotacionTurnos:String,
-  fk_administrador:String
-  # correoAdmin:String!
+  fk_administrador:String,
+  ATSContestado:String,
+  RPContestado:String,
+  EEOContestado:String
 }
 
 type Auth {
