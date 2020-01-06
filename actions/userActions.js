@@ -1103,10 +1103,30 @@ const AtsPage1 = async data => {
                                     )
                                     })
                                     };
+
+
+                                    const RegisterSucursales = async data => { 
+                                      console.log("la data en useractions es " , data[11])
+                                      return  new Promise((resolve, reject) => {
+                                        client
+                                        .query(`select * from  administrador where correo='${data[11]}' `,
+                                        function (error, results, fields) {
+                                        if (error) reject(error) 
+                                          var string=JSON.stringify(results);
+                                          var resultados =  JSON.parse(string); 
+                                          resolve(resultados) 
+                                          client
+                                          .query(`insert into sucursales(nombreSucursal,calle,numExt,numInt,colonia,CP,Ciudad,Estado,rfc,telefono,correo,fk_administrador) values ('${data[0]}','${data[1]}','${data[2]}','${data[3]}','${data[4]}','${data[5]}','${data[6]}','${data[7]}','${data[8]}','${data[9]}','${data[10]}','${resultados[0].id}')`); 
+                                          return  client
+                                        },
+                                      )
+                                      })
+                                      };
                               
         
 
                   module.exports = {
+                    RegisterSucursales,
                     VerifiEmailSurveyEEO,
                     VerifiEmailSurveyRP,
                     VerifiEmailSurveyATS,

@@ -55,10 +55,11 @@ type Mutation {
   atsPoliticaPrivacidad(data:[String]!):Data!
   eeoPoliticaPrivacidad(data:[String]!):Data!
 
-  sendMail(data: [String]!): Data!
+ sendMail(data: [String]!): Data!
  getAdmin(data:[String]!):[Admin]
  authRegisterSingleEmployee(data:[String]!):[regMAx]
  inactiveAdmin(data:[String]!):Auth!
+ registerSucursales(data:[String]!):Data!
 }
 
 type resCorreo{

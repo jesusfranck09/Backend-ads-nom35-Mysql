@@ -344,10 +344,18 @@ const inactiveAdmin= (_, { data }) => {
                   .then( res => res)
                   .catch( err => err );
 };
+const registerSucursales= async (_, { data }) => {
+    console.log("data" ,data)
+    var miCadena =data[0];
+
+    var divisiones = miCadena.split(",");
+    const datosSucursales = await  actions.RegisterSucursales(divisiones)
+    return datosSucursales;
+}
 
 
 module.exports = {
- 
+    registerSucursales,
     inactiveAdmin,
     authRegisterSingleEmployee,
     signup,
