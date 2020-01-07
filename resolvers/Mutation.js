@@ -354,7 +354,35 @@ const registerSucursales= async (_, { data }) => {
 }
 
 
+const registerApartments= async (_, { data }) => {
+    var miCadena =data[0];
+
+    var divisiones = miCadena.split(",");
+    const datosApartment = await  actions.RegisterApartments(divisiones)
+    return datosApartment;
+};
+const registerPuesto= async (_, { data }) => {
+    var miCadena =data[0];
+
+    var divisiones = miCadena.split(",");
+    const datosPuesto = await  actions.RegisterPuesto(divisiones)
+    return datosPuesto;
+};
+
+const deleteEmployees= async (_, { data }) => {
+    var miCadena =data[0];
+
+    var divisiones = miCadena.split(",");
+    const datosEmpleados = await  actions.DeleteEmployees(divisiones)
+    return datosEmpleados;
+};
+
+
+
 module.exports = {
+    deleteEmployees,
+    registerPuesto,
+    registerApartments,
     registerSucursales,
     inactiveAdmin,
     authRegisterSingleEmployee,

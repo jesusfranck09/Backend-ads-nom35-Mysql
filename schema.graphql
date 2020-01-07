@@ -8,6 +8,9 @@ scalar Upload
      verifiEmailSurveyATS(data: [String]!):[resCorreo]    
      verifiEmailSurveyRP(data: [String]!):[resCorreoRP] 
      verifiEmailSurveyEEO(data: [String]!):[resCorreoEEO] 
+     getSucursales(data:String):[Sucursales]
+     getDeptos(data:String):[Deptos]
+     getPuestos(data:String):[Puestos]
  }        
 
  
@@ -58,8 +61,39 @@ type Mutation {
  sendMail(data: [String]!): Data!
  getAdmin(data:[String]!):[Admin]
  authRegisterSingleEmployee(data:[String]!):[regMAx]
- inactiveAdmin(data:[String]!):Auth!
- registerSucursales(data:[String]!):Data!
+inactiveAdmin(data:[String]!):Auth!
+registerSucursales(data:[String]!):Data!
+registerApartments(data:[String]!):Data!
+registerPuesto(data:[String]!):Data!
+deleteEmployees(data:[String]!):Data!  
+}
+
+type Sucursales {
+id:String,
+nombreSucursal:String,
+calle:String,
+numExt:String,
+numInt:String,
+colonia:String,
+CP:String,
+Ciudad:String,
+Estado:String,
+rfc:String,
+telefono:String,
+correo:String,
+fk_administrador:String
+}
+
+type Deptos {
+id:String,
+nombre:String,
+fk_Administrador:String
+}
+
+type Puestos {
+id:String,
+nombre:String,
+fk_Administrador:String
 }
 
 type resCorreo{

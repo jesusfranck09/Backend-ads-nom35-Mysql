@@ -48,8 +48,27 @@ const verifiEmailSurveyATS= (_, { data }) => {
                    .then( res => res)
                    .catch( err => err );
  };
+ const getSucursales= (_, { data }) => {
+     return actions.GetSucursales(data)
+                   .then( res => res)
+                   .catch( err => err );
+ };
+ const getDeptos= (_, { data }) => {
+     return actions.GetDeptos(data)
+                   .then( res => res)
+                   .catch( err => err );
+ };
+
+ const getPuestos= (_, { data }) => {
+     return actions.GetPuestos(data)
+                   .then( res => res)
+                   .catch( err => err );
+ };
      
      module.exports = {
+          getPuestos,
+          getDeptos,
+          getSucursales,
           verifiEmailSurveyEEO,
           verifiEmailSurveyRP,
           verifiEmailSurveyATS,

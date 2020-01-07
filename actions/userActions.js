@@ -1122,10 +1122,130 @@ const AtsPage1 = async data => {
                                       )
                                       })
                                       };
+
+                                      const GetSucursales = async data => { 
+                                        console.log("la data en useractions getsucursales es " , data)
+                                        return new Promise((resolve, reject) => {
+                                          client.query(`select  *  from  administrador where correo='${data}'`,
+                                         function (error, results, fields) {
+                                            var string=JSON.stringify(results);
+                                            var resultados =  JSON.parse(string);   
+                                            console.log("el administrador es " , resultados[0].id)
+                                            client.query(`select  * from sucursales where fk_administrador ='${resultados[0].id}'`,
+                                            function (error, results, fields) {
+                                               var string=JSON.stringify(results);
+                                               var resultados =  JSON.parse(string);   
+                                               console.log("los resultados son ", resultados)
+                                               resolve(resultados)
+                                               return client
+                                             },
+                                           )
+                                          },
+                                        )
+                                        })
+                                        };
+
+                                        const RegisterApartments = async data => { 
+                                          console.log("la data en useractions REGISTER aPARTMENT es " , data[1])
+                                          return  new Promise((resolve, reject) => {
+                                            client
+                                            .query(`select * from  administrador where correo='${data[1]}' `,
+                                            function (error, results, fields) {
+                                            if (error) reject(error) 
+                                              var string=JSON.stringify(results);
+                                              var resultados =  JSON.parse(string); 
+                                              resolve(resultados) 
+                                              client
+                                              .query(`insert into departamentos(nombre,fk_Administrador) values ('${data[0]}','${resultados[0].id}')`); 
+                                              return  client
+                                            },
+                                          )
+                                          })
+                                          };
+
+                                          const GetDeptos = async data => { 
+                                            console.log("la data en useractions getdeptos es " , data)
+                                            return new Promise((resolve, reject) => {
+                                              client.query(`select  *  from  administrador where correo='${data}'`,
+                                             function (error, results, fields) {
+                                                var string=JSON.stringify(results);
+                                                var resultados =  JSON.parse(string);   
+                                                client.query(`select  * from departamentos where fk_administrador ='${resultados[0].id}'`,
+                                                function (error, results, fields) {
+                                                   var string=JSON.stringify(results);
+                                                   var resultados =  JSON.parse(string);   
+                                                   resolve(resultados)
+                                                   return client
+                                                 },
+                                               )
+                                              },
+                                            )
+                                            })
+                                            };
+                                            const RegisterPuesto = async data => { 
+                                              return  new Promise((resolve, reject) => {
+                                                client
+                                                .query(`select * from  administrador where correo='${data[1]}' `,
+                                                function (error, results, fields) {
+                                                if (error) reject(error) 
+                                                  var string=JSON.stringify(results);
+                                                  var resultados =  JSON.parse(string); 
+                                                  resolve(resultados) 
+                                                  client
+                                                  .query(`insert into puestos(nombre,fk_Administrador) values ('${data[0]}','${resultados[0].id}')`); 
+                                                  return  client
+                                                },
+                                              )
+                                              })
+                                              };
+
+                                              const GetPuestos = async data => { 
+                                                return new Promise((resolve, reject) => {
+                                                  client.query(`select  *  from  administrador where correo='${data}'`,
+                                                 function (error, results, fields) {
+                                                    var string=JSON.stringify(results);
+                                                    var resultados =  JSON.parse(string);   
+                                                    client.query(`select  * from puestos where fk_administrador ='${resultados[0].id}'`,
+                                                    function (error, results, fields) {
+                                                       var string=JSON.stringify(results);
+                                                       var resultados =  JSON.parse(string);   
+                                                       resolve(resultados)
+                                                       return client
+                                                     },
+                                                   )
+                                                  },
+                                                )
+                                                })
+                                                };
+                                                const DeleteEmployees = async data => { 
+                                                  console.log("la data en delete es " , data)
+                                                  return new Promise((resolve, reject) => {
+                                                    client.query(`select  *  from  administrador where correo='${data[1]}'`,
+                                                   function (error, results, fields) {
+                                                      var string=JSON.stringify(results);
+                                                      var resultados =  JSON.parse(string);   
+                                                      client.query(`update empleados set EmpleadoActivo="false"  where id =${data[0]} and fk_administrador='${resultados[0].id}'`,
+                                                      function (error, results, fields) {
+                                                         var string=JSON.stringify(results);
+                                                         var resultados =  JSON.parse(string);   
+                                                         resolve(resultados)
+                                                         return client
+                                                       },
+                                                     )
+                                                    },
+                                                  )
+                                                  })
+                                                  };
                               
         
 
                   module.exports = {
+                    DeleteEmployees,
+                    GetPuestos,
+                    RegisterPuesto,
+                    GetDeptos,
+                    RegisterApartments,
+                    GetSucursales,
                     RegisterSucursales,
                     VerifiEmailSurveyEEO,
                     VerifiEmailSurveyRP,
