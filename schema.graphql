@@ -66,6 +66,9 @@ registerSucursales(data:[String]!):Data!
 registerApartments(data:[String]!):Data!
 registerPuesto(data:[String]!):Data!
 deleteEmployees(data:[String]!):Data!  
+deleteSucursales(data:[String]!):Data!  
+deleteDeptos(data:[String]!):Data! 
+deletePuestos(data:[String]!):Data! 
 }
 
 type Sucursales {
