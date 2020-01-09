@@ -400,9 +400,28 @@ const deletePuestos= async (_, { data }) => {
     return datosPuestos;
 };
 
+const updateEmployees= async (_, { data }) => {
+    var miCadena =data[0];
+
+    var divisiones = miCadena.split(",");
+    const updateEm = await  actions.UpdateEmployees(divisiones)
+    return updateEm;
+};
+
+const updateSucursales= async (_, { data }) => {
+    var miCadena =data[0];
+
+    var divisiones = miCadena.split(",");
+    const updateSuc = await  actions.UpdateSucursales(divisiones)
+    return updateSuc;
+};
+
+
 
 
 module.exports = {
+    updateSucursales,
+    updateEmployees,
     deletePuestos,
     deleteDeptos,
     deleteSucursales,
