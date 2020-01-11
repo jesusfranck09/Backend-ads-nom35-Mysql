@@ -1323,11 +1323,43 @@ const AtsPage1 = async data => {
                                                               },
                                                             )
                                                             })
-                                                            };    
+                                                            };
+                                                            
+                                                            const UpdateDeptos = async data => { 
+                                                              console.log("la data en updateDeptos es  " , data)
+                                                              return new Promise((resolve, reject) => {
+                                                                client.query(`select  *  from  administrador where correo='${data[2]}'`,
+                                                               function (error, results, fields) {
+                                                                  var string=JSON.stringify(results);
+                                                                  var resultados =  JSON.parse(string);   
+                                                                  client.query(`update departamentos set nombre='${data[0]}' where id ='${data[1]}' and fk_administrador='${resultados[0].id}'`)
+                                                                 resolve(client) 
+                                                                 return client
+                                                                },
+                                                              )
+                                                              })
+                                                              };    
+
+                                                              const UpdatePuestos = async data => { 
+                                                                console.log("la data en updatePuestos es  " , data)
+                                                                return new Promise((resolve, reject) => {
+                                                                  client.query(`select  *  from  administrador where correo='${data[2]}'`,
+                                                                 function (error, results, fields) {
+                                                                    var string=JSON.stringify(results);
+                                                                    var resultados =  JSON.parse(string);   
+                                                                    client.query(`update puestos set nombre='${data[0]}' where id ='${data[1]}' and fk_administrador='${resultados[0].id}'`)
+                                                                   resolve(client) 
+                                                                   return client
+                                                                  },
+                                                                )
+                                                                })
+                                                                };    
                               
         
 
                   module.exports = {
+                    UpdatePuestos,
+                    UpdateDeptos,
                     UpdateSucursales,
                     UpdateEmployees,
                     DeletePuestos,

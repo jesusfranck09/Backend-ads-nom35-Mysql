@@ -72,6 +72,8 @@ deletePuestos(data:[String]!):Data!
 
 updateEmployees(data:[String]!):Data! 
 updateSucursales(data:[String]!):Data! 
+updateDeptos(data:[String]!):Data! 
+updatePuestos(data:[String]!):Data! 
 }
 
 type Sucursales {
