@@ -54,9 +54,9 @@ type Mutation {
   eeoPage13(data:[String]!):Data!
   eeoPage14(data:[String]!):Data!
 
-  rpPoliticaPrivacidad(data:[String]!):Data!
-  atsPoliticaPrivacidad(data:[String]!):Data!
-  eeoPoliticaPrivacidad(data:[String]!):Data!
+  rpPoliticaPrivacidad(data:[String]!):SurveyData!
+  atsPoliticaPrivacidad(data:[String]!):SurveyData!
+  eeoPoliticaPrivacidad(data:[String]!):SurveyData!
 
  sendMail(data: [String]!): Data!
  getAdmin(data:[String]!):[Admin]
@@ -148,6 +148,7 @@ type  JsonEmployee{
 type Auth {
 message:String!
 token:String!
+id:String
 nombre:String
 Apellidos:String
 RFC:String
@@ -288,6 +289,14 @@ direccion:String!
 # type File {
 #     email: String!
 #   }
+
+type SurveyData {
+  nombre:String
+  ApellidoP:String
+  ApellidoM:String
+  correo:String
+  message: String
+}
 
 type Data {
   message: String

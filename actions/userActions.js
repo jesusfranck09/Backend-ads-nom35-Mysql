@@ -19,7 +19,7 @@ const signup =   (user) => {
           console.log(hash)
           resolve({ message: 'Signup exitoso',token:hash})
          client
-    .query(`insert into administrador(nombre,Apellidos, RFC,RazonSocial,Usuario, correo,contraseña,Activo) values ('${user.first_name}','${user.last_name}','${user.rfc}','${user.razonsocial}','${user.user}','${user.email}', '${hash}','true')`); 
+    .query(`insert into administrador(nombre,Apellidos, RFC,RazonSocial,Usuario, correo,contraseña,Activo) values ('${user.first_name}','${user.last_name}','${user.rfc}','${user.razon_social}','${user.user}','${user.email}', '${hash}','true')`); 
     console.log("el response",user)
         }
       })
@@ -42,6 +42,7 @@ const  login = async (email,password) => {
         resolve({
                 message: 'Login exitoso',
                token: createToken( resultados[0].correo, resultados[0].contraseña),
+               id:resultados[0].id,
                nombre:resultados[0].nombre,
                Apellidos:resultados[0].Apellidos,
                RFC:resultados[0].RFC,
@@ -239,7 +240,7 @@ const AtsPage1 = async data => {
             if (error) reject(error) 
               var string=JSON.stringify(results);
               var resultados =  JSON.parse(string); 
-              resolve(resultados)
+              resolve({message:"datos guardados"})
                 client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP) values ('${data[0]}','1','${resultados[0].id}')`); 
                 client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP) values ('${data[1]}','2','${resultados[0].id}')`); 
                 client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP) values ('${data[2]}','3','${resultados[0].id}')`); 
@@ -815,15 +816,23 @@ const AtsPage1 = async data => {
                   const AtsPoliticaPrivacidad = async data => {
                     return  new Promise((resolve, reject) => {
                           client
-                          .query(`select * from  empleados where correo='${data[0]}' `,
+                          .query(`select * from  empleados where correo='${data[0]}' and fk_administrador='${data[2]}'`,
                           function (error, results, fields) {
                           if (error) reject(error) 
-                            var string=JSON.stringify(results);
-                            var resultados =  JSON.parse(string); 
-                            resolve(resultados) 
-                            client
-                            .query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados) values ('${data[1]}','11','${resultados[0].id}')`); 
-                            return  client
+                        
+
+                            if(results[0]){
+                              var string=JSON.stringify(results);
+                              var resultados =  JSON.parse(string); 
+                              console.log("los resultados son " , resultados)
+                              resolve(resultados[0]) 
+                              client
+                              .query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados) values ('${data[1]}','11','${resultados[0].id}')`); 
+                              return  client
+                            }else{
+                              resolve({message:"usuario incorrecto"})
+                            }
+                          
                           },
                         )
                         })
@@ -836,15 +845,20 @@ const AtsPage1 = async data => {
 
                     return  new Promise((resolve, reject) => {
                         client
-                        .query(`select * from  empleados where correo='${data[0]}' `,
+                        .query(`select * from  empleados where correo='${data[0]}' and fk_administrador='${data[2]}'`,
                           function (error, results, fields) {
                           if (error) reject(error) 
+                          if(results[0]){
                           var string=JSON.stringify(results);
                           var resultados =  JSON.parse(string); 
-                          resolve(resultados) 
+                          console.log("los resultados son " , resultados[0])
+                          resolve(resultados[0])  
                             client
                             .query(`insert into respuestasRP(Respuestas,fk_preguntasRP,fk_EmpleadosRP) values ('${data[1]}','47','${resultados[0].id}')`); 
                             return  client
+                          }else{
+                            resolve({message:"usuario incorrecto"})
+                          }
                         },
                       )
                       })
@@ -853,15 +867,19 @@ const AtsPage1 = async data => {
                     const EEOPoliticaPrivacidad = async data => {
                       return  new Promise((resolve, reject) => {
                           client
-                          .query(`select * from  empleados where correo='${data[0]}' `,
+                          .query(`select * from  empleados where correo='${data[0]}' and fk_administrador='${data[2]}'`,
                             function (error, results, fields) {
                             if (error) reject(error) 
+                            if(results[0]){
                             var string=JSON.stringify(results);
                             var resultados =  JSON.parse(string); 
-                            resolve(resultados) 
+                            resolve(resultados[0]) 
                               client
                               .query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[1]}','73','${resultados[0].id}')`); 
                               return  client
+                            }else{
+                              resolve({message:"usuario incorrecto"})
+                            }
                           },
                         )
                         })
