@@ -434,6 +434,7 @@ const updatePuestos= async (_, { data }) => {
 
 
 
+
 module.exports = {
     updatePuestos,
     updateDeptos,

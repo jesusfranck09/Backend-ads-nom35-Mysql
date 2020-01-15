@@ -11,6 +11,7 @@ scalar Upload
      getSucursales(data:String):[Sucursales]
      getDeptos(data:String):[Deptos]
      getPuestos(data:String):[Puestos]
+     getPonderacion(data: [String]!):[resultPonderacion]
  }        
 
  
@@ -90,6 +91,15 @@ rfc:String,
 telefono:String,
 correo:String,
 fk_administrador:String
+}
+
+type resultPonderacion  {
+id:String
+siempre:String
+casisiempre:String
+algunasveces:String
+casinunca:String
+nunca:String
 }
 
 type Deptos {

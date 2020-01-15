@@ -1372,10 +1372,27 @@ const AtsPage1 = async data => {
                                                                 )
                                                                 })
                                                                 };    
+
+
+                                                                const GetPonderacion = async data => { 
+                                                                  console.log("la data en getPonderacion es  " , data)
+                                                                  return new Promise((resolve, reject) => {
+                                                                    client.query(`select  *  from  ponderacionrp`,
+                                                                   function (error, results, fields) {
+                                                                      var string=JSON.stringify(results);
+                                                                      var resultados =  JSON.parse(string);   
+                                                                     resolve(resultados)
+                                                                     console.log("resultados" , resultados) 
+                                                                     return client
+                                                                    },
+                                                                  )
+                                                                  })
+                                                                  };      
                               
         
 
                   module.exports = {
+                    GetPonderacion,
                     UpdatePuestos,
                     UpdateDeptos,
                     UpdateSucursales,

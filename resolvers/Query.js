@@ -64,8 +64,15 @@ const verifiEmailSurveyATS= (_, { data }) => {
                    .then( res => res)
                    .catch( err => err );
  };
+ const getPonderacion= async (_, { data }) => {
+    return actions.GetPonderacion(data)
+    .then( res => res)
+    .catch( err => err );
+};
+
      
      module.exports = {
+          getPonderacion,
           getPuestos,
           getDeptos,
           getSucursales,
