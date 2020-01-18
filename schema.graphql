@@ -12,6 +12,7 @@ scalar Upload
      getDeptos(data:String):[Deptos]
      getPuestos(data:String):[Puestos]
      getPonderacion(data: [String]!):[resultPonderacion]
+    getPonderacionEEO(data: [String]!):[resultPonderacion]
  }        
 
  

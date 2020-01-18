@@ -70,8 +70,15 @@ const verifiEmailSurveyATS= (_, { data }) => {
     .catch( err => err );
 };
 
+const getPonderacionEEO= async (_, { data }) => {
+     return actions.GetPonderacionEEO(data)
+     .then( res => res)
+     .catch( err => err );
+ };
+ 
      
      module.exports = {
+          getPonderacionEEO,
           getPonderacion,
           getPuestos,
           getDeptos,

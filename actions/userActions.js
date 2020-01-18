@@ -1388,10 +1388,28 @@ const AtsPage1 = async data => {
                                                                   )
                                                                   })
                                                                   };      
+
+
+                              
+                                                                const GetPonderacionEEO = async data => { 
+                                                                  console.log("la data en getPonderacion es  " , data)
+                                                                  return new Promise((resolve, reject) => {
+                                                                    client.query(`select  *  from  ponderacionEEO`,
+                                                                   function (error, results, fields) {
+                                                                      var string=JSON.stringify(results);
+                                                                      var resultados =  JSON.parse(string);   
+                                                                     resolve(resultados)
+                                                                     console.log("resultados" , resultados) 
+                                                                     return client
+                                                                    },
+                                                                  )
+                                                                  })
+                                                                  };      
                               
         
 
                   module.exports = {
+                    GetPonderacionEEO,
                     GetPonderacion,
                     UpdatePuestos,
                     UpdateDeptos,
