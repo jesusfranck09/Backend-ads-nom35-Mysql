@@ -14,8 +14,13 @@ scalar Upload
      getPonderacion(data: [String]!):[resultPonderacion]
     getPonderacionEEO(data: [String]!):[resultPonderacion]
     getEmployeesResolvesSurveyATS(data: [String]!):[MaxidEmployeesResolves]
+    getEmployeesResolvesSurveyATSFalse(data: [String]!):[MaxidEmployeesResolves]
     getEmployeesResolvesSurveyRP(data: [String]!):[MaxidEmployeesResolves]
+    getEmployeesResolvesSurveyRPFalse(data: [String]!):[MaxidEmployeesResolves]
     getEmployeesResolvesSurveyEEO(data: [String]!):[MaxidEmployeesResolves]
+    getEmployeesResolvesSurveyEEOFalse(data: [String]!):[MaxidEmployeesResolves]
+    getEmployeesATSDetectado(data: [String]!):[MaxidEmployeesResolves]
+    countEmployees(data: [String]!):[idEmployees]
  }        
 
  
@@ -322,4 +327,8 @@ type MaxidEmployeesResolves{
   ApellidoM:String
   correo:String
   ATSContestado:String
+}
+type idEmployees{
+id:String
+
 }

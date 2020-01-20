@@ -91,9 +91,41 @@ const getEmployeesResolvesSurveyEEO= async (_, { data }) => {
     .then( res => res)
     .catch( err => err );
 };
+
+const getEmployeesResolvesSurveyATSFalse= async (_, { data }) => {
+    return actions.GetEmployeesResolvesSurveyATSFalse(data)
+    .then( res => res)
+    .catch( err => err );
+};
+const getEmployeesResolvesSurveyRPFalse= async (_, { data }) => {
+    return actions.GetEmployeesResolvesSurveyRPFalse(data)
+    .then( res => res)
+    .catch( err => err );
+};
+const getEmployeesResolvesSurveyEEOFalse= async (_, { data }) => {
+    return actions.GetEmployeesResolvesSurveyEEOFalse(data)
+    .then( res => res)
+    .catch( err => err );
+};
  
+const countEmployees= async (_, { data }) => {
+    return actions.CountEmployees(data)
+    .then( res => res)
+    .catch( err => err );
+};
+
+const getEmployeesATSDetectado= async (_, { data }) => {
+    return actions.GetEmployeesATSDetectado(data)
+    .then( res => res)
+    .catch( err => err );
+};
      
      module.exports = {
+        getEmployeesATSDetectado,
+        countEmployees,
+        getEmployeesResolvesSurveyEEOFalse,
+        getEmployeesResolvesSurveyRPFalse,
+        getEmployeesResolvesSurveyATSFalse,
           getEmployeesResolvesSurveyATS,
           getEmployeesResolvesSurveyRP,
           getEmployeesResolvesSurveyEEO,

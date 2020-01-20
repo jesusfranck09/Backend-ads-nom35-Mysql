@@ -70,7 +70,7 @@ const  login = async (email,password) => {
 
          console.log("los data son  " , data)
          client
-        .query(`insert into empleados (nombre,ApellidoP,ApellidoM,Curp,RFC,FechaNacimiento,Sexo,CP,EstadoCivil,correo,AreaTrabajo,Puesto,Ciudad,NivelEstudios,TipoPersonal,JornadaTrabajo,TipoContratacion,TiempoPuesto,ExperienciaLaboral,RotacionTurnos,fk_administrador,ATSContestado,RPContestado,EEOContestado,EmpleadoActivo) values ('${data[0]}', '${data[1]}', '${data[2]}', '${data[3]}', '${data[4]}', '${data[5]}', '${data[6]}', '${data[7]}', '${data[8]}', '${data[9]}', '${data[10]}', '${data[11]}', '${data[12]}', '${data[13]}', '${data[14]}', '${data[15]}', '${data[16]}', '${data[17]}', '${data[18]}', '${data[19]}','${resultados[0].id}','false','false','false','true')`); 
+        .query(`insert into empleados (nombre,ApellidoP,ApellidoM,Curp,RFC,FechaNacimiento,Sexo,CP,EstadoCivil,correo,AreaTrabajo,Puesto,Ciudad,NivelEstudios,TipoPersonal,JornadaTrabajo,TipoContratacion,TiempoPuesto,ExperienciaLaboral,RotacionTurnos,fk_administrador,ATSContestado,RPContestado,EEOContestado,ATSDetectado,EmpleadoActivo) values ('${data[0]}', '${data[1]}', '${data[2]}', '${data[3]}', '${data[4]}', '${data[5]}', '${data[6]}', '${data[7]}', '${data[8]}', '${data[9]}', '${data[10]}', '${data[11]}', '${data[12]}', '${data[13]}', '${data[14]}', '${data[15]}', '${data[16]}', '${data[17]}', '${data[18]}', '${data[19]}','${resultados[0].id}','false','false','false','false','true')`); 
         return  client
       },
     )
@@ -87,7 +87,7 @@ const  login = async (email,password) => {
         var string=JSON.stringify(results);
         var resultados =  JSON.parse(string); 
          client
-        .query(`insert into empleados (nombre,ApellidoP,ApellidoM,Curp,RFC,FechaNacimiento,Sexo,CP,EstadoCivil,correo,AreaTrabajo,Puesto,Ciudad,NivelEstudios,TipoPersonal,JornadaTrabajo,TipoContratacion,TiempoPuesto,ExperienciaLaboral,RotacionTurnos,fk_administrador,ATSContestado,RPContestado,EEOContestado,EmpleadoActivo) values ('${data[0]}', '${data[1]}', '${data[2]}', '${data[3]}', '${data[4]}', '${data[5]}', '${data[6]}', '${data[7]}', '${data[8]}', '${data[9]}', '${data[10]}', '${data[11]}', '${data[12]}', '${data[13]}', '${data[14]}', '${data[15]}', '${data[16]}', '${data[17]}', '${data[18]}', '${data[19]}','${resultados[0].id}','false','false','false','true')`); 
+        .query(`insert into empleados (nombre,ApellidoP,ApellidoM,Curp,RFC,FechaNacimiento,Sexo,CP,EstadoCivil,correo,AreaTrabajo,Puesto,Ciudad,NivelEstudios,TipoPersonal,JornadaTrabajo,TipoContratacion,TiempoPuesto,ExperienciaLaboral,RotacionTurnos,fk_administrador,ATSContestado,RPContestado,EEOContestado,ATSDetectado,EmpleadoActivo) values ('${data[0]}', '${data[1]}', '${data[2]}', '${data[3]}', '${data[4]}', '${data[5]}', '${data[6]}', '${data[7]}', '${data[8]}', '${data[9]}', '${data[10]}', '${data[11]}', '${data[12]}', '${data[13]}', '${data[14]}', '${data[15]}', '${data[16]}', '${data[17]}', '${data[18]}', '${data[19]}','${resultados[0].id}','false','false','false','false','true')`); 
         resolve({
           message: 'registro exitoso',
         });
@@ -119,18 +119,52 @@ new Promise((resolve, reject) => {
 const AtsPage1 = async data => {
   console.log("el correo en atspage1 es " ,data[1])
   return new Promise((resolve, reject) => {
-      client
-      .query(`select * from  empleados where correo='${data[1]}'`,
-       function (error, results, fields) {
-       if (error) reject(error) 
-        var string=JSON.stringify(results);
-        var resultados =  JSON.parse(string); 
-        resolve(resultados)
-          client
-          .query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados) values ('${data[0]}','1','${resultados[0].id}')`); 
-          return  client       
-      },
-    )
+  
+  if(data[0]=="si"){
+    client
+    .query(`select * from  empleados where correo='${data[1]}'`,
+     function (error, results, fields) {
+     if (error) reject(error) 
+      var string=JSON.stringify(results);
+      var resultados =  JSON.parse(string); 
+      resolve(resultados)
+        client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados) values ('${data[0]}','1','${resultados[0].id}')`); 
+        client.query(`update empleados set ATSDetectado='true' where id = ${resultados[0].id} `);    
+        return  client       
+    },
+  )
+  } 
+  if(data[0]=="no"){
+    client
+    .query(`select * from  empleados where correo='${data[1]}'`,
+     function (error, results, fields) {
+     if (error) reject(error) 
+      var string=JSON.stringify(results);
+      var resultados =  JSON.parse(string); 
+      resolve(resultados)
+        client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados) values ('${data[0]}','1','${resultados[0].id}')`); 
+        client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados) values ('${data[0]}','2','${resultados[0].id}')`);
+        client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados) values ('${data[0]}','3','${resultados[0].id}')`);
+        client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados) values ('${data[0]}','4','${resultados[0].id}')`);
+        client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados) values ('${data[0]}','5','${resultados[0].id}')`);
+        client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados) values ('${data[0]}','6','${resultados[0].id}')`);
+        client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados) values ('${data[0]}','7','${resultados[0].id}')`);
+        client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados) values ('${data[0]}','8','${resultados[0].id}')`);
+        client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados) values ('${data[0]}','9','${resultados[0].id}')`);
+        client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados) values ('${data[0]}','10','${resultados[0].id}')`);
+        client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados) values ('${data[0]}','11','${resultados[0].id}')`);
+        client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados) values ('${data[0]}','12','${resultados[0].id}')`);
+        client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados) values ('${data[0]}','13','${resultados[0].id}')`);
+        client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados) values ('${data[0]}','14','${resultados[0].id}')`);
+        client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados) values ('${data[0]}','15','${resultados[0].id}')`);
+        client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados) values ('${data[0]}','16','${resultados[0].id}')`);
+        return  client       
+    },
+  )
+  }
+
+
+
     })
   };
 
@@ -1409,21 +1443,20 @@ const AtsPage1 = async data => {
                                                                   const GetEmployeesResolvesSurveyATS = async data => { 
                                                                     console.log("la data en getPonderacion es  " , data)
                                                                     return new Promise((resolve, reject) => {
-                                                                      client.query(`select  empleados.id,empleados.nombre,empleados.ApellidoP,empleados.ApellidoM,empleados.correo, empleados.ATSContestado from empleados where fk_Administrador='${data[0]}' and EmpleadoActivo='true'`,
+                                                                      client.query(`select  empleados.id,empleados.nombre,empleados.ApellidoP,empleados.ApellidoM,empleados.correo, empleados.ATSContestado from empleados where fk_Administrador='${data[0]}' and ATSContestado='true' and EmpleadoActivo='true'`,
                                                                      function (error, results, fields) {
                                                                         var string=JSON.stringify(results);
                                                                         var resultados =  JSON.parse(string);   
                                                                        resolve(resultados)
                                                                        console.log("resultados" , resultados) 
                                                                        return client
-                                                                      },
-                                                                    )
+                                                                      },)
                                                                     })
                                                                     };
                                                                     const GetEmployeesResolvesSurveyRP = async data => { 
                                                                       console.log("la data en getPonderacion es  " , data)
                                                                       return new Promise((resolve, reject) => {
-                                                                        client.query(`select  *  from  ponderacionEEO`,
+                                                                        client.query(`select  empleados.id,empleados.nombre,empleados.ApellidoP,empleados.ApellidoM,empleados.correo, empleados.RPContestado from empleados where fk_Administrador='${data[0]}' and RPContestado='true' and EmpleadoActivo='true'`,
                                                                        function (error, results, fields) {
                                                                           var string=JSON.stringify(results);
                                                                           var resultados =  JSON.parse(string);   
@@ -1437,7 +1470,7 @@ const AtsPage1 = async data => {
                                                                       const GetEmployeesResolvesSurveyEEO = async data => { 
                                                                         console.log("la data en getPonderacion es  " , data)
                                                                         return new Promise((resolve, reject) => {
-                                                                          client.query(`select  *  from  ponderacionEEO`,
+                                                                          client.query(`select  empleados.id,empleados.nombre,empleados.ApellidoP,empleados.ApellidoM,empleados.correo, empleados.EEOContestado from empleados where fk_Administrador='${data[0]}' and EEOContestado='true' and EmpleadoActivo='true'`,
                                                                          function (error, results, fields) {
                                                                             var string=JSON.stringify(results);
                                                                             var resultados =  JSON.parse(string);   
@@ -1449,10 +1482,86 @@ const AtsPage1 = async data => {
                                                                         })
                                                                         };                  
                               
-        
+                                                                      const GetEmployeesResolvesSurveyATSFalse = async data => { 
+                                                                        console.log("entro a false")
+                                                                         console.log("la data en getPonderacionFalse es  " , data)
+                                                                         return new Promise((resolve, reject) => {
+                                                                           client.query(`select  empleados.id,empleados.nombre,empleados.ApellidoP,empleados.ApellidoM,empleados.correo, empleados.ATSContestado from empleados where fk_Administrador='${data[0]}' and ATSContestado='false' and EmpleadoActivo='true'`,
+                                                                          function (error, results, fields) {
+                                                                             var string=JSON.stringify(results);
+                                                                             var resultados =  JSON.parse(string);   
+                                                                             resolve(resultados)
+                                                                             console.log("resultados" , resultados) 
+                                                                             return client
+                                                                            },)
+                                                                        })
+                                                                        };
+                                                                        const GetEmployeesResolvesSurveyRPFalse = async data => { 
+                                                                          console.log("la data en getPonderacion es  " , data)
+                                                                          return new Promise((resolve, reject) => {
+                                                                            client.query(`select  empleados.id,empleados.nombre,empleados.ApellidoP,empleados.ApellidoM,empleados.correo, empleados.RPContestado from empleados where fk_Administrador='${data[0]}' and RPContestado='false' and EmpleadoActivo='true'`,
+                                                                           function (error, results, fields) {
+                                                                              var string=JSON.stringify(results);
+                                                                              var resultados =  JSON.parse(string);   
+                                                                             resolve(resultados)
+                                                                             console.log("resultados" , resultados) 
+                                                                             return client
+                                                                            },
+                                                                          )
+                                                                          })
+                                                                          };        
+
+                                                                          const GetEmployeesResolvesSurveyEEOFalse = async data => { 
+                                                                            console.log("la data en getPonderacion es  " , data)
+                                                                            return new Promise((resolve, reject) => {
+                                                                              client.query(`select  empleados.id,empleados.nombre,empleados.ApellidoP,empleados.ApellidoM,empleados.correo, empleados.EEOContestado from empleados where fk_Administrador='${data[0]}' and EEOContestado='false' and EmpleadoActivo='true'`,
+                                                                             function (error, results, fields) {
+                                                                                var string=JSON.stringify(results);
+                                                                                var resultados =  JSON.parse(string);   
+                                                                               resolve(resultados)
+                                                                               console.log("resultados" , resultados) 
+                                                                               return client
+                                                                              },
+                                                                            )
+                                                                            })
+                                                                            };    
+                                                                            const CountEmployees = async data => { 
+                                                                              console.log("la data en getPonderacion es  " , data)
+                                                                              return new Promise((resolve, reject) => {
+                                                                                client.query(`select count(id) as id from empleados where fk_administrador='${data[0]}'`,
+                                                                               function (error, results, fields) {
+                                                                                  var string=JSON.stringify(results);
+                                                                                  var resultados =  JSON.parse(string);   
+                                                                                 resolve(resultados)
+                                                                                 console.log("resultados" , resultados) 
+                                                                                 return client
+                                                                                },
+                                                                              )
+                                                                              })
+                                                                              };
+
+                                                                              const GetEmployeesATSDetectado = async data => { 
+                                                                          
+                                                                                return new Promise((resolve, reject) => {
+                                                                                  client.query(`select * from empleados where fk_administrador='${data[0]}' and ATSDetectado='true'`,
+                                                                                 function (error, results, fields) {
+                                                                                    var string=JSON.stringify(results);
+                                                                                    var resultados =  JSON.parse(string);   
+                                                                                   resolve(resultados)
+                                                                                   console.log("resultados" , resultados) 
+                                                                                   return client
+                                                                                  },
+                                                                                )
+                                                                                })
+                                                                                };                                                                              
 
                   module.exports = {
+                    GetEmployeesATSDetectado,
+                    CountEmployees,
+                    GetEmployeesResolvesSurveyEEOFalse,
+                    GetEmployeesResolvesSurveyRPFalse,
                     GetEmployeesResolvesSurveyATS,
+                    GetEmployeesResolvesSurveyATSFalse,
                     GetEmployeesResolvesSurveyRP,
                     GetEmployeesResolvesSurveyEEO,
                     GetPonderacionEEO,
