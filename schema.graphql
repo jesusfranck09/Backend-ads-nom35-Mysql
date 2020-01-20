@@ -13,6 +13,9 @@ scalar Upload
      getPuestos(data:String):[Puestos]
      getPonderacion(data: [String]!):[resultPonderacion]
     getPonderacionEEO(data: [String]!):[resultPonderacion]
+    getEmployeesResolvesSurveyATS(data: [String]!):[MaxidEmployeesResolves]
+    getEmployeesResolvesSurveyRP(data: [String]!):[MaxidEmployeesResolves]
+    getEmployeesResolvesSurveyEEO(data: [String]!):[MaxidEmployeesResolves]
  }        
 
  
@@ -311,4 +314,12 @@ type SurveyData {
 
 type Data {
   message: String
+}
+
+type MaxidEmployeesResolves{
+  nombre:String
+  ApellidoP:String
+  ApellidoM:String
+  correo:String
+  ATSContestado:String
 }

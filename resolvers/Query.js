@@ -75,9 +75,28 @@ const getPonderacionEEO= async (_, { data }) => {
      .then( res => res)
      .catch( err => err );
  };
+
+ const getEmployeesResolvesSurveyATS= async (_, { data }) => {
+    return actions.GetEmployeesResolvesSurveyATS(data)
+    .then( res => res)
+    .catch( err => err );
+};
+const getEmployeesResolvesSurveyRP= async (_, { data }) => {
+    return actions.GetEmployeesResolvesSurveyRP(data)
+    .then( res => res)
+    .catch( err => err );
+};
+const getEmployeesResolvesSurveyEEO= async (_, { data }) => {
+    return actions.GetEmployeesResolvesSurveyEEO(data)
+    .then( res => res)
+    .catch( err => err );
+};
  
      
      module.exports = {
+          getEmployeesResolvesSurveyATS,
+          getEmployeesResolvesSurveyRP,
+          getEmployeesResolvesSurveyEEO,
           getPonderacionEEO,
           getPonderacion,
           getPuestos,

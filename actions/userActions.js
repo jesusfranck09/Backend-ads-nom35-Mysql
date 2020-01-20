@@ -1404,11 +1404,57 @@ const AtsPage1 = async data => {
                                                                     },
                                                                   )
                                                                   })
-                                                                  };      
+                                                                  };
+                                                                  
+                                                                  const GetEmployeesResolvesSurveyATS = async data => { 
+                                                                    console.log("la data en getPonderacion es  " , data)
+                                                                    return new Promise((resolve, reject) => {
+                                                                      client.query(`select  empleados.id,empleados.nombre,empleados.ApellidoP,empleados.ApellidoM,empleados.correo, empleados.ATSContestado from empleados where fk_Administrador='${data[0]}' and EmpleadoActivo='true'`,
+                                                                     function (error, results, fields) {
+                                                                        var string=JSON.stringify(results);
+                                                                        var resultados =  JSON.parse(string);   
+                                                                       resolve(resultados)
+                                                                       console.log("resultados" , resultados) 
+                                                                       return client
+                                                                      },
+                                                                    )
+                                                                    })
+                                                                    };
+                                                                    const GetEmployeesResolvesSurveyRP = async data => { 
+                                                                      console.log("la data en getPonderacion es  " , data)
+                                                                      return new Promise((resolve, reject) => {
+                                                                        client.query(`select  *  from  ponderacionEEO`,
+                                                                       function (error, results, fields) {
+                                                                          var string=JSON.stringify(results);
+                                                                          var resultados =  JSON.parse(string);   
+                                                                         resolve(resultados)
+                                                                         console.log("resultados" , resultados) 
+                                                                         return client
+                                                                        },
+                                                                      )
+                                                                      })
+                                                                      };
+                                                                      const GetEmployeesResolvesSurveyEEO = async data => { 
+                                                                        console.log("la data en getPonderacion es  " , data)
+                                                                        return new Promise((resolve, reject) => {
+                                                                          client.query(`select  *  from  ponderacionEEO`,
+                                                                         function (error, results, fields) {
+                                                                            var string=JSON.stringify(results);
+                                                                            var resultados =  JSON.parse(string);   
+                                                                           resolve(resultados)
+                                                                           console.log("resultados" , resultados) 
+                                                                           return client
+                                                                          },
+                                                                        )
+                                                                        })
+                                                                        };                  
                               
         
 
                   module.exports = {
+                    GetEmployeesResolvesSurveyATS,
+                    GetEmployeesResolvesSurveyRP,
+                    GetEmployeesResolvesSurveyEEO,
                     GetPonderacionEEO,
                     GetPonderacion,
                     UpdatePuestos,
