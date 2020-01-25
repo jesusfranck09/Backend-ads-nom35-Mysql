@@ -1553,9 +1553,24 @@ const AtsPage1 = async data => {
                                                                                   },
                                                                                 )
                                                                                 })
-                                                                                };                                                                              
+                                                                                };    
+                                                                                
+                                                                                const GetEmployeesResolvesRP = async data => { 
+                                                                          
+                                                                                  return new Promise((resolve, reject) => {
+                                                                                    client.query(`select  empleados.id,empleados.nombre,empleados.ApellidoP,empleados.ApellidoM,empleados.Sexo, empleados.AreaTrabajo,empleados.Puesto from empleados where fk_Administrador='${data[0]}' and RPContestado='true' and EmpleadoActivo='true'`,                                                                                   function (error, results, fields) {
+                                                                                      var string=JSON.stringify(results);
+                                                                                      var resultados =  JSON.parse(string);   
+                                                                                     resolve(resultados)
+                                                                                     console.log("resultados" , resultados) 
+                                                                                     return client
+                                                                                    },
+                                                                                  )
+                                                                                  })
+                                                                                  };     
 
                   module.exports = {
+                    GetEmployeesResolvesRP,
                     GetEmployeesATSDetectado,
                     CountEmployees,
                     GetEmployeesResolvesSurveyEEOFalse,

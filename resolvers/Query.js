@@ -119,8 +119,14 @@ const getEmployeesATSDetectado= async (_, { data }) => {
     .then( res => res)
     .catch( err => err );
 };
+const getEmployeesResolvesRP= async (_, { data }) => {
+    return actions.GetEmployeesResolvesRP(data)
+    .then( res => res)
+    .catch( err => err );
+};
      
      module.exports = {
+        getEmployeesResolvesRP,
         getEmployeesATSDetectado,
         countEmployees,
         getEmployeesResolvesSurveyEEOFalse,

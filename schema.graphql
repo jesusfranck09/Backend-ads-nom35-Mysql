@@ -21,6 +21,7 @@ scalar Upload
     getEmployeesResolvesSurveyEEOFalse(data: [String]!):[MaxidEmployeesResolves]
     getEmployeesATSDetectado(data: [String]!):[MaxidEmployeesResolves]
     countEmployees(data: [String]!):[idEmployees]
+    getEmployeesResolvesRP(data: [String]!):[EmployeesRP]
  }        
 
  
@@ -133,6 +134,15 @@ type resCorreoEEO {
   EEOContestado:String
 }
 
+type EmployeesRP{
+  id:String
+  nombre:String
+  ApellidoP:String,
+  ApellidoM:String,
+  Sexo:String
+  AreaTrabajo:String
+  Puesto:String
+}
 
 
 type  JsonEmployee{
