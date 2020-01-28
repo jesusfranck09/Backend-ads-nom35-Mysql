@@ -1409,14 +1409,14 @@ const AtsPage1 = async data => {
 
 
                                                                 const GetPonderacion = async data => { 
-                                                                  console.log("la data en getPonderacion es  " , data)
+                                                                  // console.log("la data en getPonderacion es  " , data)
                                                                   return new Promise((resolve, reject) => {
                                                                     client.query(`select  *  from  ponderacionrp`,
                                                                    function (error, results, fields) {
                                                                       var string=JSON.stringify(results);
                                                                       var resultados =  JSON.parse(string);   
                                                                      resolve(resultados)
-                                                                     console.log("resultados" , resultados) 
+                                                                    //  console.log("resultados" , resultados) 
                                                                      return client
                                                                     },
                                                                   )
@@ -1519,7 +1519,7 @@ const AtsPage1 = async data => {
                                                                                 var string=JSON.stringify(results);
                                                                                 var resultados =  JSON.parse(string);   
                                                                                resolve(resultados)
-                                                                               console.log("resultados" , resultados) 
+                                                                              //  console.log("resultados" , resultados) 
                                                                                return client
                                                                               },
                                                                             )
@@ -1533,7 +1533,7 @@ const AtsPage1 = async data => {
                                                                                   var string=JSON.stringify(results);
                                                                                   var resultados =  JSON.parse(string);   
                                                                                  resolve(resultados)
-                                                                                 console.log("resultados" , resultados) 
+                                                                                //  console.log("resultados" , resultados) 
                                                                                  return client
                                                                                 },
                                                                               )
@@ -1548,7 +1548,7 @@ const AtsPage1 = async data => {
                                                                                     var string=JSON.stringify(results);
                                                                                     var resultados =  JSON.parse(string);   
                                                                                    resolve(resultados)
-                                                                                   console.log("resultados" , resultados) 
+                                                                                  //  console.log("resultados" , resultados) 
                                                                                    return client
                                                                                   },
                                                                                 )
@@ -1562,14 +1562,30 @@ const AtsPage1 = async data => {
                                                                                       var string=JSON.stringify(results);
                                                                                       var resultados =  JSON.parse(string);   
                                                                                      resolve(resultados)
-                                                                                     console.log("resultados" , resultados) 
+                                                                                    //  console.log("resultados" , resultados) 
                                                                                      return client
                                                                                     },
                                                                                   )
                                                                                   })
-                                                                                  };     
+                                                                                  };    
+                                                                                  
+                                                                                  const GetresultGlobalSurveyRP = async data => {
 
+                                                                                    console.log("la data es ",data[0])
+                                                                                    return  new Promise((resolve, reject) => {
+                                                                                        client.query(`select * from empleados inner join respuestasrp on respuestasRP.fk_empleadosRP = empleados.id where empleados.id = ${data[0]} `,
+                                                                                          function (error, results, fields) {
+                                                                                          var string=JSON.stringify(results);
+                                                                                          var resultados =  JSON.parse(string); 
+                                                                  
+                                                                                          resolve(resultados
+                                                                                          ) 
+                                                                                        },
+                                                                                      )
+                                                                                      })
+                                                                                    };      
                   module.exports = {
+                    GetresultGlobalSurveyRP,
                     GetEmployeesResolvesRP,
                     GetEmployeesATSDetectado,
                     CountEmployees,

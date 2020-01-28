@@ -355,6 +355,7 @@ const registerSucursales= async (_, { data }) => {
 
 
 const registerApartments= async (_, { data }) => {
+    console.log("data" ,data)
     var miCadena =data[0];
 
     var divisiones = miCadena.split(",");

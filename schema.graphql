@@ -22,6 +22,8 @@ scalar Upload
     getEmployeesATSDetectado(data: [String]!):[MaxidEmployeesResolves]
     countEmployees(data: [String]!):[idEmployees]
     getEmployeesResolvesRP(data: [String]!):[EmployeesRP]
+
+    getresultGlobalSurveyRP(data: [String]!):[ respuestasRP]
  }        
 
  
