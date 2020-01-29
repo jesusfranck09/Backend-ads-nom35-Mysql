@@ -21,9 +21,9 @@ scalar Upload
     getEmployeesResolvesSurveyEEOFalse(data: [String]!):[MaxidEmployeesResolves]
     getEmployeesATSDetectado(data: [String]!):[MaxidEmployeesResolves]
     countEmployees(data: [String]!):[idEmployees]
-    getEmployeesResolvesRP(data: [String]!):[EmployeesRP]
-
+    getEmployeesResolvesRP(data: [String]!):[Employees]
     getresultGlobalSurveyRP(data: [String]!):[ respuestasRP]
+    getEmployeesResolvesEEO(data: [String]!):[Employees]
  }        
 
  
@@ -136,7 +136,7 @@ type resCorreoEEO {
   EEOContestado:String
 }
 
-type EmployeesRP{
+type Employees{
   id:String
   nombre:String
   ApellidoP:String,

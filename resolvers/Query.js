@@ -134,8 +134,14 @@ const getresultGlobalSurveyRP= async (_, { data }) => {
     .then( res => res)
     .catch( err => err );
 };
+const getEmployeesResolvesEEO= async (_, { data }) => {
+    return actions.GetEmployeesResolvesEEO(data)
+    .then( res => res)
+    .catch( err => err );
+};
      
      module.exports = {
+        getEmployeesResolvesEEO,
         getresultGlobalSurveyRP,
         getEmployeesResolvesRP,
         getEmployeesATSDetectado,
