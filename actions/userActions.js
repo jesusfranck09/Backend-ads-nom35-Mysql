@@ -467,6 +467,7 @@ const RPValidadorPage7 = async data => {
 
   console.log("useractions RPValidadorPage7" , data)
   return new Promise((resolve, reject) => {
+    
       client
       .query(`select * from  empleados where correo='${data[1]}'`,
       function (error, results, fields) {
@@ -474,11 +475,19 @@ const RPValidadorPage7 = async data => {
         var string=JSON.stringify(results);
         var resultados =  JSON.parse(string); 
         resolve(resultados)
+
+        if(data[0]=="si"){
           client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP) values ('${data[0]}','48','${resultados[0].id}')`); 
-                    
-          return  client       
+          return  client   
+        }  else if(data[0]=="no"){
+          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP) values ('${data[0]}','48','${resultados[0].id}')`); 
+          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP) values ('No','41','${resultados[0].id}')`); 
+          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP) values ('No','42','${resultados[0].id}')`); 
+          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP) values ('No','43','${resultados[0].id}')`); 
+        }     
       },
     )
+ 
     })
   };
 
@@ -493,9 +502,29 @@ return new Promise((resolve, reject) => {
       var string=JSON.stringify(results);
       var resultados =  JSON.parse(string); 
       resolve(resultados)
+      if(data[0]=="si"){
         client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP) values ('${data[0]}','49','${resultados[0].id}')`); 
-                  
-        return  client       
+        return  client    
+      }else if(data[0]=="no"){
+        client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP) values ('${data[0]}','49','${resultados[0].id}')`); 
+        client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP) values ('No','44','${resultados[0].id}')`); 
+        client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP) values ('No','45','${resultados[0].id}')`); 
+        client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP) values ('No','46','${resultados[0].id}')`); 
+
+        client.query(`select Max(id) as idMaximo from  correos where fk_empleados='${resultados[0].id}' and encuesta = "RP"`,
+        function (error, redults, fields) {
+        var string=JSON.stringify(redults);
+        var resultados1 =  JSON.parse(string); 
+        resolve(resultados1)                
+        var maximo = resultados1[0].idMaximo
+        client.query(`update correos set contestado ='true' where id = ${maximo} `);    
+        client.query(`update empleados set RPContestado ='true' where correo ='${data[1]}'`);   
+        return client    
+        }
+        
+        )
+      }    
+        
     },
   )
   })
@@ -914,6 +943,7 @@ const EEOPoliticaPrivacidad = async data => {
 
 const  SendMail = async (args) => {
   
+  console.log("el correo es " , args)
   var LaFecha=new Date();
   var Mes=new Array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
   var diasem=new Array('domingo','lunes','martes','miercoles','jueves','viernes','sabado');
@@ -943,7 +973,7 @@ var transporter = nodemailer.createTransport({
   from: 'd93409@gmail.com', // sender address
   to: `${args[0]}`, // list of receivers
   subject: 'Subject of your email', // Subject line
-  html: '<p>Hola armando esto es una prueba del envio de correo desde el sistema</p>'// plain text body
+  html: '<p>Estimado Colaborador por medio de este enlace le envío su encuesta por favor responderla lo antes posible saludos </p> https://master.d27wi09jptfs9v.amplifyapp.com/' // plain text body
 };
 
 transporter.sendMail(mailOptions, function (err, info) {
