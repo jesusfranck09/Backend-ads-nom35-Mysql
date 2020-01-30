@@ -24,6 +24,7 @@ scalar Upload
     getEmployeesResolvesRP(data: [String]!):[Employees]
     getresultGlobalSurveyRP(data: [String]!):[ respuestasRP]
     getEmployeesResolvesEEO(data: [String]!):[Employees]
+    getresultGlobalSurveyEEO(data: [String]!):[ respuestasEEO]
  }        
 
  

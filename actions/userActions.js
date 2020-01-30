@@ -1548,8 +1548,7 @@ const GetresultGlobalSurveyRP = async data => {
       client.query(`select * from empleados inner join respuestasrp on respuestasRP.fk_empleadosRP = empleados.id where empleados.id = ${data[0]} `,
         function (error, results, fields) {
         var string=JSON.stringify(results);
-        var resultados =  JSON.parse(string); 
-
+        var resultados =  JSON.parse(string);
         resolve(resultados
         ) 
       },
@@ -1570,9 +1569,25 @@ const GetEmployeesResolvesEEO = async data => {
   )
   })
   };    
+const GetresultGlobalSurveyEEO = async data => {
+  console.log("la data es ",data[0])
+  return  new Promise((resolve, reject) => {
+      client.query(`select * from empleados inner join respuestaseeo on respuestaseeo.fk_empleados = empleados.id where empleados.id = ${data[0]} `,
+        function (error, results, fields) {
+        var string=JSON.stringify(results);
+        var resultados =  JSON.parse(string);
+        console.log("los resuktadis son", resultados)
+        resolve(resultados
+        ) 
+      },
+    )
+    })
+  }; 
   
+    
 
       module.exports = {
+        GetresultGlobalSurveyEEO,
         GetEmployeesResolvesEEO,
         GetresultGlobalSurveyRP,
         GetEmployeesResolvesRP,
