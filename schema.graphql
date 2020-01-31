@@ -25,6 +25,10 @@ scalar Upload
     getresultGlobalSurveyRP(data: [String]!):[ respuestasRP]
     getEmployeesResolvesEEO(data: [String]!):[Employees]
     getresultGlobalSurveyEEO(data: [String]!):[ respuestasEEO]
+    employeeActive(data: [String]!):[employeActive]
+    deptoActive(data: [String]!):[depActive]
+    sucActive(data: [String]!):[sucuActive]
+    puestoActive(data: [String]!):[puesActive]
  }        
 
  
@@ -226,6 +230,26 @@ type respuestas {
     fk_correos:String
 }
 
+    type employeActive{
+    id:String, 
+    EmpleadoActivo:String,
+
+    }
+       type depActive{
+    id:String, 
+    DepartamentoActivo:String,
+
+    }
+   type sucuActive{
+    id:String, 
+    SucursalActiva:String,
+
+    }
+  type puesActive{
+    id:String, 
+    PuestoActivo:String,
+
+    }
 type respuestasRP {
     id:String,
     Respuestas:String,

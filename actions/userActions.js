@@ -973,7 +973,7 @@ var transporter = nodemailer.createTransport({
   from: 'd93409@gmail.com', // sender address
   to: `${args[0]}`, // list of receivers
   subject: 'Subject of your email', // Subject line
-  html: '<p>Estimado Colaborador por medio de este enlace le envío su encuesta por favor responderla lo antes posible saludos </p> https://master.d27wi09jptfs9v.amplifyapp.com/' // plain text body
+  html: '<p>Estimado Colaborador por medio de este enlace le envío su encuesta por favor responderla lo antes posible saludos </p> https://master.d27wi09jptfs9v.amplifyapp.com/survey' // plain text body
 };
 
 transporter.sendMail(mailOptions, function (err, info) {
@@ -1093,16 +1093,16 @@ const GetAdmin = async data => {
 
 const AuthRegisterSingleEmployee = async data => {
 return new Promise((resolve, reject) => {
-  console.log("la sdata"  ,data)
+  // console.log("la sdata"  ,data)
   client.query(`select * from  administrador where correo='${data[0]}'`,
   function (error, results, fields) {
     var string=JSON.stringify(results);
     var resultados =  JSON.parse(string); 
-    console.log("los resultados de la primera consulta son " , resultados)
+    // console.log("los resultados de la primera consulta son " , resultados)
       client.query(`select count(id) as max from empleados where empleados.fk_administrador = ' ${resultados[0].id}'`,  function (error, valores, fields) {
       var val=JSON.stringify(valores);
       var valor =  JSON.parse(val); 
-      console.log("los resultados de la segunda consulta son " , valor)
+      // console.log("los resultados de la segunda consulta son " , valor)
       resolve(valor) 
       return  client
     }) 
@@ -1445,41 +1445,41 @@ const GetPonderacionEEO = async data => {
   };
                                                                   
 const GetEmployeesResolvesSurveyATS = async data => { 
-  console.log("la data en getPonderacion es  " , data)
+  // console.log("la data en getPonderacion es  " , data)
   return new Promise((resolve, reject) => {
     client.query(`select  empleados.id,empleados.nombre,empleados.ApellidoP,empleados.ApellidoM,empleados.correo, empleados.ATSContestado from empleados where fk_Administrador='${data[0]}' and ATSContestado='true' and EmpleadoActivo='true'`,
   function (error, results, fields) {
       var string=JSON.stringify(results);
       var resultados =  JSON.parse(string);   
     resolve(resultados)
-    console.log("resultados" , resultados) 
+    // console.log("resultados" , resultados) 
     return client
     },)
   })
   };
 const GetEmployeesResolvesSurveyRP = async data => { 
-  console.log("la data en getPonderacion es  " , data)
+  // console.log("la data en getPonderacion es  " , data)
   return new Promise((resolve, reject) => {
     client.query(`select  empleados.id,empleados.nombre,empleados.ApellidoP,empleados.ApellidoM,empleados.correo, empleados.RPContestado from empleados where fk_Administrador='${data[0]}' and RPContestado='true' and EmpleadoActivo='true'`,
     function (error, results, fields) {
       var string=JSON.stringify(results);
       var resultados =  JSON.parse(string);   
       resolve(resultados)
-      console.log("resultados" , resultados) 
+      // console.log("resultados" , resultados) 
       return client
     },
   )
   })
   };
 const GetEmployeesResolvesSurveyEEO = async data => { 
-  console.log("la data en getPonderacion es  " , data)
+  // console.log("la data en getPonderacion es  " , data)
   return new Promise((resolve, reject) => {
     client.query(`select  empleados.id,empleados.nombre,empleados.ApellidoP,empleados.ApellidoM,empleados.correo, empleados.EEOContestado from empleados where fk_Administrador='${data[0]}' and EEOContestado='true' and EmpleadoActivo='true'`,
     function (error, results, fields) {
       var string=JSON.stringify(results);
       var resultados =  JSON.parse(string);   
       resolve(resultados)
-      console.log("resultados" , resultados) 
+      // console.log("resultados" , resultados) 
       return client
     },
   )
@@ -1487,28 +1487,28 @@ const GetEmployeesResolvesSurveyEEO = async data => {
   };                  
                               
 const GetEmployeesResolvesSurveyATSFalse = async data => { 
-  console.log("entro a false")
-    console.log("la data en getPonderacionFalse es  " , data)
+  // console.log("entro a false")
+    // console.log("la data en getPonderacionFalse es  " , data)
     return new Promise((resolve, reject) => {
       client.query(`select  empleados.id,empleados.nombre,empleados.ApellidoP,empleados.ApellidoM,empleados.correo, empleados.ATSContestado from empleados where fk_Administrador='${data[0]}' and ATSContestado='false' and EmpleadoActivo='true'`,
     function (error, results, fields) {
         var string=JSON.stringify(results);
         var resultados =  JSON.parse(string);   
         resolve(resultados)
-        console.log("resultados" , resultados) 
+        // console.log("resultados" , resultados) 
         return client
       },)
   })
   };
 const GetEmployeesResolvesSurveyRPFalse = async data => { 
-  console.log("la data en getPonderacion es  " , data)
+  // console.log("la data en getPonderacion es  " , data)
   return new Promise((resolve, reject) => {
     client.query(`select  empleados.id,empleados.nombre,empleados.ApellidoP,empleados.ApellidoM,empleados.correo, empleados.RPContestado from empleados where fk_Administrador='${data[0]}' and RPContestado='false' and EmpleadoActivo='true'`,
     function (error, results, fields) {
       var string=JSON.stringify(results);
       var resultados =  JSON.parse(string);   
       resolve(resultados)
-      console.log("resultados" , resultados) 
+      // console.log("resultados" , resultados) 
       return client
     },
   )
@@ -1516,7 +1516,7 @@ const GetEmployeesResolvesSurveyRPFalse = async data => {
   };        
 
 const GetEmployeesResolvesSurveyEEOFalse = async data => { 
-  console.log("la data en getPonderacion es  " , data)
+  // console.log("la data en getPonderacion es  " , data)
   return new Promise((resolve, reject) => {
     client.query(`select  empleados.id,empleados.nombre,empleados.ApellidoP,empleados.ApellidoM,empleados.correo, empleados.EEOContestado from empleados where fk_Administrador='${data[0]}' and EEOContestado='false' and EmpleadoActivo='true'`,
     function (error, results, fields) {
@@ -1530,7 +1530,7 @@ const GetEmployeesResolvesSurveyEEOFalse = async data => {
   })
   };    
 const CountEmployees = async data => { 
-  console.log("la data en getPonderacion es  " , data)
+  // console.log("la data en getPonderacion es  " , data)
   return new Promise((resolve, reject) => {
     client.query(`select count(id) as id from empleados where fk_administrador='${data[0]}'`,
     function (error, results, fields) {
@@ -1614,9 +1614,73 @@ const GetresultGlobalSurveyEEO = async data => {
     })
   }; 
   
+  const EmployeeActive = async data => {
+    console.log("la data es ",data)
+    return  new Promise((resolve, reject) => {
+        client.query(`select * from empleados where fk_administrador = '${data[0]}' and empleadoActivo='true' limit 1`,
+          function (error, results, fields) {
+          var string=JSON.stringify(results);
+          var resultados =  JSON.parse(string);
+          console.log("los resuktadis son", resultados)
+          resolve(resultados
+          ) 
+        },
+      )
+      })
+    }; 
+    const DeptoActive = async data => {
+      console.log("la data es ",data)
+      return  new Promise((resolve, reject) => {
+          client.query(`select * from departamentos where fk_administrador = '${data[0]}' and DepartamentoActivo='true' limit 1`,
+            function (error, results, fields) {
+            var string=JSON.stringify(results);
+            var resultados =  JSON.parse(string);
+            console.log("los resu son", resultados)
+            resolve(resultados
+            ) 
+          },
+        )
+        })
+      }; 
+      const SucActive = async data => {
+        console.log("la data es ",data)
+        return  new Promise((resolve, reject) => {
+            client.query(`select * from sucursales where fk_administrador = '${data[0]}' and SucursalActiva='true' limit 1`,
+              function (error, results, fields) {
+              var string=JSON.stringify(results);
+              var resultados =  JSON.parse(string);
+              console.log("los resu son", resultados)
+              resolve(resultados
+              ) 
+            },
+          )
+          })
+        }; 
+        const PuestoActive = async data => {
+          console.log("la data es ",data)
+          return  new Promise((resolve, reject) => {
+              client.query(`select * from puestos where fk_administrador = '${data[0]}' and PuestoActivo='true' limit 1`,
+                function (error, results, fields) {
+                var string=JSON.stringify(results);
+                var resultados =  JSON.parse(string);
+                console.log("los resu son", resultados)
+                resolve(resultados
+                ) 
+              },
+            )
+            })
+          }; 
+        
+
+      
+    
     
 
       module.exports = {
+        PuestoActive,
+        SucActive,
+        DeptoActive,
+        EmployeeActive,
         GetresultGlobalSurveyEEO,
         GetEmployeesResolvesEEO,
         GetresultGlobalSurveyRP,

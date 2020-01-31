@@ -144,8 +144,33 @@ const getresultGlobalSurveyEEO= async (_, { data }) => {
     .then( res => res)
     .catch( err => err );
 };
+const employeeActive= async (_, { data }) => {
+    return actions.EmployeeActive(data)
+    .then( res => res)
+    .catch( err => err );
+};
+const deptoActive= async (_, { data }) => {
+    return actions.DeptoActive(data)
+    .then( res => res)
+    .catch( err => err );
+};
+const sucActive= async (_, { data }) => {
+    return actions.SucActive(data)
+    .then( res => res)
+    .catch( err => err );
+};
+const puestoActive= async (_, { data }) => {
+    return actions.PuestoActive(data)
+    .then( res => res)
+    .catch( err => err );
+};
+     
      
      module.exports = {
+        puestoActive,
+        sucActive,
+        deptoActive,
+        employeeActive,
         getresultGlobalSurveyEEO,
         getEmployeesResolvesEEO,
         getresultGlobalSurveyRP,
