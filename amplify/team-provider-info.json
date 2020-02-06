@@ -1,0 +1,15 @@
+{
+    "master": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-frontplataformadigit-master-175522-authRole",
+            "UnauthRoleArn": "arn:aws:iam::220689864549:role/amplify-frontplataformadigit-master-175522-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::220689864549:role/amplify-frontplataformadigit-master-175522-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "amplify-frontplataformadigit-master-175522-deployment",
+            "UnauthRoleName": "amplify-frontplataformadigit-master-175522-unauthRole",
+            "StackName": "amplify-frontplataformadigit-master-175522",
+            "StackId": "arn:aws:cloudformation:us-east-1:220689864549:stack/amplify-frontplataformadigit-master-175522/844a3ec0-4777-11ea-befa-124c09213289",
+            "AmplifyAppId": "d24bdq0b8mv9a2"
+        }
+    }
+}

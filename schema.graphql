@@ -29,6 +29,9 @@ scalar Upload
     deptoActive(data: [String]!):[depActive]
     sucActive(data: [String]!):[sucuActive]
     puestoActive(data: [String]!):[puesActive]
+    getPeriodo(data: [String]!):[periodo]
+    getPeriodoDesabilited(data: [String]!):[periodo]
+    getEventos(data: [String]!):Data
  }        
 
  
@@ -92,6 +95,9 @@ updateEmployees(data:[String]!):Data!
 updateSucursales(data:[String]!):Data! 
 updateDeptos(data:[String]!):Data! 
 updatePuestos(data:[String]!):Data! 
+addPeriodo(data:[String]!):Data! 
+  deletePeriodo(data: [String]!):[Data]
+  updatePeriodo(data: [String]!):[Data]
 }
 
 type Sucursales {
@@ -149,6 +155,7 @@ type Employees{
   Sexo:String
   AreaTrabajo:String
   Puesto:String
+  CentroTrabajo:String
 }
 
 
@@ -250,6 +257,11 @@ type respuestas {
     PuestoActivo:String,
 
     }
+type periodo {
+  idEventos:String
+  fk_administrador:String
+  evento:String
+}
 type respuestasRP {
     id:String,
     Respuestas:String,
@@ -316,7 +328,6 @@ input UserCreateInput {
   last_name: String
   rfc:String!
   razon_social:String!
-  user:String!
   email: String!
   password: String!
 }

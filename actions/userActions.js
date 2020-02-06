@@ -19,7 +19,7 @@ const signup =   (user) => {
           console.log(hash)
           resolve({ message: 'Signup exitoso',token:hash})
          client
-    .query(`insert into administrador(nombre,Apellidos, RFC,RazonSocial,Usuario, correo,contraseña,Activo) values ('${user.first_name}','${user.last_name}','${user.rfc}','${user.razon_social}','${user.user}','${user.email}', '${hash}','true')`); 
+    .query(`insert into administrador(nombre,Apellidos, RFC,RazonSocial, correo,contraseña,Activo) values ('${user.first_name}','${user.last_name}','${user.rfc}','${user.razon_social}','${user.email}', '${hash}','true')`); 
     console.log("el response",user)
         }
       })
@@ -87,7 +87,7 @@ const registerSingleEm =  async (data) => {
       var string=JSON.stringify(results);
       var resultados =  JSON.parse(string); 
         client
-      .query(`insert into empleados (nombre,ApellidoP,ApellidoM,Curp,RFC,FechaNacimiento,Sexo,CP,EstadoCivil,correo,AreaTrabajo,Puesto,Ciudad,NivelEstudios,TipoPersonal,JornadaTrabajo,TipoContratacion,TiempoPuesto,ExperienciaLaboral,RotacionTurnos,fk_administrador,ATSContestado,RPContestado,EEOContestado,ATSDetectado,EmpleadoActivo) values ('${data[0]}', '${data[1]}', '${data[2]}', '${data[3]}', '${data[4]}', '${data[5]}', '${data[6]}', '${data[7]}', '${data[8]}', '${data[9]}', '${data[10]}', '${data[11]}', '${data[12]}', '${data[13]}', '${data[14]}', '${data[15]}', '${data[16]}', '${data[17]}', '${data[18]}', '${data[19]}','${resultados[0].id}','false','false','false','false','true')`); 
+      .query(`insert into empleados (nombre,ApellidoP,ApellidoM,Curp,RFC,FechaNacimiento,Sexo,CP,EstadoCivil,CentroTrabajo,correo,AreaTrabajo,Puesto,Ciudad,NivelEstudios,TipoPersonal,JornadaTrabajo,TipoContratacion,TiempoPuesto,ExperienciaLaboral,RotacionTurnos,fk_administrador,ATSContestado,RPContestado,EEOContestado,ATSDetectado,EmpleadoActivo) values ('${data[0]}', '${data[1]}', '${data[2]}', '${data[3]}', '${data[4]}', '${data[5]}', '${data[6]}', '${data[7]}', '${data[8]}', '${data[22]}','${data[9]}', '${data[10]}', '${data[11]}', '${data[12]}', '${data[13]}', '${data[14]}', '${data[15]}', '${data[16]}', '${data[17]}', '${data[18]}', '${data[19]}','${resultados[0].id}','false','false','false','false','true')`); 
       resolve({
         message: 'registro exitoso',
       });
@@ -158,6 +158,7 @@ if(data[0]=="no"){
       client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados) values ('${data[0]}','14','${resultados[0].id}')`);
       client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados) values ('${data[0]}','15','${resultados[0].id}')`);
       client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados) values ('${data[0]}','16','${resultados[0].id}')`);
+      client.query(`update empleados set ATSContestado='true' where id = ${resultados[0].id} `);
       return  client       
   },
 )
@@ -764,7 +765,7 @@ const EEOPage11 = async data => {
       if (error) reject(error) 
         var string=JSON.stringify(results);
         var resultados =  JSON.parse(string); 
-        resolve(resultados)
+        resolve({message:"exito"})
           client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[0]}','47','${resultados[0].id}')`); 
           client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[1]}','48','${resultados[0].id}')`); 
           client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados) values ('${data[2]}','49','${resultados[0].id}')`); 
@@ -894,7 +895,6 @@ return  new Promise((resolve, reject) => {
 
 
 const RPPoliticaPrivacidad = async data => {
-
   console.log("datauseraction" ,  data)
 
   return  new Promise((resolve, reject) => {
@@ -1059,6 +1059,7 @@ const ResultSingleSurveyRP = async data => {
 
 const ResultSingleSurveyEEO = async data => {
   return  new Promise((resolve, reject) => {
+  console.log("el id del empleado es " , data.data[0])
       client
       .query(`select * from empleados inner join respuestasEEO on respuestasEEO.fk_empleados = empleados.id where empleados.id = ${data.data[0]} `,
         function (error, results, fields) {
@@ -1260,6 +1261,7 @@ const RegisterPuesto = async data => {
   };
 
 const GetPuestos = async data => { 
+  console.log("la data en useractions getpuestos es " , data)
   return new Promise((resolve, reject) => {
     client.query(`select  *  from  administrador where correo='${data}'`,
     function (error, results, fields) {
@@ -1561,7 +1563,7 @@ const GetEmployeesATSDetectado = async data => {
 const GetEmployeesResolvesRP = async data => { 
 
   return new Promise((resolve, reject) => {
-    client.query(`select  empleados.id,empleados.nombre,empleados.ApellidoP,empleados.ApellidoM,empleados.Sexo, empleados.AreaTrabajo,empleados.Puesto from empleados where fk_Administrador='${data[0]}' and RPContestado='true' and EmpleadoActivo='true'`,                                                                                   function (error, results, fields) {
+    client.query(`select  empleados.id,empleados.nombre,empleados.ApellidoP,empleados.ApellidoM,empleados.Sexo,empleados.CentroTrabajo, empleados.AreaTrabajo,empleados.Puesto from empleados where fk_Administrador='${data[0]}' and RPContestado='true' and EmpleadoActivo='true'`,                                                                                   function (error, results, fields) {
       var string=JSON.stringify(results);
       var resultados =  JSON.parse(string);   
       resolve(resultados)
@@ -1589,7 +1591,7 @@ const GetresultGlobalSurveyRP = async data => {
 const GetEmployeesResolvesEEO = async data => { 
 
   return new Promise((resolve, reject) => {
-    client.query(`select  empleados.id,empleados.nombre,empleados.ApellidoP,empleados.ApellidoM,empleados.Sexo, empleados.AreaTrabajo,empleados.Puesto from empleados where fk_Administrador='${data[0]}' and EEOContestado='true' and EmpleadoActivo='true'`,                                                                                   function (error, results, fields) {
+    client.query(`select  empleados.id,empleados.nombre,empleados.ApellidoP,empleados.ApellidoM,empleados.Sexo,empleados.CentroTrabajo, empleados.AreaTrabajo,empleados.Puesto from empleados where fk_Administrador='${data[0]}' and EEOContestado='true' and EmpleadoActivo='true'`,                                                                                   function (error, results, fields) {
       var string=JSON.stringify(results);
       var resultados =  JSON.parse(string);   
       resolve(resultados)
@@ -1670,13 +1672,94 @@ const GetresultGlobalSurveyEEO = async data => {
             )
             })
           }; 
-        
+        const AddPeriodo = async data => {
+          console.log("la data en add periodo es ",data)
+          return  new Promise((resolve, reject) => {
+              client.query(`insert into eventos(fk_administrador,evento,EventoActivo) values ('${data[1]}','${data[0]}','true')`,
+             resolve({message:"registro exitoso"})
+            )
+            })
+          }; 
+          
+        const GetPeriodo = async data => {
+          console.log("la data es ",data)
+          return  new Promise((resolve, reject) => {
+              client.query(`select * from eventos where fk_administrador = '${data[0]}' and EventoActivo='true'`,
+                function (error, results, fields) {
+                var string=JSON.stringify(results);
+                var resultados =  JSON.parse(string);
+                console.log("los resu son", resultados)
+                resolve(resultados
+                ) 
+              },
+            )
+            })
+          };   
 
-      
+        const DeletePeriodo = async data => {
+          console.log("la data es ",data)
+          return  new Promise((resolve, reject) => {
+              client.query(`update eventos set eventoActivo='false' where fk_Administrador='${data[1]}' and evento='${data[0]}' `,
+              resolve({message:"evento Actualizado"})
+            )
+            })
+          };   
+  
     
-    
+        const GetPeriodoDesabilited = async data => {
+          console.log("la data es ",data)
+          return  new Promise((resolve, reject) => {
+              client.query(`select * from eventos where fk_administrador = '${data[0]}' and EventoActivo='false'`,
+                function (error, results, fields) {
+                var string=JSON.stringify(results);
+                var resultados =  JSON.parse(string);
+                console.log("los resu son", resultados)
+                resolve(resultados
+                ) 
+              },
+            )
+            })
+          };  
+
+          const UpdatePeriodo = async data => {
+            console.log("la data es ",data)
+            return  new Promise((resolve, reject) => {
+                client.query(`update eventos set eventoActivo='true' where fk_Administrador='${data[1]}' and evento='${data[0]}' `,
+                resolve({message:"evento Actualizado"})
+              )
+              })
+            };   
+
+            const GetEventos = async data => {
+
+              return  new Promise((resolve, reject) => {
+                client
+                .query(`select * from  eventos where fk_administrador='${data[0]}' and EventoActivo='true'`,
+                  function (error, results, fields) {
+                  if (error) reject(error) 
+                  var string=JSON.stringify(results);
+                  var resultados =  JSON.parse(string); 
+                  if(resultados[0]){
+                
+                  console.log("results",resultados[0])
+                  resolve({message:"evento encontrado"})  
+                   
+                  }else{
+                    resolve({message:"exito"})
+                  }
+                },
+              )
+              })
+              }; 
+          
 
       module.exports = {
+        GetEventos,
+        UpdatePeriodo,
+        GetPeriodoDesabilited,
+        DeletePeriodo,
+        GetPeriodo,
+        AddPeriodo,
         PuestoActive,
         SucActive,
         DeptoActive,

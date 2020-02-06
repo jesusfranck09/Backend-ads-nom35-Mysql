@@ -164,9 +164,26 @@ const puestoActive= async (_, { data }) => {
     .then( res => res)
     .catch( err => err );
 };
-     
-     
+ 
+const getPeriodo= async (_, { data }) => {
+    return actions.GetPeriodo(data)
+    .then( res => res)
+    .catch( err => err );
+};
+const getPeriodoDesabilited= async (_, { data }) => {
+    return actions.GetPeriodoDesabilited(data)
+    .then( res => res)
+    .catch( err => err );
+};
+const getEventos= async (_, { data }) => {
+    return actions.GetEventos(data)
+    .then( res => res)
+    .catch( err => err );
+};
      module.exports = {
+        getEventos,
+        getPeriodoDesabilited,
+        getPeriodo,
         puestoActive,
         sucActive,
         deptoActive,

@@ -431,12 +431,33 @@ const updatePuestos= async (_, { data }) => {
     return updatePue;
 };
 
+const addPeriodo= async (_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    const add = await  actions.AddPeriodo(divisiones)
+    return add;
+};
 
+const deletePeriodo= async (_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    const deleteP = await  actions.DeletePeriodo(divisiones)
+    return deleteP;
+};
 
+const updatePeriodo= async (_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    const updatep = await  actions.UpdatePeriodo(divisiones)
+    return updatep;
+};
 
 
 
 module.exports = {
+    updatePeriodo,
+    deletePeriodo,
+    addPeriodo,
     updatePuestos,
     updateDeptos,
     updateSucursales,
