@@ -445,17 +445,17 @@ const deletePeriodo= async (_, { data }) => {
     return deleteP;
 };
 
-const updatePeriodo= async (_, { data }) => {
-    var miCadena =data[0];
-    var divisiones = miCadena.split(",");
-    const updatep = await  actions.UpdatePeriodo(divisiones)
-    return updatep;
-};
+// const updatePeriodo= async (_, { data }) => {
+//     var miCadena =data[0];
+//     var divisiones = miCadena.split(",");
+//     const updatep = await  actions.UpdatePeriodo(divisiones)
+//     return updatep;
+// };
 
 
 
 module.exports = {
-    updatePeriodo,
+    // updatePeriodo,
     deletePeriodo,
     addPeriodo,
     updatePuestos,

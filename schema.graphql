@@ -32,6 +32,7 @@ scalar Upload
     getPeriodo(data: [String]!):[periodo]
     getPeriodoDesabilited(data: [String]!):[periodo]
     getEventos(data: [String]!):Data
+    getEmployeesFkAdmin(data: [String]!):[JsonEmployee]
  }        
 
  
@@ -97,7 +98,7 @@ updateDeptos(data:[String]!):Data!
 updatePuestos(data:[String]!):Data! 
 addPeriodo(data:[String]!):Data! 
   deletePeriodo(data: [String]!):[Data]
-  updatePeriodo(data: [String]!):[Data]
+  # updatePeriodo(data: [String]!):[Data]
 }
 
 type Sucursales {
@@ -156,6 +157,7 @@ type Employees{
   AreaTrabajo:String
   Puesto:String
   CentroTrabajo:String
+  periodo:String,
 }
 
 
@@ -267,6 +269,7 @@ type respuestasRP {
     Respuestas:String,
     fk_preguntasRP:String,
     fk_EmpleadosRP:String,
+    Periodo:String,
     nombre: String,
     ApellidoP:String,
     ApellidoM:String,
@@ -362,6 +365,7 @@ type SurveyData {
   ApellidoP:String
   ApellidoM:String
   correo:String
+  fk_administrador:String
   message: String
 }
 

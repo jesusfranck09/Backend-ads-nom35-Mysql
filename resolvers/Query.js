@@ -130,7 +130,7 @@ const getresultGlobalSurveyRP= async (_, { data }) => {
 
     var divisiones = miCadena.split(",");
     console.log("divisiones",divisiones)
-    return actions.GetresultGlobalSurveyRP(data)
+    return actions.GetresultGlobalSurveyRP(divisiones)
     .then( res => res)
     .catch( err => err );
 };
@@ -180,7 +180,13 @@ const getEventos= async (_, { data }) => {
     .then( res => res)
     .catch( err => err );
 };
+const getEmployeesFkAdmin= async (_, { data }) => {
+    return actions.GetEmployeesFkAdmin(data)
+    .then( res => res)
+    .catch( err => err );
+};
      module.exports = {
+        getEmployeesFkAdmin,
         getEventos,
         getPeriodoDesabilited,
         getPeriodo,
