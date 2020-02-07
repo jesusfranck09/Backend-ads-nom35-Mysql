@@ -1,7 +1,7 @@
 scalar Upload
 
  type Query{
-     getUsersTableEmployees(email:String):[JsonEmployee]
+     getUsersTableEmployees(data: [String]!):[JsonEmployee]
      resultSingleSurvey(data: [String]!):[ respuestas]
      resultSingleSurveyRP(data: [String]!):[ respuestasRP]
      resultSingleSurveyEEO(data: [String]!):[ respuestasEEO]
