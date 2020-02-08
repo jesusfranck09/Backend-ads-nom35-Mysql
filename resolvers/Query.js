@@ -2,21 +2,20 @@ const actions = require('../actions');
 const client = require('../database/');
 
 
-// const getUsersTableEmployees = (_,args ) => {
-//           return actions.getUsers(args)
-//           .then( res => res)
-//            .catch( err => err );
-                      
-// }
-const getUsersTableEmployees= async (_, { data }) => {
+const getUsersTableEmployeesthisPeriodo= async (_, { data }) => {
     var miCadena =data[0];
-
     var divisiones = miCadena.split(",");
     console.log("divisiones",divisiones)
-    return actions.getUsers(divisiones)
+    return actions.GetUsersTableEmployeesthisPeriodo(divisiones)
     .then( res => res)
     .catch( err => err );
 };
+const getUsersTableEmployees = (_,args ) => {
+    return actions.getUsers(args)
+    .then( res => res)
+     .catch( err => err );
+                
+}
 
 const resultSingleSurvey = (_,args ) => {
      return actions.ResultSingleSurvey(args)
@@ -149,7 +148,11 @@ const getEmployeesResolvesEEO= async (_, { data }) => {
     .catch( err => err );
 };
 const getresultGlobalSurveyEEO= async (_, { data }) => {
-    return actions.GetresultGlobalSurveyEEO(data)
+    var miCadena =data[0];
+
+    var divisiones = miCadena.split(",");
+ 
+    return actions.GetresultGlobalSurveyEEO(divisiones)
     .then( res => res)
     .catch( err => err );
 };
@@ -194,7 +197,18 @@ const getEmployeesFkAdmin= async (_, { data }) => {
     .then( res => res)
     .catch( err => err );
 };
+
+const getUsersTableEmployeesthisPeriodoEEO= async (_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    console.log("divisiones",divisiones)
+    return actions.GetUsersTableEmployeesthisPeriodoEEO(divisiones)
+    .then( res => res)
+    .catch( err => err );
+};
      module.exports = {
+        getUsersTableEmployeesthisPeriodoEEO,
+        getUsersTableEmployeesthisPeriodo,
         getEmployeesFkAdmin,
         getEventos,
         getPeriodoDesabilited,

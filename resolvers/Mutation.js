@@ -452,9 +452,15 @@ const deletePeriodo= async (_, { data }) => {
 //     return updatep;
 // };
 
-
+const addPeriodoInicial= async (_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    const add = await  actions.AddPeriodoInicial(divisiones)
+    return add;
+};
 
 module.exports = {
+    addPeriodoInicial,
     // updatePeriodo,
     deletePeriodo,
     addPeriodo,

@@ -1,7 +1,9 @@
 scalar Upload
 
  type Query{
-     getUsersTableEmployees(data: [String]!):[JsonEmployee]
+   getUsersTableEmployeesthisPeriodo(data: [String]!):[JsonEmployee]
+     getUsersTableEmployeesthisPeriodoEEO(data: [String]!):[JsonEmployee]
+  getUsersTableEmployees(email:String):[JsonEmployee]
      resultSingleSurvey(data: [String]!):[ respuestas]
      resultSingleSurveyRP(data: [String]!):[ respuestasRP]
      resultSingleSurveyEEO(data: [String]!):[ respuestasEEO]
@@ -98,6 +100,7 @@ updateDeptos(data:[String]!):Data!
 updatePuestos(data:[String]!):Data! 
 addPeriodo(data:[String]!):Data! 
   deletePeriodo(data: [String]!):[Data]
+  addPeriodoInicial(data: [String]!):Data
   # updatePeriodo(data: [String]!):[Data]
 }
 

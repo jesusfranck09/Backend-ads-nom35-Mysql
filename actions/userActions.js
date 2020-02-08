@@ -1013,11 +1013,11 @@ return  client
 
 const getUsers = async data => {
 
-  console.log("datauseraction getusers" ,  data[0])
+  // console.log("datauseraction getusers" ,  data)
 
   return  new Promise((resolve, reject) => {
       client
-      .query(`select * from empleados inner join periodos on periodos.fk_empleados = empleados.id  where empleados.fk_administrador='${data[0]}' and empleados.EmpleadoActivo='true'and periodos.periodo='${data[1]}' and periodos.encuesta='RP'`,
+      .query(`select empleados.id,empleados.nombre,empleados.ApellidoP,empleados.ApellidoM,empleados.Curp,empleados.rfc,empleados.FechaNacimiento,empleados.Sexo,empleados.cp,empleados.EstadoCivil,empleados.correo,empleados.AreaTrabajo,empleados.Puesto,empleados.Ciudad,empleados.NivelEstudios,empleados.TipoPersonal,empleados.JornadaTrabajo,empleados.TipoContratacion,empleados.TiempoPuesto,empleados.ExperienciaLaboral,empleados.RotacionTurnos,empleados.fk_administrador,empleados.ATSContestado,empleados.RPContestado, empleados.EEOContestado from empleados inner join administrador on empleados.fk_administrador= administrador.id where administrador.correo='${data.email}' and empleados.EmpleadoActivo='true' `,
         function (error, results, fields) {
         if (error) reject(error) 
         var string=JSON.stringify(results);
@@ -1596,13 +1596,13 @@ const GetresultGlobalSurveyRP = async data => {
   }; 
   
 const GetEmployeesResolvesEEO = async data => { 
-
+  
   return new Promise((resolve, reject) => {
-    client.query(`select  empleados.id,empleados.nombre,empleados.ApellidoP,empleados.ApellidoM,empleados.Sexo,empleados.CentroTrabajo, empleados.AreaTrabajo,empleados.Puesto from empleados where fk_Administrador='${data[0]}' and EEOContestado='true' and EmpleadoActivo='true'`,                                                                                   function (error, results, fields) {
+    client.query(`select * from empleados inner join periodos on periodos.fk_empleados = empleados.id where empleados.fk_Administrador='${data[0]}'  and empleados.EmpleadoActivo='true' and periodos.encuesta='EEO'`,                                                                                   function (error, results, fields) {
       var string=JSON.stringify(results);
       var resultados =  JSON.parse(string);   
       resolve(resultados)
-    //  console.log("resultados" , resultados) 
+     console.log("resultados" , JSON.stringify(data)) 
       return client
     },
   )
@@ -1611,11 +1611,11 @@ const GetEmployeesResolvesEEO = async data => {
 const GetresultGlobalSurveyEEO = async data => {
   console.log("la data es ",data[0])
   return  new Promise((resolve, reject) => {
-      client.query(`select * from empleados inner join respuestaseeo on respuestaseeo.fk_empleados = empleados.id where empleados.id = ${data[0]} `,
+      client.query(`select * from empleados inner join respuestaseeo on respuestaseeo.fk_empleados = empleados.id where empleados.id =' ${data[0]}'  and respuestaseeo.periodo='${data[1]}'`,
         function (error, results, fields) {
         var string=JSON.stringify(results);
         var resultados =  JSON.parse(string);
-        console.log("los resuktadis son", resultados)
+        console.log(`select * from empleados inner join respuestaseeo on respuestaseeo.fk_empleados = empleados.id where empleados.id =' ${data[0]}'  and respuestaseeo.periodo='${data[1]}'`)
         resolve(resultados
         ) 
       },
@@ -1778,10 +1778,59 @@ const GetresultGlobalSurveyEEO = async data => {
             )
             })
             }; 
-          
+          const AddPeriodoInicial = async data => {
+
+            return  new Promise((resolve, reject) => {
+              client
+              .query(`select MAX(id) as id from administrador`,
+                function (error, results, fields) {
+                if (error) reject(error) 
+                var string=JSON.stringify(results);
+              var resultados = JSON.parse(string)
+                console.log("estos son los resultados obtenidos",resultados[0].id)
+                 client.query(`insert into eventos (fk_administrador,evento,EventoActivo) values ('${resultados[0].id}','${data[0]}','true')`,     
+                resolve(client)  
+                  
+                 )
+              },
+            )
+            })
+            }; 
+          const GetUsersTableEmployeesthisPeriodo = async data => {
+            console.log("la data es " , data)
+            return  new Promise((resolve, reject) => {
+              client.query(`select * from empleados inner join periodos on periodos.fk_empleados = empleados.id  where empleados.fk_administrador='${data[0]}' and empleados.EmpleadoActivo='true'and periodos.periodo='${data[1]}' and periodos.encuesta='RP'`,
+                function (error, results, fields) {
+                if (error) reject(error) 
+                var string=JSON.stringify(results);
+                var resultados =  JSON.parse(string); 
+                resolve(resultados) 
+                // console.log("resultados getusers",resultados)
+              },
+            )
+            })
+            }; 
+          const GetUsersTableEmployeesthisPeriodoEEO = async data => {
+            console.log("la data es " , data)
+            return  new Promise((resolve, reject) => {
+              client.query(`select * from empleados inner join periodos on periodos.fk_empleados = empleados.id  where empleados.fk_administrador='${data[0]}' and empleados.EmpleadoActivo='true'and periodos.periodo='${data[1]}' and periodos.encuesta='EEO'`,
+                function (error, results, fields) {
+                if (error) reject(error) 
+                var string=JSON.stringify(results);
+                var resultados =  JSON.parse(string); 
+                resolve(resultados) 
+                // console.log("resultados getusers",resultados)
+              },
+            )
+            })
+            }; 
+  
 
       module.exports = {
+        GetUsersTableEmployeesthisPeriodoEEO,
+        GetUsersTableEmployeesthisPeriodo,
         GetEmployeesFkAdmin,
+        AddPeriodoInicial,
         GetEventos,
         // UpdatePeriodo,
         GetPeriodoDesabilited,
