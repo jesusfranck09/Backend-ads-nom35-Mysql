@@ -206,7 +206,13 @@ const getUsersTableEmployeesthisPeriodoEEO= async (_, { data }) => {
     .then( res => res)
     .catch( err => err );
 };
+const getAdminFechaRegistro= async (_, { data }) => {
+    return actions.GetAdminFechaRegistro(data)
+    .then( res => res)
+    .catch( err => err );
+};
      module.exports = {
+        getAdminFechaRegistro,
         getUsersTableEmployeesthisPeriodoEEO,
         getUsersTableEmployeesthisPeriodo,
         getEmployeesFkAdmin,

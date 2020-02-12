@@ -1,6 +1,7 @@
 scalar Upload
 
  type Query{
+   getAdminFechaRegistro(data: [String]!):admin
    getUsersTableEmployeesthisPeriodo(data: [String]!):[JsonEmployee]
      getUsersTableEmployeesthisPeriodoEEO(data: [String]!):[JsonEmployee]
   getUsersTableEmployees(email:String):[JsonEmployee]
@@ -195,7 +196,7 @@ type  JsonEmployee{
 
 type Auth {
 message:String!
-token:String!
+token:String
 id:String
 nombre:String
 Apellidos:String
@@ -332,10 +333,11 @@ id:String!
 input UserCreateInput {
   first_name: String
   last_name: String
-  rfc:String!
-  razon_social:String!
-  email: String!
-  password: String!
+  rfc:String
+  razon_social:String
+  email: String
+  password: String
+  
 }
 
 
@@ -386,4 +388,7 @@ type MaxidEmployeesResolves{
 type idEmployees{
 id:String
 
+}
+type admin {
+  fechaRegistro:String!
 }
