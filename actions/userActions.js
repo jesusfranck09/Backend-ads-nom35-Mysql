@@ -525,10 +525,10 @@ const RPValidadorPage7 = async data => {
         resolve(resultados)
 
         if(data[0]=="si"){
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo) values ('${data[0]}','48','${resultados[0].id}','${data[2]}')`); 
+          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[0]}','48','${resultados[0].id}','${data[2]}','${0}')`); 
           return  client   
         }  else if(data[0]=="no"){
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo) values ('${data[0]}','48','${resultados[0].id}','${data[2]}')`); 
+          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[0]}','48','${resultados[0].id}','${data[2]}','${0}')`); 
           client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('No','41','${resultados[0].id}','${data[2]}','${0}')`); 
           client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('No','42','${resultados[0].id}','${data[2]}','${0}')`); 
           client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('No','43','${resultados[0].id}','${data[2]}','${0}')`); 
@@ -552,10 +552,10 @@ return new Promise((resolve, reject) => {
       resolve(resultados)
       
       if(data[0]=="si"){
-        client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo) values ('${data[0]}','49','${resultados[0].id}','${data[2]}')`); 
+        client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[0]}','49','${resultados[0].id}','${data[2]}','${0}')`); 
         return  client    
       }else if(data[0]=="no"){
-        client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo) values ('${data[0]}','49','${resultados[0].id}','${data[2]}')`); 
+        client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[0]}','49','${resultados[0].id}','${data[2]}','${0}')`); 
         client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('No','44','${resultados[0].id}','${data[2]}','${0}')`); 
         client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('No','45','${resultados[0].id}','${data[2]}','${0}')`); 
         client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('No','46','${resultados[0].id}','${data[2]}','${0}')`); 
@@ -956,7 +956,7 @@ const RPPoliticaPrivacidad = async data => {
         console.log("los resultados son " , resultados[0])
         resolve(resultados[0])  
           client
-          .query(`insert into respuestasRP(Respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo) values ('${data[1]}','47','${resultados[0].id}','${data[2]}')`); 
+          .query(`insert into respuestasRP(Respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[1]}','47','${resultados[0].id}','${data[2]}','${0}')`); 
           return  client
         }else{
           resolve({message:"usuario incorrecto"})
@@ -977,7 +977,7 @@ const EEOPoliticaPrivacidad = async data => {
         var resultados =  JSON.parse(string); 
         resolve(resultados[0]) 
           client
-          .query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo) values ('${data[1]}','73','${resultados[0].id}','${data[2]}')`); 
+          .query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[1]}','73','${resultados[0].id}','${data[2]}','${0}')`); 
           return  client
         }else{
           resolve({message:"usuario incorrecto"})
@@ -1057,11 +1057,11 @@ return  client
 
 const getUsers = async data => {
 
-  // console.log("datauseraction getusers" ,  data)
+  console.log("datauseraction getusers" , `select * from empleados where fk_administrador = '${data.data[0]}' and empleadoActivo ='true' and atsContestado='false' and rpContestado='false' and eeoContestado ='false' `)
 
   return  new Promise((resolve, reject) => {
       client
-      .query(`select empleados.id,empleados.nombre,empleados.ApellidoP,empleados.ApellidoM,empleados.Curp,empleados.rfc,empleados.FechaNacimiento,empleados.Sexo,empleados.cp,empleados.EstadoCivil,empleados.correo,empleados.AreaTrabajo,empleados.Puesto,empleados.Ciudad,empleados.NivelEstudios,empleados.TipoPersonal,empleados.JornadaTrabajo,empleados.TipoContratacion,empleados.TiempoPuesto,empleados.ExperienciaLaboral,empleados.RotacionTurnos,empleados.fk_administrador,empleados.ATSContestado,empleados.RPContestado, empleados.EEOContestado from empleados inner join administrador on empleados.fk_administrador= administrador.id where administrador.correo='${data.email}' and empleados.EmpleadoActivo='true' `,
+      .query(`select * from empleados where fk_administrador = '${data.data[0]}' and EmpleadoActivo ='true' or atsContestado='false' or rpContestado='false' or eeoContestado ='false' `,
         function (error, results, fields) {
         if (error) reject(error) 
         var string=JSON.stringify(results);
@@ -1733,7 +1733,7 @@ const GetresultGlobalSurveyEEO = async data => {
           }; 
           
         const GetPeriodo = async data => {
-          console.log("la data es ",data)
+          console.log(`select * from eventos where fk_administrador = '${data[0]}' and EventoActivo='true'`)
           return  new Promise((resolve, reject) => {
               client.query(`select * from eventos where fk_administrador = '${data[0]}' and EventoActivo='true'`,
                 function (error, results, fields) {
@@ -1880,11 +1880,26 @@ const GetresultGlobalSurveyEEO = async data => {
             )
             })
             }; 
-    
+            const GetUsersTableEmployeesthisPeriodoATS = async data => {
+              console.log("la data que revcibo es es " , data)
+              console.log("la consulta",`select * from empleados inner join periodos on periodos.fk_empleados = empleados.id  where empleados.fk_administrador='${data[0]}' and empleados.EmpleadoActivo='true'and periodos.periodo='${data[1]}' and periodos.encuesta='ATS'`)
+              return  new Promise((resolve, reject) => {
+                client.query(`select * from empleados inner join periodos on periodos.fk_empleados = empleados.id  where empleados.fk_administrador='${data[0]}' and empleados.EmpleadoActivo='true'and periodos.periodo='${data[1]}' and periodos.encuesta='ATS'`,
+                  function (error, results, fields) {
+                  if (error) reject(error) 
+                  var string=JSON.stringify(results);
+                  var resultados =  JSON.parse(string); 
+                  resolve(resultados) 
+                  // console.log("resultados getusers",resultados)
+                },
+              )
+              })
+              }; 
   
   
 
       module.exports = {
+        GetUsersTableEmployeesthisPeriodoATS,
         GetAdminFechaRegistro,
         GetUsersTableEmployeesthisPeriodoEEO,
         GetUsersTableEmployeesthisPeriodo,

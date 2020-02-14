@@ -211,7 +211,18 @@ const getAdminFechaRegistro= async (_, { data }) => {
     .then( res => res)
     .catch( err => err );
 };
+
+const getUsersTableEmployeesthisPeriodoATS= async (_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    console.log("divisiones",divisiones)
+    return actions.GetUsersTableEmployeesthisPeriodoATS(divisiones)
+    .then( res => res)
+    .catch( err => err );
+};
+
      module.exports = {
+        getUsersTableEmployeesthisPeriodoATS,
         getAdminFechaRegistro,
         getUsersTableEmployeesthisPeriodoEEO,
         getUsersTableEmployeesthisPeriodo,

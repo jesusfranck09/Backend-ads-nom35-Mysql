@@ -3,8 +3,9 @@ scalar Upload
  type Query{
    getAdminFechaRegistro(data: [String]!):admin
    getUsersTableEmployeesthisPeriodo(data: [String]!):[JsonEmployee]
+   getUsersTableEmployeesthisPeriodoATS(data: [String]!):[JsonEmployee]
      getUsersTableEmployeesthisPeriodoEEO(data: [String]!):[JsonEmployee]
-  getUsersTableEmployees(email:String):[JsonEmployee]
+  getUsersTableEmployees(data:[String]!):[JsonEmployee]
      resultSingleSurvey(data: [String]!):[ respuestas]
      resultSingleSurveyRP(data: [String]!):[ respuestasRP]
      resultSingleSurveyEEO(data: [String]!):[ respuestasEEO]
@@ -273,6 +274,7 @@ type respuestasRP {
     Respuestas:String,
     fk_preguntasRP:String,
     fk_EmpleadosRP:String,
+    ponderacion:String,
     Periodo:String,
     nombre: String,
     ApellidoP:String,
@@ -303,6 +305,7 @@ type respuestasEEO {
     Respuestas:String,
     fk_preguntasEEO:String,
     fk_Empleados:String,
+    ponderacion:String,
     nombre: String,
     ApellidoP:String,
     ApellidoM:String,
