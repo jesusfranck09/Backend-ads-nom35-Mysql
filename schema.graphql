@@ -37,6 +37,7 @@ scalar Upload
     getPeriodoDesabilited(data: [String]!):[periodo]
     getEventos(data: [String]!):Data
     getEmployeesFkAdmin(data: [String]!):[JsonEmployee]
+     getEmpresas(data: [String]!):[DataAdmin]
  }        
 
  
@@ -103,6 +104,7 @@ updatePuestos(data:[String]!):Data!
 addPeriodo(data:[String]!):Data! 
   deletePeriodo(data: [String]!):[Data]
   addPeriodoInicial(data: [String]!):Data
+  addAdminEmpresa(data: [String]!):Auth
   # updatePeriodo(data: [String]!):[Data]
 }
 
@@ -208,6 +210,14 @@ correo:String
 Activo:String
 }
 
+type DataAdmin {
+id:String
+nombre:String
+Apellidos:String
+RFC:String
+RazonSocial:String
+correo:String
+}
 type regMAx{
 
 max:String!

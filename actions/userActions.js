@@ -14,7 +14,7 @@ const signup =   (user) => {
     console.log("user",user.email)
     if(user.email){
     client
-    .query(`select * from  administrador where correo='${user.email}'`,
+    .query(`select * from  superusuario where correo='${user.email}'`,
     
     function (error, results, fields) {
       var string=JSON.stringify(results);
@@ -23,7 +23,7 @@ const signup =   (user) => {
         resolve({ message:'duplicado'})
       }else{
         client
-        .query(`select * from  administrador where rfc='${user.rfc}'`,
+        .query(`select * from  superusuario where rfc='${user.rfc}'`,
         function (error, results, fields) {
           var string=JSON.stringify(results);
           var resultados =  JSON.parse(string); 
@@ -41,7 +41,7 @@ const signup =   (user) => {
                     // console.log(hash)
                     resolve({ message: 'Signup exitoso',token:hash})
                    client
-                    .query(`insert into administrador(nombre,Apellidos, RFC,RazonSocial, correo,contraseña,Activo,fechaRegistro) values ('${user.first_name}','${user.last_name}','${user.rfc}','${user.razon_social}','${user.email}', '${hash}','true','${fechaRegistro}')`); 
+                    .query(`insert into superusuario(nombre,Apellidos, RFC,RazonSocial, correo,contraseña,Activo,fechaRegistro) values ('${user.first_name}','${user.last_name}','${user.rfc}','${user.razon_social}','${user.email}', '${hash}','true','${fechaRegistro}')`); 
                     // console.log("el response",user)
                   }
                 })
@@ -66,7 +66,7 @@ const  login = async (email,password) => {
     console.log("el email" , email , "password", password)
     if(email && password){
       client
-      .query(`select * from  administrador where correo='${email}'`,
+      .query(`select * from  superusuario where correo='${email}'`,
      function (error, results, fields) {
         var string=JSON.stringify(results);
         var resultados =  JSON.parse(string); 
@@ -1895,10 +1895,47 @@ const GetresultGlobalSurveyEEO = async data => {
               )
               })
               }; 
+            const AddAdminEmpresa = async data => {
+
+              return  new Promise((resolve, reject) => {
+                client.query(`select * from administrador where rfc= '${data[2]}'`,
+                  function (error, results, fields) {
+                  if (error) reject(error) 
+                  var string=JSON.stringify(results);
+                  var resultados =  JSON.parse(string); 
+
+                  if(resultados[0]){
+                    resolve({message:"rfc duplicado"})
+
+                  }else{
+                    client.query(`insert into administrador (nombre, apellidos , RFC , RazonSocial ,correo,Activo,FechaRegistro,fk_superusuario) values ('${data[0]}','${data[1]}','${data[2]}','${data[3]}','${data[4]}','true','true','${data[5]}')`)
+                    resolve({message:"admin Registrado"})
+                  }
+                  
+                  // console.log("resultados getusers",resultados)
+                },
+              )
+              })
+              }; 
   
-  
+        const GetEmpresas = async data => {
+         
+          return  new Promise((resolve, reject) => {
+            client.query(`select * from administrador where fk_superusuario ='${data[0]}'`,
+              function (error, results, fields) {
+              if (error) reject(error) 
+              var string=JSON.stringify(results);
+              var resultados =  JSON.parse(string); 
+              resolve(resultados) 
+              // console.log("resultados getusers",resultados)
+            },
+          )
+          })
+          }; 
 
       module.exports = {
+        GetEmpresas,
+        AddAdminEmpresa,
         GetUsersTableEmployeesthisPeriodoATS,
         GetAdminFechaRegistro,
         GetUsersTableEmployeesthisPeriodoEEO,
