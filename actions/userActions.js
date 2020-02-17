@@ -65,15 +65,21 @@ const  login = async (email,password) => {
   return new Promise((resolve, reject) => {
     console.log("el email" , email , "password", password)
     if(email && password){
+      console.log("la contraseña" , password)
       client
       .query(`select * from  superusuario where correo='${email}'`,
      function (error, results, fields) {
         var string=JSON.stringify(results);
         var resultados =  JSON.parse(string); 
-        console.log("resukltados" , resultados)        
+        console.log("resukltados" , resultados)    
+          if(resultados[0]){
           bcrypt.compare(password,resultados[0].contraseña, function(err, result) {
             
-            if(result){resolve({
+            if(result){
+              
+              console.log("estos son los resultados;" , result)
+              resolve({
+              
                     message: 'Login exitoso',
                    token: createToken( resultados[0].correo, resultados[0].contraseña),
                    id:resultados[0].id,
@@ -90,6 +96,7 @@ const  login = async (email,password) => {
                   }
                   return result
         })
+      }
         
        
       },
@@ -126,12 +133,12 @@ const registerEm =  async (data) => {
 const registerSingleEm =  async (data) => {
   return new Promise((resolve, reject) => {
     client
-    .query(`select * from  administrador where correo='${data[20]}' and contraseña='${data[21]}'`,
+    .query(`select * from  administrador where correo='${data[20]}'`,
     function (error, results, fields) {
       var string=JSON.stringify(results);
       var resultados =  JSON.parse(string); 
         client
-      .query(`insert into empleados (nombre,ApellidoP,ApellidoM,Curp,RFC,FechaNacimiento,Sexo,CP,EstadoCivil,CentroTrabajo,correo,AreaTrabajo,Puesto,Ciudad,NivelEstudios,TipoPersonal,JornadaTrabajo,TipoContratacion,TiempoPuesto,ExperienciaLaboral,RotacionTurnos,fk_administrador,ATSContestado,RPContestado,EEOContestado,ATSDetectado,EmpleadoActivo) values ('${data[0]}', '${data[1]}', '${data[2]}', '${data[3]}', '${data[4]}', '${data[5]}', '${data[6]}', '${data[7]}', '${data[8]}', '${data[22]}','${data[9]}', '${data[10]}', '${data[11]}', '${data[12]}', '${data[13]}', '${data[14]}', '${data[15]}', '${data[16]}', '${data[17]}', '${data[18]}', '${data[19]}','${resultados[0].id}','false','false','false','false','true')`); 
+      .query(`insert into empleados (nombre,ApellidoP,ApellidoM,Curp,RFC,FechaNacimiento,Sexo,CP,EstadoCivil,CentroTrabajo,correo,AreaTrabajo,Puesto,Ciudad,NivelEstudios,TipoPersonal,JornadaTrabajo,TipoContratacion,TiempoPuesto,ExperienciaLaboral,RotacionTurnos,fk_administrador,ATSContestado,RPContestado,EEOContestado,ATSDetectado,EmpleadoActivo) values ('${data[0]}', '${data[1]}', '${data[2]}', '${data[3]}', '${data[4]}', '${data[5]}', '${data[6]}', '${data[7]}', '${data[8]}', '${data[21]}','${data[9]}', '${data[10]}', '${data[11]}', '${data[12]}', '${data[13]}', '${data[14]}', '${data[15]}', '${data[16]}', '${data[17]}', '${data[18]}', '${data[19]}','${resultados[0].id}','false','false','false','false','true')`); 
       resolve({
         message: 'registro exitoso',
       });
@@ -1142,7 +1149,7 @@ const GetAdmin = async data => {
 
 const AuthRegisterSingleEmployee = async data => {
 return new Promise((resolve, reject) => {
-  // console.log("la sdata"  ,data)
+  console.log("la sdata"  ,`select * from  administrador where correo='${data[0]}'`)
   client.query(`select * from  administrador where correo='${data[0]}'`,
   function (error, results, fields) {
     var string=JSON.stringify(results);
@@ -1165,7 +1172,7 @@ const InactiveAdmin = async data => {
   return  new Promise((resolve, reject) => {
     resolve({message:"Usuario Blqueado"})
     client
-    .query(`update administrador set Activo='false' where correo  ='${data[0]}'` );
+    .query(`update superUsuario set Activo='false' where id  ='${data[0]}'` );
     })
   };
 
@@ -1225,7 +1232,7 @@ const RegisterSucursales = async data => {
       var resultados =  JSON.parse(string); 
       resolve(resultados) 
       client
-      .query(`insert into sucursales(nombreSucursal,calle,numExt,numInt,colonia,CP,Ciudad,Estado,rfc,telefono,correo,fk_administrador,SucursalActiva) values ('${data[0]}','${data[1]}','${data[2]}','${data[3]}','${data[4]}','${data[5]}','${data[6]}','${data[7]}','${data[8]}','${data[9]}','${data[10]}','${resultados[0].id}','true')`); 
+      .query(`insert into sucursales(nombreSucursal,calle,numExt,numInt,colonia,CP,Ciudad,Estado,actividad,telefono,correo,fk_administrador,SucursalActiva) values ('${data[0]}','${data[1]}','${data[2]}','${data[3]}','${data[4]}','${data[5]}','${data[6]}','${data[7]}','${data[8]}','${data[9]}','${data[10]}','${resultados[0].id}','true')`); 
       return  client
     },
   )
@@ -1233,12 +1240,14 @@ const RegisterSucursales = async data => {
   };
 
 const GetSucursales = async data => { 
+  
   console.log("la data en useractions getsucursales es " , data)
   return new Promise((resolve, reject) => {
     client.query(`select  *  from  administrador where correo='${data}'`,
     function (error, results, fields) {
       var string=JSON.stringify(results);
       var resultados =  JSON.parse(string);   
+      
       console.log("el administrador es " , resultados[0].id)
       client.query(`select  * from sucursales where fk_administrador ='${resultados[0].id}' and SucursalActiva='true'`,
       function (error, results, fields) {
@@ -1869,13 +1878,13 @@ const GetresultGlobalSurveyEEO = async data => {
             }; 
           const GetAdminFechaRegistro = async data => {
             return  new Promise((resolve, reject) => {
-              client.query(`select * from administrador where  id = '${data[0]}'`,
+              client.query(`select * from superusuario where  id = '${data[0]}'`,
                 function (error, results, fields) {
                 if (error) reject(error) 
                 var string=JSON.stringify(results);
                 var resultados =  JSON.parse(string); 
-                resolve({fechaRegistro:resultados[0].fechaRegistro}) 
-                // console.log("resultados getusers",resultados)
+                resolve(resultados[0]) 
+                 console.log("resultados getusers",resultados)
               },
             )
             })
@@ -1896,7 +1905,8 @@ const GetresultGlobalSurveyEEO = async data => {
               })
               }; 
             const AddAdminEmpresa = async data => {
-
+              const utcDate2 = new Date()
+              var fechaRegistro =  utcDate2.toGMTString()
               return  new Promise((resolve, reject) => {
                 client.query(`select * from administrador where rfc= '${data[2]}'`,
                   function (error, results, fields) {
@@ -1908,7 +1918,7 @@ const GetresultGlobalSurveyEEO = async data => {
                     resolve({message:"rfc duplicado"})
 
                   }else{
-                    client.query(`insert into administrador (nombre, apellidos , RFC , RazonSocial ,correo,Activo,FechaRegistro,fk_superusuario) values ('${data[0]}','${data[1]}','${data[2]}','${data[3]}','${data[4]}','true','true','${data[5]}')`)
+                    client.query(`insert into administrador (nombre, apellidos , RFC , RazonSocial ,correo,Activo,FechaRegistro,fk_superusuario) values ('${data[0]}','${data[1]}','${data[2]}','${data[3]}','${data[4]}','true','${fechaRegistro}','${data[5]}')`)
                     resolve({message:"admin Registrado"})
                   }
                   
@@ -1932,8 +1942,26 @@ const GetresultGlobalSurveyEEO = async data => {
           )
           })
           }; 
+          const GetAdminDashboard = async data => {
+         
+            return  new Promise((resolve, reject) => {
+              client.query(`select * from administrador where id='${data[0]}'`,
+                function (error, results, fields) {
+                if (error) reject(error) 
+                var string=JSON.stringify(results);
+                var resultados =  JSON.parse(string);
+                console.log("los resultados" , resultados[0])
+                
+                resolve(resultados[0]) 
+                // console.log("resultados getusers",resultados)
+              },
+            )
+            })
+            }; 
+  
 
       module.exports = {
+        GetAdminDashboard,
         GetEmpresas,
         AddAdminEmpresa,
         GetUsersTableEmployeesthisPeriodoATS,

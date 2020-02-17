@@ -2,10 +2,11 @@ scalar Upload
 
  type Query{
    getAdminFechaRegistro(data: [String]!):admin
+  getAdminDashboard(data: [String]!):admin
    getUsersTableEmployeesthisPeriodo(data: [String]!):[JsonEmployee]
    getUsersTableEmployeesthisPeriodoATS(data: [String]!):[JsonEmployee]
      getUsersTableEmployeesthisPeriodoEEO(data: [String]!):[JsonEmployee]
-  getUsersTableEmployees(data:[String]!):[JsonEmployee]
+  getUsersTableEmployees(data:[String]):[JsonEmployee]
      resultSingleSurvey(data: [String]!):[ respuestas]
      resultSingleSurveyRP(data: [String]!):[ respuestasRP]
      resultSingleSurveyEEO(data: [String]!):[ respuestasEEO]
@@ -118,7 +119,7 @@ colonia:String,
 CP:String,
 Ciudad:String,
 Estado:String,
-rfc:String,
+actividad:String,
 telefono:String,
 correo:String,
 fk_administrador:String
@@ -403,5 +404,12 @@ id:String
 
 }
 type admin {
-  fechaRegistro:String!
+  id:String,
+  fechaRegistro:String
+  nombre:String,
+Apellidos:String,
+RFC:String,
+RazonSocial:String,
+correo:String,
+Activo:String,
 }

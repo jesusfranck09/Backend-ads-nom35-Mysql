@@ -228,8 +228,17 @@ const getEmpresas= async (_, { data }) => {
     .then( res => res)
     .catch( err => err );
 };
+const getAdminDashboard= async (_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    console.log("divisiones",divisiones)
+    return actions.GetAdminDashboard(divisiones)
+    .then( res => res)
+    .catch( err => err );
+};
 
      module.exports = {
+        getAdminDashboard,
         getEmpresas,
         getUsersTableEmployeesthisPeriodoATS,
         getAdminFechaRegistro,
