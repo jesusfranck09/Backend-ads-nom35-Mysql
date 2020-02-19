@@ -236,8 +236,26 @@ const getAdminDashboard= async (_, { data }) => {
     .then( res => res)
     .catch( err => err );
 };
+const verifyPackSuperUser= async (_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    console.log("divisiones",divisiones)
+    return actions.VerifyPackSuperUser(divisiones)
+    .then( res => res)
+    .catch( err => err );
+};
+const countEmpresas= async (_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    console.log("divisiones",divisiones)
+    return actions.CountEmpresas(divisiones)
+    .then( res => res)
+    .catch( err => err );
+};
 
      module.exports = {
+        countEmpresas,
+        verifyPackSuperUser,
         getAdminDashboard,
         getEmpresas,
         getUsersTableEmployeesthisPeriodoATS,

@@ -3,7 +3,7 @@
 const actions = require('../actions');
 // const { authUserById } = require('../utils');
 const signup = (_, { data }) => {
-    console.log("data",data)
+    // console.log("data",data)
     return actions.signup(data)
                   .then( res => res)
                   .catch( err => err );
@@ -465,8 +465,15 @@ const addAdminEmpresa= async (_, { data }) => {
     const add = await  actions.AddAdminEmpresa(divisiones)
     return add;
 };
+const insertPack= async (_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    const insert = await  actions.InsertPack(divisiones)
+    return insert;
+};
 
 module.exports = {
+    insertPack,
     addAdminEmpresa,
     addPeriodoInicial,
     // updatePeriodo,

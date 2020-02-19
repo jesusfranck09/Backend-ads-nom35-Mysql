@@ -32,7 +32,9 @@ var con = mysql.createConnection({
   database:"nom35",
   host: "localhost",
   user: "frnk",
-  password: "jesus33."
+  password: "jesus33.",
+  port: '3306',
+  timeout: 60000,
 });
 
 con.connect(function(err) {

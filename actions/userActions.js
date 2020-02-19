@@ -11,7 +11,7 @@ const signup =   (user) => {
   const utcDate2 = new Date()
   var fechaRegistro =  utcDate2.toGMTString()
   return new Promise((resolve, reject) => {
-    console.log("user",user.email)
+    
     if(user.email){
     client
     .query(`select * from  superusuario where correo='${user.email}'`,
@@ -41,8 +41,8 @@ const signup =   (user) => {
                     // console.log(hash)
                     resolve({ message: 'Signup exitoso',token:hash})
                    client
-                    .query(`insert into superusuario(nombre,Apellidos, RFC,RazonSocial, correo,contraseña,Activo,fechaRegistro) values ('${user.first_name}','${user.last_name}','${user.rfc}','${user.razon_social}','${user.email}', '${hash}','true','${fechaRegistro}')`); 
-                    // console.log("el response",user)
+                    .query(`update superusuario set nombre='${user.first_name}',Apellidos='${user.last_name}', RFC='${user.rfc}',RazonSocial ='${user.razon_social}', correo='${user.email}',contraseña='${hash}',Activo = 'true' ,fechaRegistro='${fechaRegistro}' where id = '${user.id}'`); 
+                    return client
                   }
                 })
               }
@@ -89,7 +89,7 @@ const  login = async (email,password) => {
                    RazonSocial:resultados[0].RazonSocial,
                    Usuario:resultados[0].Usuario,
                    correo:resultados[0].correo,
-                   Activo:resultados[0].Activo
+                   activo:resultados[0].activo
                   });}
                   else{
                     resolve({message:"usuario y contraseña incorrectos",token:"no hay token"})
@@ -114,7 +114,7 @@ const registerEm =  async (data) => {
 
   return new Promise((resolve, reject) => {
     client
-    .query(`select * from  administrador where correo='${data[20]}' and contraseña='${data[21]}'`,
+    .query(`select * from  administrador where correo='${data[20]}'`,
     function (error, results, fields) {
       var string=JSON.stringify(results);
       var resultados =  JSON.parse(string); 
@@ -1172,7 +1172,7 @@ const InactiveAdmin = async data => {
   return  new Promise((resolve, reject) => {
     resolve({message:"Usuario Blqueado"})
     client
-    .query(`update superUsuario set Activo='false' where id  ='${data[0]}'` );
+    .query(`update superusuario set Activo='false' where id  ='${data[0]}'` );
     })
   };
 
@@ -1945,6 +1945,7 @@ const GetresultGlobalSurveyEEO = async data => {
           const GetAdminDashboard = async data => {
          
             return  new Promise((resolve, reject) => {
+              
               client.query(`select * from administrador where id='${data[0]}'`,
                 function (error, results, fields) {
                 if (error) reject(error) 
@@ -1958,9 +1959,52 @@ const GetresultGlobalSurveyEEO = async data => {
             )
             })
             }; 
+          const InsertPack = async data => {
+            client.query(`insert into superusuario (fk_paquetes) values('${data[0]}')`)
+            return  new Promise((resolve, reject) => {
+              client.query(`select Max(id) as  id from superusuario`,
+                function (error, results, fields) {
+                if (error) reject(error) 
+                var string=JSON.stringify(results);
+                var resultados =  JSON.parse(string);                
+                resolve(resultados[0]) 
+                // console.log("resultados getusers",resultados)
+              },
+            )
+            })
+            }; 
+        const VerifyPackSuperUser = async data => {
+          return  new Promise((resolve, reject) => {
+            client.query(`select * from paquetes inner join superusuario on superusuario.fk_paquetes = paquetes.id  where superusuario.id='${data[0]}'`,
+              function (error, results, fields) {
+              if (error) reject(error) 
+              var string=JSON.stringify(results);
+              var resultados =  JSON.parse(string);                
+              resolve(resultados[0]) 
+              // console.log("resultados getusers",resultados)
+            },
+          )
+          })
+          }; 
+          const CountEmpresas = async data => {
+            return  new Promise((resolve, reject) => {
+              client.query(`select count(id) as id from administrador where fk_superUsuario = ' ${data[0]}'`,
+                function (error, results, fields) {
+                if (error) reject(error) 
+                var string=JSON.stringify(results);
+                var resultados =  JSON.parse(string);                
+                resolve(resultados[0]) 
+                // console.log("resultados getusers",resultados)
+              },
+            )
+            })
+            }; 
   
 
       module.exports = {
+        CountEmpresas,
+        VerifyPackSuperUser,
+        InsertPack,
         GetAdminDashboard,
         GetEmpresas,
         AddAdminEmpresa,

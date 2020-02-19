@@ -1,22 +1,22 @@
 scalar Upload
 
  type Query{
-   getAdminFechaRegistro(data: [String]!):admin
-  getAdminDashboard(data: [String]!):admin
-   getUsersTableEmployeesthisPeriodo(data: [String]!):[JsonEmployee]
-   getUsersTableEmployeesthisPeriodoATS(data: [String]!):[JsonEmployee]
-     getUsersTableEmployeesthisPeriodoEEO(data: [String]!):[JsonEmployee]
-  getUsersTableEmployees(data:[String]):[JsonEmployee]
-     resultSingleSurvey(data: [String]!):[ respuestas]
-     resultSingleSurveyRP(data: [String]!):[ respuestasRP]
-     resultSingleSurveyEEO(data: [String]!):[ respuestasEEO]
-     verifiEmailSurveyATS(data: [String]!):[resCorreo]    
-     verifiEmailSurveyRP(data: [String]!):[resCorreoRP] 
-     verifiEmailSurveyEEO(data: [String]!):[resCorreoEEO] 
-     getSucursales(data:String):[Sucursales]
-     getDeptos(data:String):[Deptos]
-     getPuestos(data:String):[Puestos]
-     getPonderacion(data: [String]!):[resultPonderacion]
+    getAdminFechaRegistro(data: [String]!):admin
+    getAdminDashboard(data: [String]!):admin
+    getUsersTableEmployeesthisPeriodo(data: [String]!):[JsonEmployee]
+    getUsersTableEmployeesthisPeriodoATS(data: [String]!):[JsonEmployee]
+    getUsersTableEmployeesthisPeriodoEEO(data: [String]!):[JsonEmployee]
+    getUsersTableEmployees(data:[String]):[JsonEmployee]
+    resultSingleSurvey(data: [String]!):[ respuestas]
+    resultSingleSurveyRP(data: [String]!):[ respuestasRP]
+    resultSingleSurveyEEO(data: [String]!):[ respuestasEEO]
+    verifiEmailSurveyATS(data: [String]!):[resCorreo]    
+    verifiEmailSurveyRP(data: [String]!):[resCorreoRP] 
+    verifiEmailSurveyEEO(data: [String]!):[resCorreoEEO] 
+    getSucursales(data:String):[Sucursales]
+    getDeptos(data:String):[Deptos]
+    getPuestos(data:String):[Puestos]
+    getPonderacion(data: [String]!):[resultPonderacion]
     getPonderacionEEO(data: [String]!):[resultPonderacion]
     getEmployeesResolvesSurveyATS(data: [String]!):[MaxidEmployeesResolves]
     getEmployeesResolvesSurveyATSFalse(data: [String]!):[MaxidEmployeesResolves]
@@ -38,7 +38,9 @@ scalar Upload
     getPeriodoDesabilited(data: [String]!):[periodo]
     getEventos(data: [String]!):Data
     getEmployeesFkAdmin(data: [String]!):[JsonEmployee]
-     getEmpresas(data: [String]!):[DataAdmin]
+    getEmpresas(data: [String]!):[DataAdmin]
+    verifyPackSuperUser(data: [String]!):Pack
+    countEmpresas(data: [String]!):Pack
  }        
 
  
@@ -89,23 +91,24 @@ type Mutation {
  sendMail(data: [String]!): Data!
  getAdmin(data:[String]!):[Admin]
  authRegisterSingleEmployee(data:[String]!):[regMAx]
-inactiveAdmin(data:[String]!):Auth!
-registerSucursales(data:[String]!):Data!
-registerApartments(data:[String]!):Data!
-registerPuesto(data:[String]!):Data!
-deleteEmployees(data:[String]!):Data!  
-deleteSucursales(data:[String]!):Data!  
-deleteDeptos(data:[String]!):Data! 
-deletePuestos(data:[String]!):Data! 
+  inactiveAdmin(data:[String]!):Auth!
+  registerSucursales(data:[String]!):Data!
+  registerApartments(data:[String]!):Data!
+  registerPuesto(data:[String]!):Data!
+  deleteEmployees(data:[String]!):Data!  
+  deleteSucursales(data:[String]!):Data!  
+  deleteDeptos(data:[String]!):Data! 
+  deletePuestos(data:[String]!):Data! 
 
-updateEmployees(data:[String]!):Data! 
-updateSucursales(data:[String]!):Data! 
-updateDeptos(data:[String]!):Data! 
-updatePuestos(data:[String]!):Data! 
-addPeriodo(data:[String]!):Data! 
+  updateEmployees(data:[String]!):Data! 
+  updateSucursales(data:[String]!):Data! 
+  updateDeptos(data:[String]!):Data! 
+  updatePuestos(data:[String]!):Data! 
+  addPeriodo(data:[String]!):Data! 
   deletePeriodo(data: [String]!):[Data]
   addPeriodoInicial(data: [String]!):Data
   addAdminEmpresa(data: [String]!):Auth
+  insertPack(data: [String]!):Auth
   # updatePeriodo(data: [String]!):[Data]
 }
 
@@ -138,6 +141,11 @@ type Deptos {
 id:String,
 nombre:String,
 fk_Administrador:String
+}
+type Pack{
+  empresas:String,
+  empleados:String
+  id:String
 }
 
 type Puestos {
@@ -206,9 +214,8 @@ nombre:String
 Apellidos:String
 RFC:String
 RazonSocial:String
-Usuario:String
 correo:String
-Activo:String
+activo:String
 }
 
 type DataAdmin {
@@ -218,6 +225,7 @@ Apellidos:String
 RFC:String
 RazonSocial:String
 correo:String
+
 }
 type regMAx{
 
@@ -345,6 +353,7 @@ type Admin {
 id:String!
  }
 input UserCreateInput {
+  id:String
   first_name: String
   last_name: String
   rfc:String
