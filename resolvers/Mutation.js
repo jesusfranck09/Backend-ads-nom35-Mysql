@@ -472,7 +472,11 @@ const insertPack= async (_, { data }) => {
     return insert;
 };
 
+const loginEmpresas = async (_, {rfc, password}) => { 
+    return actions.LoginEmpresas(rfc, password)      
+};
 module.exports = {
+    loginEmpresas,
     insertPack,
     addAdminEmpresa,
     addPeriodoInicial,

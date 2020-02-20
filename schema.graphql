@@ -47,6 +47,7 @@ scalar Upload
 type Mutation {
   signup(data: UserCreateInput!): Auth!
   login(email: String!, password: String!): Auth!
+  loginEmpresas(rfc: String!, password: String!): Auth!
   createUser(data: UserCreateInput!): Auth!
   registerEmployee(data:[String]!):Data!
   registerRS(data:[String]):Data
@@ -216,6 +217,7 @@ RFC:String
 RazonSocial:String
 correo:String
 activo:String
+fechaRegistro:String
 }
 
 type DataAdmin {
@@ -364,6 +366,7 @@ input UserCreateInput {
 }
 
 
+
 input InsertData {
 idempresas:Int!
 rfc:String!
@@ -421,4 +424,5 @@ RFC:String,
 RazonSocial:String,
 correo:String,
 Activo:String,
+fk_superusuario:String
 }

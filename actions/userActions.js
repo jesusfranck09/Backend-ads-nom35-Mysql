@@ -108,6 +108,55 @@ const  login = async (email,password) => {
    
   })
   }
+  const  LoginEmpresas = async (rfc,password) => {
+    return new Promise((resolve, reject) => {
+      console.log("el email" , rfc , "password", password)
+      if(rfc && password){
+        console.log("la contraseña" , password)
+        client
+        .query(`select * from  administrador where RFC='${rfc}'`,
+       function (error, results, fields) {
+          var string=JSON.stringify(results);
+          var resultados =  JSON.parse(string); 
+          console.log("resukltados" , resultados)    
+            if(resultados[0]){
+            bcrypt.compare(password,resultados[0].contraseña, function(err, result) {
+              
+              if(result){
+                
+                console.log("estos son los resultados;" , result)
+                resolve({
+                
+                      message: 'Login exitoso',
+                     token: createToken( resultados[0].correo, resultados[0].contraseña),
+                     id:resultados[0].id,
+                     nombre:resultados[0].nombre,
+                     Apellidos:resultados[0].Apellidos,
+                     RFC:resultados[0].RFC,
+                     RazonSocial:resultados[0].RazonSocial,
+                     Usuario:resultados[0].Usuario,
+                     correo:resultados[0].correo,
+                     activo:resultados[0].activo,
+                     fechaRegistro:resultados[0].fechaRegistro
+                    });}
+                    else{
+                      console.log("usuario y contraseñ<a")
+                      resolve({message:"usuario y contraseña incorrectos",token:"no hay token"})
+                    }
+                    return result
+          })
+        }
+          
+         
+        },
+      )
+      }else{
+        resolve({message:"error",token:"no hay token"})
+        reject({message:"error"})
+      }
+     
+    })
+    }
 
 const registerEm =  async (data) => {
   console.log("la data en useraction es " , data[20])
@@ -1905,8 +1954,7 @@ const GetresultGlobalSurveyEEO = async data => {
               })
               }; 
             const AddAdminEmpresa = async data => {
-              const utcDate2 = new Date()
-              var fechaRegistro =  utcDate2.toGMTString()
+              console.log("data" ,data)
               return  new Promise((resolve, reject) => {
                 client.query(`select * from administrador where rfc= '${data[2]}'`,
                   function (error, results, fields) {
@@ -1918,8 +1966,22 @@ const GetresultGlobalSurveyEEO = async data => {
                     resolve({message:"rfc duplicado"})
 
                   }else{
-                    client.query(`insert into administrador (nombre, apellidos , RFC , RazonSocial ,correo,Activo,FechaRegistro,fk_superusuario) values ('${data[0]}','${data[1]}','${data[2]}','${data[3]}','${data[4]}','true','${fechaRegistro}','${data[5]}')`)
-                    resolve({message:"admin Registrado"})
+                    bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
+                      if (err) {
+                        reject(err,{message: 'Error',token: err}) 
+                      } else {
+                        bcrypt.hash(data[5], salt, function(err, hash) {
+                          if (err) {
+                            throw err
+                          } else {
+                            // console.log(hash)
+                            resolve({message:"admin Registrado",toke:hash})
+                           client.query(`insert into administrador (nombre, apellidos , RFC , RazonSocial ,correo,contraseña,Activo,FechaRegistro,fk_superusuario) values ('${data[0]}','${data[1]}','${data[2]}','${data[3]}','${data[4]}','${hash}','true','${data[6]}','${data[7]}')`)
+                           return client
+                          }
+                        })
+                      }
+                    })
                   }
                   
                   // console.log("resultados getusers",resultados)
@@ -1944,8 +2006,7 @@ const GetresultGlobalSurveyEEO = async data => {
           }; 
           const GetAdminDashboard = async data => {
          
-            return  new Promise((resolve, reject) => {
-              
+            return  new Promise((resolve, reject) => {        
               client.query(`select * from administrador where id='${data[0]}'`,
                 function (error, results, fields) {
                 if (error) reject(error) 
@@ -1974,6 +2035,7 @@ const GetresultGlobalSurveyEEO = async data => {
             })
             }; 
         const VerifyPackSuperUser = async data => {
+          console.log(`select * from paquetes inner join superusuario on superusuario.fk_paquetes = paquetes.id  where superusuario.id='${data[0]}'` , "datos" )
           return  new Promise((resolve, reject) => {
             client.query(`select * from paquetes inner join superusuario on superusuario.fk_paquetes = paquetes.id  where superusuario.id='${data[0]}'`,
               function (error, results, fields) {
@@ -2002,6 +2064,7 @@ const GetresultGlobalSurveyEEO = async data => {
   
 
       module.exports = {
+        LoginEmpresas,
         CountEmpresas,
         VerifyPackSuperUser,
         InsertPack,
