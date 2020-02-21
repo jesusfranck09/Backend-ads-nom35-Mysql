@@ -2035,13 +2035,14 @@ const GetresultGlobalSurveyEEO = async data => {
             })
             }; 
         const VerifyPackSuperUser = async data => {
-          console.log(`select * from paquetes inner join superusuario on superusuario.fk_paquetes = paquetes.id  where superusuario.id='${data[0]}'` , "datos" )
+          
           return  new Promise((resolve, reject) => {
             client.query(`select * from paquetes inner join superusuario on superusuario.fk_paquetes = paquetes.id  where superusuario.id='${data[0]}'`,
               function (error, results, fields) {
               if (error) reject(error) 
               var string=JSON.stringify(results);
-              var resultados =  JSON.parse(string);                
+              var resultados =  JSON.parse(string);    
+              console.log("los datos emoresas empleados son" , resultados)            
               resolve(resultados[0]) 
               // console.log("resultados getusers",resultados)
             },
