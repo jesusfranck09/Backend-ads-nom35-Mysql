@@ -1113,11 +1113,11 @@ return  client
 
 const getUsers = async data => {
 
-  console.log("datauseraction getusers" , `select * from empleados where fk_administrador = '${data.data[0]}' and empleadoActivo ='true' and atsContestado='false' and rpContestado='false' and eeoContestado ='false' `)
+  console.log("datauseraction getusers" , `select * from empleados inner join administrador on empleados.fk_administrador = administrador.id where empleados.fk_administrador = '${data.data[0]}' and empleados.EmpleadoActivo ='true'`)
 
   return  new Promise((resolve, reject) => {
       client
-      .query(`select * from empleados where fk_administrador = '${data.data[0]}' and EmpleadoActivo ='true' or atsContestado='false' or rpContestado='false' or eeoContestado ='false' `,
+      .query(`select * from empleados inner join administrador on empleados.fk_administrador = administrador.id where empleados.fk_administrador = '${data.data[0]}' and empleados.EmpleadoActivo ='true' `,
         function (error, results, fields) {
         if (error) reject(error) 
         var string=JSON.stringify(results);
@@ -1331,7 +1331,7 @@ const RegisterApartments = async data => {
   };
 
 const GetDeptos = async data => { 
-  console.log("la data en useractions getdeptos es " , data)
+  console.log("la data en useractions getdeptos es " ,`select  *  from  administrador where correo='${data}'`)
   return new Promise((resolve, reject) => {
     client.query(`select  *  from  administrador where correo='${data}'`,
     function (error, results, fields) {
@@ -1948,7 +1948,7 @@ const GetresultGlobalSurveyEEO = async data => {
                   var string=JSON.stringify(results);
                   var resultados =  JSON.parse(string); 
                   resolve(resultados) 
-                  // console.log("resultados getusers",resultados)
+                  console.log("resultados getusers",resultados)
                 },
               )
               })
