@@ -62,56 +62,70 @@ const signup =   (user) => {
 
 
 const  login = async (email,password) => {
+
   return new Promise((resolve, reject) => {
+    
+  if(!email || !password){
+    resolve({message:"ningun dato",token:"no hay token"})
+
+  }
     console.log("el email" , email , "password", password)
     if(email && password){
       console.log("la contraseña" , password)
       client
-      .query(`select * from  superusuario where correo='${email}'`,
+      .query(`select * from  superusuario where correo='${email}' `,
      function (error, results, fields) {
         var string=JSON.stringify(results);
         var resultados =  JSON.parse(string); 
         console.log("resukltados" , resultados)    
           if(resultados[0]){
+          console.log("entro")  
           bcrypt.compare(password,resultados[0].contraseña, function(err, result) {
-            
+
             if(result){
-              
-              console.log("estos son los resultados;" , result)
               resolve({
               
-                    message: 'Login exitoso',
-                   token: createToken( resultados[0].correo, resultados[0].contraseña),
-                   id:resultados[0].id,
-                   nombre:resultados[0].nombre,
-                   Apellidos:resultados[0].Apellidos,
-                   RFC:resultados[0].RFC,
-                   RazonSocial:resultados[0].RazonSocial,
-                   Usuario:resultados[0].Usuario,
-                   correo:resultados[0].correo,
-                   activo:resultados[0].activo
-                  });}
-                  else{
-                    resolve({message:"usuario y contraseña incorrectos",token:"no hay token"})
-                  }
-                  return result
+                message: 'Login exitoso',
+               token: createToken( resultados[0].correo, resultados[0].contraseña),
+               id:resultados[0].id,
+               nombre:resultados[0].nombre,
+               Apellidos:resultados[0].Apellidos,
+               RFC:resultados[0].RFC,
+               RazonSocial:resultados[0].RazonSocial,
+               Usuario:resultados[0].Usuario,
+               correo:resultados[0].correo,
+               activo:resultados[0].activo
+              });
+              return result
+            }else{
+              resolve({message:"usuario y contraseña incorrectos",token:"no hay token"})
+            }
+             
         })
+      }else{
+        console.log("no entro")  
+        resolve({message:"usuario y contraseña incorrectos",token:"no hay token"})
       }
         
        
       },
     )
-    }else{
-      resolve({message:"error",token:"no hay token"})
-      reject({message:"error"})
     }
    
   })
   }
   const  LoginEmpresas = async (rfc,password) => {
-    return new Promise((resolve, reject) => {
-      console.log("el email" , rfc , "password", password)
-      if(rfc && password){
+    
+    
+  return new Promise((resolve, reject) => {
+    console.log("rfc", rfc,"password"  , password)
+    if(!rfc || !password){
+      console.log("no hay token nun¿infin dato")
+      resolve({message:"ningun dato",token:"no hay token"})
+  
+    }
+
+      if(rfc,password){
         console.log("la contraseña" , password)
         client
         .query(`select * from  administrador where RFC='${rfc}'`,
@@ -120,39 +134,38 @@ const  login = async (email,password) => {
           var resultados =  JSON.parse(string); 
           console.log("resukltados" , resultados)    
             if(resultados[0]){
+            console.log("entro")  
             bcrypt.compare(password,resultados[0].contraseña, function(err, result) {
-              
+  
               if(result){
-                
-                console.log("estos son los resultados;" , result)
                 resolve({
                 
-                      message: 'Login exitoso',
-                     token: createToken( resultados[0].correo, resultados[0].contraseña),
-                     id:resultados[0].id,
-                     nombre:resultados[0].nombre,
-                     Apellidos:resultados[0].Apellidos,
-                     RFC:resultados[0].RFC,
-                     RazonSocial:resultados[0].RazonSocial,
-                     Usuario:resultados[0].Usuario,
-                     correo:resultados[0].correo,
-                     activo:resultados[0].activo,
-                     fechaRegistro:resultados[0].fechaRegistro
-                    });}
-                    else{
-                      console.log("usuario y contraseñ<a")
-                      resolve({message:"usuario y contraseña incorrectos",token:"no hay token"})
-                    }
-                    return result
+                  message: 'Login exitoso',
+                  token: createToken( resultados[0].correo, resultados[0].contraseña),
+                  id:resultados[0].id,
+                  nombre:resultados[0].nombre,
+                  Apellidos:resultados[0].Apellidos,
+                  RFC:resultados[0].RFC,
+                  RazonSocial:resultados[0].RazonSocial,
+                  Usuario:resultados[0].Usuario,
+                  correo:resultados[0].correo,
+                  activo:resultados[0].activo,
+                  fechaRegistro:resultados[0].fechaRegistro
+                });
+                return result
+              }else{
+                resolve({message:"usuario y contraseña incorrectos",token:"no hay token"})
+              }
+               
           })
+        }else{
+          console.log("no entro")  
+          resolve({message:"usuario y contraseña incorrectos",token:"no hay token"})
         }
           
          
         },
       )
-      }else{
-        resolve({message:"error",token:"no hay token"})
-        reject({message:"error"})
       }
      
     })
@@ -180,18 +193,25 @@ const registerEm =  async (data) => {
 
 
 const registerSingleEm =  async (data) => {
+  console.log("data register single em" , data)
   return new Promise((resolve, reject) => {
     client
-    .query(`select * from  administrador where correo='${data[20]}'`,
+    .query(`select * from  empleados where correo='${data[9]}'  and fk_administrador='${data[20]}'`,
     function (error, results, fields) {
       var string=JSON.stringify(results);
       var resultados =  JSON.parse(string); 
+      console.log("resultados resu", resultados)
+      if(resultados[0]){
+        resolve({message:"correo existente"})
+      }else{
         client
-      .query(`insert into empleados (nombre,ApellidoP,ApellidoM,Curp,RFC,FechaNacimiento,Sexo,CP,EstadoCivil,CentroTrabajo,correo,AreaTrabajo,Puesto,Ciudad,NivelEstudios,TipoPersonal,JornadaTrabajo,TipoContratacion,TiempoPuesto,ExperienciaLaboral,RotacionTurnos,fk_administrador,ATSContestado,RPContestado,EEOContestado,ATSDetectado,EmpleadoActivo) values ('${data[0]}', '${data[1]}', '${data[2]}', '${data[3]}', '${data[4]}', '${data[5]}', '${data[6]}', '${data[7]}', '${data[8]}', '${data[21]}','${data[9]}', '${data[10]}', '${data[11]}', '${data[12]}', '${data[13]}', '${data[14]}', '${data[15]}', '${data[16]}', '${data[17]}', '${data[18]}', '${data[19]}','${resultados[0].id}','false','false','false','false','true')`); 
-      resolve({
-        message: 'registro exitoso',
-      });
-      return  client
+        .query(`insert into empleados (nombre,ApellidoP,ApellidoM,Curp,RFC,FechaNacimiento,Sexo,CP,EstadoCivil,CentroTrabajo,correo,AreaTrabajo,Puesto,Ciudad,NivelEstudios,TipoPersonal,JornadaTrabajo,TipoContratacion,TiempoPuesto,ExperienciaLaboral,RotacionTurnos,fk_administrador,ATSContestado,RPContestado,EEOContestado,ATSDetectado,EmpleadoActivo) values ('${data[0]}', '${data[1]}', '${data[2]}', '${data[3]}', '${data[4]}', '${data[5]}', '${data[6]}', '${data[7]}', '${data[8]}', '${data[21]}','${data[9]}', '${data[10]}', '${data[11]}', '${data[12]}', '${data[13]}', '${data[14]}', '${data[15]}', '${data[16]}', '${data[17]}', '${data[18]}', '${data[19]}','${data[20]}','false','false','false','false','true')`); 
+        resolve({
+          message: 'registro exitoso',
+        });
+      }
+     
+      
     },
   )
   })
@@ -1117,7 +1137,7 @@ const getUsers = async data => {
 
   return  new Promise((resolve, reject) => {
       client
-      .query(`select * from empleados inner join administrador on empleados.fk_administrador = administrador.id where empleados.fk_administrador = '${data.data[0]}' and empleados.EmpleadoActivo ='true' `,
+      .query(`select * from empleados inner join administrador on empleados.fk_administrador = administrador.id where empleados.fk_administrador = '${data.data[0]}' and empleados.EmpleadoActivo ='true'`,
         function (error, results, fields) {
         if (error) reject(error) 
         var string=JSON.stringify(results);
@@ -1782,11 +1802,22 @@ const GetresultGlobalSurveyEEO = async data => {
             })
           }; 
         const AddPeriodo = async data => {
-          console.log("la data en add periodo es ",data)
+          console.log("la data en add periodo es ",`select * from eventos where evento = '${data[0]}' and fk_administrador ='${data[1]}'`)
           return  new Promise((resolve, reject) => {
-              client.query(`insert into eventos(fk_administrador,evento,EventoActivo) values ('${data[1]}','${data[0]}','true')`,
-             resolve({message:"registro exitoso"})
-            )
+                client.query(`select * from eventos where evento = '${data[0]}' and fk_administrador ='${data[1]}'`,
+                function (error, results, fields) {
+                var string=JSON.stringify(results);
+                var resultados =  JSON.parse(string);
+                if(resultados[0]){
+                  resolve({message:"periodo existente"}) 
+                }else{
+                client.query(`insert into eventos(fk_administrador,evento,EventoActivo) values ('${data[1]}','${data[0]}','true')`,
+                          resolve({message:"registro exitoso"})
+                  )
+                }
+                
+              },
+            )           
             })
           }; 
           
@@ -1852,7 +1883,8 @@ const GetresultGlobalSurveyEEO = async data => {
                   var resultados =  JSON.parse(string); 
                   if(resultados[0]){
                 
-                  console.log("results",resultados[0])
+
+                 
                   resolve({message:"evento encontrado"})  
                    
                   }else{
@@ -1955,17 +1987,18 @@ const GetresultGlobalSurveyEEO = async data => {
               }; 
             const AddAdminEmpresa = async data => {
               console.log("data" ,data)
+              let auth1;
+              let auth2;
               return  new Promise((resolve, reject) => {
-                client.query(`select * from administrador where rfc= '${data[2]}'`,
+                client.query(`select * from administrador where rfc= '${data[2]}' or correo = '${data[4]}'`,
                   function (error, results, fields) {
                   if (error) reject(error) 
                   var string=JSON.stringify(results);
                   var resultados =  JSON.parse(string); 
-
                   if(resultados[0]){
-                    resolve({message:"rfc duplicado"})
-
-                  }else{
+                    resolve({message:"rfc o correo duplicados"})
+                  }
+                  else{
                     bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
                       if (err) {
                         reject(err,{message: 'Error',token: err}) 
@@ -1983,10 +2016,12 @@ const GetresultGlobalSurveyEEO = async data => {
                       }
                     })
                   }
+    
                   
                   // console.log("resultados getusers",resultados)
                 },
               )
+
               })
               }; 
   
@@ -2033,6 +2068,7 @@ const GetresultGlobalSurveyEEO = async data => {
               },
             )
             })
+
             }; 
         const VerifyPackSuperUser = async data => {
           
@@ -2062,9 +2098,32 @@ const GetresultGlobalSurveyEEO = async data => {
             )
             })
             }; 
-  
+            const EditDataAdmin = async data => {
+
+              console.log("la data para editar es " , data[0])
+
+              return  new Promise((resolve, reject) => {
+                bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
+                  if (err) {
+                    reject(err,{message: 'Error',token: err}) 
+                  } else {
+                    bcrypt.hash(data[3], salt, function(err, hash) {
+                      if (err) {
+                        throw err
+                      } else {
+                        // console.log(hash)
+                        resolve({ message: 'Actualización exitosa'})
+                       client.query(`update administrador set nombre='${data[0]}',Apellidos='${data[1]}',correo='${data[2]}',contraseña='${hash}' where id='${data[4]}' `)    
+                      return client
+                      }
+                    })
+                  }
+                })
+              })
+              }; 
 
       module.exports = {
+        EditDataAdmin,
         LoginEmpresas,
         CountEmpresas,
         VerifyPackSuperUser,

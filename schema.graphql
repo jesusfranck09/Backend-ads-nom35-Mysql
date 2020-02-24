@@ -110,7 +110,7 @@ type Mutation {
   addPeriodoInicial(data: [String]!):Data
   addAdminEmpresa(data: [String]!):Auth
   insertPack(data: [String]!):Auth
-  # updatePeriodo(data: [String]!):[Data]
+  editDataAdmin(data:[String!]):Data
 }
 
 type Sucursales {
@@ -424,5 +424,5 @@ RFC:String,
 RazonSocial:String,
 correo:String,
 Activo:String,
-fk_superusuario:String
+fk_superusuario:String,
 }

@@ -475,7 +475,14 @@ const insertPack= async (_, { data }) => {
 const loginEmpresas = async (_, {rfc, password}) => { 
     return actions.LoginEmpresas(rfc, password)      
 };
+const editDataAdmin= async (_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    const edit = await  actions.EditDataAdmin(divisiones)
+    return edit;
+};
 module.exports = {
+    editDataAdmin,
     loginEmpresas,
     insertPack,
     addAdminEmpresa,
