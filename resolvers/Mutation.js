@@ -21,15 +21,6 @@ var divisiones = miCadena.split(",");
 };
 
 
-const registerSingleEmployee =async (_,  data ) => {
-    var miCadena =data.data[0];
-
-    var divisiones = miCadena.split(",");
-    const datosEmployee = await  actions.registerSingleEm(divisiones)
-                   return datosEmployee;
-};
-
-
 const registerRS = async (_,  data ) => {
     var miCadena =data.data[0];
     var divisiones = miCadena.split(",");
@@ -507,7 +498,6 @@ module.exports = {
     login,
     registerEmployee,
     registerRS,
-    registerSingleEmployee,
     atsPage1,
     atsPage2,
     atsPage3,

@@ -51,7 +51,6 @@ type Mutation {
   createUser(data: UserCreateInput!): Auth!
   registerEmployee(data:[String]!):Data!
   registerRS(data:[String]):Data
-  registerSingleEmployee(data:[String]!):Data!
   atsPage1(data:[String]!):Data!
   atsPage2(data:[String]!):Data!
   atsPage3(data:[String]!):Data!
@@ -185,10 +184,10 @@ type  JsonEmployee{
   ApellidoP: String,
   ApellidoM:String,
   Curp:String,
-  rfc:String,
+  RFC:String,
   FechaNacimiento:String,
   Sexo:String,
-  cp:String,
+  CP:String,
   EstadoCivil:String,
   correo:String,
   AreaTrabajo:String,

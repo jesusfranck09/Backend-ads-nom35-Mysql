@@ -170,53 +170,31 @@ const  login = async (email,password) => {
      
     })
     }
-
-const registerEm =  async (data) => {
-  console.log("la data en useraction es " , data[20])
-
-  return new Promise((resolve, reject) => {
-    client
-    .query(`select * from  administrador where correo='${data[20]}'`,
-    function (error, results, fields) {
-      var string=JSON.stringify(results);
-      var resultados =  JSON.parse(string); 
-
-        console.log("los data son  " , data)
+    const registerEm =  async (data) => {
+      console.log("data register single em" , data)
+      return new Promise((resolve, reject) => {
         client
-      .query(`insert into empleados (nombre,ApellidoP,ApellidoM,Curp,RFC,FechaNacimiento,Sexo,CP,EstadoCivil,correo,AreaTrabajo,Puesto,Ciudad,NivelEstudios,TipoPersonal,JornadaTrabajo,TipoContratacion,TiempoPuesto,ExperienciaLaboral,RotacionTurnos,fk_administrador,ATSContestado,RPContestado,EEOContestado,ATSDetectado,EmpleadoActivo) values ('${data[0]}', '${data[1]}', '${data[2]}', '${data[3]}', '${data[4]}', '${data[5]}', '${data[6]}', '${data[7]}', '${data[8]}', '${data[9]}', '${data[10]}', '${data[11]}', '${data[12]}', '${data[13]}', '${data[14]}', '${data[15]}', '${data[16]}', '${data[17]}', '${data[18]}', '${data[19]}','${resultados[0].id}','false','false','false','false','true')`); 
-      return  client
-    },
-  )
-  })
-
-};
-
-
-const registerSingleEm =  async (data) => {
-  console.log("data register single em" , data)
-  return new Promise((resolve, reject) => {
-    client
-    .query(`select * from  empleados where correo='${data[9]}'  and fk_administrador='${data[20]}'`,
-    function (error, results, fields) {
-      var string=JSON.stringify(results);
-      var resultados =  JSON.parse(string); 
-      console.log("resultados resu", resultados)
-      if(resultados[0]){
-        resolve({message:"correo existente"})
-      }else{
-        client
-        .query(`insert into empleados (nombre,ApellidoP,ApellidoM,Curp,RFC,FechaNacimiento,Sexo,CP,EstadoCivil,CentroTrabajo,correo,AreaTrabajo,Puesto,Ciudad,NivelEstudios,TipoPersonal,JornadaTrabajo,TipoContratacion,TiempoPuesto,ExperienciaLaboral,RotacionTurnos,fk_administrador,ATSContestado,RPContestado,EEOContestado,ATSDetectado,EmpleadoActivo) values ('${data[0]}', '${data[1]}', '${data[2]}', '${data[3]}', '${data[4]}', '${data[5]}', '${data[6]}', '${data[7]}', '${data[8]}', '${data[21]}','${data[9]}', '${data[10]}', '${data[11]}', '${data[12]}', '${data[13]}', '${data[14]}', '${data[15]}', '${data[16]}', '${data[17]}', '${data[18]}', '${data[19]}','${data[20]}','false','false','false','false','true')`); 
-        resolve({
-          message: 'registro exitoso',
-        });
-      }
-     
-      
-    },
-  )
-  })
-
-};
+        .query(`select * from  empleados where correo='${data[9]}'  and fk_administrador='${data[21]}'`,
+        function (error, results, fields) {
+          var string=JSON.stringify(results);
+          var resultados =  JSON.parse(string); 
+          console.log("resultados resu", resultados)
+          if(resultados[0]){
+            resolve({message:"correo existente"})
+          }else{
+            client
+            .query(`insert into empleados (nombre,ApellidoP,ApellidoM,Curp,RFC,FechaNacimiento,Sexo,CP,EstadoCivil,CentroTrabajo,correo,AreaTrabajo,Puesto,Ciudad,NivelEstudios,TipoPersonal,JornadaTrabajo,TipoContratacion,TiempoPuesto,ExperienciaLaboral,RotacionTurnos,fk_administrador,ATSContestado,RPContestado,EEOContestado,ATSDetectado,EmpleadoActivo) values ('${data[0]}', '${data[1]}', '${data[2]}', '${data[3]}', '${data[4]}', '${data[5]}', '${data[6]}', '${data[7]}', '${data[8]}', '${data[20]}','${data[9]}', '${data[10]}', '${data[11]}', '${data[12]}', '${data[13]}', '${data[14]}', '${data[15]}', '${data[16]}', '${data[17]}', '${data[18]}', '${data[19]}','${data[21]}','false','false','false','false','true')`); 
+            resolve({
+              message: 'registro exitoso',
+            });
+          }
+         
+          
+        },
+      )
+      })
+    
+    };
 
 const registerRazonS = async data => {
 new Promise((resolve, reject) => {
@@ -1137,13 +1115,13 @@ const getUsers = async data => {
 
   return  new Promise((resolve, reject) => {
       client
-      .query(`select * from empleados inner join administrador on empleados.fk_administrador = administrador.id where empleados.fk_administrador = '${data.data[0]}' and empleados.EmpleadoActivo ='true'`,
+      .query(`select empleados.id,empleados.nombre, empleados.ApellidoP, empleados.ApellidoM,empleados.Curp,empleados.RFC,empleados.FechaNacimiento,empleados.Sexo , empleados.CP,empleados.EstadoCivil,empleados.CentroTrabajo,empleados.correo, empleados.AreaTrabajo,empleados.Puesto,empleados.Ciudad,empleados.NivelEstudios,empleados.TipoPersonal,empleados.JornadaTrabajo,empleados.TipoContratacion,empleados.TiempoPuesto,empleados.ExperienciaLaboral,empleados.RotacionTurnos,empleados.fk_Administrador,empleados.ATSContestado,empleados.RPContestado,empleados.EEOContestado,empleados.ATSDetectado,empleados.EmpleadoActivo from empleados inner join administrador on empleados.fk_administrador = administrador.id where empleados.fk_administrador = '${data.data[0]}' and empleados.EmpleadoActivo ='true'`,
         function (error, results, fields) {
         if (error) reject(error) 
         var string=JSON.stringify(results);
         var resultados =  JSON.parse(string); 
         resolve(resultados) 
-        // console.log("resultados getusers",resultados)
+       console.log("resultados getusers",resultados)
       },
     )
     })
@@ -2186,7 +2164,6 @@ const GetresultGlobalSurveyEEO = async data => {
         registerEm,
         registerRazonS,
         getUsers,
-        registerSingleEm,
         AtsPage1,
         AtsPage2,
         AtsPage3,
