@@ -41,12 +41,15 @@ scalar Upload
     getEmpresas(data: [String]!):[DataAdmin]
     verifyPackSuperUser(data: [String]!):Pack
     countEmpresas(data: [String]!):Pack
+    getAdminAlfa(data: [String]!):[adminAlfa]
  }        
 
  
 type Mutation {
   signup(data: UserCreateInput!): Auth!
+  signupAdminAlfa(data: UserCreateInput!): Auth! 
   login(email: String!, password: String!): Auth!
+  loginAdminAlfa(email: String!, password: String!): Auth!
   loginEmpresas(rfc: String!, password: String!): Auth!
   createUser(data: UserCreateInput!): Auth!
   registerEmployee(data:[String]!):Data!
@@ -162,6 +165,18 @@ type resCorreoRP {
 }
 type resCorreoEEO {
   EEOContestado:String
+}
+
+type adminAlfa{
+  nombreAdmin:String,
+  apellidosAdmin:String,
+  correo:String,
+  fechaVenta:String,
+  rfc:String,
+  empresas:String,
+  empleados:String
+   RazonSocial:String
+  RFC:String
 }
 
 type Employees{
@@ -354,6 +369,8 @@ type Admin {
 id:String!
  }
 input UserCreateInput {
+  idAdminAlfa:String
+  fecha:String
   id:String
   first_name: String
   last_name: String
@@ -361,7 +378,8 @@ input UserCreateInput {
   razon_social:String
   email: String
   password: String
-  
+  paquete:String
+ 
 }
 
 

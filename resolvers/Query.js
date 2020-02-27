@@ -252,8 +252,18 @@ const countEmpresas= async (_, { data }) => {
     .then( res => res)
     .catch( err => err );
 };
+const getAdminAlfa= async (_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    console.log("divisiones",divisiones)
+    return actions.GetAdminAlfa(divisiones)
+    .then( res => res)
+    .catch( err => err );
+};
+
 
      module.exports = {
+        getAdminAlfa,
         countEmpresas,
         verifyPackSuperUser,
         getAdminDashboard,

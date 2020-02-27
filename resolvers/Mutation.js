@@ -11,7 +11,15 @@ const signup = (_, { data }) => {
 const login = async (_, {email, password}) => { 
     return actions.login(email, password)      
 };
-
+const loginAdminAlfa = async (_, {email, password}) => { 
+    return actions.LoginAdminAlfa(email, password)      
+};
+const signupAdminAlfa = (_, { data }) => {
+    // console.log("data",data)
+    return actions.SignupAdminAlfa(data)
+                  .then( res => res)
+                  .catch( err => err );
+};
 
 const registerEmployee =async (_,  data ) => {
     var miCadena =data.data[0];
@@ -473,6 +481,8 @@ const editDataAdmin= async (_, { data }) => {
     return edit;
 };
 module.exports = {
+    loginAdminAlfa,
+    signupAdminAlfa,
     editDataAdmin,
     loginEmpresas,
     insertPack,

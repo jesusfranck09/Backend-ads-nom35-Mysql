@@ -13,6 +13,9 @@ const signup =   (user) => {
   return new Promise((resolve, reject) => {
     
     if(user.email){
+      console.log("user" , user)
+       client.query(`insert into ventasAdminAlfa (fk_adminAlfa,fk_paquetes,fechaVenta,RazonSocial,RFC) values('${user.idAdminAlfa}','${user.paquete}','${user.fecha}','${user.razon_social}','${user.rfc}')`)
+ 
     client
     .query(`select * from  superusuario where correo='${user.email}'`,
     
@@ -61,13 +64,52 @@ const signup =   (user) => {
 };
 
 
-const  login = async (email,password) => {
-
+const SignupAdminAlfa =   (user) => {
+  // console.log("fecha", new Date(new Date().toUTCString()))
+  
+  const utcDate2 = new Date()
+  var fechaRegistro =  utcDate2.toGMTString()
   return new Promise((resolve, reject) => {
     
+    if(user.email){
+    client
+    .query(`select * from  adminAlfa where correo='${user.email}'`,
+    
+    function (error, results, fields) {
+      var string=JSON.stringify(results);
+      var resultados =  JSON.parse(string); 
+      if(resultados[0]){
+        resolve({ message:'duplicado'})
+      }else{
+        bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
+          if (err) {
+            reject(err,{message: 'Error',token: err}) 
+          } else {
+            bcrypt.hash(user.password, salt, function(err, hash) {
+              if (err) {
+                throw err
+              } else {
+                // console.log(hash)
+                resolve({ message: 'Signup exitoso',token:hash})
+               client
+                .query(`insert into adminAlfa (nombreAdmin,apellidosAdmin,correo,contraseña) values  ('${user.first_name}','${user.last_name}','${user.email}','${hash}')`); 
+                return client
+              }
+            })
+          }
+        })
+      }   
+    
+    },
+  )
+  }else{resolve({message:"no hay data"})}
+});
+};
+
+const  login = async (email,password) => {
+  return new Promise((resolve, reject) => {   
   if(!email || !password){
     resolve({message:"ningun dato",token:"no hay token"})
-
   }
     console.log("el email" , email , "password", password)
     if(email && password){
@@ -81,10 +123,8 @@ const  login = async (email,password) => {
           if(resultados[0]){
           console.log("entro")  
           bcrypt.compare(password,resultados[0].contraseña, function(err, result) {
-
             if(result){
-              resolve({
-              
+              resolve({     
                 message: 'Login exitoso',
                token: createToken( resultados[0].correo, resultados[0].contraseña),
                id:resultados[0].id,
@@ -99,21 +139,51 @@ const  login = async (email,password) => {
               return result
             }else{
               resolve({message:"usuario y contraseña incorrectos",token:"no hay token"})
-            }
-             
+            }       
         })
       }else{
         console.log("no entro")  
         resolve({message:"usuario y contraseña incorrectos",token:"no hay token"})
       }
-        
-       
       },
     )
-    }
-   
+    }  
   })
   }
+
+  const  LoginAdminAlfa = async (email,password) => {
+    return new Promise((resolve, reject) => {   
+    if(!email || !password){
+      resolve({message:"ningun dato",token:"no hay token"})
+    }
+      if(email && password){
+        client
+        .query(`select * from  adminAlfa where correo='${email}' `,
+       function (error, results, fields) {
+          var string=JSON.stringify(results);
+          var resultados =  JSON.parse(string); 
+            if(resultados[0]){
+            bcrypt.compare(password,resultados[0].contraseña, function(err, result) {
+              if(result){
+                resolve({     
+                  message: 'Login exitoso',
+                 token: createToken( resultados[0].correo, resultados[0].contraseña),
+                 id:resultados[0].id,
+                });
+                return result
+              }else{
+                resolve({message:"usuario y contraseña incorrectos",token:"no hay token"})
+              }       
+          })
+        }else{
+          console.log("no entro")  
+          resolve({message:"usuario y contraseña incorrectos",token:"no hay token"})
+        }
+        },
+      )
+      }  
+    })
+    }
   const  LoginEmpresas = async (rfc,password) => {
     
     
@@ -2077,9 +2147,7 @@ const GetresultGlobalSurveyEEO = async data => {
             })
             }; 
             const EditDataAdmin = async data => {
-
               console.log("la data para editar es " , data[0])
-
               return  new Promise((resolve, reject) => {
                 bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
                   if (err) {
@@ -2099,8 +2167,23 @@ const GetresultGlobalSurveyEEO = async data => {
                 })
               })
               }; 
-
+              const GetAdminAlfa = async data => {
+                return  new Promise((resolve, reject) => {
+                  client.query(`select * from ventasAdminAlfa inner join adminAlfa on ventasAdminAlfa.fk_adminAlfa=adminAlfa.id inner join paquetes on ventasAdminAlfa.fk_paquetes = paquetes.id where ventasAdminAlfa.fk_adminAlfa = '${data[0]}' `,
+                    function (error, results, fields) {
+                    if (error) reject(error) 
+                    var string=JSON.stringify(results);
+                    var resultados =  JSON.parse(string);                
+                    resolve(resultados) 
+                     console.log("resultados GetAdminAlfa",resultados)
+                  },
+                )
+                })
+                }; 
       module.exports = {
+        GetAdminAlfa,
+        LoginAdminAlfa,
+        SignupAdminAlfa,
         EditDataAdmin,
         LoginEmpresas,
         CountEmpresas,
