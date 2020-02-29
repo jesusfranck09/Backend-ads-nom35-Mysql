@@ -302,7 +302,7 @@ type respuestas {
 type periodo {
   idEventos:String
   fk_administrador:String
-  evento:String
+  Descripcion:String
 }
 type respuestasRP {
     id:String,

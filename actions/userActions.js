@@ -1850,16 +1850,16 @@ const GetresultGlobalSurveyEEO = async data => {
             })
           }; 
         const AddPeriodo = async data => {
-          console.log("la data en add periodo es ",`select * from eventos where evento = '${data[0]}' and fk_administrador ='${data[1]}'`)
+         console.log("data periodo" , data[1]) 
           return  new Promise((resolve, reject) => {
-                client.query(`select * from eventos where evento = '${data[0]}' and fk_administrador ='${data[1]}'`,
+                client.query(`select * from eventos where Descripcion = '${data[0]}'`,
                 function (error, results, fields) {
                 var string=JSON.stringify(results);
                 var resultados =  JSON.parse(string);
                 if(resultados[0]){
                   resolve({message:"periodo existente"}) 
                 }else{
-                client.query(`insert into eventos(fk_administrador,evento,EventoActivo) values ('${data[1]}','${data[0]}','true')`,
+                client.query(`insert into eventos(fk_administrador,evento,eventoFinal,Alerta1,Alerta2,Alerta3,Descripcion,EventoActivo) values ('${data[6]}','${data[1]}','${data[2]}','${data[3]}','${data[4]}','${data[5]}','${data[0]}','true')`,
                           resolve({message:"registro exitoso"})
                   )
                 }
@@ -1887,7 +1887,7 @@ const GetresultGlobalSurveyEEO = async data => {
         const DeletePeriodo = async data => {
           console.log("la data es ",data)
           return  new Promise((resolve, reject) => {
-              client.query(`update eventos set eventoActivo='false' where fk_Administrador='${data[1]}' and evento='${data[0]}' `,
+              client.query(`update eventos set eventoActivo='false' where fk_Administrador='${data[1]}' and Descripcion='${data[0]}' `,
               client.query(`update empleados set ATSContestado='false',RPContestado='false',EEOContestado='false' where fk_Administrador='${data[1]}'`),
              
               resolve({message:"evento Actualizado"})
@@ -1930,11 +1930,7 @@ const GetresultGlobalSurveyEEO = async data => {
                   var string=JSON.stringify(results);
                   var resultados =  JSON.parse(string); 
                   if(resultados[0]){
-                
-
-                 
-                  resolve({message:"evento encontrado"})  
-                   
+                  resolve({message:"evento encontrado"})    
                   }else{
                     resolve({message:"exito"})
                   }
@@ -1969,7 +1965,7 @@ const GetresultGlobalSurveyEEO = async data => {
                 if (error) reject(error) 
                 var string=JSON.stringify(results);
               var resultados = JSON.parse(string)
-                 client.query(`insert into eventos (fk_administrador,evento,EventoActivo) values ('${resultados[0].id}','${data[0]}','true')`,     
+                 client.query(`insert into eventos (fk_administrador,evento,eventoFinal,alerta1,alerta2,alerta3,Descripcion,EventoActivo) values ('${resultados[0].id}','${data[0]}','no hay Eventos','no hay Eventos','no hay Eventos','no hay Eventos','Periodo Inicial','true')`,     
                 resolve(client)  
                   
                  )
