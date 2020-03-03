@@ -1859,7 +1859,7 @@ const GetresultGlobalSurveyEEO = async data => {
                 if(resultados[0]){
                   resolve({message:"periodo existente"}) 
                 }else{
-                client.query(`insert into eventos(fk_administrador,evento,eventoFinal,Alerta1,Alerta2,Alerta3,Descripcion,EventoActivo) values ('${data[6]}','${data[1]}','${data[2]}','${data[3]}','${data[4]}','${data[5]}','${data[0]}','true')`,
+                client.query(`insert into eventos(fk_administrador,evento,eventoFinal,Alerta1,Alerta2,Alerta3,Descripcion,EventoActivo,Alerta1Enviada,Alerta2Enviada,Alerta3Enviada) values ('${data[6]}','${data[1]}','${data[2]}','${data[3]}','${data[4]}','${data[5]}','${data[0]}','true','false','false','false')`,
                           resolve({message:"registro exitoso"})
                   )
                 }
@@ -1929,8 +1929,10 @@ const GetresultGlobalSurveyEEO = async data => {
                   if (error) reject(error) 
                   var string=JSON.stringify(results);
                   var resultados =  JSON.parse(string); 
+                  console.log("get eventos" , resultados)
                   if(resultados[0]){
-                  resolve({message:"evento encontrado"})    
+                    
+                  resolve({message:"evento encontrado",eventoFinal:resultados[0].eventoFinal,alerta1:resultados[0].alerta1,alerta2:resultados[0].alerta2,alerta3:resultados[0].alerta3})    
                   }else{
                     resolve({message:"exito"})
                   }
@@ -1965,7 +1967,7 @@ const GetresultGlobalSurveyEEO = async data => {
                 if (error) reject(error) 
                 var string=JSON.stringify(results);
               var resultados = JSON.parse(string)
-                 client.query(`insert into eventos (fk_administrador,evento,eventoFinal,alerta1,alerta2,alerta3,Descripcion,EventoActivo) values ('${resultados[0].id}','${data[0]}','no hay Eventos','no hay Eventos','no hay Eventos','no hay Eventos','Periodo Inicial','true')`,     
+                 client.query(`insert into eventos (fk_administrador,evento,eventoFinal,alerta1,alerta2,alerta3,Descripcion,EventoActivo,Alerta1Enviada,Alerta2Enviada,Alerta3Enviada) values ('${resultados[0].id}','${data[0]}','no hay Eventos','no hay Eventos','no hay Eventos','no hay Eventos','Periodo Inicial','true','false','false','false')`,     
                 resolve(client)  
                   
                  )
@@ -2176,7 +2178,109 @@ const GetresultGlobalSurveyEEO = async data => {
                 )
                 })
                 }; 
+              const Alert1 = async data => {
+                console.log(data)
+                return  new Promise((resolve, reject) => {
+                  var transporter = nodemailer.createTransport({
+                    service: 'gmail',
+                    secure: true,
+                    auth: {
+                            user: 'd93409@gmail.com',
+                            pass: 'jesus33.',
+                            host: 'smtp.gmail.com',
+                            port: 465,
+                        }
+                    });
+                    const mailOptions = {
+                    from: 'd93409@gmail.com', // sender address
+                    to: `${data[0]}`, // list of receivers
+                    subject: 'Subject of your email', // Subject line
+                    html: `${data[2]}` // plain text body
+                  };
+                  
+                  transporter.sendMail(mailOptions, function (err, info) {
+                    if("este es el error" , err){
+                      console.log(err)
+                    }
+                      
+                    else{
+                      client.query(`update eventos set Alerta1Enviada='true' where idEventos = '${data[3]}'`)
+                      resolve({message:"envio exitoso"})
+                    }
+                      
+                  });
+                })
+                }; 
+          const Alert2 = async data => {
+            console.log(data)
+            return  new Promise((resolve, reject) => {
+              var transporter = nodemailer.createTransport({
+                service: 'gmail',
+                secure: true,
+                auth: {
+                        user: 'd93409@gmail.com',
+                        pass: 'jesus33.',
+                        host: 'smtp.gmail.com',
+                        port: 465,
+                    }
+                });
+                const mailOptions = {
+                from: 'd93409@gmail.com', // sender address
+                to: `${data[0]}`, // list of receivers
+                subject: 'Subject of your email', // Subject line
+                html: `${data[2]}` // plain text body
+              };
+              
+              transporter.sendMail(mailOptions, function (err, info) {
+                if("este es el error" , err){
+                  console.log(err)
+                }
+                  
+                else{
+                  client.query(`update eventos set Alerta2Enviada='true' where idEventos = '${data[3]}'`)
+                  resolve({message:"envio exitoso"})
+                }
+                  
+              });
+            })
+            }; 
+            const Alert3 = async data => {
+              console.log(data)
+              return  new Promise((resolve, reject) => {
+                var transporter = nodemailer.createTransport({
+                  service: 'gmail',
+                  secure: true,
+                  auth: {
+                          user: 'd93409@gmail.com',
+                          pass: 'jesus33.',
+                          host: 'smtp.gmail.com',
+                          port: 465,
+                      }
+                  });
+                  const mailOptions = {
+                  from: 'd93409@gmail.com', // sender address
+                  to: `${data[0]}`, // list of receivers
+                  subject: 'Subject of your email', // Subject line
+                  html: `${data[2]}` // plain text body
+                };
+                
+                transporter.sendMail(mailOptions, function (err, info) {
+                  if("este es el error" , err){
+                    console.log(err)
+                  }
+                    
+                  else{
+                    client.query(`update eventos set Alerta3Enviada='true' where idEventos = '${data[3]}'`)
+                    resolve({message:"envio exitoso"})
+                  }
+                    
+                });
+              })
+              }; 
       module.exports = {
+        Alert2,
+        Alert3,
+        Alert1,
         GetAdminAlfa,
         LoginAdminAlfa,
         SignupAdminAlfa,

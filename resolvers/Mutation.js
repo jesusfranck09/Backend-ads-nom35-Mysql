@@ -480,7 +480,28 @@ const editDataAdmin= async (_, { data }) => {
     const edit = await  actions.EditDataAdmin(divisiones)
     return edit;
 };
+const alert1= async (_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    const edit = await  actions.Alert1(divisiones)
+    return edit;
+};
+const alert2= async (_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    const edit = await  actions.Alert2(divisiones)
+    return edit;
+};
+const alert3= async (_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    const edit = await  actions.Alert3(divisiones)
+    return edit;
+};
 module.exports = {
+    alert2,
+    alert1,
+    alert3,
     loginAdminAlfa,
     signupAdminAlfa,
     editDataAdmin,
