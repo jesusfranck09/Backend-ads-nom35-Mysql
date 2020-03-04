@@ -71,7 +71,6 @@ type Mutation {
   rpValidadorPage7(data:[String]!):Data!
   rpValidadorPage8(data:[String]!):Data!
 
-
   eeoPage1(data:[String]!):Data!
   eeoPage2(data:[String]!):Data!
   eeoPage3(data:[String]!):Data!
@@ -116,6 +115,7 @@ type Mutation {
   alert1(data:[String!]):Data
   alert2(data:[String!]):Data
   alert3(data:[String!]):Data
+  updatePeriodo(data:[String!]):Data
 }
 
 type Sucursales {

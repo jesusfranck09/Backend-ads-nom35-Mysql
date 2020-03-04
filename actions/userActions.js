@@ -2003,73 +2003,73 @@ const GetresultGlobalSurveyEEO = async data => {
             )
             })
             }; 
-          const GetAdminFechaRegistro = async data => {
-            return  new Promise((resolve, reject) => {
-              client.query(`select * from superusuario where  id = '${data[0]}'`,
-                function (error, results, fields) {
-                if (error) reject(error) 
-                var string=JSON.stringify(results);
-                var resultados =  JSON.parse(string); 
-                resolve(resultados[0]) 
-                 console.log("resultados getusers",resultados)
-              },
-            )
-            })
-            }; 
-            const GetUsersTableEmployeesthisPeriodoATS = async data => {
-              console.log("la data que revcibo es es " , data)
-              console.log("la consulta",`select * from empleados inner join periodos on periodos.fk_empleados = empleados.id  where empleados.fk_administrador='${data[0]}' and empleados.EmpleadoActivo='true'and periodos.periodo='${data[1]}' and periodos.encuesta='ATS'`)
-              return  new Promise((resolve, reject) => {
-                client.query(`select * from empleados inner join periodos on periodos.fk_empleados = empleados.id  where empleados.fk_administrador='${data[0]}' and empleados.EmpleadoActivo='true'and periodos.periodo='${data[1]}' and periodos.encuesta='ATS'`,
-                  function (error, results, fields) {
-                  if (error) reject(error) 
-                  var string=JSON.stringify(results);
-                  var resultados =  JSON.parse(string); 
-                  resolve(resultados) 
-                  console.log("resultados getusers",resultados)
-                },
-              )
-              })
-              }; 
-            const AddAdminEmpresa = async data => {
-              console.log("data" ,data)
-              let auth1;
-              let auth2;
-              return  new Promise((resolve, reject) => {
-                client.query(`select * from administrador where rfc= '${data[2]}' or correo = '${data[4]}'`,
-                  function (error, results, fields) {
-                  if (error) reject(error) 
-                  var string=JSON.stringify(results);
-                  var resultados =  JSON.parse(string); 
-                  if(resultados[0]){
-                    resolve({message:"rfc o correo duplicados"})
-                  }
-                  else{
-                    bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
+        const GetAdminFechaRegistro = async data => {
+          return  new Promise((resolve, reject) => {
+            client.query(`select * from superusuario where  id = '${data[0]}'`,
+              function (error, results, fields) {
+              if (error) reject(error) 
+              var string=JSON.stringify(results);
+              var resultados =  JSON.parse(string); 
+              resolve(resultados[0]) 
+                console.log("resultados getusers",resultados)
+            },
+          )
+          })
+          }; 
+        const GetUsersTableEmployeesthisPeriodoATS = async data => {
+          console.log("la data que revcibo es es " , data)
+          console.log("la consulta",`select * from empleados inner join periodos on periodos.fk_empleados = empleados.id  where empleados.fk_administrador='${data[0]}' and empleados.EmpleadoActivo='true'and periodos.periodo='${data[1]}' and periodos.encuesta='ATS'`)
+          return  new Promise((resolve, reject) => {
+            client.query(`select * from empleados inner join periodos on periodos.fk_empleados = empleados.id  where empleados.fk_administrador='${data[0]}' and empleados.EmpleadoActivo='true'and periodos.periodo='${data[1]}' and periodos.encuesta='ATS'`,
+              function (error, results, fields) {
+              if (error) reject(error) 
+              var string=JSON.stringify(results);
+              var resultados =  JSON.parse(string); 
+              resolve(resultados) 
+              console.log("resultados getusers",resultados)
+            },
+          )
+          })
+          }; 
+        const AddAdminEmpresa = async data => {
+          console.log("data" ,data)
+          let auth1;
+          let auth2;
+          return  new Promise((resolve, reject) => {
+            client.query(`select * from administrador where rfc= '${data[2]}' or correo = '${data[4]}'`,
+              function (error, results, fields) {
+              if (error) reject(error) 
+              var string=JSON.stringify(results);
+              var resultados =  JSON.parse(string); 
+              if(resultados[0]){
+                resolve({message:"rfc o correo duplicados"})
+              }
+              else{
+                bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
+                  if (err) {
+                    reject(err,{message: 'Error',token: err}) 
+                  } else {
+                    bcrypt.hash(data[5], salt, function(err, hash) {
                       if (err) {
-                        reject(err,{message: 'Error',token: err}) 
+                        throw err
                       } else {
-                        bcrypt.hash(data[5], salt, function(err, hash) {
-                          if (err) {
-                            throw err
-                          } else {
-                            // console.log(hash)
-                            resolve({message:"admin Registrado",toke:hash})
-                           client.query(`insert into administrador (nombre, apellidos , RFC , RazonSocial ,correo,contraseña,Activo,FechaRegistro,fk_superusuario) values ('${data[0]}','${data[1]}','${data[2]}','${data[3]}','${data[4]}','${hash}','true','${data[6]}','${data[7]}')`)
-                           return client
-                          }
-                        })
+                        // console.log(hash)
+                        resolve({message:"admin Registrado",toke:hash})
+                        client.query(`insert into administrador (nombre, apellidos , RFC , RazonSocial ,correo,contraseña,Activo,FechaRegistro,fk_superusuario) values ('${data[0]}','${data[1]}','${data[2]}','${data[3]}','${data[4]}','${hash}','true','${data[6]}','${data[7]}')`)
+                        return client
                       }
                     })
                   }
-    
-                  
-                  // console.log("resultados getusers",resultados)
-                },
-              )
+                })
+              }
 
-              })
-              }; 
+              
+              // console.log("resultados getusers",resultados)
+            },
+          )
+
+          })
+          }; 
   
         const GetEmpresas = async data => {
          
@@ -2144,74 +2144,41 @@ const GetresultGlobalSurveyEEO = async data => {
             )
             })
             }; 
-            const EditDataAdmin = async data => {
-              console.log("la data para editar es " , data[0])
-              return  new Promise((resolve, reject) => {
-                bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
-                  if (err) {
-                    reject(err,{message: 'Error',token: err}) 
-                  } else {
-                    bcrypt.hash(data[3], salt, function(err, hash) {
-                      if (err) {
-                        throw err
-                      } else {
-                        // console.log(hash)
-                        resolve({ message: 'Actualización exitosa'})
-                       client.query(`update administrador set nombre='${data[0]}',Apellidos='${data[1]}',correo='${data[2]}',contraseña='${hash}' where id='${data[4]}' `)    
-                      return client
-                      }
-                    })
-                  }
-                })
+          const EditDataAdmin = async data => {
+            console.log("la data para editar es " , data[0])
+            return  new Promise((resolve, reject) => {
+              bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
+                if (err) {
+                  reject(err,{message: 'Error',token: err}) 
+                } else {
+                  bcrypt.hash(data[3], salt, function(err, hash) {
+                    if (err) {
+                      throw err
+                    } else {
+                      // console.log(hash)
+                      resolve({ message: 'Actualización exitosa'})
+                      client.query(`update administrador set nombre='${data[0]}',Apellidos='${data[1]}',correo='${data[2]}',contraseña='${hash}' where id='${data[4]}' `)    
+                    return client
+                    }
+                  })
+                }
               })
-              }; 
-              const GetAdminAlfa = async data => {
-                return  new Promise((resolve, reject) => {
-                  client.query(`select * from ventasAdminAlfa inner join adminAlfa on ventasAdminAlfa.fk_adminAlfa=adminAlfa.id inner join paquetes on ventasAdminAlfa.fk_paquetes = paquetes.id where ventasAdminAlfa.fk_adminAlfa = '${data[0]}' `,
-                    function (error, results, fields) {
-                    if (error) reject(error) 
-                    var string=JSON.stringify(results);
-                    var resultados =  JSON.parse(string);                
-                    resolve(resultados) 
-                     console.log("resultados GetAdminAlfa",resultados)
-                  },
-                )
-                })
-                }; 
-              const Alert1 = async data => {
-                console.log(data)
-                return  new Promise((resolve, reject) => {
-                  var transporter = nodemailer.createTransport({
-                    service: 'gmail',
-                    secure: true,
-                    auth: {
-                            user: 'd93409@gmail.com',
-                            pass: 'jesus33.',
-                            host: 'smtp.gmail.com',
-                            port: 465,
-                        }
-                    });
-                    const mailOptions = {
-                    from: 'd93409@gmail.com', // sender address
-                    to: `${data[0]}`, // list of receivers
-                    subject: 'Subject of your email', // Subject line
-                    html: `${data[2]}` // plain text body
-                  };
-                  
-                  transporter.sendMail(mailOptions, function (err, info) {
-                    if("este es el error" , err){
-                      console.log(err)
-                    }
-                      
-                    else{
-                      client.query(`update eventos set Alerta1Enviada='true' where idEventos = '${data[3]}'`)
-                      resolve({message:"envio exitoso"})
-                    }
-                      
-                  });
-                })
-                }; 
-          const Alert2 = async data => {
+            })
+            }; 
+          const GetAdminAlfa = async data => {
+            return  new Promise((resolve, reject) => {
+              client.query(`select * from ventasAdminAlfa inner join adminAlfa on ventasAdminAlfa.fk_adminAlfa=adminAlfa.id inner join paquetes on ventasAdminAlfa.fk_paquetes = paquetes.id where ventasAdminAlfa.fk_adminAlfa = '${data[0]}' `,
+                function (error, results, fields) {
+                if (error) reject(error) 
+                var string=JSON.stringify(results);
+                var resultados =  JSON.parse(string);                
+                resolve(resultados) 
+                  console.log("resultados GetAdminAlfa",resultados)
+              },
+            )
+            })
+            }; 
+          const Alert1 = async data => {
             console.log(data)
             return  new Promise((resolve, reject) => {
               var transporter = nodemailer.createTransport({
@@ -2237,47 +2204,114 @@ const GetresultGlobalSurveyEEO = async data => {
                 }
                   
                 else{
-                  client.query(`update eventos set Alerta2Enviada='true' where idEventos = '${data[3]}'`)
+                  client.query(`update eventos set Alerta1Enviada='true' where idEventos = '${data[3]}'`)
                   resolve({message:"envio exitoso"})
                 }
                   
               });
             })
             }; 
-            const Alert3 = async data => {
-              console.log(data)
-              return  new Promise((resolve, reject) => {
-                var transporter = nodemailer.createTransport({
-                  service: 'gmail',
-                  secure: true,
-                  auth: {
-                          user: 'd93409@gmail.com',
-                          pass: 'jesus33.',
-                          host: 'smtp.gmail.com',
-                          port: 465,
-                      }
-                  });
-                  const mailOptions = {
-                  from: 'd93409@gmail.com', // sender address
-                  to: `${data[0]}`, // list of receivers
-                  subject: 'Subject of your email', // Subject line
-                  html: `${data[2]}` // plain text body
-                };
+      const Alert2 = async data => {
+        console.log(data)
+        return  new Promise((resolve, reject) => {
+          var transporter = nodemailer.createTransport({
+            service: 'gmail',
+            secure: true,
+            auth: {
+                    user: 'd93409@gmail.com',
+                    pass: 'jesus33.',
+                    host: 'smtp.gmail.com',
+                    port: 465,
+                }
+            });
+            const mailOptions = {
+            from: 'd93409@gmail.com', // sender address
+            to: `${data[0]}`, // list of receivers
+            subject: 'Subject of your email', // Subject line
+            html: `${data[2]}` // plain text body
+          };
+          
+          transporter.sendMail(mailOptions, function (err, info) {
+            if("este es el error" , err){
+              console.log(err)
+            }
+              
+            else{
+              client.query(`update eventos set Alerta2Enviada='true' where idEventos = '${data[3]}'`)
+              resolve({message:"envio exitoso"})
+            }
+              
+          });
+        })
+        }; 
+        const Alert3 = async data => {
+          console.log(data)
+          return  new Promise((resolve, reject) => {
+            var transporter = nodemailer.createTransport({
+              service: 'gmail',
+              secure: true,
+              auth: {
+                      user: 'd93409@gmail.com',
+                      pass: 'jesus33.',
+                      host: 'smtp.gmail.com',
+                      port: 465,
+                  }
+              });
+              const mailOptions = {
+              from: 'd93409@gmail.com', // sender address
+              to: `${data[0]}`, // list of receivers
+              subject: 'Subject of your email', // Subject line
+              html: `${data[2]}` // plain text body
+            };
+            
+            transporter.sendMail(mailOptions, function (err, info) {
+              if("este es el error" , err){
+                console.log(err)
+              }
                 
-                transporter.sendMail(mailOptions, function (err, info) {
-                  if("este es el error" , err){
-                    console.log(err)
-                  }
-                    
-                  else{
-                    client.query(`update eventos set Alerta3Enviada='true' where idEventos = '${data[3]}'`)
-                    resolve({message:"envio exitoso"})
-                  }
-                    
-                });
-              })
-              }; 
+              else{
+                client.query(`update eventos set Alerta3Enviada='true' where idEventos = '${data[3]}'`)
+                resolve({message:"envio exitoso"})
+              }
+                
+            });
+          })
+          }; 
+        const UpdatePeriodo = async data => {
+          console.log("data" , data)
+          return  new Promise((resolve, reject) => {
+            client.query(`select * from eventos where fk_administrador = '${data[5]}' and Descripcion = '${data[0]}'`,
+            function (error, results, fields) {
+            if (error) reject(error) 
+            var string=JSON.stringify(results);
+            var resultados =  JSON.parse(string);       
+            if(resultados[0]){
+              resolve({message:"evento existente"})
+          }else{
+            client.query(`select * from eventos where fk_administrador = '${data[5]}' and EventoActivo = 'true'`,
+            function (error, results, fields) {
+            if (error) reject(error) 
+            var string=JSON.stringify(results);
+            var resultados =  JSON.parse(string);       
+            if(resultados[0]){
+            client.query(`update eventos set eventoFinal='${data[1]}', alerta1 = '${data[2]}' , alerta2='${data[3]}', alerta3='${data[4]}' , Descripcion ='${data[0]}' where fk_administrador = '${data[5]}' and eventoActivo ='true'`)
+              resolve({message:"evento Actualizdo"})
+          }else{
+             resolve({message:"no hay eventos"})
+            }   
+             
+          },
+        )
+            }   
+             
+          },
+        )
+
+          })
+          }; 
+              
       module.exports = {
+        UpdatePeriodo,
         Alert2,
         Alert3,
         Alert1,
