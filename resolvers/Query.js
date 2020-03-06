@@ -18,7 +18,10 @@ const getUsersTableEmployees = (_,args ) => {
 }
 
 const resultSingleSurvey = (_,args ) => {
-     return actions.ResultSingleSurvey(args)
+    console.log("args",args)
+    var miCadena =args.data[0];
+    var divisiones = miCadena.split(",");
+     return actions.ResultSingleSurvey(divisiones)
      .then( res => res)
       .catch( err => err );
                  
@@ -26,14 +29,18 @@ const resultSingleSurvey = (_,args ) => {
 
 
 const resultSingleSurveyRP = (_,args ) => {
-     return actions.ResultSingleSurveyRP(args)
+    var miCadena =args.data[0];
+    var divisiones = miCadena.split(",");
+     return actions.ResultSingleSurveyRP(divisiones)
      .then( res => res)
       .catch( err => err );
                  
 }
 
 const resultSingleSurveyEEO = (_,args ) => {
-     return actions.ResultSingleSurveyEEO(args)
+    var miCadena =args.data[0];
+    var divisiones = miCadena.split(",");
+     return actions.ResultSingleSurveyEEO(divisiones)
      .then( res => res)
       .catch( err => err );
                  

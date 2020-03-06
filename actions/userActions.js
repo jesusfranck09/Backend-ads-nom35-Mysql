@@ -1197,10 +1197,10 @@ const getUsers = async data => {
     })
 };
 const ResultSingleSurvey = async data => {
-console.log(`select * from respuestasATS inner join empleados on respuestasATS.fk_empleados = empleados.id where empleados.id = ${data.data[0]} `)
+console.log("query",`select * from respuestasats inner join empleados on respuestasats.fk_empleados = empleados.id where respuestasats.fk_empleados = '${data[0]}' and respuestasats.periodo = '${data[1]}' `)
   return  new Promise((resolve, reject) => {
       client
-      .query(`select * from respuestasATS inner join empleados on respuestasATS.fk_empleados = empleados.id where empleados.id = ${data.data[0]} `,
+      .query(`select * from respuestasats inner join empleados on respuestasats.fk_empleados = empleados.id where respuestasats.fk_empleados = '${data[0]}' and respuestasats.periodo = '${data[1]}' `,
         function (error, results, fields) {
         var string=JSON.stringify(results);
         var resultados =  JSON.parse(string); 
@@ -1216,12 +1216,13 @@ console.log(`select * from respuestasATS inner join empleados on respuestasATS.f
 
 const ResultSingleSurveyRP = async data => {
     return  new Promise((resolve, reject) => {
+      console.log("query ",`select * from respuestasrp inner join empleados on respuestasrp.fk_empleadosrp = empleados.id where respuestasrp.fk_empleadosrp ='${data[0]}' and respuestasrp.periodo ='${data[1]}' `)
         client
-        .query(`select * from empleados inner join respuestasrp on respuestasRP.fk_empleadosRP = empleados.id where empleados.id = ${data.data[0]} `,
+        .query(`select * from respuestasrp inner join empleados on respuestasrp.fk_empleadosrp = empleados.id where respuestasrp.fk_empleadosrp ='${data[0]}' and respuestasrp.periodo ='${data[1]}' `,
           function (error, results, fields) {
           var string=JSON.stringify(results);
           var resultados =  JSON.parse(string); 
-          console.log("los resultados single survey  son ",resultados )
+          console.log("los resultados single surveyats  son ",resultados )
           resolve(resultados
           ) 
         },
@@ -1231,9 +1232,9 @@ const ResultSingleSurveyRP = async data => {
 
 const ResultSingleSurveyEEO = async data => {
   return  new Promise((resolve, reject) => {
-  console.log("el id del empleado es " , data.data[0])
+  console.log("el id del empleado es " , data[0])
       client
-      .query(`select * from empleados inner join respuestasEEO on respuestasEEO.fk_empleados = empleados.id where empleados.id = ${data.data[0]} `,
+      .query(`select * from respuestaseeo inner join empleados on respuestaseeo.fk_empleados = empleados.id where respuestaseeo.fk_empleados = '${data[0]}' and respuestaseeo.periodo ='${data[1]}' `,
         function (error, results, fields) {
         var string=JSON.stringify(results);
         var resultados =  JSON.parse(string); 
