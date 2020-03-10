@@ -2310,8 +2310,38 @@ const GetresultGlobalSurveyEEO = async data => {
 
           })
           }; 
-              
+
+          const LoadLogo = async data => {
+            return  new Promise((resolve, reject) => {
+              client.query(`select * from logos`,
+                function (error, results, fields) {
+                if (error) reject(error) 
+                var string=JSON.stringify(results);
+                var resultados =  JSON.parse(string);                
+                resolve({IMAGE:resultados[0].IMAGE}) 
+                 
+              },
+            )
+            })
+            }; 
+
+            const getImage = async data => {
+              return  new Promise((resolve, reject) => {
+                client.query(`select image from logos`,
+                  function (error, results, fields) {
+                  if (error) reject(error) 
+                  var string=JSON.stringify(results);
+                  var resultados =  JSON.parse(string);                
+                  resolve({image:resultados[0].image}) 
+                  console.log("load image",resultados[0].image)
+                },
+              )
+              })
+              }; 
+                
       module.exports = {
+        getImage,
+        LoadLogo,
         UpdatePeriodo,
         Alert2,
         Alert3,

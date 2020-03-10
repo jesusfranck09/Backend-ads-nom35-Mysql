@@ -268,8 +268,17 @@ const getAdminAlfa= async (_, { data }) => {
     .catch( err => err );
 };
 
+const getImage= async (_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    console.log("divisiones",divisiones)
+    return actions.getImage(divisiones)
+    .then( res => res)
+    .catch( err => err );
+};
 
      module.exports = {
+        getImage,
         getAdminAlfa,
         countEmpresas,
         verifyPackSuperUser,

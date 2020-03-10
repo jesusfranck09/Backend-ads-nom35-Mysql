@@ -504,7 +504,15 @@ const updatePeriodo= async (_, { data }) => {
     const edit = await  actions.UpdatePeriodo(divisiones)
     return edit;
 };
+
+const loadLogo = (_, { data }) => {
+
+    return actions.LoadLogo(data)
+                  .then( res => res)
+                  .catch( err => err );
+};
 module.exports = {
+    loadLogo,
     updatePeriodo,
     alert2,
     alert1,

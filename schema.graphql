@@ -42,6 +42,7 @@ scalar Upload
     verifyPackSuperUser(data: [String]!):Pack
     countEmpresas(data: [String]!):Pack
     getAdminAlfa(data: [String]!):[adminAlfa]
+     getImage(data: [String]!):Data
  }        
 
  
@@ -116,6 +117,8 @@ type Mutation {
   alert2(data:[String!]):Data
   alert3(data:[String!]):Data
   updatePeriodo(data:[String!]):Data
+   loadLogo(data:[String!]):Data
+
 }
 
 type Sucursales {
@@ -429,7 +432,8 @@ type Data {
   eventoFinal:String
   alerta1:String
   alerta2:String,
-  alerta3:String
+  alerta3:String,
+  image:String
 }
 
 type MaxidEmployeesResolves{
