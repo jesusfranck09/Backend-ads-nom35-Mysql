@@ -29,10 +29,10 @@
 var mysql = require('mysql');
 
 var con = mysql.createConnection({
-  database:"nom35",
-  host: "localhost",
-  user: "frnk",
-  password: "jesus33.",
+  database:"heroku_e815156f37933c9",
+  host: "us-cdbr-iron-east-04.cleardb.net",
+  user: "b32fbf2647107b",
+  password: "57e93245",
   port: '3306',
   timeout: 60000,
 });
