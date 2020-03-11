@@ -6,35 +6,25 @@ const { importSchema } = require("graphql-import");
 const typeDefs = importSchema("./schema.graphql");
 const resolvers = require('./resolvers');
 const express = require('express')
+const http = require ('http')
+const path = require ('path')
 const schema = makeExecutableSchema({
 	typeDefs,
 	resolvers,
 });
 
-var app = express();
+const app = express();
 
-app.use(function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', "*");
-  res.header('Access-Control-Allow-Methods','GET,PUT,POST,DELETE');
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
-  next();
-})
+app.set('port',process.env.PORT || 8000)
+app.use(express.static(path.join(__dirname,'public')))
 
-const options = {
-    port: process.env.PORT || 8000,
-    cors: {
-      credentials: true,
-      origin: ["http://localhost:3000"] // your frontend url.
-    }
-};
 
 const server = new GraphQLServer({
   schema,
+  app,
   context: req => ({...req})
 });
 
-server.start(options, ({ port }) =>
-  console.log(
-    `Server started, listening on port ${port} for incoming requests.`,
-  ),
-);
+server.start(app.get('port'),()=>{
+  console.log(`server on port ${app.get('port')}`)
+})
