@@ -21,10 +21,7 @@ app.use(function(req, res, next) {
 })
 
 const options = {
-    port: 8000,
-    endpoint: '/graphql',
-    subscriptions: '/subscriptions',
-    playground: '/playground',
+    port: process.env.PORT || 8000,
     cors: {
       credentials: true,
       origin: ["http://localhost:3000"] // your frontend url.
