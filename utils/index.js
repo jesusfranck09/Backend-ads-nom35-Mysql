@@ -8,7 +8,7 @@ const createToken = (email ,password) => {
         email,
         password
     }
-    return jwt.sign(payload, process.env.JWT_SECRET);
+    return jwt.sign(payload, 'shh');
 };
 
 // const authUserById = (context) => {
