@@ -15,18 +15,16 @@ const schema = makeExecutableSchema({
 
 const app = express();
 
-app.set('port',process.env.PORT || 4000)
+app.set('port',process.env.PORT || 8000)
+app.use(express.static(path.join(__dirname,'public')))
 
 
-app.get('/consultas', (req, res) => {
-  res.status(200).send({
-    success: 'true',
-    message: 'todos retrieved successfully',
-    endpoint: '/graphql',
-    subscriptions: '/subscriptions',
-    playground: '/playground',
-  })
-});
+const options = {
+  endpoint: '/graphql',
+  subscriptions: '/subscriptions',
+  playground: '/playground',
+};
+
 
 const server = new GraphQLServer({
   schema,
@@ -34,7 +32,7 @@ const server = new GraphQLServer({
   context: req => ({...req})
 });
 
-server.start(app, ({ port }) =>
+server.start(options, ({ port }) =>
   console.log(
     `Server started, listening on port ${port} for incoming requests.`,
   ),
