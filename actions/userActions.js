@@ -1138,14 +1138,14 @@ var transporter = nodemailer.createTransport({
   service: 'gmail',
   secure: true,
   auth: {
-          user: 'd93409@gmail.com',
-          pass: 'jesus33.',
+          user: 'adsdiagnostico035@gmail.com',
+          pass: 'ads*473alfa',
           host: 'smtp.gmail.com',
           port: 465,
       }
   });
   const mailOptions = {
-  from: 'd93409@gmail.com', // sender address
+  from: 'adsdiagnostico035@gmail.com', // sender address
   to: `${args[0]}`, // list of receivers
   subject: 'Subject of your email', // Subject line
   html: '<p>Estimado Colaborador por medio de este enlace le envío su encuesta por favor responderla lo antes posible saludos </p> https://master.d27wi09jptfs9v.amplifyapp.com/survey' // plain text body
