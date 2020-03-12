@@ -19,6 +19,8 @@ app.set('port',process.env.PORT || 8000)
 app.use(express.static(path.join(__dirname,'public')))
 
 
+
+app.get()
 const options = {
   endpoint: '/graphql',
   subscriptions: '/subscriptions',

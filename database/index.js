@@ -34,7 +34,7 @@ var con = mysql.createConnection({
   user: "b32fbf2647107b",
   password: "57e93245",
   port: '3306',
-  timeout: 60000,
+  
 });
 
 con.connect(function(err) {
