@@ -117,6 +117,9 @@ const  login = async (email,password) => {
       client
       .query(`select * from  superusuario where correo='${email}' `,
      function (error, results, fields) {
+       if(error){
+         console.log("error")
+       }
         var string=JSON.stringify(results);
         var resultados =  JSON.parse(string); 
         console.log("resukltados" , resultados)    
