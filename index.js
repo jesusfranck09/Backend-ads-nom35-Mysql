@@ -20,17 +20,13 @@ app.use(express.static(path.join(__dirname,'public')))
 
 
 
-app.get()
-const options = {
-  endpoint: '/graphql',
-  subscriptions: '/subscriptions',
-  playground: '/playground',
-};
-
 app.get('/consultas', (req, res) => {
   res.status(200).send({
     success: 'true',
     message: 'todos retrieved successfully',
+    endpoint: '/graphql',
+    subscriptions: '/subscriptions',
+    playground: '/playground',
   })
 });
 
@@ -40,7 +36,7 @@ const server = new GraphQLServer({
   context: req => ({...req})
 });
 
-server.start(options, ({ port }) =>
+server.start(app, ({ port }) =>
   console.log(
     `Server started, listening on port ${port} for incoming requests.`,
   ),
