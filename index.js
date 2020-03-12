@@ -19,11 +19,6 @@ app.set('port',process.env.PORT || 8000)
 app.use(express.static(path.join(__dirname,'public')))
 
 
-const options = {
-  endpoint: '/graphql',
-  subscriptions: '/subscriptions',
-  playground: '/playground',
-};
 
 
 const server = new GraphQLServer({
@@ -32,7 +27,7 @@ const server = new GraphQLServer({
   context: req => ({...req})
 });
 
-server.start(options, ({ port }) =>
+server.start(({ port }) =>
   console.log(
     `Server started, listening on port ${port} for incoming requests.`,
   ),
