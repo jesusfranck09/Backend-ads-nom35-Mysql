@@ -27,6 +27,12 @@ const options = {
   playground: '/playground',
 };
 
+app.get('/consultas', (req, res) => {
+  res.status(200).send({
+    success: 'true',
+    message: 'todos retrieved successfully',
+  })
+});
 
 const server = new GraphQLServer({
   schema,
