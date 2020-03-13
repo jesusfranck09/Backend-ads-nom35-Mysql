@@ -301,6 +301,22 @@ if(data[0]=="si"){
     resolve(resultados)
       client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','1','${resultados[0].id}','${data[2]}')`); 
       client.query(`update empleados set ATSDetectado='true' where id = ${resultados[0].id} `);    
+    
+      client
+        .query(`select Max(id) as idMaximo from  correos where fk_empleados='${resultados[0].id}' and encuesta = "ATS"`,
+          function (error, redults, fields) {
+          var string=JSON.stringify(redults);
+        var resultados1 =  JSON.parse(string); 
+        resolve(resultados1)                
+        var maximo = resultados1[0].idMaximo
+        client.query(`update correos set contestado ='true' where id = ${maximo} `);    
+        client.query(`update empleados set ATSContestado ='true' where correo ='${data[1]}' `);  
+        return client   
+
+        }
+        
+        )
+    
       return  client       
   },
 )
@@ -412,22 +428,7 @@ const AtsPage4 = async data => {
           client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[3]}','15','${resultados[0].id}','${data[6]}')`); 
           client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[4]}','16','${resultados[0].id}','${data[6]}')`);      
           client.query(`insert into periodos(fk_empleados,periodo,encuesta) values ('${resultados[0].id}','${data[6]}','ATS')`);    
- 
-          client
-        .query(`select Max(id) as idMaximo from  correos where fk_empleados='${resultados[0].id}' and encuesta = "ATS"`,
-          function (error, redults, fields) {
-          var string=JSON.stringify(redults);
-        var resultados1 =  JSON.parse(string); 
-        resolve(resultados1)                
-        var maximo = resultados1[0].idMaximo
-        client.query(`update correos set contestado ='true' where id = ${maximo} `);    
-        client.query(`update empleados set ATSContestado ='true' where correo ='${data[5]}' `);  
-        return client   
-
-        }
-        
-        )
-          
+   
           return  client        
       },
     )
@@ -456,6 +457,18 @@ const RPPage1 = async data => {
           client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[7]}','8','${resultados[0].id}','${data[10]}','${data[18]}')`); 
           client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[8]}','9','${resultados[0].id}','${data[10]}','${data[19]}')`); 
 
+          client.query(`select Max(id) as idMaximo from  correos where fk_empleados='${resultados[0].id}' and encuesta = "RP"`,
+          function (error, redults, fields) {
+          var string=JSON.stringify(redults);
+          var resultados1 =  JSON.parse(string); 
+          resolve(resultados1)                
+          var maximo = resultados1[0].idMaximo
+          client.query(`update correos set contestado ='true' where id = ${maximo} `);    
+          client.query(`update empleados set RPContestado ='true' where correo ='${data[9]}'`);   
+          return client    
+          }
+          
+          )
           return  client       
       },
     )
@@ -618,20 +631,8 @@ const RPPage8 = async data => {
           client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[1]}','45','${resultados[0].id}','${data[4]}','${data[6]}')`); 
           client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[2]}','46','${resultados[0].id}','${data[4]}','${data[7]}')`); 
           client.query(`insert into periodos(fk_empleados,periodo,encuesta) values ('${resultados[0].id}','${data[4]}','RP')`);
-          client.query(`select Max(id) as idMaximo from  correos where fk_empleados='${resultados[0].id}' and encuesta = "RP"`,
-          function (error, redults, fields) {
-          var string=JSON.stringify(redults);
-          var resultados1 =  JSON.parse(string); 
-          resolve(resultados1)                
-          var maximo = resultados1[0].idMaximo
-          client.query(`update correos set contestado ='true' where id = ${maximo} `);    
-          client.query(`update empleados set RPContestado ='true' where correo ='${data[3]}'`);   
-          return client    
-          }
           
-          )
-          
-          return  client       
+      return  client       
       },
     )
     })
@@ -724,6 +725,22 @@ const EEOPage1 = async data => {
           client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[2]}','3','${resultados[0].id}','${data[6]}','${data[9]}')`); 
           client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[3]}','4','${resultados[0].id}','${data[6]}','${data[10]}')`); 
           client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[4]}','5','${resultados[0].id}','${data[6]}','${data[11]}')`); 
+          
+          
+          client
+          .query(`select Max(id) as idMaximo from  correos where fk_empleados='${resultados[0].id}' and encuesta = "EEO"`,
+            function (error, redults, fields) {
+            var string=JSON.stringify(redults);
+          var resultados1 =  JSON.parse(string); 
+          resolve(resultados1)                
+          var maximo = resultados1[0].idMaximo
+          client.query(`update correos set contestado ='true' where id = ${maximo} `); 
+          client.query(`update empleados set EEOContestado ='true' where correo = '${data[5]}'`);    
+          return client    
+          }
+          
+          )
+          
           return  client       
       },
     )
@@ -1025,19 +1042,6 @@ const EEOPage14 = async data => {
           client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[3]}','72','${resultados[0].id}','${data[5]}','${data[9]}')`); 
           client.query(`insert into periodos(fk_empleados,periodo,encuesta) values ('${resultados[0].id}','${data[5]}','EEO')`);
 
-          client
-          .query(`select Max(id) as idMaximo from  correos where fk_empleados='${resultados[0].id}' and encuesta = "EEO"`,
-            function (error, redults, fields) {
-            var string=JSON.stringify(redults);
-          var resultados1 =  JSON.parse(string); 
-          resolve(resultados1)                
-          var maximo = resultados1[0].idMaximo
-          client.query(`update correos set contestado ='true' where id = ${maximo} `); 
-          client.query(`update empleados set EEOContestado ='true' where correo = '${data[4]}'`);    
-          return client    
-          }
-          
-          )
           return  client       
       },
     )
