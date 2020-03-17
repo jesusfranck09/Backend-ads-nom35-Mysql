@@ -1148,21 +1148,7 @@ var transporter = nodemailer.createTransport({
           port: 465,
       }
   });
-  const mailOptions = {
-  from: 'adsdiagnostico035@gmail.com', // sender address
-  to: `${args[0]}`, // list of receivers
-  subject: 'Subject of your email', // Subject line
-  html: '<p>Estimado Colaborador por medio de este enlace le envío su encuesta por favor responderla lo antes posible saludos </p> https://master.d27wi09jptfs9v.amplifyapp.com/survey' // plain text body
-};
-
-transporter.sendMail(mailOptions, function (err, info) {
-  if("este es el error" , err)
-    console.log(err)
-  else
-    console.log("esta es la info" ,  info);
-});
-
-var encuesta =""
+  var encuesta =""
 console.log("estos son los args", args[2] )
 if(args[2]==1){
 
@@ -1176,6 +1162,21 @@ if(args[2]==3){
 
   encuesta="EEO"
 }
+  const mailOptions = {
+  from: 'adsdiagnostico035@gmail.com', // sender address
+  to: `${args[0]}`, // list of receivers
+  subject: 'Iniciar Evaluación', // Subject line
+  html: `<p>Estimado Colaborador por medio de este enlace le envío su encuesta ${encuesta}, en el panel por favor seleccione la opción que le corresponda  e ingrese su correo electrónico para iniciar su evaluación <br/> ATENTAMENTE la Adminstración </p> https://master.d14ylpne1awxxr.amplifyapp.com/` // plain text body
+};
+
+transporter.sendMail(mailOptions, function (err, info) {
+  if("este es el error" , err)
+    console.log(err)
+  else
+    console.log("esta es la info" ,  info);
+});
+
+
 
 
 return  new Promise((resolve, reject) => {
@@ -2193,16 +2194,16 @@ const GetresultGlobalSurveyEEO = async data => {
                 service: 'gmail',
                 secure: true,
                 auth: {
-                        user: 'd93409@gmail.com',
-                        pass: 'jesus33.',
-                        host: 'smtp.gmail.com',
-                        port: 465,
+                  user: 'adsdiagnostico035@gmail.com',
+                  pass: 'ads*473alfa',
+                  host: 'smtp.gmail.com',
+                  port: 465,
                     }
                 });
                 const mailOptions = {
-                from: 'd93409@gmail.com', // sender address
+                from: 'adsdiagnostico035@gmail.com', // sender address
                 to: `${data[0]}`, // list of receivers
-                subject: 'Subject of your email', // Subject line
+                subject: 'Primera Alerta', // Subject line
                 html: `${data[2]}` // plain text body
               };
               
@@ -2226,16 +2227,16 @@ const GetresultGlobalSurveyEEO = async data => {
             service: 'gmail',
             secure: true,
             auth: {
-                    user: 'd93409@gmail.com',
-                    pass: 'jesus33.',
-                    host: 'smtp.gmail.com',
-                    port: 465,
+              user: 'adsdiagnostico035@gmail.com',
+              pass: 'ads*473alfa',
+              host: 'smtp.gmail.com',
+              port: 465,
                 }
             });
             const mailOptions = {
-            from: 'd93409@gmail.com', // sender address
+            from: 'adsdiagnostico035@gmail.com', // sender address
             to: `${data[0]}`, // list of receivers
-            subject: 'Subject of your email', // Subject line
+            subject: 'Segunda Alerta', // Subject line
             html: `${data[2]}` // plain text body
           };
           
@@ -2259,16 +2260,16 @@ const GetresultGlobalSurveyEEO = async data => {
               service: 'gmail',
               secure: true,
               auth: {
-                      user: 'd93409@gmail.com',
-                      pass: 'jesus33.',
-                      host: 'smtp.gmail.com',
-                      port: 465,
+                user: 'adsdiagnostico035@gmail.com',
+                pass: 'ads*473alfa',
+                host: 'smtp.gmail.com',
+                port: 465,
                   }
               });
               const mailOptions = {
-              from: 'd93409@gmail.com', // sender address
+              from: 'adsdiagnostico035@gmail.com', // sender address
               to: `${data[0]}`, // list of receivers
-              subject: 'Subject of your email', // Subject line
+              subject: 'Tercera Alerta', // Subject line
               html: `${data[2]}` // plain text body
             };
             
