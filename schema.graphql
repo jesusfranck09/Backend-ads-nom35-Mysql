@@ -133,7 +133,7 @@ Ciudad:String,
 Estado:String,
 actividad:String,
 telefono:String,
-correo:String,
+actividades:String,
 fk_administrador:String
 }
 
