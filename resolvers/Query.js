@@ -276,8 +276,16 @@ const getImage= async (_, { data }) => {
     .then( res => res)
     .catch( err => err );
 };
+const getallPeriodo= async (_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    return actions.GetallPeriodo(divisiones)
+    .then( res => res)
+    .catch( err => err );
+};
 
      module.exports = {
+        getallPeriodo,
         getImage,
         getAdminAlfa,
         countEmpresas,

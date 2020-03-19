@@ -1909,7 +1909,7 @@ const GetresultGlobalSurveyEEO = async data => {
         const AddPeriodo = async data => {
          console.log("data periodo" , data[1]) 
           return  new Promise((resolve, reject) => {
-                client.query(`select * from eventos where Descripcion = '${data[0]}'`,
+                client.query(`select * from eventos where Descripcion = '${data[0]}' and fk_administrador ='${data[6]}'`,
                 function (error, results, fields) {
                 var string=JSON.stringify(results);
                 var resultados =  JSON.parse(string);
@@ -2394,8 +2394,24 @@ const GetresultGlobalSurveyEEO = async data => {
               )
               })
               }; 
+
+          const GetallPeriodo = async data => {
+            return  new Promise((resolve, reject) => {
+                client.query(`select * from eventos where fk_administrador = '${data[0]}'`,
+                  function (error, results, fields) {
+                  var string=JSON.stringify(results);
+                  var resultados =  JSON.parse(string);
+                  console.log("los resu son", resultados)
+                  resolve(resultados
+                  ) 
+                },
+              )
+              })
+            };   
+  
                 
       module.exports = {
+        GetallPeriodo,
         getImage,
         LoadLogo,
         UpdatePeriodo,

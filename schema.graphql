@@ -35,6 +35,7 @@ scalar Upload
     sucActive(data: [String]!):[sucuActive]
     puestoActive(data: [String]!):[puesActive]
     getPeriodo(data: [String]!):[periodo]
+    getallPeriodo(data: [String]!):[periodo]
     getPeriodoDesabilited(data: [String]!):[periodo]
     getEventos(data: [String]!):Data
     getEmployeesFkAdmin(data: [String]!):[JsonEmployee]
@@ -225,6 +226,7 @@ type  JsonEmployee{
   ATSContestado:String,
   RPContestado:String,
   EEOContestado:String
+  CentroTrabajo:String
 }
 
 type Auth {
@@ -313,6 +315,12 @@ type periodo {
   Alerta1Enviada:String
   Alerta2Enviada:String
   Alerta3Enviada:String
+  evento:String
+  eventoFinal:String
+  alerta1:String
+  alerta2:String
+  alerta3:String
+             
 }
 type respuestasRP {
     id:String,
