@@ -249,24 +249,72 @@ const  login = async (email,password) => {
         client
         .query(`select * from  empleados where correo='${data[9]}'  and fk_administrador='${data[21]}'`,
         function (error, results, fields) {
-          var string=JSON.stringify(results);
-          var resultados =  JSON.parse(string); 
-          console.log("resultados resu", resultados)
-          if(resultados[0]){
+          if(resultados){
+            var string=JSON.stringify(results);
+            var resultados =  JSON.parse(string); 
+            console.log("resultados resu", resultados)
             resolve({message:"correo existente"})
           }else{
             client
-            .query(`insert into empleados (nombre,ApellidoP,ApellidoM,Curp,RFC,FechaNacimiento,Sexo,CP,EstadoCivil,CentroTrabajo,correo,AreaTrabajo,Puesto,Ciudad,NivelEstudios,TipoPersonal,JornadaTrabajo,TipoContratacion,TiempoPuesto,ExperienciaLaboral,RotacionTurnos,fk_administrador,ATSContestado,RPContestado,EEOContestado,ATSDetectado,EmpleadoActivo) values ('${data[0]}', '${data[1]}', '${data[2]}', '${data[3]}', '${data[4]}', '${data[5]}', '${data[6]}', '${data[7]}', '${data[8]}', '${data[20]}','${data[9]}', '${data[10]}', '${data[11]}', '${data[12]}', '${data[13]}', '${data[14]}', '${data[15]}', '${data[16]}', '${data[17]}', '${data[18]}', '${data[19]}','${data[21]}','false','false','false','false','true')`); 
-            resolve({
-              message: 'registro exitoso',
-            });
-          }
-         
-          
+            .query(`select * from sucursales where fk_administrador = '${data[21]}' and nombreSucursal='${data[20]}' `,
+             function (error, results, fields) {
+             if (error) reject(error) 
+             console.log("resultados sucursales" , `select * from sucursales where fk_administrador = '${data[21]}' and nombreSucursal='${data[20]}' `)
+             console.log("resultados de la consulta suc" , results)
+             var string=JSON.stringify(results);
+             var resultados =  JSON.parse(string); 
+             if(resultados[0]){
+              client
+              .query(`select * from departamentos where fk_administrador = '${data[21]}' and nombre='${data[10]}' `,
+            
+              function (error, results, fields) {
+               if (error) reject(error) 
+               console.log("query dep",`select * from departamentos where fk_administrador = '${data[21]}' and nombre='${data[10]}' `) 
+               var strings=JSON.stringify(results);
+                var result=  JSON.parse(strings); 
+                console.log("resultados de la consulta dep" , results)
+               if(result[0]){
+                client
+                .query(`select * from puestos where fk_administrador = '${data[21]}' and nombre='${data[11]}' `,
+                 function (error, results, fields) {
+                 if (error) reject(error) 
+                 var stringss=JSON.stringify(results);
+                 var resu =  JSON.parse(stringss); 
+                 console.log("querypuestos",`select * from puestos where fk_administrador = '${data[21]}' and nombre='${data[11]}' `)
+                 console.log("resultados de la consulta pue" , results)
+                 if(resu[0]){
+                  client
+                  .query(`insert into empleados (nombre,ApellidoP,ApellidoM,Curp,RFC,FechaNacimiento,Sexo,CP,EstadoCivil,CentroTrabajo,correo,AreaTrabajo,Puesto,Ciudad,NivelEstudios,TipoPersonal,JornadaTrabajo,TipoContratacion,TiempoPuesto,ExperienciaLaboral,RotacionTurnos,fk_administrador,ATSContestado,RPContestado,EEOContestado,ATSDetectado,EmpleadoActivo) values ('${data[0]}', '${data[1]}', '${data[2]}', '${data[3]}', '${data[4]}', '${data[5]}', '${data[6]}', '${data[7]}', '${data[8]}', '${data[20]}','${data[9]}', '${data[10]}', '${data[11]}', '${data[12]}', '${data[13]}', '${data[14]}', '${data[15]}', '${data[16]}', '${data[17]}', '${data[18]}', '${data[19]}','${data[21]}','false','false','false','false','true')`); 
+                  resolve({
+                    message: 'registro exitoso',
+                  });
+
+                 }else{
+                  resolve({
+                    message: 'el puesto no existe',
+                  });
+                 }
+                },
+              )
+               }else{
+                resolve({
+                  message: 'el departamento no existe',
+                });
+               }
+              },
+            )
+             }else{
+              resolve({
+                message: 'la sucursal no existe',
+              });
+             }
+            },
+          )
+            
+          } 
         },
       )
       })
-    
     };
 
 const registerRazonS = async data => {
