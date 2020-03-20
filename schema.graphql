@@ -44,6 +44,7 @@ scalar Upload
     countEmpresas(data: [String]!):Pack
     getAdminAlfa(data: [String]!):[adminAlfa]
      getImage(data: [String]!):Data
+    getCorreos(data: [String]!):[correos]
  }        
 
  
@@ -136,6 +137,7 @@ actividad:String,
 telefono:String,
 actividades:String,
 fk_administrador:String
+
 }
 
 type resultPonderacion  {
@@ -465,4 +467,14 @@ RazonSocial:String,
 correo:String,
 Activo:String,
 fk_superusuario:String,
+nombreAdmin:String
+}
+
+type correos{
+  Encuesta:String
+  fecha:String
+  nombre:String
+  ApellidoP:String
+  ApellidoM:String
+  Curp:String
 }

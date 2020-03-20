@@ -283,8 +283,16 @@ const getallPeriodo= async (_, { data }) => {
     .then( res => res)
     .catch( err => err );
 };
+const getCorreos= async (_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    return actions.GetCorreos(divisiones)
+    .then( res => res)
+    .catch( err => err );
+};
 
      module.exports = {
+        getCorreos,
         getallPeriodo,
         getImage,
         getAdminAlfa,

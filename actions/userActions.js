@@ -216,7 +216,7 @@ const  login = async (email,password) => {
                   message: 'Login exitoso',
                   token: createToken( resultados[0].correo, resultados[0].contraseña),
                   id:resultados[0].id,
-                  nombre:resultados[0].nombre,
+                  nombre:resultados[0].nombreAdmin,
                   Apellidos:resultados[0].Apellidos,
                   RFC:resultados[0].RFC,
                   RazonSocial:resultados[0].RazonSocial,
@@ -1606,11 +1606,11 @@ const UpdateEmployees = async data => {
 const UpdateSucursales = async data => { 
   console.log("la data en updatesucursales es  " , data)
   return new Promise((resolve, reject) => {
-    client.query(`select  *  from  administrador where correo='${data[11]}'`,
+    client.query(`select  *  from  administrador where correo='${data[10]}'`,
   function (error, results, fields) {
       var string=JSON.stringify(results);
       var resultados =  JSON.parse(string);   
-      client.query(`update sucursales set nombreSucursal='${data[0]}',calle ='${data[1]}',numExt='${data[2]}',numInt='${data[3]}',colonia='${data[4]}', CP ='${data[5]}',ciudad='${data[6]}',rfc='${data[7]}',telefono='${data[8]}',correo='${data[9]}' where id ='${data[10]}' and fk_administrador='${resultados[0].id}'`)
+      client.query(`update sucursales set nombreSucursal='${data[0]}',calle ='${data[1]}',numExt='${data[2]}',numInt='${data[3]}',colonia='${data[4]}', CP ='${data[5]}',ciudad='${data[6]}',telefono='${data[7]}',actividades='${data[9]}' where id ='${data[8]}' and fk_administrador='${resultados[0].id}'`)
     resolve(client) 
     return client
     },
@@ -2408,9 +2408,24 @@ const GetresultGlobalSurveyEEO = async data => {
               )
               })
             };   
-  
-                
+            
+        const GetCorreos = async data => {
+          return  new Promise((resolve, reject) => {
+            console.log("correos")
+              client.query(`select * from correos left join empleados on correos.fk_empleados = empleados.id inner join administrador on empleados.fk_administrador = administrador.id where administrador.id = '${data[0]}'`,
+                function (error, results, fields) {
+                var string=JSON.stringify(results);
+                var resultados =  JSON.parse(string);
+                console.log("los resu son", resultados)
+                resolve(resultados
+                ) 
+              },
+            )
+            })
+          };   
+            
       module.exports = {
+        GetCorreos,
         GetallPeriodo,
         getImage,
         LoadLogo,
