@@ -1805,6 +1805,22 @@ const GetEmployeesResolvesRP = async data => {
   )
   })
   };    
+
+  const GetEmployeesResolvesATS = async data => { 
+
+    return new Promise((resolve, reject) => {
+      console.log("peticion" , `select * from empleados inner join periodos on periodos.fk_empleados = empleados.id where empleados.fk_Administrador='${data[0]}'  and empleados.EmpleadoActivo='true' and periodos.encuesta='ATS'` )
+      client.query(`select * from empleados inner join periodos on periodos.fk_empleados = empleados.id where empleados.fk_Administrador='${data[0]}'  and empleados.EmpleadoActivo='true' and periodos.encuesta='ATS'`,                                                                                   
+      function (error, results, fields) {
+        var string=JSON.stringify(results);
+        var resultados =  JSON.parse(string);   
+        resolve(resultados)
+      //  console.log("resultados" , resultados) 
+        return client
+      },
+    )
+    })
+    };
                                                                                   
 const GetresultGlobalSurveyRP = async data => {
 
@@ -2423,8 +2439,25 @@ const GetresultGlobalSurveyEEO = async data => {
             )
             })
           };   
+
+        const GetresultGlobalSurveyATS = async data => {
+          console.log("la data es ",`select * from empleados inner join respuestasats on respuestasats.fk_empleados= empleados.id where empleados.id =' ${data[0]}'  and respuestasats.periodo='${data[1]}'`)
+          return  new Promise((resolve, reject) => {
+              client.query(`select * from empleados inner join respuestasats on respuestasats.fk_empleados= empleados.id where empleados.id =' ${data[0]}'  and respuestasats.periodo='${data[1]}'`,
+                function (error, results, fields) {
+                var string=JSON.stringify(results);
+                var resultados =  JSON.parse(string);
+                resolve(resultados
+                ) 
+              },
+            )
+            })
+          }; 
+            
             
       module.exports = {
+        GetEmployeesResolvesATS,
+        GetresultGlobalSurveyATS,
         GetCorreos,
         GetallPeriodo,
         getImage,

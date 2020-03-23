@@ -27,9 +27,11 @@ scalar Upload
     getEmployeesATSDetectado(data: [String]!):[MaxidEmployeesResolves]
     countEmployees(data: [String]!):[idEmployees]
     getEmployeesResolvesRP(data: [String]!):[Employees]
+    getEmployeesResolvesATS(data: [String]!):[Employees]
     getresultGlobalSurveyRP(data: [String]!):[ respuestasRP]
     getEmployeesResolvesEEO(data: [String]!):[Employees]
     getresultGlobalSurveyEEO(data: [String]!):[ respuestasEEO]
+    getresultGlobalSurveyATS(data:[String]!):[respuestasATS]
     employeeActive(data: [String]!):[employeActive]
     deptoActive(data: [String]!):[depActive]
     sucActive(data: [String]!):[sucuActive]
@@ -359,6 +361,35 @@ type respuestasEEO {
     id:String,
     Respuestas:String,
     fk_preguntasEEO:String,
+    fk_Empleados:String,
+    ponderacion:String,
+    nombre: String,
+    ApellidoP:String,
+    ApellidoM:String,
+    Curp:String,
+    RFC:String,
+    FechaNacimiento:String,
+    Sexo:String,
+    CP:String,
+    EstadoCivil:String,
+    correo:String,
+    AreaTrabajo:String,
+    Puesto:String,
+    Ciudad:String,
+    NivelEstudios:String,
+    TipoPersonal:String,
+    JornadaTrabajo:String,
+    TipoContratacion:String,
+    TiempoPuesto:String,
+    ExperienciaLaboral:String,
+    RotacionTurnos:String,
+    fk_administrador:String,
+    fk_correos:String
+}
+type respuestasATS{
+    id:String,
+    Respuestas:String,
+    fk_preguntasATS:String,
     fk_Empleados:String,
     ponderacion:String,
     nombre: String,

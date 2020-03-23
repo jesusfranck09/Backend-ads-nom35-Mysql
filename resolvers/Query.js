@@ -291,7 +291,27 @@ const getCorreos= async (_, { data }) => {
     .catch( err => err );
 };
 
+const getresultGlobalSurveyATS= async (_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    return actions.GetresultGlobalSurveyATS(divisiones)
+    .then( res => res)
+    .catch( err => err );
+};
+
+const getEmployeesResolvesATS= async (_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    return actions.GetEmployeesResolvesATS(divisiones)
+    .then( res => res)
+    .catch( err => err );
+};
+
+
+
      module.exports = {
+        getEmployeesResolvesATS,
+        getresultGlobalSurveyATS,
         getCorreos,
         getallPeriodo,
         getImage,
