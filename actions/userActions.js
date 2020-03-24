@@ -1809,16 +1809,21 @@ const GetEmployeesResolvesRP = async data => {
   const GetEmployeesResolvesATS = async data => { 
 
     return new Promise((resolve, reject) => {
-      console.log("peticion" , `select * from empleados inner join periodos on periodos.fk_empleados = empleados.id where empleados.fk_Administrador='${data[0]}'  and empleados.EmpleadoActivo='true' and periodos.encuesta='ATS'` )
-      client.query(`select * from empleados inner join periodos on periodos.fk_empleados = empleados.id where empleados.fk_Administrador='${data[0]}'  and empleados.EmpleadoActivo='true' and periodos.encuesta='ATS'`,                                                                                   
-      function (error, results, fields) {
-        var string=JSON.stringify(results);
-        var resultados =  JSON.parse(string);   
-        resolve(resultados)
-      //  console.log("resultados" , resultados) 
-        return client
-      },
-    )
+      console.log("data" ,data)
+        if(data[0]){
+          client.query(`select * from empleados inner join periodos on periodos.fk_empleados = empleados.id where empleados.fk_Administrador='${data[0]}'  and empleados.EmpleadoActivo='true' and periodos.encuesta='ATS'`,                                                                                   
+          function (error, results, fields) {
+            if(error) {
+              console.log("error" , error)
+            }
+            var string=JSON.stringify(results);
+            var resultados =  JSON.parse(string);   
+            resolve(resultados)
+          //  console.log("resultados" , resultados) 
+            return client
+          },
+        )
+        }
     })
     };
                                                                                   
@@ -2445,10 +2450,16 @@ const GetresultGlobalSurveyEEO = async data => {
           return  new Promise((resolve, reject) => {
               client.query(`select * from empleados inner join respuestasats on respuestasats.fk_empleados= empleados.id where empleados.id =' ${data[0]}'  and respuestasats.periodo='${data[1]}'`,
                 function (error, results, fields) {
-                var string=JSON.stringify(results);
-                var resultados =  JSON.parse(string);
-                resolve(resultados
-                ) 
+                  if(error) {
+                    console.log("error" ,error)
+                  }
+                if(results) { 
+                  var string=JSON.stringify(results);
+                  var resultados =  JSON.parse(string);
+                  resolve(resultados
+                  ) 
+                }  
+             
               },
             )
             })
