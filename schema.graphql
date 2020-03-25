@@ -498,7 +498,6 @@ RazonSocial:String,
 correo:String,
 Activo:String,
 fk_superusuario:String,
-nombreAdmin:String
 }
 
 type correos{
