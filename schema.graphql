@@ -489,9 +489,9 @@ id:String
 
 }
 type admin {
-  id:String,
-  fechaRegistro:String
-  nombre:String,
+id:String,
+fechaRegistro:String
+nombreAdmin:String,
 Apellidos:String,
 RFC:String,
 RazonSocial:String,
