@@ -498,6 +498,7 @@ RazonSocial:String,
 correo:String,
 Activo:String,
 fk_superusuario:String,
+objetivo:String
 }
 
 type correos{
