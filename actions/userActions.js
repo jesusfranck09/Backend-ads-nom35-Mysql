@@ -2235,7 +2235,7 @@ const GetresultGlobalSurveyEEO = async data => {
                     } else {
                       // console.log(hash)
                       resolve({ message: 'Actualización exitosa'})
-                      client.query(`update administrador set nombre='${data[0]}',Apellidos='${data[1]}',correo='${data[2]}',contraseña='${hash}' where id='${data[4]}' `)    
+                      client.query(`update administrador set nombreAdmin='${data[0]}',Apellidos='${data[1]}',correo='${data[2]}',contraseña='${hash}',objetivo='${data[5]}' where id='${data[4]}' `)    
                     return client
                     }
                   })
