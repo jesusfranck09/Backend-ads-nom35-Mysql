@@ -1596,7 +1596,7 @@ const UpdateEmployees = async data => {
   function (error, results, fields) {
       var string=JSON.stringify(results);
       var resultados =  JSON.parse(string);   
-      client.query(`update empleados set nombre='${data[0]}',ApellidoP ='${data[1]}',ApellidoM='${data[2]}',Curp='${data[3]}',RFC='${data[4]}', Sexo ='${data[5]}',CentroTabajo='${data[6]}',correo='${data[7]}',AreaTrabajo='${data[8]}',Puesto='${data[9]}',Ciudad= '${data[10]}'  where id ='${data[11]}' and fk_administrador='${resultados[0].id}'`)
+      client.query(`update empleados set nombre='${data[0]}',ApellidoP ='${data[1]}',ApellidoM='${data[2]}',Curp='${data[3]}',RFC='${data[4]}', Sexo ='${data[5]}',CentroTrabajo='${data[6]}',correo='${data[7]}',AreaTrabajo='${data[8]}',Puesto='${data[9]}',Ciudad= '${data[10]}'  where id ='${data[11]}' and fk_administrador='${resultados[0].id}'`)
     resolve(client) 
     return client
     },
