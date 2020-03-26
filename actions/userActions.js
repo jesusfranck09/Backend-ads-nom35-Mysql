@@ -2133,7 +2133,7 @@ const GetresultGlobalSurveyEEO = async data => {
                       } else {
                         // console.log(hash)
                         resolve({message:"admin Registrado",toke:hash})
-                        client.query(`insert into administrador (nombre, apellidos , RFC , RazonSocial ,correo,contraseña,Activo,FechaRegistro,fk_superusuario,objetivo) values ('${data[0]}','${data[1]}','${data[2]}','${data[3]}','${data[4]}','${hash}','true','${data[6]}','${data[7]}','${data[8]}')`)
+                        client.query(`insert into administrador (nombreAdmin, apellidos , RFC , RazonSocial ,correo,contraseña,Activo,FechaRegistro,fk_superusuario,objetivo) values ('${data[0]}','${data[1]}','${data[2]}','${data[3]}','${data[4]}','${hash}','true','${data[6]}','${data[7]}','${data[8]}')`)
                         return client
                       }
                     })
