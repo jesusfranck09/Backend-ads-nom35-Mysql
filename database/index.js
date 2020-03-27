@@ -29,7 +29,6 @@
 var mysql = require('mysql');
 
 var con = mysql.createConnection({
-
   database:"heroku_e815156f37933c9",
   host: "us-cdbr-iron-east-04.cleardb.net",
   user: "b32fbf2647107b",
@@ -61,7 +60,6 @@ function handleDisconnect() {
 
 handleDisconnect();
  module.exports=con;
-
  
 // var mysql = require('mysql');
 
