@@ -50,6 +50,7 @@ function handleDisconnect() {
                                           // If you're also serving http, display a 503 error.
   con.on('error', function(err) {
     console.log('db error', err);
+    con.removeAllListeners();
     if(err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
       handleDisconnect();                         // lost due to either server restart, or a
     } else {                                      // connnection idle timeout (the wait_timeout

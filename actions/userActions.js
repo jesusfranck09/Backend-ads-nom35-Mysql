@@ -247,7 +247,7 @@ const  login = async (email,password) => {
       console.log("data register single em" , data)
       return new Promise((resolve, reject) => {
         client
-        .query(`select * from  empleados where correo='${data[9]}'  and fk_administrador='${data[21]}'`,
+        .query(`select * from  empleados where correo='${data[8]}'  and fk_administrador='${data[20]}'`,
         function (error, results, fields) {
           if(resultados){
             var string=JSON.stringify(results);
@@ -256,35 +256,35 @@ const  login = async (email,password) => {
             resolve({message:"correo existente"})
           }else{
             client
-            .query(`select * from sucursales where fk_administrador = '${data[21]}' and nombreSucursal='${data[20]}' `,
+            .query(`select * from sucursales where fk_administrador = '${data[20]}' and nombreSucursal='${data[19]}' `,
              function (error, results, fields) {
              if (error) reject(error) 
-             console.log("resultados sucursales" , `select * from sucursales where fk_administrador = '${data[21]}' and nombreSucursal='${data[20]}' `)
+             console.log("resultados sucursales" , `select * from sucursales where fk_administrador = '${data[20]}' and nombreSucursal='${data[19]}' `)
              console.log("resultados de la consulta suc" , results)
              var string=JSON.stringify(results);
              var resultados =  JSON.parse(string); 
              if(resultados[0]){
               client
-              .query(`select * from departamentos where fk_administrador = '${data[21]}' and nombre='${data[10]}' `,
+              .query(`select * from departamentos where fk_administrador = '${data[20]}' and nombre='${data[9]}' `,
             
               function (error, results, fields) {
                if (error) reject(error) 
-               console.log("query dep",`select * from departamentos where fk_administrador = '${data[21]}' and nombre='${data[10]}' `) 
+               console.log("query dep",`select * from departamentos where fk_administrador = '${data[20]}' and nombre='${data[9]}' `) 
                var strings=JSON.stringify(results);
                 var result=  JSON.parse(strings); 
                 console.log("resultados de la consulta dep" , results)
                if(result[0]){
                 client
-                .query(`select * from puestos where fk_administrador = '${data[21]}' and nombre='${data[11]}' `,
+                .query(`select * from puestos where fk_administrador = '${data[20]}' and nombre='${data[10]}' `,
                  function (error, results, fields) {
                  if (error) reject(error) 
                  var stringss=JSON.stringify(results);
                  var resu =  JSON.parse(stringss); 
-                 console.log("querypuestos",`select * from puestos where fk_administrador = '${data[21]}' and nombre='${data[11]}' `)
+                 console.log("querypuestos",`select * from puestos where fk_administrador = '${data[20]}' and nombre='${data[10]}' `)
                  console.log("resultados de la consulta pue" , results)
                  if(resu[0]){
                   client
-                  .query(`insert into empleados (nombre,ApellidoP,ApellidoM,Curp,RFC,FechaNacimiento,Sexo,CP,EstadoCivil,CentroTrabajo,correo,AreaTrabajo,Puesto,Ciudad,NivelEstudios,TipoPersonal,JornadaTrabajo,TipoContratacion,TiempoPuesto,ExperienciaLaboral,RotacionTurnos,fk_administrador,ATSContestado,RPContestado,EEOContestado,ATSDetectado,EmpleadoActivo) values ('${data[0]}', '${data[1]}', '${data[2]}', '${data[3]}', '${data[4]}', '${data[5]}', '${data[6]}', '${data[7]}', '${data[8]}', '${data[20]}','${data[9]}', '${data[10]}', '${data[11]}', '${data[12]}', '${data[13]}', '${data[14]}', '${data[15]}', '${data[16]}', '${data[17]}', '${data[18]}', '${data[19]}','${data[21]}','false','false','false','false','true')`); 
+                  .query(`insert into empleados (nombre,ApellidoP,ApellidoM,Curp,RFC,FechaNacimiento,Sexo,EstadoCivil,CentroTrabajo,correo,AreaTrabajo,Puesto,TipoPuesto,NivelEstudios,TipoPersonal,JornadaTrabajo,TipoContratacion,TiempoPuesto,ExperienciaLaboral,RotacionTurnos,fk_administrador,ATSContestado,RPContestado,EEOContestado,ATSDetectado,EmpleadoActivo) values ('${data[0]}', '${data[1]}', '${data[2]}', '${data[3]}', '${data[4]}', '${data[5]}', '${data[6]}', '${data[7]}', '${data[19]}','${data[8]}', '${data[9]}', '${data[10]}', '${data[11]}', '${data[12]}', '${data[13]}', '${data[14]}', '${data[15]}', '${data[16]}', '${data[17]}', '${data[18]}','${data[20]}','false','false','false','false','true')`); 
                   resolve({
                     message: 'registro exitoso',
                   });
@@ -320,14 +320,14 @@ const  login = async (email,password) => {
 const registerRazonS = async data => {
 new Promise((resolve, reject) => {
     client
-    .query(`select * from  administrador where correo='${data[7]}' and contraseña  =  '${data[8]}' `,
+    .query(`select * from  administrador where correo='${data[8]}'  `,
      function (error, results, fields) {
      if (error) reject(error) 
       var string=JSON.stringify(results);
       var resultados =  JSON.parse(string); 
       resolve(resultados)
        client
-       .query(`insert into empleados (nombre,ApellidoP,ApellidoM,Curp,RFC,FechaNacimiento,Sexo,CP,EstadoCivil,correo,AreaTrabajo,Puesto,Ciudad,NivelEstudios,TipoPersonal,JornadaTrabajo,TipoContratacion,TiempoPuesto,ExperienciaLaboral,RotacionTurnos,fk_administrador) values ('${data[0]}', '${data[1]}', '${data[2]}', '${data[3]}', '${data[4]}', '${data[5]}', '${data[6]}', '${data[7]}', '${data[8]}', '${data[9]}', '${data[10]}', '${data[11]}', '${data[12]}', '${data[13]}', '${data[14]}', '${data[15]}', '${data[16]}', '${data[17]}', '${data[18]}', '${data[19]}','${resultados[0].id}')`); 
+       .query(`insert into empleados (nombre,ApellidoP,ApellidoM,Curp,RFC,FechaNacimiento,Sexo,EstadoCivil,correo,AreaTrabajo,Puesto,TipoPuesto,NivelEstudios,TipoPersonal,JornadaTrabajo,TipoContratacion,TiempoPuesto,ExperienciaLaboral,RotacionTurnos,fk_administrador) values ('${data[0]}', '${data[1]}', '${data[2]}', '${data[3]}', '${data[4]}', '${data[5]}', '${data[6]}', '${data[7]}', '${data[8]}', '${data[9]}', '${data[10]}', '${data[11]}', '${data[12]}', '${data[13]}', '${data[14]}', '${data[15]}', '${data[16]}', '${data[17]}', '${data[18]}','${resultados[0].id}')`); 
        return  client
     },
   )
@@ -1241,7 +1241,7 @@ const getUsers = async data => {
 
   return  new Promise((resolve, reject) => {
       client
-      .query(`select empleados.id,empleados.nombre, empleados.ApellidoP, empleados.ApellidoM,empleados.Curp,empleados.RFC,empleados.FechaNacimiento,empleados.Sexo , empleados.CP,empleados.EstadoCivil,empleados.CentroTrabajo,empleados.correo, empleados.AreaTrabajo,empleados.Puesto,empleados.Ciudad,empleados.NivelEstudios,empleados.TipoPersonal,empleados.JornadaTrabajo,empleados.TipoContratacion,empleados.TiempoPuesto,empleados.ExperienciaLaboral,empleados.RotacionTurnos,empleados.fk_Administrador,empleados.ATSContestado,empleados.RPContestado,empleados.EEOContestado,empleados.ATSDetectado,empleados.EmpleadoActivo from empleados inner join administrador on empleados.fk_administrador = administrador.id where empleados.fk_administrador = '${data.data[0]}' and empleados.EmpleadoActivo ='true'`,
+      .query(`select empleados.id,empleados.nombre, empleados.ApellidoP, empleados.ApellidoM,empleados.Curp,empleados.RFC,empleados.FechaNacimiento,empleados.Sexo ,empleados.EstadoCivil,empleados.CentroTrabajo,empleados.correo, empleados.AreaTrabajo,empleados.Puesto,empleados.TipoPuesto,empleados.NivelEstudios,empleados.TipoPersonal,empleados.JornadaTrabajo,empleados.TipoContratacion,empleados.TiempoPuesto,empleados.ExperienciaLaboral,empleados.RotacionTurnos,empleados.fk_Administrador,empleados.ATSContestado,empleados.RPContestado,empleados.EEOContestado,empleados.ATSDetectado,empleados.EmpleadoActivo from empleados inner join administrador on empleados.fk_administrador = administrador.id where empleados.fk_administrador = '${data.data[0]}' and empleados.EmpleadoActivo ='true'`,
         function (error, results, fields) {
         if (error) reject(error) 
         var string=JSON.stringify(results);
@@ -1596,7 +1596,7 @@ const UpdateEmployees = async data => {
   function (error, results, fields) {
       var string=JSON.stringify(results);
       var resultados =  JSON.parse(string);   
-      client.query(`update empleados set nombre='${data[0]}',ApellidoP ='${data[1]}',ApellidoM='${data[2]}',Curp='${data[3]}',RFC='${data[4]}', Sexo ='${data[5]}',CentroTrabajo='${data[6]}',correo='${data[7]}',AreaTrabajo='${data[8]}',Puesto='${data[9]}',Ciudad= '${data[10]}'  where id ='${data[11]}' and fk_administrador='${resultados[0].id}'`)
+      client.query(`update empleados set nombre='${data[0]}',ApellidoP ='${data[1]}',ApellidoM='${data[2]}',Curp='${data[3]}',RFC='${data[4]}', Sexo ='${data[5]}',CentroTrabajo='${data[6]}',correo='${data[7]}',AreaTrabajo='${data[8]}',Puesto='${data[9]}',TipoPuesto= '${data[10]}'  where id ='${data[11]}' and fk_administrador='${resultados[0].id}'`)
     resolve(client) 
     return client
     },
