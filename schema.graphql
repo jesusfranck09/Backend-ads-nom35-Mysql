@@ -473,6 +473,7 @@ type Data {
 }
 
 type MaxidEmployeesResolves{
+  id:String
   nombre:String
   ApellidoP:String
   ApellidoM:String
