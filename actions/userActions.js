@@ -1590,19 +1590,54 @@ const DeletePuestos = async data => {
   };
 
 const UpdateEmployees = async data => { 
-  console.log("la data en updateEmployees es  " , data)
   return new Promise((resolve, reject) => {
     client.query(`select  *  from  administrador where correo='${data[12]}'`,
   function (error, results, fields) {
       var string=JSON.stringify(results);
-      var resultados =  JSON.parse(string);   
-      client.query(`update empleados set nombre='${data[0]}',ApellidoP ='${data[1]}',ApellidoM='${data[2]}',Curp='${data[3]}',RFC='${data[4]}', Sexo ='${data[5]}',CentroTrabajo='${data[6]}',correo='${data[7]}',AreaTrabajo='${data[8]}',Puesto='${data[9]}',TipoPuesto= '${data[10]}'  where id ='${data[11]}' and fk_administrador='${resultados[0].id}'`)
-    resolve(client) 
-    return client
-    },
-  )
-  })
+      var resultados =  JSON.parse(string); 
+
+      client.query(`select  *  from  sucursales where nombreSucursal='${data[6]}' and fk_administrador =  '${resultados[0].id}' and SucursalActiva='true'`,
+      function (error, results, fields) {
+
+        if(results[0]){
+          client.query(`select  *  from  departamentos where nombre='${data[8]}' and fk_administrador =  '${resultados[0].id}' and DepartamentoActivo='true'`,
+          function (error, results, fields) {
+            if(results[0]){
+              client.query(`select  *  from  puestos where nombre='${data[9]}' and fk_administrador =  '${resultados[0].id}' and PuestoActivo='true'`,
+              function (error, results, fields) {
+                if(results[0]){
+                  client.query(`update empleados set nombre='${data[0]}',ApellidoP ='${data[1]}',ApellidoM='${data[2]}',Curp='${data[3]}',RFC='${data[4]}', Sexo ='${data[5]}',CentroTrabajo='${data[6]}',correo='${data[7]}',AreaTrabajo='${data[8]}',Puesto='${data[9]}',TipoPuesto= '${data[10]}'  where id ='${data[11]}' and fk_administrador='${resultados[0].id}'`)
+                  resolve({message:"actualizacion exitosa"}) 
+                  return client
+                    }else{
+                      resolve({message:"puesto no encontrado"}) 
+                    }  
+                    },
+                  )
+                }else{
+                  resolve({message:"departamento no encontrado"}) 
+                }  
+                },
+              )
+            }else{
+              resolve({message:"Sucursal no encontrada"})  
+            }  
+            },
+          )
+
+       },
+      )
+    })
   };
+
+
+  
+ 
+  
+
+
+
+
 const UpdateSucursales = async data => { 
   console.log("la data en updatesucursales es  " , data)
   return new Promise((resolve, reject) => {
