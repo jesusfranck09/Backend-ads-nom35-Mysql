@@ -14,7 +14,7 @@ const signup =   (user) => {
     
     if(user.email){
       console.log("user" , user)
-       client.query(`insert into ventasAdminAlfa (fk_adminAlfa,fk_paquetes,fechaVenta,RazonSocial,RFC) values('${user.idAdminAlfa}','${user.paquete}','${user.fecha}','${user.razon_social}','${user.rfc}')`)
+       client.query(`insert into ventasAdminAlfa (fk_adminAlfa,fk_paquetes,fechaVenta,RazonSocial,RFC) values('${user.idAdminAlfa}','${user.paquete}','${user.fecha}','${user.razon_social.toUpperCase() }','${user.rfc.toUpperCase() }')`)
  
     client
     .query(`select * from  superusuario where correo='${user.email}'`,
@@ -44,7 +44,7 @@ const signup =   (user) => {
                     // console.log(hash)
                     resolve({ message: 'Signup exitoso',token:hash})
                    client
-                    .query(`update superusuario set nombre='${user.first_name}',Apellidos='${user.last_name}', RFC='${user.rfc}',RazonSocial ='${user.razon_social}', correo='${user.email}',contraseña='${hash}',Activo = 'true' ,fechaRegistro='${fechaRegistro}' where id = '${user.id}'`); 
+                    .query(`update superusuario set nombre='${user.first_name.toUpperCase() }',Apellidos='${user.last_name.toUpperCase() }', RFC='${user.rfc.toUpperCase() }',RazonSocial ='${user.razon_social.toUpperCase() }', correo='${user.email}',contraseña='${hash}',Activo = 'true' ,fechaRegistro='${fechaRegistro}' where id = '${user.id}'`); 
                     return client
                   }
                 })
@@ -92,7 +92,7 @@ const SignupAdminAlfa =   (user) => {
                 // console.log(hash)
                 resolve({ message: 'Signup exitoso',token:hash})
                client
-                .query(`insert into adminAlfa (nombreAdmin,apellidosAdmin,correo,contraseña) values  ('${user.first_name}','${user.last_name}','${user.email}','${hash}')`); 
+                .query(`insert into adminAlfa (nombreAdmin,apellidosAdmin,correo,contraseña) values  ('${user.first_name.toUpperCase() }','${user.last_name.toUpperCase() }','${user.email}','${hash}')`); 
                 return client
               }
             })
@@ -284,7 +284,7 @@ const  login = async (email,password) => {
                  console.log("resultados de la consulta pue" , results)
                  if(resu[0]){
                   client
-                  .query(`insert into empleados (nombre,ApellidoP,ApellidoM,Curp,RFC,FechaNacimiento,Sexo,EstadoCivil,CentroTrabajo,correo,AreaTrabajo,Puesto,TipoPuesto,NivelEstudios,TipoPersonal,JornadaTrabajo,TipoContratacion,TiempoPuesto,ExperienciaLaboral,RotacionTurnos,fk_administrador,ATSContestado,RPContestado,EEOContestado,ATSDetectado,EmpleadoActivo) values ('${data[0]}', '${data[1]}', '${data[2]}', '${data[3]}', '${data[4]}', '${data[5]}', '${data[6]}', '${data[7]}', '${data[19]}','${data[8]}', '${data[9]}', '${data[10]}', '${data[11]}', '${data[12]}', '${data[13]}', '${data[14]}', '${data[15]}', '${data[16]}', '${data[17]}', '${data[18]}','${data[20]}','false','false','false','false','true')`); 
+                  .query(`insert into empleados (nombre,ApellidoP,ApellidoM,Curp,RFC,FechaNacimiento,Sexo,EstadoCivil,CentroTrabajo,correo,AreaTrabajo,Puesto,TipoPuesto,NivelEstudios,TipoPersonal,JornadaTrabajo,TipoContratacion,TiempoPuesto,ExperienciaLaboral,RotacionTurnos,fk_administrador,ATSContestado,RPContestado,EEOContestado,ATSDetectado,EmpleadoActivo) values ('${data[0].toUpperCase() }', '${data[1].toUpperCase() }', '${data[2].toUpperCase() }', '${data[3].toUpperCase() }', '${data[4].toUpperCase() }', '${data[5].toUpperCase() }', '${data[6].toUpperCase() }', '${data[7].toUpperCase() }', '${data[19].toUpperCase() }','${data[8].toUpperCase() }', '${data[9].toUpperCase() }', '${data[10].toUpperCase() }', '${data[11].toUpperCase() }', '${data[12].toUpperCase() }', '${data[13].toUpperCase() }', '${data[14].toUpperCase() }', '${data[15].toUpperCase() }', '${data[16].toUpperCase() }', '${data[17].toUpperCase() }', '${data[18].toUpperCase() }','${data[20].toUpperCase() }','false','false','false','false','true')`); 
                   resolve({
                     message: 'registro exitoso',
                   });
@@ -1406,7 +1406,7 @@ const RegisterSucursales = async data => {
       var resultados =  JSON.parse(string); 
       resolve(resultados) 
       client
-      .query(`insert into sucursales(nombreSucursal,calle,numExt,numInt,colonia,CP,Ciudad,Estado,actividad,telefono,actividades,fk_administrador,SucursalActiva) values ('${data[0]}','${data[1]}','${data[2]}','${data[3]}','${data[4]}','${data[5]}','${data[6]}','${data[7]}','${data[8]}','${data[9]}','${data[10]}','${resultados[0].id}','true')`); 
+      .query(`insert into sucursales(nombreSucursal,calle,numExt,numInt,colonia,CP,Ciudad,Estado,actividad,telefono,actividades,fk_administrador,SucursalActiva) values ('${data[0].toUpperCase() }','${data[1].toUpperCase() }','${data[2] }','${data[3]}','${data[4].toUpperCase() }','${data[5].toUpperCase() }','${data[6].toUpperCase() }','${data[7].toUpperCase() }','${data[8].toUpperCase() }','${data[9].toUpperCase() }','${data[10].toUpperCase() }','${resultados[0].id}','true')`); 
       return  client
     },
   )
@@ -1448,7 +1448,7 @@ const RegisterApartments = async data => {
       var resultados =  JSON.parse(string); 
       resolve(resultados) 
       client
-      .query(`insert into departamentos(nombre,fk_Administrador,DepartamentoActivo) values ('${data[0]}','${resultados[0].id}', 'true')`); 
+      .query(`insert into departamentos(nombre,fk_Administrador,DepartamentoActivo) values ('${data[0].toUpperCase() }','${resultados[0].id}', 'true')`); 
       return  client
     },
   )
@@ -1484,7 +1484,7 @@ const RegisterPuesto = async data => {
       var resultados =  JSON.parse(string); 
       resolve(resultados) 
       client
-      .query(`insert into puestos(nombre,fk_Administrador,PuestoActivo) values ('${data[0]}','${resultados[0].id}','true')`); 
+      .query(`insert into puestos(nombre,fk_Administrador,PuestoActivo) values ('${data[0].toUpperCase() }','${resultados[0].id}','true')`); 
       return  client
     },
   )
@@ -1606,7 +1606,7 @@ const UpdateEmployees = async data => {
               client.query(`select  *  from  puestos where nombre='${data[9]}' and fk_administrador =  '${resultados[0].id}' and PuestoActivo='true'`,
               function (error, results, fields) {
                 if(results[0]){
-                  client.query(`update empleados set nombre='${data[0]}',ApellidoP ='${data[1]}',ApellidoM='${data[2]}',Curp='${data[3]}',RFC='${data[4]}', Sexo ='${data[5]}',CentroTrabajo='${data[6]}',correo='${data[7]}',AreaTrabajo='${data[8]}',Puesto='${data[9]}',TipoPuesto= '${data[10]}'  where id ='${data[11]}' and fk_administrador='${resultados[0].id}'`)
+                  client.query(`update empleados set nombre='${data[0].toUpperCase() }',ApellidoP ='${data[1].toUpperCase() }',ApellidoM='${data[2].toUpperCase() }',Curp='${data[3].toUpperCase() }',RFC='${data[4].toUpperCase() }', Sexo ='${data[5].toUpperCase() }',CentroTrabajo='${data[6].toUpperCase() }',correo='${data[7].toUpperCase() }',AreaTrabajo='${data[8].toUpperCase() }',Puesto='${data[9].toUpperCase() }',TipoPuesto= '${data[10].toUpperCase() }'  where id ='${data[11]}' and fk_administrador='${resultados[0].id}'`)
                   resolve({message:"actualizacion exitosa"}) 
                   return client
                     }else{
@@ -1645,7 +1645,7 @@ const UpdateSucursales = async data => {
   function (error, results, fields) {
       var string=JSON.stringify(results);
       var resultados =  JSON.parse(string);   
-      client.query(`update sucursales set nombreSucursal='${data[0]}',calle ='${data[1]}',numExt='${data[2]}',numInt='${data[3]}',colonia='${data[4]}', CP ='${data[5]}',ciudad='${data[6]}',telefono='${data[7]}',actividades='${data[9]}' where id ='${data[8]}' and fk_administrador='${resultados[0].id}'`)
+      client.query(`update sucursales set nombreSucursal='${data[0].toUpperCase() }',calle ='${data[1].toUpperCase() }',numExt='${data[2].toUpperCase() }',numInt='${data[3].toUpperCase() }',colonia='${data[4].toUpperCase() }', CP ='${data[5].toUpperCase() }',ciudad='${data[6].toUpperCase() }',telefono='${data[7].toUpperCase() }',actividades='${data[9].toUpperCase() }' where id ='${data[8]}' and fk_administrador='${resultados[0].id}'`)
     resolve(client) 
     return client
     },
@@ -1660,7 +1660,7 @@ const UpdateDeptos = async data => {
     function (error, results, fields) {
       var string=JSON.stringify(results);
       var resultados =  JSON.parse(string);   
-      client.query(`update departamentos set nombre='${data[0]}' where id ='${data[1]}' and fk_administrador='${resultados[0].id}'`)
+      client.query(`update departamentos set nombre='${data[0].toUpperCase() }' where id ='${data[1]}' and fk_administrador='${resultados[0].id}'`)
       resolve(client) 
       return client
     },
@@ -1669,13 +1669,13 @@ const UpdateDeptos = async data => {
 };    
 
 const UpdatePuestos = async data => { 
-  console.log("la data en updatePuestos es  " , data)
+  
   return new Promise((resolve, reject) => {
     client.query(`select  *  from  administrador where correo='${data[2]}'`,
     function (error, results, fields) {
       var string=JSON.stringify(results);
       var resultados =  JSON.parse(string);   
-      client.query(`update puestos set nombre='${data[0]}' where id ='${data[1]}' and fk_administrador='${resultados[0].id}'`)
+      client.query(`update puestos set nombre='${data[0].toUpperCase() }' where id ='${data[1]}' and fk_administrador='${resultados[0].id}'`)
       resolve(client) 
       return client
     },
@@ -2168,7 +2168,7 @@ const GetresultGlobalSurveyEEO = async data => {
                       } else {
                         // console.log(hash)
                         resolve({message:"admin Registrado",toke:hash})
-                        client.query(`insert into administrador (nombreAdmin, apellidos , RFC , RazonSocial ,correo,contraseña,Activo,FechaRegistro,fk_superusuario,objetivo) values ('${data[0]}','${data[1]}','${data[2]}','${data[3]}','${data[4]}','${hash}','true','${data[6]}','${data[7]}','${data[8]}')`)
+                        client.query(`insert into administrador (nombreAdmin, apellidos , RFC , RazonSocial ,correo,contraseña,Activo,FechaRegistro,fk_superusuario,objetivo) values ('${data[0].toUpperCase() }','${data[1].toUpperCase() }','${data[2].toUpperCase() }','${data[3].toUpperCase() }','${data[4].toUpperCase() }','${hash}','true','${data[6].toUpperCase() }','${data[7]}','${data[8].toUpperCase() }')`)
                         return client
                       }
                     })
@@ -2270,7 +2270,7 @@ const GetresultGlobalSurveyEEO = async data => {
                     } else {
                       // console.log(hash)
                       resolve({ message: 'Actualización exitosa'})
-                      client.query(`update administrador set nombreAdmin='${data[0]}',Apellidos='${data[1]}',correo='${data[2]}',contraseña='${hash}',objetivo='${data[5]}' where id='${data[4]}' `)    
+                      client.query(`update administrador set nombreAdmin='${data[0].toUpperCase() }',Apellidos='${data[1].toUpperCase() }',correo='${data[2].toUpperCase() }',contraseña='${hash}',objetivo='${data[5].toUpperCase() }' where id='${data[4]}' `)    
                     return client
                     }
                   })
