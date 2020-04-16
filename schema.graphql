@@ -464,12 +464,15 @@ type SurveyData {
 }
 
 type Data {
-  message: String
-  eventoFinal:String
-  alerta1:String
+  message: String,
+  eventoFinal:String,
+  alerta1:String,
   alerta2:String,
   alerta3:String,
-  image:String
+  image:String,
+  valor1:String
+    valor2:String
+      valor3:String
 }
 
 type MaxidEmployeesResolves{

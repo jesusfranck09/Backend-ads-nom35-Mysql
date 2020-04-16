@@ -243,28 +243,27 @@ const  login = async (email,password) => {
      
     })
     }
-    const registerEm =  async (data) => {
+    const registerEm = (data) => {
       console.log("data register single em" , data)
-      return new Promise((resolve, reject) => {
+      return new Promise( (resolve, reject) => {
+        console.log(`select * from  empleados where correo='${data[8]}'  and fk_administrador='${data[20]}'`)
         client
         .query(`select * from  empleados where correo='${data[8]}'  and fk_administrador='${data[20]}'`,
         function (error, results, fields) {
-          if(resultados){
+          if(results[0]){
             var string=JSON.stringify(results);
             var resultados =  JSON.parse(string); 
             console.log("resultados resu", resultados)
             resolve({message:"correo existente"})
           }else{
-            client
+              client
             .query(`select * from sucursales where fk_administrador = '${data[20]}' and nombreSucursal='${data[19]}' `,
              function (error, results, fields) {
              if (error) reject(error) 
-             console.log("resultados sucursales" , `select * from sucursales where fk_administrador = '${data[20]}' and nombreSucursal='${data[19]}' `)
-             console.log("resultados de la consulta suc" , results)
              var string=JSON.stringify(results);
              var resultados =  JSON.parse(string); 
              if(resultados[0]){
-              client
+               client
               .query(`select * from departamentos where fk_administrador = '${data[20]}' and nombre='${data[9]}' `,
             
               function (error, results, fields) {
@@ -274,7 +273,7 @@ const  login = async (email,password) => {
                 var result=  JSON.parse(strings); 
                 console.log("resultados de la consulta dep" , results)
                if(result[0]){
-                client
+                 client
                 .query(`select * from puestos where fk_administrador = '${data[20]}' and nombre='${data[10]}' `,
                  function (error, results, fields) {
                  if (error) reject(error) 
@@ -283,14 +282,16 @@ const  login = async (email,password) => {
                  console.log("querypuestos",`select * from puestos where fk_administrador = '${data[20]}' and nombre='${data[10]}' `)
                  console.log("resultados de la consulta pue" , results)
                  if(resu[0]){
-                  client
+                     client
                   .query(`insert into empleados (nombre,ApellidoP,ApellidoM,Curp,RFC,FechaNacimiento,Sexo,EstadoCivil,CentroTrabajo,correo,AreaTrabajo,Puesto,TipoPuesto,NivelEstudios,TipoPersonal,JornadaTrabajo,TipoContratacion,TiempoPuesto,ExperienciaLaboral,RotacionTurnos,fk_administrador,ATSContestado,RPContestado,EEOContestado,ATSDetectado,EmpleadoActivo) values ('${data[0].toUpperCase() }', '${data[1].toUpperCase() }', '${data[2].toUpperCase() }', '${data[3].toUpperCase() }', '${data[4].toUpperCase() }', '${data[5].toUpperCase() }', '${data[6].toUpperCase() }', '${data[7].toUpperCase() }', '${data[19].toUpperCase() }','${data[8].toUpperCase() }', '${data[9].toUpperCase() }', '${data[10].toUpperCase() }', '${data[11].toUpperCase() }', '${data[12].toUpperCase() }', '${data[13].toUpperCase() }', '${data[14].toUpperCase() }', '${data[15].toUpperCase() }', '${data[16].toUpperCase() }', '${data[17].toUpperCase() }', '${data[18].toUpperCase() }','${data[20].toUpperCase() }','false','false','false','false','true')`); 
                   resolve({
                     message: 'registro exitoso',
                   });
 
                  }else{
+                   console.log("data en la posicion 10" , data [10])
                   resolve({
+                    valor1:data[10],
                     message: 'el puesto no existe',
                   });
                  }
@@ -298,6 +299,7 @@ const  login = async (email,password) => {
               )
                }else{
                 resolve({
+                  valor2:data[10],
                   message: 'el departamento no existe',
                 });
                }
@@ -305,6 +307,7 @@ const  login = async (email,password) => {
             )
              }else{
               resolve({
+                valor3:data[10],
                 message: 'la sucursal no existe',
               });
              }
@@ -1214,7 +1217,7 @@ if(args[2]==3){
   from: 'adsdiagnostico035@gmail.com', // sender address
   to: `${args[0]}`, // list of receivers
   subject: 'Iniciar Evaluación', // Subject line
-  html: `<p>Estimado Colaborador por medio de este enlace le envío su encuesta ${encuesta}, en el panel por favor seleccione la opción que le corresponda  e ingrese su correo electrónico para iniciar su evaluación <br/> ATENTAMENTE la Adminstración </p> https://master.d14ylpne1awxxr.amplifyapp.com/` // plain text body
+  html: `<p>Estimado Colaborador por medio de este enlace le envío su encuesta ${encuesta}, en el panel por favor seleccione la opción que le corresponda  e ingrese su correo electrónico para iniciar su evaluación <br/> ATENTAMENTE la Adminstración </p> https://app.diagnostico035.com/` // plain text body
 };
 
 transporter.sendMail(mailOptions, function (err, info) {
