@@ -482,6 +482,7 @@ type MaxidEmployeesResolves{
   ApellidoM:String
   correo:String
   ATSContestado:String
+  CentroTrabajo:String
 }
 type idEmployees{
 id:String

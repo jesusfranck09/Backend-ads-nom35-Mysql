@@ -1199,25 +1199,27 @@ var transporter = nodemailer.createTransport({
           port: 465,
       }
   });
-  var encuesta =""
+  var encuesta ="";
+  var url = "" ;
 console.log("estos son los args", args[2] )
 if(args[2]==1){
 
   encuesta="ATS"
+  url =  "https://ats.diagnostico035.com/"
 
 }if(args[2]==2){
-
+  url =  "https://rp.diagnostico035.com/"
   encuesta="RP"
 }
 if(args[2]==3){
-
+  url =  "https://eeo.diagnostico035.com/"
   encuesta="EEO"
 }
   const mailOptions = {
   from: 'adsdiagnostico035@gmail.com', // sender address
   to: `${args[0]}`, // list of receivers
   subject: 'Iniciar Evaluación', // Subject line
-  html: `<p>Estimado Colaborador por medio de este enlace le envío su encuesta ${encuesta}, en el panel por favor seleccione la opción que le corresponda  e ingrese su correo electrónico para iniciar su evaluación <br/> ATENTAMENTE la Adminstración </p> https://app.diagnostico035.com/` // plain text body
+  html: `<p>Estimado Colaborador por medio de este enlace le envío su encuesta ${encuesta}, en el panel por favor seleccione la opción que le corresponda  e ingrese su correo electrónico para iniciar su evaluación <br/> ATENTAMENTE la Adminstración </p> ${url}` // plain text body
 };
 
 transporter.sendMail(mailOptions, function (err, info) {
@@ -1761,7 +1763,7 @@ const GetEmployeesResolvesSurveyATSFalse = async data => {
   // console.log("entro a false")
     // console.log("la data en getPonderacionFalse es  " , data)
     return new Promise((resolve, reject) => {
-      client.query(`select  empleados.id,empleados.nombre,empleados.ApellidoP,empleados.ApellidoM,empleados.correo, empleados.ATSContestado from empleados where fk_Administrador='${data[0]}' and ATSContestado='false' and EmpleadoActivo='true'`,
+      client.query(`select  empleados.id,empleados.nombre,empleados.ApellidoP,empleados.ApellidoM,empleados.correo, empleados.ATSContestado,empleados.CentroTrabajo from empleados where fk_Administrador='${data[0]}' and ATSContestado='false' and EmpleadoActivo='true'`,
     function (error, results, fields) {
         var string=JSON.stringify(results);
         var resultados =  JSON.parse(string);   
@@ -1774,7 +1776,7 @@ const GetEmployeesResolvesSurveyATSFalse = async data => {
 const GetEmployeesResolvesSurveyRPFalse = async data => { 
   // console.log("la data en getPonderacion es  " , data)
   return new Promise((resolve, reject) => {
-    client.query(`select  empleados.id,empleados.nombre,empleados.ApellidoP,empleados.ApellidoM,empleados.correo, empleados.RPContestado from empleados where fk_Administrador='${data[0]}' and RPContestado='false' and EmpleadoActivo='true'`,
+    client.query(`select  empleados.id,empleados.nombre,empleados.ApellidoP,empleados.ApellidoM,empleados.correo, empleados.RPContestado,empleados.CentroTrabajo from empleados where fk_Administrador='${data[0]}' and RPContestado='false' and EmpleadoActivo='true'`,
     function (error, results, fields) {
       var string=JSON.stringify(results);
       var resultados =  JSON.parse(string);   
@@ -1789,7 +1791,7 @@ const GetEmployeesResolvesSurveyRPFalse = async data => {
 const GetEmployeesResolvesSurveyEEOFalse = async data => { 
   // console.log("la data en getPonderacion es  " , data)
   return new Promise((resolve, reject) => {
-    client.query(`select  empleados.id,empleados.nombre,empleados.ApellidoP,empleados.ApellidoM,empleados.correo, empleados.EEOContestado from empleados where fk_Administrador='${data[0]}' and EEOContestado='false' and EmpleadoActivo='true'`,
+    client.query(`select  empleados.id,empleados.nombre,empleados.ApellidoP,empleados.ApellidoM,empleados.correo, empleados.EEOContestado,empleados.CentroTrabajo from empleados where fk_Administrador='${data[0]}' and EEOContestado='false' and EmpleadoActivo='true'`,
     function (error, results, fields) {
       var string=JSON.stringify(results);
       var resultados =  JSON.parse(string);   
