@@ -268,7 +268,6 @@ const  login = async (email,password) => {
             
               function (error, results, fields) {
                if (error) reject(error) 
-               console.log("query dep",`select * from departamentos where fk_administrador = '${data[20]}' and nombre='${data[9]}' `) 
                var strings=JSON.stringify(results);
                 var result=  JSON.parse(strings); 
                 console.log("resultados de la consulta dep" , results)
@@ -279,7 +278,6 @@ const  login = async (email,password) => {
                  if (error) reject(error) 
                  var stringss=JSON.stringify(results);
                  var resu =  JSON.parse(stringss); 
-                 console.log("querypuestos",`select * from puestos where fk_administrador = '${data[20]}' and nombre='${data[10]}' `)
                  console.log("resultados de la consulta pue" , results)
                  if(resu[0]){
                      client
@@ -299,7 +297,7 @@ const  login = async (email,password) => {
               )
                }else{
                 resolve({
-                  valor2:data[10],
+                  valor2:data[9],
                   message: 'el departamento no existe',
                 });
                }
@@ -307,7 +305,7 @@ const  login = async (email,password) => {
             )
              }else{
               resolve({
-                valor3:data[10],
+                valor3:data[19],
                 message: 'la sucursal no existe',
               });
              }
