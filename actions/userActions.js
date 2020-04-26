@@ -244,17 +244,21 @@ const  login = async (email,password) => {
     })
     }
     const registerEm = (data) => {
-      console.log("data register single em" , data)
+      // console.log("data register single em" , data)
       return new Promise( (resolve, reject) => {
-        console.log(`select * from  empleados where correo='${data[8]}'  and fk_administrador='${data[20]}'`)
+        // console.log(`select * from  empleados where correo='${data[8]}'  and fk_administrador='${data[20]}'`)
         client
         .query(`select * from  empleados where correo='${data[8]}'  and fk_administrador='${data[20]}'`,
         function (error, results, fields) {
           if(results[0]){
             var string=JSON.stringify(results);
             var resultados =  JSON.parse(string); 
-            console.log("resultados resu", resultados)
-            resolve({message:"correo existente"})
+            console.log("entro", resultados)
+            resolve({message:"correo existente",
+            nombreExistente:data[0],
+            apellidoPExistente:data[1],
+            apellidoMExistente:data[2],
+          })
           }else{
               client
             .query(`select * from sucursales where fk_administrador = '${data[20]}' and nombreSucursal='${data[19]}' `,
@@ -270,7 +274,7 @@ const  login = async (email,password) => {
                if (error) reject(error) 
                var strings=JSON.stringify(results);
                 var result=  JSON.parse(strings); 
-                console.log("resultados de la consulta dep" , results)
+                // console.log("resultados de la consulta dep" , results)
                if(result[0]){
                  client
                 .query(`select * from puestos where fk_administrador = '${data[20]}' and nombre='${data[10]}' `,
@@ -278,17 +282,21 @@ const  login = async (email,password) => {
                  if (error) reject(error) 
                  var stringss=JSON.stringify(results);
                  var resu =  JSON.parse(stringss); 
-                 console.log("resultados de la consulta pue" , results)
+                //  console.log("resultados de la consulta pue" , results)
                  if(resu[0]){
                      client
-                  .query(`insert into empleados (nombre,ApellidoP,ApellidoM,Curp,RFC,FechaNacimiento,Sexo,EstadoCivil,CentroTrabajo,correo,AreaTrabajo,Puesto,TipoPuesto,NivelEstudios,TipoPersonal,JornadaTrabajo,TipoContratacion,TiempoPuesto,ExperienciaLaboral,RotacionTurnos,fk_administrador,ATSContestado,RPContestado,EEOContestado,ATSDetectado,EmpleadoActivo) values ('${data[0].toUpperCase() }', '${data[1].toUpperCase() }', '${data[2].toUpperCase() }', '${data[3].toUpperCase() }', '${data[4].toUpperCase() }', '${data[5].toUpperCase() }', '${data[6].toUpperCase() }', '${data[7].toUpperCase() }', '${data[19].toUpperCase() }','${data[8].toUpperCase() }', '${data[9].toUpperCase() }', '${data[10].toUpperCase() }', '${data[11].toUpperCase() }', '${data[12].toUpperCase() }', '${data[13].toUpperCase() }', '${data[14].toUpperCase() }', '${data[15].toUpperCase() }', '${data[16].toUpperCase() }', '${data[17].toUpperCase() }', '${data[18].toUpperCase() }','${data[20].toUpperCase() }','false','false','false','false','true')`); 
+                  .query(`insert into empleados (nombre,ApellidoP,ApellidoM,Curp,RFC,FechaNacimiento,Sexo,EstadoCivil,CentroTrabajo,correo,AreaTrabajo,Puesto,TipoPuesto,NivelEstudios,TipoPersonal,JornadaTrabajo,TipoContratacion,TiempoPuesto,ExperienciaLaboral,RotacionTurnos,fk_administrador,ATSContestado,RPContestado,EEOContestado,ATSDetectado,EmpleadoActivo) values ('${data[0].toUpperCase() }', '${data[1].toUpperCase() }', '${data[2].toUpperCase() }', '${data[3].toUpperCase() }', '${data[4].toUpperCase() }', '${data[5].toUpperCase() }', '${data[6].toUpperCase() }', '${data[7].toUpperCase() }', '${data[19].toUpperCase() }','${data[8].toUpperCase().replace(/ /g, "")}', '${data[9].toUpperCase() }', '${data[10].toUpperCase() }', '${data[11].toUpperCase() }', '${data[12].toUpperCase() }', '${data[13].toUpperCase() }', '${data[14].toUpperCase() }', '${data[15].toUpperCase() }', '${data[16].toUpperCase() }', '${data[17].toUpperCase() }', '${data[18].toUpperCase() }','${data[20].toUpperCase() }','false','false','false','false','true')`); 
                   resolve({
                     message: 'registro exitoso',
+                    nombre:data[0],
+                    apellidoP:data[1],
+                    apellidoM:data[2],
                   });
 
                  }else{
-                   console.log("data en la posicion 10" , data [10])
+                  //  console.log("data en la posicion 10" , data [10])
                   resolve({
+                     
                     valor1:data[10],
                     message: 'el puesto no existe',
                   });

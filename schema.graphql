@@ -473,6 +473,12 @@ type Data {
   valor1:String
     valor2:String
       valor3:String
+      nombre:String
+  apellidoP:String
+  apellidoM:String
+  nombreExistente:String
+  apellidoPExistente:String
+  apellidoMExistente:String
 }
 
 type MaxidEmployeesResolves{
