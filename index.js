@@ -15,7 +15,7 @@ const schema = makeExecutableSchema({
 
 const app = express();
 
-app.set('port',process.env.PORT || 8000)
+
 app.use(express.static(path.join(__dirname,'public')))
 
 
@@ -32,8 +32,11 @@ const server = new GraphQLServer({
   context: req => ({...req})
 });
 
-server.start(options, ({ port }) =>
+const PORT = process.env.PORT || 4000;
+
+
+server.start(options, () =>
   console.log(
-    `Server started, listening on port ${port} for incoming requests.`,
+    `Server started, listening on port ${PORT} for incoming requests.`,
   ),
 );
