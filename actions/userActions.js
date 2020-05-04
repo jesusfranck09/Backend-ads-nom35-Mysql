@@ -67,7 +67,7 @@ const signup =   (user) => {
                             from: 'adsdiagnostico035@gmail.com', // sender address
                             to: `${user.email}`, // list of receivers
                             subject: 'Registro a Diagnóstico035', // Subject line
-                            html: `<p>Registro Exitoso a  Diagnóstico035  <br/> <br/> <br/> Empresa: ${user.razon_social}<br/>RFC: ${user.rfc}  <br/> <br/> <br/> Datos del Cliente : <br/>Nombre: ${user.first_name} ${user.last_name} <br/>Correo : ${user.email} <br/><br/> Paquete Adquirido  ${resultados[0].empresas} Empresas  ${resultados[0].empleados} Empleados <br/><br/> Cualquir duda o Aclaración visite www.ads.com.mx <br/><br/><br/> Gracias por usar Diagnóstico035 </p> ` // plain text body
+                            html: `<p>Registro Exitoso a  Diagnóstico035  <br/> <br/> <br/> Empresa: ${user.razon_social}<br/>RFC: ${user.rfc}  <br/> <br/> <br/> Datos del Cliente : <br/>Nombre: ${user.first_name} ${user.last_name} <br/>Correo : ${user.email} <br/><br/> Paquete Adquirido  ${resultados[0].empresas} Empresas  ${resultados[0].empleados} Empleados <br/><br/> Cualquir duda o Aclaración visite www.diagnostico035.com <br/><br/><br/> Gracias por usar Diagnóstico035 </p> ` // plain text body
                           };
                           
                           transporter.sendMail(mailOptions, function (err, info) {
