@@ -240,6 +240,7 @@ nombre:String
 Apellidos:String
 RFC:String
 RazonSocial:String
+telefono:String
 correo:String
 activo:String
 fechaRegistro:String
@@ -422,6 +423,7 @@ input UserCreateInput {
   last_name: String
   rfc:String
   razon_social:String
+  telefono:String,
   email: String
   password: String
   paquete:String

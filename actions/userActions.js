@@ -7,13 +7,13 @@ var nodemailer = require('nodemailer');
 
 const signup =   (user) => {
   // console.log("fecha", new Date(new Date().toUTCString()))
-  
+  console.log("la data en signup" ,user)
   const utcDate2 = new Date()
   var fechaRegistro =  utcDate2.toGMTString()
   return new Promise((resolve, reject) => {
-    
+   
     if(user.email){
-      console.log("user" , user)
+    
        client.query(`insert into ventasAdminAlfa (fk_adminAlfa,fk_paquetes,fechaVenta,RazonSocial,RFC) values('${user.idAdminAlfa}','${user.paquete}','${user.fecha}','${user.razon_social.toUpperCase() }','${user.rfc.toUpperCase() }')`)
  
     client
@@ -44,7 +44,41 @@ const signup =   (user) => {
                     // console.log(hash)
                     resolve({ message: 'Signup exitoso',token:hash})
                    client
-                    .query(`update superusuario set nombre='${user.first_name.toUpperCase() }',Apellidos='${user.last_name.toUpperCase() }', RFC='${user.rfc.toUpperCase() }',RazonSocial ='${user.razon_social.toUpperCase() }', correo='${user.email}',contraseña='${hash}',Activo = 'true' ,fechaRegistro='${fechaRegistro}' where id = '${user.id}'`); 
+                    .query(`update superusuario set nombre='${user.first_name.toUpperCase() }',Apellidos='${user.last_name.toUpperCase() }', RFC='${user.rfc.toUpperCase() }',RazonSocial ='${user.razon_social.toUpperCase() }',telefono='${user.telefono}', correo='${user.email}',contraseña='${hash}',Activo = 'true' ,fechaRegistro='${fechaRegistro}' where id = '${user.id}'`); 
+
+                    client
+                    .query(`select * from  paquetes where id='${user.paquete}'`,
+                    
+                    function (error, results, fields) {
+                      var string=JSON.stringify(results);
+                      var resultados =  JSON.parse(string); 
+                      if(resultados[0]){
+                        var transporter = nodemailer.createTransport({
+                          service: 'gmail',
+                          secure: true,
+                          auth: {
+                                  user: 'adsdiagnostico035@gmail.com',
+                                  pass: 'ads*473alfa',
+                                  host: 'smtp.gmail.com',
+                                  port: 465,
+                              }
+                          });
+                          const mailOptions = {
+                            from: 'adsdiagnostico035@gmail.com', // sender address
+                            to: `${user.email}`, // list of receivers
+                            subject: 'Registro a Diagnóstico035', // Subject line
+                            html: `<p>Registro Exitoso a  Diagnóstico035  <br/> <br/> <br/> Empresa: ${user.razon_social}<br/>RFC: ${user.rfc}  <br/> <br/> <br/> Datos del Cliente : <br/>Nombre: ${user.first_name} ${user.last_name} <br/>Correo : ${user.email} <br/><br/> Paquete Adquirido  ${resultados[0].empresas} Empresas  ${resultados[0].empleados} Empleados <br/><br/> Cualquir duda o Aclaración visite www.ads.com.mx <br/><br/><br/> Gracias por usar Diagnóstico035 </p> ` // plain text body
+                          };
+                          
+                          transporter.sendMail(mailOptions, function (err, info) {
+                            if("este es el error" , err)
+                              console.log(err)
+                            else
+                              console.log("esta es la info" ,  info);
+                          });
+                      }
+                    },
+                  )
                     return client
                   }
                 })

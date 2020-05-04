@@ -5,7 +5,7 @@ const client = require('../database/');
 const getUsersTableEmployeesthisPeriodo= async (_, { data }) => {
     var miCadena =data[0];
     var divisiones = miCadena.split(",");
-    console.log("divisiones",divisiones)
+
     return actions.GetUsersTableEmployeesthisPeriodo(divisiones)
     .then( res => res)
     .catch( err => err );
