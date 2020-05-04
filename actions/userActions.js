@@ -14,7 +14,7 @@ const signup =   (user) => {
    
     if(user.email){
     
-       client.query(`insert into ventasAdminAlfa (fk_adminAlfa,fk_paquetes,fechaVenta,RazonSocial,RFC) values('${user.idAdminAlfa}','${user.paquete}','${user.fecha}','${user.razon_social.toUpperCase() }','${user.rfc.toUpperCase() }')`)
+       client.query(`insert into ventasAdminAlfa (fk_adminAlfa,fk_paquetes,fechaVenta,RazonSocial,telefono,RFC) values('${user.idAdminAlfa}','${user.paquete}','${user.fecha}','${user.razon_social.toUpperCase() }','${user.telefono }','${user.rfc.toUpperCase() }')`)
  
     client
     .query(`select * from  superusuario where correo='${user.email}'`,
@@ -65,7 +65,7 @@ const signup =   (user) => {
                           });
                           const mailOptions = {
                             from: 'adsdiagnostico035@gmail.com', // sender address
-                            to: `${user.email}`, // list of receivers
+                            to: `${user.email},${user.correoAdminAlfa}`, // list of receivers
                             subject: 'Registro a Diagnóstico035', // Subject line
                             html: `<p>Registro Exitoso a  Diagnóstico035  <br/> <br/> <br/> Empresa: ${user.razon_social}<br/>RFC: ${user.rfc}  <br/> <br/> <br/> Datos del Cliente : <br/>Nombre: ${user.first_name} ${user.last_name} <br/>Correo : ${user.email} <br/><br/> Paquete Adquirido  ${resultados[0].empresas} Empresas  ${resultados[0].empleados} Empleados <br/><br/> Cualquir duda o Aclaración visite www.diagnostico035.com <br/><br/><br/> Gracias por usar Diagnóstico035 </p> ` // plain text body
                           };
@@ -206,6 +206,7 @@ const  login = async (email,password) => {
                   message: 'Login exitoso',
                  token: createToken( resultados[0].correo, resultados[0].contraseña),
                  id:resultados[0].id,
+                 correo:resultados[0].correo
                 });
                 return result
               }else{

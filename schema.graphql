@@ -188,6 +188,7 @@ type adminAlfa{
   empleados:String
    RazonSocial:String
   RFC:String
+  telefono:String
 }
 
 type Employees{
@@ -427,6 +428,7 @@ input UserCreateInput {
   email: String
   password: String
   paquete:String
+  correoAdminAlfa:String
  
 }
 
