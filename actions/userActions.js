@@ -54,17 +54,19 @@ const signup =   (user) => {
                       var resultados =  JSON.parse(string); 
                       if(resultados[0]){
                         var transporter = nodemailer.createTransport({
-                          service: 'gmail',
-                          secure: true,
+  
+                          secure: false,
+                          host: 'mail.diagnostico035.com',
+                          port: 587,
                           auth: {
-                                  user: 'adsdiagnostico035@gmail.com',
-                                  pass: 'ads*473alfa',
-                                  host: 'smtp.gmail.com',
-                                  port: 465,
-                              }
+                                  user: 'info@diagnostico035.com',
+                                  pass: 'jpY9f23#',
+                                 
+                              },
+                          tls: {rejectUnauthorized: false},
                           });
                           const mailOptions = {
-                            from: 'adsdiagnostico035@gmail.com', // sender address
+                            from: 'info@diagnostico035.com', // sender address
                             to: `${user.email},${user.correoAdminAlfa}`, // list of receivers
                             subject: 'Registro a Diagnóstico035', // Subject line
                             html: `<p>Registro Exitoso a  Diagnóstico035  <br/> <br/> <br/> Empresa: ${user.razon_social}<br/>RFC: ${user.rfc}  <br/> <br/> <br/> Datos del Cliente : <br/>Nombre: ${user.first_name} ${user.last_name} <br/>Correo : ${user.email} <br/><br/> Paquete Adquirido  ${resultados[0].empresas} Empresas  ${resultados[0].empleados} Empleados <br/><br/> Cualquir duda o Aclaración visite www.diagnostico035.com <br/><br/><br/> Gracias por usar Diagnóstico035 </p> ` // plain text body
@@ -1214,7 +1216,6 @@ const EEOPoliticaPrivacidad = async data => {
 
 const  SendMail = async (args) => {
   
-  console.log("el correo es " , args)
   var LaFecha=new Date();
   var Mes=new Array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
   var diasem=new Array('domingo','lunes','martes','miercoles','jueves','viernes','sabado');
@@ -1231,18 +1232,20 @@ const  SendMail = async (args) => {
 
 
 var transporter = nodemailer.createTransport({
-  service: 'gmail',
-  secure: true,
+  
+  secure: false,
+  host: 'mail.diagnostico035.com',
+  port: 587,
   auth: {
-          user: 'adsdiagnostico035@gmail.com',
-          pass: 'ads*473alfa',
-          host: 'smtp.gmail.com',
-          port: 465,
-      }
+          user: 'info@diagnostico035.com',
+          pass: 'jpY9f23#',
+         
+      },
+  tls: {rejectUnauthorized: false},
   });
   var encuesta ="";
   var url = "" ;
-console.log("estos son los args", args[2] )
+console.log("estos son los args", args[0] )
 if(args[2]==1){
 
   encuesta="ATS"
@@ -1257,15 +1260,18 @@ if(args[2]==3){
   encuesta="EEO"
 }
   const mailOptions = {
-  from: 'adsdiagnostico035@gmail.com', // sender address
+  from: 'info@diagnostico035.com', // sender address
   to: `${args[0]}`, // list of receivers
   subject: 'Iniciar Evaluación', // Subject line
   html: `<p>Estimado Colaborador por medio de este enlace le envío su encuesta ${encuesta}, en el panel por favor seleccione la opción que le corresponda  e ingrese su correo electrónico para iniciar su evaluación <br/> ATENTAMENTE la Adminstración </p> ${url}` // plain text body
 };
 
 transporter.sendMail(mailOptions, function (err, info) {
-  if("este es el error" , err)
-    console.log(err)
+ 
+  if( err){
+    console.log("este es el error" , err)
+  }
+    
   else
     console.log("esta es la info" ,  info);
 });
