@@ -69,7 +69,31 @@ const signup =   (user) => {
                             from: 'info@diagnostico035.com', // sender address
                             to: `${user.email},${user.correoAdminAlfa}`, // list of receivers
                             subject: 'Registro a Diagnóstico035', // Subject line
-                            html: `<p>Registro Exitoso a  Diagnóstico035  <br/> <br/> <br/> Empresa: ${user.razon_social}<br/>RFC: ${user.rfc}  <br/> <br/> <br/> Datos del Cliente : <br/>Nombre: ${user.first_name} ${user.last_name} <br/>Correo : ${user.email} <br/><br/> Paquete Adquirido  ${resultados[0].empresas} Empresas  ${resultados[0].empleados} Empleados <br/><br/> Cualquir duda o Aclaración visite www.diagnostico035.com <br/><br/><br/> Gracias por usar Diagnóstico035 </p> ` // plain text body
+                            html: `<p>Empresa: ${user.razon_social}<br/>RFC: ${user.rfc} <br/> <br/>  Hola  ${user.first_name} ${user.last_name} <br/> <br/> <br/> Acabas de unirte a Diagnóstico035. Con tu suscripción, disfrutarás de: <br/> <br/>
+                            - Acceso ilimitado a la aplicación durante el periodo de tu suscripción. <br/> 
+                            - Registro de   ${resultados[0].empresas} Empresas y ${resultados[0].empleados} Empleados. <br/> 
+                            - Evaluaciones ilimitadas de ATS, RP´s y EEO. <br/>
+                            - Actualizaciones sin costo. <br/>
+                            - Soporte básico ilimitado, sobre el uso de la aplicación.
+                              <br/> <br/> <br/> 
+                              <strong> Configuración </strong><br/>
+                              Para dar de alta tu empresa, deberás ingresar a la siguiente URL, con el usuario y contraseña  enviado por tu ejecutivo.<br/><br/>
+                              https://madmin.diagnostico035.com/<br/><br/>
+                              Una vez hecho esto deberás ingresar a la siguiente dirección y podrás comenzar a utilizar Diagnóstico035.<br/><br/>
+
+                              https://admin.diagnostico035.com/<br/><br/>
+
+                              Conoce más sobre los beneficios de Diagnóstico035 en https://diagnostico035.com/
+                              <br/><br/>
+                              Gracias, <br/>
+                              El equipo de Diagnóstico035.<br/><br/>
+
+                              Tel: (55) 3603 9970 y (55) 5553 2049<br/>
+                              Ext 101 y 102<br/>
+                              www.diagnostico035.com<br/>
+                            
+                            
+                            </p> ` // plain text body
                           };
                           
                           transporter.sendMail(mailOptions, function (err, info) {
