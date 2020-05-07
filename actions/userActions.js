@@ -2221,7 +2221,7 @@ const GetresultGlobalSurveyEEO = async data => {
           })
           }; 
         const AddAdminEmpresa = async data => {
-          console.log("data" ,data)
+          console.log("dataadmin" ,data)
           let auth1;
           let auth2;
           return  new Promise((resolve, reject) => {
@@ -2242,9 +2242,57 @@ const GetresultGlobalSurveyEEO = async data => {
                       if (err) {
                         throw err
                       } else {
-                        // console.log(hash)
                         resolve({message:"admin Registrado",toke:hash})
                         client.query(`insert into administrador (nombreAdmin, apellidos , RFC , RazonSocial ,correo,contraseña,Activo,FechaRegistro,fk_superusuario,objetivo) values ('${data[0].toUpperCase() }','${data[1].toUpperCase() }','${data[2].toUpperCase() }','${data[3].toUpperCase() }','${data[4].toUpperCase() }','${hash}','true','${data[6].toUpperCase() }','${data[7]}','${data[8].toUpperCase() }')`)
+                       
+                        var transporter = nodemailer.createTransport({
+  
+                          secure: false,
+                          host: 'mail.diagnostico035.com',
+                          port: 587,
+                          auth: {
+                                  user: 'info@diagnostico035.com',
+                                  pass: 'jpY9f23#',
+                                 
+                              },
+                          tls: {rejectUnauthorized: false},
+                          });
+                          const mailOptions = {
+                            from: 'info@diagnostico035.com', // sender address
+                            to: `${data[4]}`, // list of receivers
+                            subject: 'Registro a Diagnóstico035', // Subject line
+                            html: `<p>Empresa: ${data[3]}<br/>RFC: ${data[2]} <br/> <br/>  Hola  ${data[0]} ${data[1]} <br/> <br/> <br/> Acabas de unirte a Diagnóstico035. Con tu suscripción, disfrutarás de: <br/> <br/>
+                            - Acceso ilimitado a la aplicación durante el periodo de tu suscripción. <br/> 
+                            - Evaluaciones ilimitadas de ATS, RP´s y EEO. <br/>
+                            - Actualizaciones sin costo. <br/>
+                            - Soporte básico ilimitado, sobre el uso de la aplicación.
+                              <br/> <br/> <br/> 
+                              <strong> Configuración </strong><br/>
+                              Para dar de alta tu empresa, deberás ingresar a la siguiente URL, con el usuario y contraseña  enviado por tu ejecutivo.<br/><br/>
+                              https://madmin.diagnostico035.com/<br/><br/>
+                              Una vez hecho esto deberás ingresar a la siguiente dirección y podrás comenzar a utilizar Diagnóstico035.<br/><br/>
+
+                              https://admin.diagnostico035.com/<br/><br/>
+
+                              Conoce más sobre los beneficios de Diagnóstico035 en https://diagnostico035.com/
+                              <br/><br/>
+                              Gracias, <br/>
+                              El equipo de Diagnóstico035.<br/><br/>
+
+                              Tel: (55) 3603 9970 y (55) 5553 2049<br/>
+                              Ext 101 y 102<br/>
+                              www.diagnostico035.com<br/>
+                            
+                            
+                            </p> ` // plain text body
+                          };
+                          
+                          transporter.sendMail(mailOptions, function (err, info) {
+                            if("este es el error" , err)
+                              console.log(err)
+                            else
+                              console.log("esta es la info" ,  info);
+                          });
                         return client
                       }
                     })
