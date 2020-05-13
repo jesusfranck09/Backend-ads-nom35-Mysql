@@ -409,6 +409,7 @@ type respuestasATS{
     TiempoPuesto:String,
     ExperienciaLaboral:String,
     RotacionTurnos:String,
+    CentroTrabajo:String,
     fk_administrador:String,
     fk_correos:String
 }
