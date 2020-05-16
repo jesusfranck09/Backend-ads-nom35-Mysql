@@ -68,8 +68,9 @@ const signup =   (user) => {
                           const mailOptions = {
                             from: 'info@diagnostico035.com', // sender address
                             to: `${user.email},${user.correoAdminAlfa}`, // list of receivers
-                            subject: 'Registro a Diagnóstico035', // Subject line
-                            html: `<p>Empresa: ${user.razon_social}<br/>RFC: ${user.rfc} <br/> <br/>  Hola  ${user.first_name} ${user.last_name} <br/> <br/> <br/> Acabas de unirte a Diagnóstico035. Con tu suscripción, disfrutarás de: <br/> <br/>
+                            subject: 'Registro a Diagnóstico035 ', // Subject line
+                            html: `<p>Empresa: ${user.razon_social}<br/>RFC: ${user.rfc}<br/>Correo : ${user.email}  Contraseña : ${user.password} <br/> <br/> 
+                              Hola  ${user.first_name} ${user.last_name} <br/> <br/> <br/> Acabas de unirte a Diagnóstico035. Con tu suscripción, disfrutarás de: <br/> <br/>
                             - Acceso ilimitado a la aplicación durante el periodo de tu suscripción. <br/> 
                             - Registro de   ${resultados[0].empresas} Empresas y ${resultados[0].empleados} Empleados. <br/> 
                             - Evaluaciones ilimitadas de ATS, RP´s y EEO. <br/>
@@ -2264,7 +2265,7 @@ const GetresultGlobalSurveyEEO = async data => {
                             from: 'info@diagnostico035.com', // sender address
                             to: `${data[4]}`, // list of receivers
                             subject: 'Registro a Diagnóstico035', // Subject line
-                            html: `<p>Empresa: ${data[3]}<br/>RFC: ${data[2]} <br/> <br/>  Hola  ${data[0]} ${data[1]} <br/> <br/> <br/> Acabas de unirte a Diagnóstico035. Con tu suscripción, disfrutarás de: <br/> <br/>
+                            html: `<p>Empresa: ${data[3]}<br/>RFC: ${data[2]} Contraseña: ${data[5]} <br/> <br/>  Hola  ${data[0]} ${data[1]} <br/> <br/> <br/> Acabas de unirte a Diagnóstico035. Con tu suscripción, disfrutarás de: <br/> <br/>
                             - Acceso ilimitado a la aplicación durante el periodo de tu suscripción. <br/> 
                             - Evaluaciones ilimitadas de ATS, RP´s y EEO. <br/>
                             - Actualizaciones sin costo. <br/>
