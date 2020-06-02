@@ -14,6 +14,27 @@ console.log("connected!")
 
 
  module.exports=con;
+
+
+
+//  var mysql = require('mysql');
+
+//  var con = mysql.createConnection({
+//    database:"nom035web",
+//    host: "localhost",
+//    user: "frnk",
+//    password: "jesus33."
+//  });
+ 
+//  con.connect(function(err) {
+//    console.log("este es el error" ,err)
+//    if (err) throw err;
+//    console.log("Connected!");
+//  });
+      
+//   module.exports=con;
+
+
  
 // var mysql = require('mysql');
 

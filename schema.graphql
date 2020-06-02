@@ -47,11 +47,13 @@ scalar Upload
     getAdminAlfa(data: [String]!):[adminAlfa]
      getImage(data: [String]!):Data
     getCorreos(data: [String]!):[correos]
+     getLogo(data:[String!]):Url
  }        
 
  
 type Mutation {
-  signup(data: UserCreateInput!): Auth!
+  # signup(data: UserCreateInput!): Auth!
+  registroSuperUser(data:[String]!):Auth!
   signupAdminAlfa(data: UserCreateInput!): Auth! 
   login(email: String!, password: String!): Auth!
   loginAdminAlfa(email: String!, password: String!): Auth!
@@ -123,6 +125,10 @@ type Mutation {
   updatePeriodo(data:[String!]):Data
    loadLogo(data:[String!]):Data
 
+}
+
+type Url {
+  url:String
 }
 
 type Sucursales {

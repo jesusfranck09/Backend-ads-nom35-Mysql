@@ -306,10 +306,17 @@ const getEmployeesResolvesATS= async (_, { data }) => {
     .then( res => res)
     .catch( err => err );
 };
+const getLogo = async(_, { data }) => {
 
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    const getlogo = await  actions.GetLogo(divisiones)
+    return getlogo;
+};
 
 
      module.exports = {
+        getLogo,
         getEmployeesResolvesATS,
         getresultGlobalSurveyATS,
         getCorreos,

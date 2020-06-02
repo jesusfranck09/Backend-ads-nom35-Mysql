@@ -6,18 +6,18 @@ const { createToken } = require('../utils');
 var nodemailer = require('nodemailer');
 
 const signup =   (user) => {
-  // console.log("fecha", new Date(new Date().toUTCString()))
-  console.log("la data en signup" ,user)
+
+  console.log("fecha", new Date(new Date().toUTCString()))
   const utcDate2 = new Date()
   var fechaRegistro =  utcDate2.toGMTString()
   return new Promise((resolve, reject) => {
    
-    if(user.email){
+    if(user[5]){
     
-       client.query(`insert into ventasAdminAlfa (fk_adminAlfa,fk_paquetes,fechaVenta,RazonSocial,telefono,RFC) values('${user.idAdminAlfa}','${user.paquete}','${user.fecha}','${user.razon_social.toUpperCase() }','${user.telefono }','${user.rfc.toUpperCase() }')`)
+       client.query(`insert into ventasAdminAlfa (fk_adminAlfa,fk_paquetes,fechaVenta,RazonSocial,telefono,RFC) values('${user[8]}','${user[10]}','${user[9]}','${user[3].toUpperCase() }','${user[4] }','${user[2].toUpperCase() }')`)
  
     client
-    .query(`select * from  superusuario where correo='${user.email}'`,
+    .query(`select * from  superusuario where correo='${user[5]}'`,
     
     function (error, results, fields) {
       var string=JSON.stringify(results);
@@ -26,7 +26,7 @@ const signup =   (user) => {
         resolve({ message:'duplicado'})
       }else{
         client
-        .query(`select * from  superusuario where rfc='${user.rfc}'`,
+        .query(`select * from  superusuario where rfc='${user[2]}'`,
         function (error, results, fields) {
           var string=JSON.stringify(results);
           var resultados =  JSON.parse(string); 
@@ -37,17 +37,17 @@ const signup =   (user) => {
               if (err) {
                 reject(err,{message: 'Error',token: err}) 
               } else {
-                bcrypt.hash(user.password, salt, function(err, hash) {
+                bcrypt.hash(user[6], salt, function(err, hash) {
                   if (err) {
                     throw err
                   } else {
                     // console.log(hash)
                     resolve({ message: 'Signup exitoso',token:hash})
                    client
-                    .query(`update superusuario set nombre='${user.first_name.toUpperCase() }',Apellidos='${user.last_name.toUpperCase() }', RFC='${user.rfc.toUpperCase() }',RazonSocial ='${user.razon_social.toUpperCase() }',telefono='${user.telefono}', correo='${user.email}',contraseña='${hash}',Activo = 'true' ,fechaRegistro='${fechaRegistro}' where id = '${user.id}'`); 
+                    .query(`update superusuario set nombre='${user[0].toUpperCase() }',Apellidos='${user[1].toUpperCase() }', RFC='${user[2].toUpperCase() }',RazonSocial ='${user[3].toUpperCase() }',telefono='${user[4]}', correo='${user[5]}',contraseña='${hash}',Activo = 'true' ,fechaRegistro='${fechaRegistro}' where id = '${user[7]}'`); 
 
                     client
-                    .query(`select * from  paquetes where id='${user.paquete}'`,
+                    .query(`select * from  paquetes where id='${user[10]}'`,
                     
                     function (error, results, fields) {
                       var string=JSON.stringify(results);
@@ -67,10 +67,10 @@ const signup =   (user) => {
                           });
                           const mailOptions = {
                             from: 'info@diagnostico035.com', // sender address
-                            to: `${user.email},${user.correoAdminAlfa}`, // list of receivers
+                            to: `${user[5]},${user[11]}`, // list of receivers
                             subject: 'Registro a Diagnóstico035 ', // Subject line
-                            html: `<p>Empresa: ${user.razon_social}<br/>RFC: ${user.rfc}<br/>Correo : ${user.email}  Contraseña : ${user.password} <br/> <br/> 
-                              Hola  ${user.first_name} ${user.last_name} <br/> <br/> <br/> Acabas de unirte a Diagnóstico035. Con tu suscripción, disfrutarás de: <br/> <br/>
+                            html: `<p>Empresa: ${user[3]}<br/>RFC: ${user[2]}<br/>Correo : ${user[5]}  Contraseña : ${user[6]} <br/> <br/> 
+                              Hola  ${user[0]} ${user[1]} <br/> <br/> <br/> Acabas de unirte a Diagnóstico035. Con tu suscripción, disfrutarás de: <br/> <br/>
                             - Acceso ilimitado a la aplicación durante el periodo de tu suscripción. <br/> 
                             - Registro de   ${resultados[0].empresas} Empresas y ${resultados[0].empleados} Empleados. <br/> 
                             - Evaluaciones ilimitadas de ATS, RP´s y EEO. <br/>
@@ -120,7 +120,7 @@ const signup =   (user) => {
       return  client
     },
   )
-  }else{resolve({message:"no hay data"})}
+  }
 });
 };
 
@@ -306,6 +306,7 @@ const  login = async (email,password) => {
     })
     }
     const registerEm = (data) => {
+      console.log("data", data)
       var correo = data[8].toUpperCase().replace(/ /g, "")
       // console.log("data register single em" , data)
       return new Promise( (resolve, reject) => {
@@ -2552,16 +2553,10 @@ const GetresultGlobalSurveyEEO = async data => {
           }; 
 
           const LoadLogo = async data => {
+            console.log("la data es " , data[0],data[1])
             return  new Promise((resolve, reject) => {
-              client.query(`select * from logos`,
-                function (error, results, fields) {
-                if (error) reject(error) 
-                var string=JSON.stringify(results);
-                var resultados =  JSON.parse(string);                
-                resolve({IMAGE:resultados[0].IMAGE}) 
-                 
-              },
-            )
+              client.query(`insert into logos (url,fk_administrador) values ('${data[1]}','${data[0]}')`)
+              resolve({message:"registro exitoso"})
             })
             }; 
 
@@ -2628,8 +2623,28 @@ const GetresultGlobalSurveyEEO = async data => {
             })
           }; 
             
-            
+        const GetLogo = async data => {
+          return  new Promise((resolve, reject) => {
+              client.query(`select * from logos where fk_administrador =' ${data[0]}'`,
+                function (error, results, fields) {
+                  if(error) {
+                    console.log("error" ,error)
+                  }
+                if(results) { 
+                  var string=JSON.stringify(results);
+                  var resultados =  JSON.parse(string);
+                  console.log("resultados" , resultados)
+
+                  resolve(resultados[0]) 
+                }  
+              
+              },
+            )
+            })
+          }; 
+          
       module.exports = {
+        GetLogo,
         GetEmployeesResolvesATS,
         GetresultGlobalSurveyATS,
         GetCorreos,

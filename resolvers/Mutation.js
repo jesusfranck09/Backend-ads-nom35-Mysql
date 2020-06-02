@@ -2,12 +2,19 @@
 
 const actions = require('../actions');
 // const { authUserById } = require('../utils');
-const signup = (_, { data }) => {
-    // console.log("data",data)
-    return actions.signup(data)
-                  .then( res => res)
-                  .catch( err => err );
+const registroSuperUser = async (_,  data ) => {
+    var miCadena =data.data[0];
+    var divisiones = miCadena.split(",");
+    const registro = await  actions.signup(divisiones)
+                   return registro;
 };
+
+// const signup = (_, { data }) => {
+//     // console.log("data",data)
+//     return actions.signup(data)
+//                   .then( res => res)
+//                   .catch( err => err );
+// };
 const login = async (_, {email, password}) => { 
     return actions.login(email, password)      
 };
@@ -505,13 +512,17 @@ const updatePeriodo= async (_, { data }) => {
     return edit;
 };
 
-const loadLogo = (_, { data }) => {
+const loadLogo = async(_, { data }) => {
 
-    return actions.LoadLogo(data)
-                  .then( res => res)
-                  .catch( err => err );
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    const upload = await  actions.LoadLogo(divisiones)
+    return upload;
 };
+
 module.exports = {
+    
+    registroSuperUser,
     loadLogo,
     updatePeriodo,
     alert2,
@@ -540,7 +551,7 @@ module.exports = {
     registerSucursales,
     inactiveAdmin,
     authRegisterSingleEmployee,
-    signup,
+    // signup,
     login,
     registerEmployee,
     registerRS,
