@@ -172,10 +172,10 @@ const  login = async (email,password) => {
   if(!email || !password){
     resolve({message:"ningun dato",token:"no hay token"})
   }
-    console.log("el email" , email , "password", password)
-    if(email && password){
-      console.log("la contraseña" , password)
-      client
+
+  if(email && password){
+
+    client
       .query(`select * from  superusuario where correo='${email}' `,
      function (error, results, fields) {
        if(error){
@@ -183,9 +183,7 @@ const  login = async (email,password) => {
        }
         var string=JSON.stringify(results);
         var resultados =  JSON.parse(string); 
-        console.log("resukltados" , resultados)    
           if(resultados[0]){
-          console.log("entro")  
           bcrypt.compare(password,resultados[0].contraseña, function(err, result) {
             if(result){
               resolve({     
@@ -2642,8 +2640,139 @@ const GetresultGlobalSurveyEEO = async data => {
             )
             })
           }; 
-          
+        const ResetPassword = async data => {
+          console.log("data" , `select * from superusuario where correo ='${data[1]}' and rfc = '${data[0]}'`)
+          return  new Promise((resolve, reject) => {
+              client.query(`select * from superusuario where correo ='${data[1]}' and rfc = '${data[0]}'`,
+                function (error, results, fields) {
+                  var string=JSON.stringify(results);
+                  var resultados =  JSON.parse(string);
+                  if(resultados[0]) { 
+
+                    function makeid(length) {
+                      var result           = '';
+                      var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                      var charactersLength = characters.length;
+                      for ( var i = 0; i < length; i++ ) {
+                         result += characters.charAt(Math.floor(Math.random() * charactersLength));
+                      }
+                      return result;
+                   }
+                   
+                   var random = makeid(8)
+                   console.log("random" , random);
+
+                    bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
+                      if (err) {
+                        reject(err,{message: 'Error',token: err}) 
+                      } else {
+                        bcrypt.hash(random, salt, function(err, hash) {
+                          if (err) {
+                            throw err
+                          } else {
+                            console.log("resultados [0", resultados[0])
+                            console.log("query",`update superusuario set contraseña='${hash}' where id = '${resultados[0].id}'`)
+
+                            client.query(`update superusuario set contraseña='${hash}' where id = '${resultados[0].id}'`)
+
+                            var transporter = nodemailer.createTransport({
+  
+                              secure: false,
+                              host: 'mail.diagnostico035.com',
+                              port: 587,
+                              auth: {
+                                      user: 'info@diagnostico035.com',
+                                      pass: 'jpY9f23#',
+                                     
+                                  },
+                              tls: {rejectUnauthorized: false},
+                              });
+                              const mailOptions = {
+                                from: 'info@diagnostico035.com', // sender address
+                                to: `${data[1]}`, // list of receivers
+                                subject: 'Recuperación de contraseña', // Subject line
+                                html: `<p>Empresa: ${resultados[0].RazonSocial}<br/>RFC: ${resultados[0].RFC}<br/>Correo : ${data[1]}  Contraseña : ${random} <br/> <br/> 
+                                  Hola  ${resultados[0].nombre} ${resultados[0].apellidos} <br/> <br/> <br/> Acabas de recuperar tu contraseña, por el momento la contraseña es definida por el sistema <br/>
+                                  puedes cambiarla en tu panel de inicio e ir al boton cambiar contraseña.
+                                  <br/>
+                                  <strong>Para cualquier duda o aclaracion consulte la siguiente guía rápida.</strong>
+                                  <br/> <br/> <br/> 
+                                  <strong> Configuración </strong><br/>
+                                  Para dar de alta tu empresa, deberás ingresar a la siguiente URL, con el usuario y contraseña  enviado por tu ejecutivo.<br/><br/>
+                                  https://madmin.diagnostico035.com/<br/><br/>
+                                  Una vez hecho esto deberás ingresar a la siguiente dirección y podrás comenzar a utilizar Diagnóstico035.<br/><br/>
+    
+                                  https://admin.diagnostico035.com/<br/><br/>
+    
+                                  Conoce más sobre los beneficios de Diagnóstico035 en https://diagnostico035.com/
+                                  <br/><br/>
+                                  Gracias, <br/>
+                                  El equipo de Diagnóstico035.<br/><br/>
+    
+                                  Tel: (55) 3603 9970 y (55) 5553 2049<br/>
+                                  Ext 101 y 102<br/>
+                                  www.diagnostico035.com<br/>                                
+                                </p> ` // plain text body
+                              };
+                              
+                              transporter.sendMail(mailOptions, function (err, info) {
+                                if("este es el error" , err)
+                                  console.log(err)
+                                else
+                                  console.log("esta es la info" ,  info);
+                              });
+                              resolve({message:"actualizacion exitosa"})
+                              
+                          }
+                        })
+                      }
+                    })
+                  }else{
+                    resolve({message:"el correo o rfc no existen"})
+                  }
+              
+              },
+            )
+            })
+          }; 
+        const UpdatePassword = async data => {
+          return  new Promise((resolve, reject) => {
+              client.query(`select * from superusuario where id =' ${data[2]}'`,
+                function (error, results, fields) {
+                  var string=JSON.stringify(results);
+                  var resultados =  JSON.parse(string);
+
+                if(resultados) { 
+                  bcrypt.compare(data[0],resultados[0].contraseña, function(err, result) {
+                    if(result){
+                      bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
+                        if (err) {
+                          reject(err,{message: 'Error',token: err}) 
+                        } else {
+                          bcrypt.hash(data[1], salt, function(err, hash) {
+                            if (err) {
+                              throw err
+                            } else {
+                              client.query(`update superusuario set contraseña='${hash}' where id='${data[2]}'`)
+                              resolve({message:"contraseña actualizada"})
+                            }
+                          })
+                        }
+                      })
+
+                    }else{
+                      resolve({message:"la contraseña no es correcta"})
+                    }       
+                })
+                }  
+              
+              },
+            )
+            })
+          }; 
       module.exports = {
+        UpdatePassword,
+        ResetPassword,
         GetLogo,
         GetEmployeesResolvesATS,
         GetresultGlobalSurveyATS,

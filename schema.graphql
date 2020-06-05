@@ -48,6 +48,8 @@ scalar Upload
      getImage(data: [String]!):Data
     getCorreos(data: [String]!):[correos]
      getLogo(data:[String!]):Url
+    resetPassword(data:[String!]):Data
+
  }        
 
  
@@ -123,8 +125,8 @@ type Mutation {
   alert2(data:[String!]):Data
   alert3(data:[String!]):Data
   updatePeriodo(data:[String!]):Data
-   loadLogo(data:[String!]):Data
-
+  loadLogo(data:[String!]):Data
+  updatePassword(data:[String!]):Data
 }
 
 type Url {

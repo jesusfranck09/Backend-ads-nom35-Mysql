@@ -6,7 +6,6 @@ const { importSchema } = require("graphql-import");
 const typeDefs = importSchema("./schema.graphql");
 const resolvers = require('./resolvers');
 const express = require('express')
-const http = require ('http')
 const path = require ('path')
 const schema = makeExecutableSchema({
 	typeDefs,

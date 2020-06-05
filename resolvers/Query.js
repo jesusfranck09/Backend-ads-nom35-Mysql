@@ -313,9 +313,19 @@ const getLogo = async(_, { data }) => {
     const getlogo = await  actions.GetLogo(divisiones)
     return getlogo;
 };
+const resetPassword = async(_, { data }) => {
+
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    const reset = await  actions.ResetPassword(divisiones)
+    return reset;
+};
+
+
 
 
      module.exports = {
+        resetPassword,
         getLogo,
         getEmployeesResolvesATS,
         getresultGlobalSurveyATS,

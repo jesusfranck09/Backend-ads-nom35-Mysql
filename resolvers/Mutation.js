@@ -520,8 +520,16 @@ const loadLogo = async(_, { data }) => {
     return upload;
 };
 
+const updatePassword = async(_, { data }) => {
+console.log("data mutation" ,data)
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    const update = await  actions.UpdatePassword(divisiones)
+    return update;
+};
+
 module.exports = {
-    
+    updatePassword,
     registroSuperUser,
     loadLogo,
     updatePeriodo,
