@@ -1290,7 +1290,7 @@ if(args[2]==3){
   from: 'info@diagnostico035.com', // sender address
   to: `${args[0]}`, // list of receivers
   subject: 'Iniciar Evaluación', // Subject line
-  html: `<p>Estimado Colaborador por medio de este enlace le envío su encuesta ${encuesta}, en el panel por favor seleccione la opción que le corresponda  e ingrese su correo electrónico para iniciar su evaluación <br/> ATENTAMENTE la Adminstración </p> ${url}` // plain text body
+  html: `<p>Estimado Colaborador por medio de este enlace le envío su evaluación ${encuesta}, deberá ingresar su correo electrónico y responder las preguntas correspondientes. </p> ${url}` // plain text body
 };
 
 transporter.sendMail(mailOptions, function (err, info) {
@@ -2554,6 +2554,7 @@ const GetresultGlobalSurveyEEO = async data => {
             console.log("la data es " , data[0],data[1])
             return  new Promise((resolve, reject) => {
               client.query(`insert into logos (url,fk_administrador) values ('${data[1]}','${data[0]}')`)
+              console.log(`insert into logos (url,fk_administrador) values ('${data[1]}','${data[0]}')`)
               resolve({message:"registro exitoso"})
             })
             }; 

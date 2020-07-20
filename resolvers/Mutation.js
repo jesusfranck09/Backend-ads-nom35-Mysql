@@ -3,8 +3,11 @@
 const actions = require('../actions');
 // const { authUserById } = require('../utils');
 const registroSuperUser = async (_,  data ) => {
+    console.log("data" ,data)
     var miCadena =data.data[0];
     var divisiones = miCadena.split(",");
+    console.log("data" ,divisiones)
+
     const registro = await  actions.signup(divisiones)
                    return registro;
 };
