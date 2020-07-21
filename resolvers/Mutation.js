@@ -325,7 +325,7 @@ const eeoPoliticaPrivacidad = async (_,  data ) => {
 
 
 const sendMail = async (_,  data ) => {
-    console.log("la data en mutation es  rppage1" ,  data)
+    console.log("dataMutation" , data)
     var miCadena =data.data[0];
     var divisiones = miCadena.split(",");
     const mail = await  actions.SendMail(divisiones)

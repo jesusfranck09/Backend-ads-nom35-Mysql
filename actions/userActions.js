@@ -1242,7 +1242,17 @@ const EEOPoliticaPrivacidad = async data => {
 
 
 const  SendMail = async (args) => {
-  
+  console.log("las args que llegan" , args)
+  var str = args;
+  var nombres = str.filter(function (item) {
+    return !(parseInt(item) == item);
+  });
+  var ids = str.filter(function (item) {
+    return (parseInt(item) == item);
+  });
+
+
+return  new Promise((resolve, reject) => {   
   var LaFecha=new Date();
   var Mes=new Array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
   var diasem=new Array('domingo','lunes','martes','miercoles','jueves','viernes','sabado');
@@ -1256,61 +1266,62 @@ const  SendMail = async (args) => {
   NumeroDeMes=LaFecha.getMonth();
   FechaCompleta=diasem[diasemana]+" "+LaFecha.getDate()+" de "+Mes[NumeroDeMes]+" de "+LaFecha.getFullYear()+" "+hora+":"+minuto+":"+segundo;
   
+   var transporter = nodemailer.createTransport({
+      
+      secure: false,
+      host: 'mail.diagnostico035.com',
+      port: 587,
+      auth: {
+              user: 'info@diagnostico035.com',
+              pass: 'jpY9f23#',
+            
+          },
+      tls: {rejectUnauthorized: false},
+      });
+      var encuesta ="";
+      var url = "" ;
+    if(ids[ids.length - 2]==1){
 
+      encuesta="ATS"
+      url =  "https://ats.diagnostico035.com/"
 
-var transporter = nodemailer.createTransport({
-  
-  secure: false,
-  host: 'mail.diagnostico035.com',
-  port: 587,
-  auth: {
-          user: 'info@diagnostico035.com',
-          pass: 'jpY9f23#',
-         
-      },
-  tls: {rejectUnauthorized: false},
-  });
-  var encuesta ="";
-  var url = "" ;
-console.log("estos son los args", args[0] )
-if(args[2]==1){
+    }if(ids[ids.length - 2]==2){
+      url =  "https://rp.diagnostico035.com/"
+      encuesta="RP"
+    }
+    if(ids[ids.length - 2]==3){
+      url =  "https://eeo.diagnostico035.com/"
+      encuesta="EEO"
+    }
+    nombres.map(rows=>{
+        const mailOptions = {
+        from: 'info@diagnostico035.com', // sender address
+        to: `${rows}`, // list of receivers
+        subject: 'Iniciar Evaluación', // Subject line
+        html: `<p>Estimado Colaborador por medio de este enlace le envío su evaluación ${encuesta}, deberá ingresar su correo electrónico y responder las preguntas correspondientes. </p> ${url}` // plain text body
+      };
 
-  encuesta="ATS"
-  url =  "https://ats.diagnostico035.com/"
-
-}if(args[2]==2){
-  url =  "https://rp.diagnostico035.com/"
-  encuesta="RP"
-}
-if(args[2]==3){
-  url =  "https://eeo.diagnostico035.com/"
-  encuesta="EEO"
-}
-  const mailOptions = {
-  from: 'info@diagnostico035.com', // sender address
-  to: `${args[0]}`, // list of receivers
-  subject: 'Iniciar Evaluación', // Subject line
-  html: `<p>Estimado Colaborador por medio de este enlace le envío su evaluación ${encuesta}, deberá ingresar su correo electrónico y responder las preguntas correspondientes. </p> ${url}` // plain text body
-};
-
-transporter.sendMail(mailOptions, function (err, info) {
+      transporter.sendMail(mailOptions, function (err, info) {
+      
+        if( err){
+          console.log("este es el error" , err)
+        }
+          
+        else{
+          console.log("info" , info)
+          resolve({message:`envio exitoso a ${rows}`  },
+           ids.map(row=>{
+            client.query(`insert into correos(Encuesta,fecha,fk_empleados,contestado,fk_administrador) values ('${encuesta}','${FechaCompleta}','${row}','false','${ids[ids.length - 1]}')`); 
+          
+            return  client
+          })
+          
+          )
+        }
+      });
+    })
+   
  
-  if( err){
-    console.log("este es el error" , err)
-  }
-    
-  else
-    console.log("esta es la info" ,  info);
-});
-
-
-
-
-return  new Promise((resolve, reject) => {
-client
-.query(`insert into correos(Encuesta,fecha,fk_empleados,contestado) values ('${encuesta}','${FechaCompleta}','${args[1]}','false')`); 
-return  client
-
 })
 }
 
@@ -1429,53 +1440,53 @@ const InactiveAdmin = async data => {
     })
   };
 
-const VerifiEmailSurveyATS = async data => { 
-  console.log("la data en useractions es " , data)
-  return new Promise((resolve, reject) => {
-    client.query(`select  ATSContestado  from  empleados where id='${data[0]}'`,
-    function (error, results, fields) {
-      var string=JSON.stringify(results);
-      var resultados =  JSON.parse(string);   
-      console.log("los resultados son ", resultados)
-      resolve(resultados)
-      return client
-    },
-  )
-  })
-  };
-const VerifiEmailSurveyRP = async data => { 
-  console.log("la data en useractions es " , data)
-  return new Promise((resolve, reject) => {
-    client.query(`select  RPContestado  from  empleados where id='${data[0]}'`,
-    function (error, results, fields) {
-      var string=JSON.stringify(results);
-      var resultados =  JSON.parse(string);   
-      console.log("los resultados son ", resultados)
-      resolve(resultados)
-      return client
-    },
-  )
-  })
-  };
+// const VerifiEmailSurveyATS = async data => { 
+//   console.log("data" ,data)
+//   return new Promise((resolve, reject) => {
+//     client.query(`select  ATSContestado  from  empleados where id='${data[0]}'`,
+//     function (error, results, fields) {
+//       var string=JSON.stringify(results);
+//       var resultados = JSON.parse(string);   
+//       console.log("los resultados son ", resultados)
+//       if(resultados[0]){
+//         resolve(resultados)
 
-const VerifiEmailSurveyEEO = async data => { 
-  console.log("la data en useractions es " , data)
-  return new Promise((resolve, reject) => {
-    client.query(`select  EEOContestado  from  empleados where id='${data[0]}'`,
-  function (error, results, fields) {
-      var string=JSON.stringify(results);
-      var resultados =  JSON.parse(string);   
-      console.log("los resultados son ", resultados)
-      resolve(resultados)
-      return client
-    },
-  )
-  })
-  };
+//       }
+//       return client
+//     },
+//   )
+//   })
+//   };
+// const VerifiEmailSurveyRP = async data => { 
+//   return new Promise((resolve, reject) => {
+//     client.query(`select  RPContestado  from  empleados where id='${data[0]}'`,
+//     function (error, results, fields) {
+//       var string=JSON.stringify(results);
+//       var resultados =  JSON.parse(string);   
+//       console.log("los resultados son ", resultados)
+//       resolve(resultados)
+//       return client
+//     },
+//   )
+//   })
+//   };
+
+// const VerifiEmailSurveyEEO = async data => { 
+//   return new Promise((resolve, reject) => {
+//     client.query(`select  EEOContestado  from  empleados where id='${data[0]}'`,
+//   function (error, results, fields) {
+//       var string=JSON.stringify(results);
+//       var resultados =  JSON.parse(string);   
+//       console.log("los resultados son ", resultados)
+//       resolve(resultados)
+//       return client
+//     },
+//   )
+//   })
+//   };
 
 
 const RegisterSucursales = async data => { 
-  console.log("la data en useractions es " , data[11])
   return  new Promise((resolve, reject) => {
     client
     .query(`select * from  administrador where correo='${data[11]}' `,
@@ -1708,13 +1719,6 @@ const UpdateEmployees = async data => {
       )
     })
   };
-
-
-  
- 
-  
-
-
 
 
 const UpdateSucursales = async data => { 
@@ -2062,7 +2066,6 @@ const GetresultGlobalSurveyEEO = async data => {
           }; 
           
         const GetPeriodo = async data => {
-          console.log(`select * from eventos where fk_administrador = '${data[0]}' and EventoActivo='true'`)
           return  new Promise((resolve, reject) => {
               client.query(`select * from eventos where fk_administrador = '${data[0]}' and EventoActivo='true'`,
                 function (error, results, fields) {
@@ -2590,13 +2593,13 @@ const GetresultGlobalSurveyEEO = async data => {
         const GetCorreos = async data => {
           return  new Promise((resolve, reject) => {
             console.log("correos")
-              client.query(`select * from correos left join empleados on correos.fk_empleados = empleados.id inner join administrador on empleados.fk_administrador = administrador.id where administrador.id = '${data[0]}'`,
+              client.query(`select * from correos inner join empleados on correos.fk_empleados = empleados.id where correos.fk_administrador = '${data[0]}'`,
                 function (error, results, fields) {
                 var string=JSON.stringify(results);
                 var resultados =  JSON.parse(string);
                 console.log("los resu son", resultados)
                 resolve(resultados
-                ) 
+                )  
               },
             )
             })
@@ -2840,9 +2843,9 @@ const GetresultGlobalSurveyEEO = async data => {
         RegisterApartments,
         GetSucursales,
         RegisterSucursales,
-        VerifiEmailSurveyEEO,
-        VerifiEmailSurveyRP,
-        VerifiEmailSurveyATS,
+        // VerifiEmailSurveyEEO,
+        // VerifiEmailSurveyRP,
+        // VerifiEmailSurveyATS,
         InactiveAdmin,
         AuthRegisterSingleEmployee,
         ResultSingleSurvey,

@@ -10,9 +10,9 @@ scalar Upload
     resultSingleSurvey(data: [String]!):[ respuestas]
     resultSingleSurveyRP(data: [String]!):[ respuestasRP]
     resultSingleSurveyEEO(data: [String]!):[ respuestasEEO]
-    verifiEmailSurveyATS(data: [String]!):[resCorreo]    
-    verifiEmailSurveyRP(data: [String]!):[resCorreoRP] 
-    verifiEmailSurveyEEO(data: [String]!):[resCorreoEEO] 
+    # verifiEmailSurveyATS(data: [String]!):[resCorreo]    
+    # verifiEmailSurveyRP(data: [String]!):[resCorreoRP] 
+    # verifiEmailSurveyEEO(data: [String]!):[resCorreoEEO] 
     getSucursales(data:String):[Sucursales]
     getDeptos(data:String):[Deptos]
     getPuestos(data:String):[Puestos]
@@ -99,7 +99,7 @@ type Mutation {
   atsPoliticaPrivacidad(data:[String]!):SurveyData!
   eeoPoliticaPrivacidad(data:[String]!):SurveyData!
 
- sendMail(data: [String]!): Data!
+ sendMail(data:[String]!):Data!
  getAdmin(data:[String]!):[Admin]
  authRegisterSingleEmployee(data:[String]!):[regMAx]
   inactiveAdmin(data:[String]!):Auth!

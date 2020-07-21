@@ -45,24 +45,27 @@ const resultSingleSurveyEEO = (_,args ) => {
       .catch( err => err );
                  
 }
-const verifiEmailSurveyATS= (_, { data }) => {
-     console.log("la data en query es ", data)
-     return actions.VerifiEmailSurveyATS(data)
-                   .then( res => res)
-                   .catch( err => err );
- };
- const verifiEmailSurveyRP= (_, { data }) => {
-     console.log("la data en query es ", data)
-     return actions.VerifiEmailSurveyRP(data)
-                   .then( res => res)
-                   .catch( err => err );
- };
- const verifiEmailSurveyEEO= (_, { data }) => {
-     console.log("la data en query es ", data)
-     return actions.VerifiEmailSurveyEEO(data)
-                   .then( res => res)
-                   .catch( err => err );
- };
+// const verifiEmailSurveyATS= (_, { data }) => {
+//     var miCadena =data[0];
+//     var divisiones = miCadena.split(",");
+//      return actions.VerifiEmailSurveyATS(divisiones)
+//                    .then( res => res)
+//                    .catch( err => err );
+//  };
+//  const verifiEmailSurveyRP= (_, { data }) => {
+//     var miCadena =data[0];
+//     var divisiones = miCadena.split(",");
+//      return actions.VerifiEmailSurveyRP(divisiones)
+//                    .then( res => res)
+//                    .catch( err => err );
+//  };
+//  const verifiEmailSurveyEEO= (_, { data }) => {
+//     var miCadena =data[0];
+//     var divisiones = miCadena.split(",");
+//      return actions.VerifiEmailSurveyEEO(divisiones)
+//                    .then( res => res)
+//                    .catch( err => err );
+//  };
  const getSucursales= (_, { data }) => {
      return actions.GetSucursales(data)
                    .then( res => res)
@@ -366,9 +369,9 @@ const resetPassword = async(_, { data }) => {
           getPuestos,
           getDeptos,
           getSucursales,
-          verifiEmailSurveyEEO,
-          verifiEmailSurveyRP,
-          verifiEmailSurveyATS,
+        //   verifiEmailSurveyEEO,
+        //   verifiEmailSurveyRP,
+        //   verifiEmailSurveyATS,
           getUsersTableEmployees,
           resultSingleSurvey ,
           resultSingleSurveyRP,
