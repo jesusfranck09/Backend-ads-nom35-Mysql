@@ -1310,18 +1310,18 @@ return  new Promise((resolve, reject) => {
         else{
           console.log("info" , info)
           resolve({message:`envio exitoso a ${rows}`  },
-           ids.map(row=>{
-            client.query(`insert into correos(Encuesta,fecha,fk_empleados,contestado,fk_administrador) values ('${encuesta}','${FechaCompleta}','${row}','false','${ids[ids.length - 1]}')`); 
           
-            return  client
-          })
           
           )
         }
       });
     })
    
- 
+    ids.map(row=>{
+      client.query(`insert into correos(Encuesta,fecha,fk_empleados,contestado,fk_administrador) values ('${encuesta}','${FechaCompleta}','${row}','false','${ids[ids.length - 1]}')`); 
+    
+      return  client
+    })
 })
 }
 
