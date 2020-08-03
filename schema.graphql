@@ -209,6 +209,10 @@ type Employees{
   Puesto:String
   CentroTrabajo:String
   periodo:String,
+  ATSDetectado:String,
+  Respuestas:String, 
+  fk_preguntasEEO:String,
+  ponderacion:String,
 }
 
 
@@ -238,7 +242,8 @@ type  JsonEmployee{
   ATSContestado:String,
   RPContestado:String,
   EEOContestado:String
-  CentroTrabajo:String
+  CentroTrabajo:String,
+  ATSDetectado:String
 }
 
 type Auth {
