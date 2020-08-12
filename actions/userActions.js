@@ -1896,9 +1896,6 @@ const GetEmployeesResolvesRP = async data => {
     };
                                                                                   
 const GetresultGlobalSurveyRP = async data => {
-
-  console.log("data[0]",data[0],"data[1]",data[1])
-  console.log("la data es ",`select * from empleados inner join respuestasrp on respuestasRP.fk_empleadosRP = empleados.id where empleados.id =' ${data[0]}'  and respuestasRP.periodo='${data[1]}'`)
   return  new Promise((resolve, reject) => {
       client.query(`select * from empleados inner join respuestasrp on respuestasRP.fk_empleadosRP = empleados.id where empleados.id =' ${data[0]}'  and respuestasRP.periodo='${data[1]}'`,
         function (error, results, fields) {
@@ -1925,12 +1922,14 @@ const GetEmployeesResolvesEEO = async data => {
   })
   };    
 const GetresultGlobalSurveyEEO = async data => {
+  let array=[]
   // console.log("la data es ",data[0])
   return  new Promise((resolve, reject) => {
       client.query(`select * from empleados inner join respuestaseeo on respuestaseeo.fk_empleados = empleados.id where empleados.id =' ${data[0]}'  and respuestaseeo.periodo='${data[1]}'`,
         function (error, results, fields) {
         var string=JSON.stringify(results);
         var resultados =  JSON.parse(string);
+        array.push(resultados)
         // console.log(`select * from empleados inner join respuestaseeo on respuestaseeo.fk_empleados = empleados.id where empleados.id =' ${data[0]}'  and respuestaseeo.periodo='${data[1]}'`)
         resolve(resultados
         ) 
@@ -2549,7 +2548,7 @@ const GetresultGlobalSurveyEEO = async data => {
           };   
 
         const GetresultGlobalSurveyATS = async data => {
-          // console.log("la data es ",`select * from empleados inner join respuestasats on respuestasats.fk_empleados= empleados.id where empleados.id =' ${data[0]}'  and respuestasats.periodo='${data[1]}'`)
+          console.log("la data que llega" , data)
           return  new Promise((resolve, reject) => {
               client.query(`select * from empleados inner join respuestasats on respuestasats.fk_empleados= empleados.id where empleados.id =' ${data[0]}'  and respuestasats.periodo='${data[1]}'`,
                 function (error, results, fields) {
