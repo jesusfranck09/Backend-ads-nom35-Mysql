@@ -2716,7 +2716,17 @@ const GetresultGlobalSurveyEEO = async data => {
             )
             })
           }; 
+
+      const UpdateLogo = async data => {
+        // console.log("la data es " , data[0],data[1])
+        return  new Promise((resolve, reject) => {
+          client.query(`update logos set url='${data[1]}' where fk_administrador='${data[0]}'`)
+          // console.log(`insert into logos (url,fk_administrador) values ('${data[1]}','${data[0]}')`)
+          resolve({message:"registro exitoso"})
+        })
+        };               
       module.exports = {
+        UpdateLogo,
         UpdatePassword,
         ResetPassword,
         GetLogo,

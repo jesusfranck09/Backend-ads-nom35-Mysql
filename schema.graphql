@@ -127,6 +127,7 @@ type Mutation {
   updatePeriodo(data:[String!]):Data
   loadLogo(data:[String!]):Data
   updatePassword(data:[String!]):Data
+  updateLogo(data:[String!]):Data
 }
 
 type Url {
@@ -489,9 +490,9 @@ type Data {
   alerta3:String,
   image:String,
   valor1:String
-    valor2:String
-      valor3:String
-      nombre:String
+  valor2:String
+  valor3:String
+  nombre:String
   apellidoP:String
   apellidoM:String
   nombreExistente:String

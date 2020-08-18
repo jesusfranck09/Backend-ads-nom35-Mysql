@@ -531,7 +531,16 @@ console.log("data mutation" ,data)
     return update;
 };
 
+const updateLogo = async(_, { data }) => {
+        var miCadena =data[0];
+        var divisiones = miCadena.split(",");
+        const update = await  actions.UpdateLogo(divisiones)
+        return update;
+    };
+
+
 module.exports = {
+    updateLogo,
     updatePassword,
     registroSuperUser,
     loadLogo,
