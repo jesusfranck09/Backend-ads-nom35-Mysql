@@ -538,8 +538,17 @@ const updateLogo = async(_, { data }) => {
         return update;
     };
 
+    
+const cardPay = async(_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    const card = await  actions.CardPay(divisiones)
+    return card;
+};
+
 
 module.exports = {
+    cardPay,
     updateLogo,
     updatePassword,
     registroSuperUser,

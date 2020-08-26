@@ -54,7 +54,7 @@ scalar Upload
 
  
 type Mutation {
-  # signup(data: UserCreateInput!): Auth!
+  cardPay(data:[String]!):Auth!
   registroSuperUser(data:[String]!):Auth!
   signupAdminAlfa(data: UserCreateInput!): Auth! 
   login(email: String!, password: String!): Auth!

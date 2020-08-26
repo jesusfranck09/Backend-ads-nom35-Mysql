@@ -1457,7 +1457,7 @@ const GetSucursales = async data => {
   
   // console.log("la data en useractions getsucursales es " , data)
   return new Promise((resolve, reject) => {
-    client.query(`select  *  from  administrador where correo='${data}'`,
+    client.query(`select  *  from  administrador where id='${data}'`,
     function (error, results, fields) {
       var string=JSON.stringify(results);
       var resultados =  JSON.parse(string);   
@@ -1498,7 +1498,7 @@ const RegisterApartments = async data => {
 const GetDeptos = async data => { 
   // console.log("la data en useractions getdeptos es " ,`select  *  from  administrador where correo='${data}'`)
   return new Promise((resolve, reject) => {
-    client.query(`select  *  from  administrador where correo='${data}'`,
+    client.query(`select  *  from  administrador where id='${data}'`,
     function (error, results, fields) {
       var string=JSON.stringify(results);
       var resultados =  JSON.parse(string);   
@@ -1534,7 +1534,7 @@ const RegisterPuesto = async data => {
 const GetPuestos = async data => { 
   // console.log("la data en useractions getpuestos es " , data)
   return new Promise((resolve, reject) => {
-    client.query(`select  *  from  administrador where correo='${data}'`,
+    client.query(`select  *  from  administrador where id='${data}'`,
     function (error, results, fields) {
       var string=JSON.stringify(results);
       var resultados =  JSON.parse(string);   
@@ -2724,8 +2724,19 @@ const GetresultGlobalSurveyEEO = async data => {
           // console.log(`insert into logos (url,fk_administrador) values ('${data[1]}','${data[0]}')`)
           resolve({message:"registro exitoso"})
         })
-        };               
+        };
+
+        const CardPay = async data => {
+          return  new Promise((resolve, reject) => {
+            client.query(`insert into cardPay (idPago,fechaPago,carrito,idPaypalCliente,nombrePaypalCliente,apellidosPaypalCliente,correoPaypalCliente,ciudadClientePaypal,direccion1PaypalCliente,direccion2PaypalCliente,cpPaypalCliente,estadoPaypalCliente,metodoPago,statusPago,subtotalTransaccion,montoTransaccion,monedaTransaccion,nombrecliente,apellidosCliente,rfcCliente,razonSocialCliente,telefonoCliente,correoCliente, contraseñaCliente , paquete) values ('${data[0]}','${data[1]}','${data[2]}','${data[6]}','${data[4]}','${data[5]}','${data[3]}','${data[7]}','${data[8]}','${data[9]}','${data[10]}','${data[11]}','${data[12]}','${data[13]}','${data[14]}','${data[15]}','${data[16]}','${data[17]}','${data[18]}','${data[20]}','${data[19]}','${data[21]}','${data[22]}','${data[23]}','${data[24]}')`)
+            resolve({message:"registro exitoso"})
+
+
+
+          })
+          };              
       module.exports = {
+        CardPay,
         UpdateLogo,
         UpdatePassword,
         ResetPassword,
