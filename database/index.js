@@ -1,38 +1,38 @@
 
-// var mysql = require('mysql');
+var mysql = require('mysql');
 
-// var con = mysql.createPool({
-//   database:"heroku_e815156f37933c9",
-//   host: "us-cdbr-iron-east-04.cleardb.net",
-//   user: "b32fbf2647107b",
-//   password: "57e93245",
+var con = mysql.createPool({
+  database:"heroku_e815156f37933c9",
+  host: "us-cdbr-iron-east-04.cleardb.net",
+  user: "b32fbf2647107b",
+  password: "57e93245",
 
-// },
-// console.log("connected!")
-// )
-
-
-
-//  module.exports=con;
+},
+console.log("connected!")
+)
 
 
 
- var mysql = require('mysql');
+ module.exports=con;
 
- var con = mysql.createConnection({
-   database:"nom035web",
-   host: "localhost",
-   user: "frnk",
-   password: "jesus33."
- });
+
+
+//  var mysql = require('mysql');
+
+//  var con = mysql.createConnection({
+//    database:"nom035web",
+//    host: "localhost",
+//    user: "frnk",
+//    password: "jesus33."
+//  });
  
- con.connect(function(err) {
-   console.log("este es el error" ,err)
-   if (err) throw err;
-   console.log("Connected!");
- });
+//  con.connect(function(err) {
+//    console.log("este es el error" ,err)
+//    if (err) throw err;
+//    console.log("Connected!");
+//  });
       
-  module.exports=con;
+//   module.exports=con;
 
 
  
