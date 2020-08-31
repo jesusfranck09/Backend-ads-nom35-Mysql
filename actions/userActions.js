@@ -2829,7 +2829,7 @@ const GetresultGlobalSurveyEEO = async data => {
                                           <br/> <br/> <br/> 
                                           <strong> Configuración </strong><br/>
                                           Para dar de alta tu empresa, deberás ingresar a la siguiente URL, con el usuario y contraseña  enviado por tu ejecutivo.<br/><br/>
-                                          https://madmin.diagnostico035.com/<br/><br/>
+                                          https://madmin.diagnostico035.com/ <br/><br/>
                                           Una vez hecho esto deberás ingresar a la siguiente dirección y podrás comenzar a utilizar Diagnóstico035.<br/><br/>
 
                                           https://admin.diagnostico035.com/<br/><br/>
