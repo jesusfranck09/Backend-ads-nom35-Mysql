@@ -49,7 +49,9 @@ scalar Upload
     getCorreos(data: [String]!):[correos]
      getLogo(data:[String!]):Url
     resetPassword(data:[String!]):Data
-
+    getCardPay(data:[String!]):CardPay
+    getCardPayRealizada(data:[String!]):CardPay
+    verifiDataSuperUser(data:[String!]):Data
  }        
 
  
@@ -119,7 +121,6 @@ type Mutation {
   deletePeriodo(data: [String]!):[Data]
   addPeriodoInicial(data: [String]!):Data
   addAdminEmpresa(data: [String]!):Auth
-  insertPack(data: [String]!):Auth
   editDataAdmin(data:[String!]):Data
   alert1(data:[String!]):Data
   alert2(data:[String!]):Data
@@ -128,6 +129,7 @@ type Mutation {
   loadLogo(data:[String!]):Data
   updatePassword(data:[String!]):Data
   updateLogo(data:[String!]):Data
+  updateCardPay(data:[String!]):Data
 }
 
 type Url {
@@ -461,13 +463,35 @@ direccion:String!
 }
 
 
-# type data {
-#   nombre: String
-#   idempresas: String
-#   rfc: String
-#   razon_social: String
-#   telefono1: String
-# }
+type CardPay {
+  ids:String
+  idPago:String,
+  fechaPago:String,
+  carrito:String,
+  idPaypalCliente:String,
+  nombrePaypalCliente:String,
+  apellidosPaypalCliente:String,
+  correoPaypalCliente:String,
+  ciudadClientePaypal:String,
+  direccion1PaypalCliente:String,
+  direccion2PaypalCliente:String,
+  cpPaypalCliente:String,
+  estadoPaypalCliente:String,
+  metodoPago:String,
+  statusPago:String,
+  subtotalTransaccion:String,
+  montoTransaccion:String,
+  monedaTransaccion:String,
+  nombrecliente:String,
+  apellidosCliente:String,
+  rfcCliente:String,
+  razonSocialCliente:String,
+  telefonoCliente:String,
+  correoCliente:String,
+  paquete:String,
+  noFactura:String
+
+}
 
 # type File {
 #     email: String!

@@ -7,15 +7,13 @@ var nodemailer = require('nodemailer');
 
 const signup =   (user) => {
 
+  console.log("datos signup" , user)
   // console.log("fecha", new Date(new Date().toUTCString()))
   const utcDate2 = new Date()
   var fechaRegistro =  utcDate2.toGMTString()
   return new Promise((resolve, reject) => {
    
-    if(user[5]){
-    
-       client.query(`insert into ventasAdminAlfa (fk_adminAlfa,fk_paquetes,fechaVenta,RazonSocial,telefono,RFC) values('${user[8]}','${user[10]}','${user[9]}','${user[3].toUpperCase() }','${user[4] }','${user[2].toUpperCase() }')`)
- 
+    if(user[5]){ 
     client
     .query(`select * from  superusuario where correo='${user[5]}'`,
     
@@ -41,13 +39,14 @@ const signup =   (user) => {
                   if (err) {
                     throw err
                   } else {
+                    client.query(`insert into superusuario (nombre,apellidos,RFC,RazonSocial,telefono,correo,contraseña,activo,fechaRegistro,fk_paquetes) values('${user[0]}','${user[1]}','${user[2]}','${user[3]}','${user[4]}','${user[5]}','${hash}','true','${fechaRegistro}','${user[9]}')`); 
+
+                     client.query(`insert into ventasAdminAlfa (fk_adminAlfa,fk_paquetes,fechaVenta,RazonSocial,telefono,RFC) values('${user[7]}','${user[9]}','${user[8]}','${user[3].toUpperCase() }','${user[4] }','${user[2].toUpperCase() }')`)
                     // console.log(hash)
                     resolve({ message: 'Signup exitoso',token:hash})
-                   client
-                    .query(`update superusuario set nombre='${user[0].toUpperCase() }',Apellidos='${user[1].toUpperCase() }', RFC='${user[2].toUpperCase() }',RazonSocial ='${user[3].toUpperCase() }',telefono='${user[4]}', correo='${user[5]}',contraseña='${hash}',Activo = 'true' ,fechaRegistro='${fechaRegistro}' where id = '${user[7]}'`); 
-
+            
                     client
-                    .query(`select * from  paquetes where id='${user[10]}'`,
+                    .query(`select * from  paquetes where id='${user[9]}'`,
                     
                     function (error, results, fields) {
                       var string=JSON.stringify(results);
@@ -67,7 +66,7 @@ const signup =   (user) => {
                           });
                           const mailOptions = {
                             from: 'info@diagnostico035.com', // sender address
-                            to: `${user[5]},${user[11]}`, // list of receivers
+                            to: `${user[5]},${user[10]}`, // list of receivers
                             subject: 'Registro a Diagnóstico035 ', // Subject line
                             html: `<p>Empresa: ${user[3]}<br/>RFC: ${user[2]}<br/>Correo : ${user[5]}  Contraseña : ${user[6]} <br/> <br/> 
                               Hola  ${user[0]} ${user[1]} <br/> <br/> <br/> Acabas de unirte a Diagnóstico035. Con tu suscripción, disfrutarás de: <br/> <br/>
@@ -2285,21 +2284,7 @@ const GetresultGlobalSurveyEEO = async data => {
             )
             })
             }; 
-          const InsertPack = async data => {
-            client.query(`insert into superusuario (fk_paquetes) values('${data[0]}')`)
-            return  new Promise((resolve, reject) => {
-              client.query(`select Max(id) as  id from superusuario`,
-                function (error, results, fields) {
-                if (error) reject(error) 
-                var string=JSON.stringify(results);
-                var resultados =  JSON.parse(string);                
-                resolve(resultados[0]) 
-                // console.log("resultados getusers",resultados)
-              },
-            )
-            })
-
-            }; 
+     
         const VerifyPackSuperUser = async data => {
           
           return  new Promise((resolve, reject) => {
@@ -2726,14 +2711,237 @@ const GetresultGlobalSurveyEEO = async data => {
         })
         };
 
-        const CardPay = async data => {
-          return  new Promise((resolve, reject) => {
-            client.query(`insert into cardPay (idPago,fechaPago,carrito,idPaypalCliente,nombrePaypalCliente,apellidosPaypalCliente,correoPaypalCliente,ciudadClientePaypal,direccion1PaypalCliente,direccion2PaypalCliente,cpPaypalCliente,estadoPaypalCliente,metodoPago,statusPago,subtotalTransaccion,montoTransaccion,monedaTransaccion,nombrecliente,apellidosCliente,rfcCliente,razonSocialCliente,telefonoCliente,correoCliente, contraseñaCliente , paquete) values ('${data[0]}','${data[1]}','${data[2]}','${data[6]}','${data[4]}','${data[5]}','${data[3]}','${data[7]}','${data[8]}','${data[9]}','${data[10]}','${data[11]}','${data[12]}','${data[13]}','${data[14]}','${data[15]}','${data[16]}','${data[17]}','${data[18]}','${data[20]}','${data[19]}','${data[21]}','${data[22]}','${data[23]}','${data[24]}')`)
-            resolve({message:"registro exitoso"})
-            
-          })
-          };              
+        const CardPay = async user => {
+          console.log("datos signup" , user)
+
+              // console.log("fecha", new Date(new Date().toUTCString()))
+              const utcDate2 = new Date()
+              var fechaRegistro =  utcDate2.toGMTString()
+              return new Promise((resolve, reject) => {
+              
+                if(user[22]){ 
+                  let paquete;
+                  if(user[25] == '1rfc1'){
+                    paquete = 1
+                  }else if(user[25] == '1rfc2'){
+                    paquete = 2
+                  }else if(user[25] == '1rfc3'){
+                    paquete = 3
+                  }else if(user[25] == '1rfc4'){
+                    paquete = 4
+                  }
+                  if(user[25] == '3rfc1'){
+                    paquete = 5
+                  }else if(user[25] == '3rfc2'){
+                    paquete = 6
+                  }else if(user[25] == '3rfc3'){
+                    paquete = 7
+                  }else if(user[25] == '3rfc4'){
+                    paquete = 8
+                  }
+                  if(user[25] == '5rfc1'){
+                    paquete = 9
+                  }else if(user[25] == '5rfc2'){
+                    paquete = 10
+                  }else if(user[25] == '5rfc3'){
+                    paquete = 11
+                  }else if(user[25] == '5rfc4'){
+                    paquete = 12
+                  }
+                  if(user[25] == '10rfc1'){
+                    paquete = 13
+                  }else if(user[25] == '10rfc2'){
+                    paquete = 14
+                  }else if(user[25] == '10rfc3'){
+                    paquete = 15
+                  }else if(user[25] == '10rfc4'){
+                    paquete = 16
+                  }
+                  if(user[25] == '20rfc1'){
+                    paquete = 17
+                  }else if(user[25] == '20rfc2'){
+                    paquete = 18
+                  }else if(user[25] == '20rfc3'){
+                    paquete = 19
+                  }else if(user[25] == '20rfc4'){
+                    paquete = 20
+                  } 
+                client
+                .query(`select * from  superusuario where correo='${user[22]}'`,
+                
+                function (error, results, fields) {
+                  var string=JSON.stringify(results);
+                  var resultados =  JSON.parse(string); 
+                  if(resultados[0]){
+                    resolve({ message:'duplicado'})
+                  }else{
+                    client
+                    .query(`select * from  superusuario where rfc='${user[20]}'`,
+                    function (error, results, fields) {
+                      var string=JSON.stringify(results);
+                      var resultados =  JSON.parse(string); 
+                      if(resultados[0]){
+                        resolve({ message:'duplicado'})
+                      }else{
+                        bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
+                          if (err) {
+                            reject(err,{message: 'Error',token: err}) 
+                          } else {
+                            bcrypt.hash(user[23], salt, function(err, hash) {
+                              if (err) {
+                                throw err
+                              } else {
+                                client.query(`insert into cardPay (idPago,fechaPago,carrito,idPaypalCliente,nombrePaypalCliente,apellidosPaypalCliente,correoPaypalCliente,ciudadClientePaypal,direccion1PaypalCliente,direccion2PaypalCliente,cpPaypalCliente,estadoPaypalCliente,metodoPago,statusPago,subtotalTransaccion,montoTransaccion,monedaTransaccion,nombrecliente,apellidosCliente,rfcCliente,razonSocialCliente,telefonoCliente,correoCliente,contraseñaCliente,paquete,aprobado) values ('${user[0]}','${user[1]}','${user[2]}','${user[6]}','${user[4]}','${user[5]}','${user[3]}','${user[7]}','${user[8]}','${user[9]}','${user[10]}','${user[11]}','${user[12]}','${user[13]}','${user[14]}','${user[15]}','${user[16]}','${user[17]}','${user[18]}','${user[20]}','${user[19]}','${user[21]}','${user[22]}','${user[23]}','${user[24]}','false')`)
+                                client.query(`insert into superusuario (nombre,apellidos,RFC,RazonSocial,telefono,correo,contraseña,activo,fechaRegistro,fk_paquetes) values('${user[17]}','${user[18]}','${user[20]}','${user[19]}','${user[21]}','${user[22]}','${hash}','true','${fechaRegistro}','${paquete}')`); 
+                                // console.log(hash)
+                                resolve({ message: 'Signup exitoso',token:hash})
+                        
+                                client
+                                .query(`select * from  paquetes where id='${paquete}'`,
+                                
+                                function (error, results, fields) {
+                                  var string=JSON.stringify(results);
+                                  var resultados =  JSON.parse(string); 
+                                  if(resultados[0]){
+                                    var transporter = nodemailer.createTransport({
+              
+                                      secure: false,
+                                      host: 'mail.diagnostico035.com',
+                                      port: 587,
+                                      auth: {
+                                              user: 'info@diagnostico035.com',
+                                              pass: 'jpY9f23#',
+                                            
+                                          },
+                                      tls: {rejectUnauthorized: false},
+                                      });
+                                      const mailOptions = {
+                                        from: 'info@diagnostico035.com', // sender address
+                                        to: `${user[22]},alma.juarez@ads.com.mx`, // list of receivers
+                                        subject: 'Registro a Diagnóstico035 ', // Subject line
+                                        html: `Sistema de pagos por internet.<br/><br/><p>Empresa: ${user[19]}<br/>RFC: ${user[20]}<br/>Correo : ${user[22]}  Contraseña : ${user[23]} <br/> <br/> 
+                                          Hola  ${user[17]} ${user[18]} <br/> <br/> <br/> Acabas de unirte a Diagnóstico035. Con tu suscripción, disfrutarás de: <br/> <br/>
+                                        - Acceso ilimitado a la aplicación durante el periodo de tu suscripción. <br/> 
+                                        - Registro de   ${resultados[0].empresas} Empresas y ${resultados[0].empleados} Empleados. <br/> 
+                                        - Evaluaciones ilimitadas de ATS, RP´s y EEO. <br/>
+                                        - Actualizaciones sin costo. <br/>
+                                        - Soporte básico ilimitado, sobre el uso de la aplicación.
+                                          <br/> <br/> <br/> 
+                                          <strong> Configuración </strong><br/>
+                                          Para dar de alta tu empresa, deberás ingresar a la siguiente URL, con el usuario y contraseña  enviado por tu ejecutivo.<br/><br/>
+                                          https://madmin.diagnostico035.com/<br/><br/>
+                                          Una vez hecho esto deberás ingresar a la siguiente dirección y podrás comenzar a utilizar Diagnóstico035.<br/><br/>
+
+                                          https://admin.diagnostico035.com/<br/><br/>
+
+                                          Conoce más sobre los beneficios de Diagnóstico035 en https://diagnostico035.com/
+                                          <br/><br/>
+                                          Gracias, <br/>
+                                          El equipo de Diagnóstico035.<br/><br/>
+
+                                          Tel: (55) 3603 9970 y (55) 5553 2049<br/>
+                                          Ext 101 y 102<br/>
+                                          www.diagnostico035.com<br/>
+                                        
+                                        
+                                        </p> ` // plain text body
+                                      };
+                                      
+                                      transporter.sendMail(mailOptions, function (err, info) {
+                                        if("este es el error" , err)
+                                          console.log(err)
+                                        else
+                                          console.log("esta es la info" ,  info);
+                                      });
+                                  }
+                                },
+                              )
+                                return client
+                              }
+                            })
+                          }
+                        })
+                      }
+                      return  client
+                    },
+                  )
+                  
+                  }   
+                  return  client
+                },
+              )
+              }
+            });
+      
+          };  
+          
+          const GetCardPay = async data => {
+            return  new Promise((resolve, reject) => {
+              client.query(`select * from cardpay where aprobado='false'`,function(err,results,fields){
+                var string = JSON.stringify(results)
+                var resultados  = JSON.parse(string)
+                if(resultados[0]){
+                  console.log("resultados" , resultados)
+                  resolve(resultados[0])
+                }
+              })
+            })
+            }; 
+          const GetCardPayRealizada = async data => {
+            return  new Promise((resolve, reject) => {
+              client.query(`select * from cardpay where aprobado='true'`,function(err,results,fields){
+                var string = JSON.stringify(results)
+                var resultados  = JSON.parse(string)
+                if(resultados[0]){
+                  console.log("resultados" , resultados)
+                  resolve(resultados[0])
+                }
+              })
+            })
+            };  
+          const UpdateCardPay = async data => {
+            return  new Promise((resolve, reject) => {
+              client.query(`update cardPay set aprobado='${'true'}' , noFactura='${data[0]}' where ids = '${data[1]}' `)
+              resolve({message:"actualizacion exitosa"})
+            })
+            };  
+          const VerifiDataSuperUser = async data => {
+            return  new Promise((resolve, reject) => {
+              client.query(`select * from superusuario where RFC='${data[0]}'`,function(err,results,fields){
+                console.log(`select * from superusuario where RFC='${data[0]}'`)
+                var string = JSON.stringify(results)
+                var resultados  = JSON.parse(string)
+                if(resultados[0]){
+                 resolve({message:"rfc existente"})
+                }else{
+                  client.query(`select * from superusuario where RazonSocial = '${data[1]}'`,function(err,results2,fields){
+                    console.log(`select * from superusuario where RazonSocial = '${data[1]}'`)
+                    var stringRS = JSON.stringify(results2)
+                    var resultadosRS  = JSON.parse(stringRS)
+                    if(resultadosRS[0]){
+                      resolve({message:"rs existente"})
+
+                    }else{
+                      client.query(`select * from superusuario where correo = '${data[2]}'`,function(err,results3,fields){
+                        console.log(`select * from superusuario where correo = '${data[2]}'`)
+                        var stringCorreo = JSON.stringify(results3)
+                        var resultadosCorreo = JSON.parse(stringCorreo)
+                        if(resultadosCorreo[0]){
+                          resolve({message:"correo existente"})
+                        }else{
+                          resolve({message:"usuario no existente"})
+                        }
+                      })
+                    }
+                  })
+                }
+              })
+            })}; 
       module.exports = {
+        VerifiDataSuperUser,
+        UpdateCardPay,
+        GetCardPayRealizada,
+        GetCardPay,
         CardPay,
         UpdateLogo,
         UpdatePassword,
@@ -2756,7 +2964,6 @@ const GetresultGlobalSurveyEEO = async data => {
         LoginEmpresas,
         CountEmpresas,
         VerifyPackSuperUser,
-        InsertPack,
         GetAdminDashboard,
         GetEmpresas,
         AddAdminEmpresa,
@@ -2804,9 +3011,6 @@ const GetresultGlobalSurveyEEO = async data => {
         RegisterApartments,
         GetSucursales,
         RegisterSucursales,
-        // VerifiEmailSurveyEEO,
-        // VerifiEmailSurveyRP,
-        // VerifiEmailSurveyATS,
         InactiveAdmin,
         AuthRegisterSingleEmployee,
         ResultSingleSurvey,

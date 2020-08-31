@@ -474,12 +474,6 @@ const addAdminEmpresa= async (_, { data }) => {
     const add = await  actions.AddAdminEmpresa(divisiones)
     return add;
 };
-const insertPack= async (_, { data }) => {
-    var miCadena =data[0];
-    var divisiones = miCadena.split(",");
-    const insert = await  actions.InsertPack(divisiones)
-    return insert;
-};
 
 const loginEmpresas = async (_, {rfc, password}) => { 
     return actions.LoginEmpresas(rfc, password)      
@@ -545,9 +539,16 @@ const cardPay = async(_, { data }) => {
     const card = await  actions.CardPay(divisiones)
     return card;
 };
+const updateCardPay = async(_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    const updateCard = await  actions.UpdateCardPay(divisiones)
+    return updateCard;
+};
 
 
 module.exports = {
+    updateCardPay,
     cardPay,
     updateLogo,
     updatePassword,
@@ -561,7 +562,6 @@ module.exports = {
     signupAdminAlfa,
     editDataAdmin,
     loginEmpresas,
-    insertPack,
     addAdminEmpresa,
     addPeriodoInicial,
     // updatePeriodo,

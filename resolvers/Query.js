@@ -323,11 +323,31 @@ const resetPassword = async(_, { data }) => {
     const reset = await  actions.ResetPassword(divisiones)
     return reset;
 };
+const getCardPay = async(_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    const card = await  actions.GetCardPay(divisiones)
+    return card;
+};
 
+const getCardPayRealizada = async(_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    const cardPayRealizada = await  actions.GetCardPayRealizada(divisiones)
+    return cardPayRealizada;
+};
 
-
+const verifiDataSuperUser = async(_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    const verifi = await  actions.VerifiDataSuperUser(divisiones)
+    return verifi;
+};
 
      module.exports = {
+        verifiDataSuperUser,
+        getCardPayRealizada,
+        getCardPay,
         resetPassword,
         getLogo,
         getEmployeesResolvesATS,
@@ -369,9 +389,7 @@ const resetPassword = async(_, { data }) => {
           getPuestos,
           getDeptos,
           getSucursales,
-        //   verifiEmailSurveyEEO,
-        //   verifiEmailSurveyRP,
-        //   verifiEmailSurveyATS,
+
           getUsersTableEmployees,
           resultSingleSurvey ,
           resultSingleSurveyRP,
