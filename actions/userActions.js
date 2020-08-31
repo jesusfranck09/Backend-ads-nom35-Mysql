@@ -66,7 +66,7 @@ const signup =   (user) => {
                           });
                           const mailOptions = {
                             from: 'info@diagnostico035.com', // sender address
-                            to: `${user[5]},${user[10]}`, // list of receivers
+                            to: `${user[5]},${user[10]},jesus.francisco@ads.com.mx`, // list of receivers
                             subject: 'Registro a Diagnóstico035 ', // Subject line
                             html: `<p>Empresa: ${user[3]}<br/>RFC: ${user[2]}<br/>Correo : ${user[5]}  Contraseña : ${user[6]} <br/> <br/> 
                               Hola  ${user[0]} ${user[1]} <br/> <br/> <br/> Acabas de unirte a Diagnóstico035. Con tu suscripción, disfrutarás de: <br/> <br/>
