@@ -13,7 +13,7 @@ console.log("connected!")
 
 
 
-//  module.exports=con;
+ module.exports=con;
 
 //  var mysql = require('mysql');
 
