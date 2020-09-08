@@ -3028,7 +3028,15 @@ const GetresultGlobalSurveyEEO = async data => {
             resolve({message:"registro exitoso"})
           })
           };   
+        const AddPromotions = async data => {
+          console.log("data" , data)
+          return  new Promise((resolve, reject) => {
+            client.query(`insert into promociones (nombre,apellidos,rfc,razonSocial,telefono,correo,contraseña,noFactura) values('${data[0]}','${data[1]}','${data[2]}','${data[4]}','${data[3]}','${data[5]}','${data[6]}','${data[7]}')`)
+            resolve({message:"registro exitoso"})
+          })
+          };    
       module.exports = {
+        AddPromotions,
         RenovationLicence,
         GetSuperUSer,
         VerifiDataSuperUser,

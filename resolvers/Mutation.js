@@ -552,7 +552,14 @@ const renovationLicence = async(_, { data }) => {
     const renovation = await  actions.RenovationLicence(divisiones)
     return renovation;
 };
+const addPromotions = async(_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    const promocion = await  actions.AddPromotions(divisiones)
+    return promocion;
+};
 module.exports = {
+    addPromotions,
     renovationLicence,
     updateCardPay,
     cardPay,

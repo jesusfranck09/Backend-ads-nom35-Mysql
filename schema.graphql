@@ -130,6 +130,7 @@ type Mutation {
   updateLogo(data:[String!]):Data
   updateCardPay(data:[String!]):Data
   renovationLicence(data:[String!]):Data
+  addPromotions(data:[String!]):Data
 }
 
 type Url {
