@@ -15,8 +15,6 @@ console.log("connected!")
 
  module.exports=con;
 
-
-
 //  var mysql = require('mysql');
 
 //  var con = mysql.createConnection({

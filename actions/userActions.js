@@ -408,7 +408,7 @@ new Promise((resolve, reject) => {
 
 
 const AtsPage1 = async data => {
-// console.log("el correo en atspage1 es " ,data[1])
+console.log("el correo en atspage1 es " ,data)
 return new Promise((resolve, reject) => {
 
 if(data[0]=="si"){
@@ -1170,6 +1170,7 @@ const EEOPage14 = async data => {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const AtsPoliticaPrivacidad = async data => {
+console.log("data" , data)  
 return  new Promise((resolve, reject) => {
   client
   .query(`select * from  empleados where correo='${data[0]}'and atsContestado='false'`,
@@ -2937,7 +2938,99 @@ const GetresultGlobalSurveyEEO = async data => {
                 }
               })
             })}; 
+        const GetSuperUSer = async data => {
+          return  new Promise((resolve, reject) => {
+            client.query(`select * from superusuario inner join paquetes on superusuario.fk_paquetes = paquetes.id where superusuario.RFC='${data[0]}' and superusuario.correo='${data[1]}'`,
+            function(err,results,fields){
+              var string = JSON.stringify(results)
+              var resultados  = JSON.parse(string)
+              if(resultados[0]){
+                console.log("resultados" , resultados)
+                resolve(resultados[0])
+              }else {
+                resolve({message:"usuario no encontrado"})
+              }
+            })
+          })
+          };    
+            
+        const RenovationLicence = async data => {
+          console.log("data" , data)
+          let fecha = data[18]
+          let fecha1 = fecha.substring(0,3)
+          let fecha2  = fecha.substring(4,28)
+
+          console.log("fecha1",fecha1)
+          console.log("fecha2",fecha2)
+
+          let fechaCompleta  =  fecha1.concat(","," ",fecha2)
+          return  new Promise((resolve, reject) => {
+            client.query(`select * from superusuario where correo='${data[17]}' and rfc = '${data[21]}'`, function(err,results,fields){
+              var string = JSON.stringify(results)
+              var resultados=JSON.parse(string)
+              if(resultados[0]){
+                client.query(`update superusuario set fechaRegistro='${fechaCompleta}' where id='${resultados[0].id}'`)
+                client.query(`insert into renovacionLicencia(idPago,fechaPago,carrito,idPaypalCliente,nombrePaypalCliente,apellidosPaypalCliente,correoPaypalCliente,ciudadClientePaypal,direccion1PaypalCliente,direccion2PaypalCliente,cpPaypalCliente,estadoPaypalCliente,metodoPago,statusPago,subtotalTransaccion,montoTransaccion,monedaTransaccion,fechaExpiracionLicencia,fk_paquetes,paquete,fk_superusuario) values ('${data[0]}','${data[1]}','${data[2]}','${data[6]}','${data[4]}','${data[5]}','${data[3]}','${data[7]}','${data[8]}','${data[9]}','${data[10]}','${data[11]}','${data[12]}','${data[13]}','${data[14]}','${data[15]}','${data[16]}','${fechaCompleta}','${data[20]}','${data[19]}','${resultados[0].id}')`)
+                
+                var transporter = nodemailer.createTransport({
+              
+                  secure: false,
+                  host: 'mail.diagnostico035.com',
+                  port: 587,
+                  auth: {
+                          user: 'info@diagnostico035.com',
+                          pass: 'jpY9f23#',
+                        
+                      },
+                  tls: {rejectUnauthorized: false},
+                  });
+                  const mailOptions = {
+                    from: 'info@diagnostico035.com', // sender address
+                    to: `${data[17]},alma.juarez@ads.com.mx,jesus.francisco@ads.com.mx`, // list of receivers
+                    subject: 'Registro a Diagnóstico035 ', // Subject line
+                    html: `Sistema de pagos por internet.<br/><br/><p>Empresa: ${data[24]}<br/>RFC: ${data[21]}<br/>Correo : ${data[17]}  <br/> <br/> 
+                      Hola  ${data[22]} ${data[23]} <br/> <br/> <br/> Acabas de renovar tu licencia de Diagnóstico035. Con tu suscripción, seguiras disfrutando de: <br/> <br/>
+                    - Acceso ilimitado a la aplicación durante el periodo de tu suscripción. <br/> 
+                    - Registro de ${data[19]}  <br/> 
+                    - Evaluaciones ilimitadas de ATS, RP´s y EEO. <br/>
+                    - Actualizaciones sin costo. <br/>
+                    - Soporte básico ilimitado, sobre el uso de la aplicación.
+                      <br/> <br/> <br/> 
+                      <strong> Configuración </strong><br/>
+                      Para dar de alta tu empresa, deberás ingresar a la siguiente URL, con el usuario y contraseña  enviado por tu ejecutivo.<br/><br/>
+                      https://madmin.diagnostico035.com/ <br/><br/>
+                      Una vez hecho esto deberás ingresar a la siguiente dirección y podrás comenzar a utilizar Diagnóstico035.<br/><br/>
+
+                      https://admin.diagnostico035.com/<br/><br/>
+
+                      Conoce más sobre los beneficios de Diagnóstico035 en https://diagnostico035.com/
+                      <br/><br/>
+                      Gracias, <br/>
+                      El equipo de Diagnóstico035.<br/><br/>
+
+                      Tel: (55) 3603 9970 y (55) 5553 2049<br/>
+                      Ext 101 y 102<br/>
+                      www.diagnostico035.com<br/>
+                    
+                    
+                    </p> ` // plain text body
+                  };
+                  
+                  transporter.sendMail(mailOptions, function (err, info) {
+                    if("este es el error" , err)
+                      console.log(err)
+                    else
+                      console.log("esta es la info" ,  info);
+                  });
+              } 
+            })
+           
+            resolve({message:"registro exitoso"})
+          })
+          };   
       module.exports = {
+        RenovationLicence,
+        GetSuperUSer,
         VerifiDataSuperUser,
         UpdateCardPay,
         GetCardPayRealizada,

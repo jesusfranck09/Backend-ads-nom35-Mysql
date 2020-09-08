@@ -10,9 +10,6 @@ scalar Upload
     resultSingleSurvey(data: [String]!):[ respuestas]
     resultSingleSurveyRP(data: [String]!):[ respuestasRP]
     resultSingleSurveyEEO(data: [String]!):[ respuestasEEO]
-    # verifiEmailSurveyATS(data: [String]!):[resCorreo]    
-    # verifiEmailSurveyRP(data: [String]!):[resCorreoRP] 
-    # verifiEmailSurveyEEO(data: [String]!):[resCorreoEEO] 
     getSucursales(data:String):[Sucursales]
     getDeptos(data:String):[Deptos]
     getPuestos(data:String):[Puestos]
@@ -52,6 +49,8 @@ scalar Upload
     getCardPay(data:[String!]):CardPay
     getCardPayRealizada(data:[String!]):CardPay
     verifiDataSuperUser(data:[String!]):Data
+    getSuperUser(data:[String!]):superUserData
+
  }        
 
  
@@ -130,12 +129,26 @@ type Mutation {
   updatePassword(data:[String!]):Data
   updateLogo(data:[String!]):Data
   updateCardPay(data:[String!]):Data
+  renovationLicence(data:[String!]):Data
 }
 
 type Url {
   url:String
 }
-
+type superUserData {
+id:String,
+message:String,
+nombre:String,
+apellidos:String,
+RFC:String,
+RazonSocial:String,
+telefono:String,
+correo:String,
+fechaRegistro:String,
+fk_paquetes:String,
+empresas:String,
+empleados:String
+}
 type Sucursales {
 id:String,
 nombreSucursal:String,

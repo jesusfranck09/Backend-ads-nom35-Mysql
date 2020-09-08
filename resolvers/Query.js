@@ -343,8 +343,16 @@ const verifiDataSuperUser = async(_, { data }) => {
     const verifi = await  actions.VerifiDataSuperUser(divisiones)
     return verifi;
 };
+const getSuperUser = async(_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    const user = await  actions.GetSuperUSer(divisiones)
+    return user;
+};
+
 
      module.exports = {
+        getSuperUser,
         verifiDataSuperUser,
         getCardPayRealizada,
         getCardPay,

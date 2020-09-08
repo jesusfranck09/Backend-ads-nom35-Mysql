@@ -546,8 +546,14 @@ const updateCardPay = async(_, { data }) => {
     return updateCard;
 };
 
-
+const renovationLicence = async(_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    const renovation = await  actions.RenovationLicence(divisiones)
+    return renovation;
+};
 module.exports = {
+    renovationLicence,
     updateCardPay,
     cardPay,
     updateLogo,
