@@ -3031,11 +3031,183 @@ const GetresultGlobalSurveyEEO = async data => {
         const AddPromotions = async data => {
           console.log("data" , data)
           return  new Promise((resolve, reject) => {
-            client.query(`insert into promociones (nombre,apellidos,rfc,razonSocial,telefono,correo,contraseña,noFactura) values('${data[0]}','${data[1]}','${data[2]}','${data[4]}','${data[3]}','${data[5]}','${data[6]}','${data[7]}')`)
+            client.query(`insert into promociones (nombre,apellidos,rfc,razonSocial,telefono,correo,contraseña,noFactura,verificado,status) values('${data[0]}','${data[1]}','${data[2]}','${data[4]}','${data[3]}','${data[5]}','${data[6]}','${data[7]}','false','pendiente')`)
             resolve({message:"registro exitoso"})
+          })
+          }; 
+        const GetRenovacion = async data => {
+          console.log("data" , data)
+          return  new Promise((resolve, reject) => {
+            client.query(`select * from renovacionLicencia`, function(err,results,fields){
+              var string = JSON.stringify(results)
+              var resultados = JSON.parse(string)
+              if(resultados[0])
+              // console.log("resultados" , resultados)
+              resolve(resultados)
+            })
+          })
+          };   
+        const GetPromocion = async data => {
+          console.log("data" , data)
+          return  new Promise((resolve, reject) => {
+            client.query(`select * from promociones where verificado='false'`, function(err,results,fields){
+              var string = JSON.stringify(results)
+              var resultados = JSON.parse(string)
+              if(resultados[0])
+              // console.log("resultados" , resultados)
+              resolve(resultados)
+            })
+          })
+          };         
+        const ApprovedPromotion = async data => {
+          // console.log("data" , data)
+
+          const utcDate2 = new Date()
+         var fechaRegistro =  utcDate2.toGMTString()
+          return  new Promise((resolve, reject) => {
+            client.query(`select * from promociones where idPromocion='${data[0]}'`, function(err,results,fields){
+              var string = JSON.stringify(results)
+              var resultados = JSON.parse(string)
+              if(resultados[0]){
+                console.log("resuultados[0]",resultados[0])
+                bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
+                  if (err) {
+                    reject(err,{message: 'Error',token: err}) 
+                  } else {
+                bcrypt.hash(resultados[0].contraseña, salt, function(err, hash) {
+                  if (err) {
+                    throw err
+                  } else {
+                    client.query(`insert into superusuario(nombre,apellidos,RFC,RazonSocial,telefono,correo,contraseña,activo,fechaRegistro,fk_paquetes) values ('${resultados[0].nombre}','${resultados[0].apellidos}','${resultados[0].rfc}','${resultados[0].razonSocial}','${resultados[0].telefono}','${resultados[0].correo}','${hash}','true','${fechaRegistro}','3')`)
+                    client.query(`update promociones set verificado='true', status='aprobado' where idPromocion='${resultados[0].idPromocion}'`)
+                    resolve({ message: 'registro exitoso'})
+                    var transporter = nodemailer.createTransport({
+  
+                      secure: false,
+                      host: 'mail.diagnostico035.com',
+                      port: 587,
+                      auth: {
+                              user: 'info@diagnostico035.com',
+                              pass: 'jpY9f23#',
+                             
+                          },
+                      tls: {rejectUnauthorized: false},
+                      });
+                      console.log("correo" , resultados[0].correo)
+                      const mailOptions = {
+                        from: 'info@diagnostico035.com', // sender address
+                        to: `${resultados[0].correo},alma.juarez@ads.com.mx,jesus.francisco@ads.com.mx`, // list of receivers
+                        subject: 'Registro a Diagnóstico035 ', // Subject line
+                        html: `<p>Empresa: ${resultados[0].razonSocial}<br/>RFC: ${resultados[0].rfc}<br/>Correo : ${resultados[0].correo}  Contraseña : ${resultados[0].contraseña} <br/> <br/> 
+                          Hola  ${resultados[0].nombre} ${resultados[0].apellidos} <br/> <br/> <br/> Acabas de unirte a Diagnóstico035. Con tu suscripción, disfrutarás de: <br/> <br/>
+                        - Acceso ilimitado a la aplicación durante el periodo de tu suscripción. <br/> 
+                        - Registro de  1 Empresas y 100 Empleados. <br/> 
+                        - Evaluaciones ilimitadas de ATS, RP´s y EEO. <br/>
+                        - Actualizaciones sin costo. <br/>
+                        - Soporte básico ilimitado, sobre el uso de la aplicación.
+                          <br/> <br/> <br/> 
+                          <strong> Configuración </strong><br/>
+                          Para dar de alta tu empresa, deberás ingresar a la siguiente URL, con el usuario y contraseña  enviado por tu ejecutivo.<br/><br/>
+                          https://madmin.diagnostico035.com/<br/><br/>
+                          Una vez hecho esto deberás ingresar a la siguiente dirección y podrás comenzar a utilizar Diagnóstico035.<br/><br/>
+
+                          https://admin.diagnostico035.com/<br/><br/>
+
+                          Conoce más sobre los beneficios de Diagnóstico035 en https://diagnostico035.com/
+                          <br/><br/>
+                          Gracias, <br/>
+                          El equipo de Diagnóstico035.<br/><br/>
+
+                          Tel: (55) 3603 9970 y (55) 5553 2049<br/>
+                          Ext 101 y 102<br/>
+                          www.diagnostico035.com<br/>
+                        
+                        
+                        </p> ` // plain text body
+                      };
+                      
+                      transporter.sendMail(mailOptions, function (err, info) {
+                        if("este es el error" , err)
+                          console.log(err)
+                        else
+                          console.log("esta es la info" ,  info);
+                      });
+             
+                    return client
+                  }
+                })
+              }
+              })
+              }
+             
+            })
+          })
+          };      
+        const RejectPromotion = async data => {
+          console.log("data" , data)
+          return  new Promise((resolve, reject) => {
+            client.query(`select * from promociones where idPromocion='${data[0]}'`, function(err,results,fields){
+              var string = JSON.stringify(results)
+              var resultados = JSON.parse(string)
+              if(resultados[0]){
+                var transporter = nodemailer.createTransport({
+  
+                  secure: false,
+                  host: 'mail.diagnostico035.com',
+                  port: 587,
+                  auth: {
+                          user: 'info@diagnostico035.com',
+                          pass: 'jpY9f23#',
+                         
+                      },
+                  tls: {rejectUnauthorized: false},
+                  });
+                  console.log("correo" , resultados[0].correo)
+                  const mailOptions = {
+                    from: 'info@diagnostico035.com', // sender address
+                    to: `${resultados[0].correo},alma.juarez@ads.com.mx,jesus.francisco@ads.com.mx`, // list of receivers
+                    subject: 'Su solicitud no fue aceptada', // Subject line
+                    html: `<p>Empresa: ${resultados[0].razonSocial}<br/>RFC: ${resultados[0].rfc}<br/>Correo : ${resultados[0].correo}<br/> <br/> 
+                      Estimado  ${resultados[0].nombre} ${resultados[0].apellidos} <br/> <br/> <br/> Lamentablemente su suscripción no fue aprobada<br/> <br/>
+                    - Para mayor información, comuníquese a su asesor de ADS mas cercano <br/> 
+                    - Presentando su número de factura y su id de proceso -- RNL${resultados[0].idPromocion} -- <br/> 
+                    - Lamentamos los inconvenientes ocasionados <br/>  <br/> 
+                      El equipo de Diagnóstico035.<br/><br/>
+                      Tel: (55) 3603 9970 y (55) 5553 2049<br/>
+                      Ext 101 y 102<br/>
+                      www.diagnostico035.com<br/>
+                    </p> ` // plain text body
+                  };
+                  
+                  transporter.sendMail(mailOptions, function (err, info) {
+                    if("este es el error" , err)
+                      console.log(err)
+                    else
+                      console.log("esta es la info" ,  info);
+                  });
+              } 
+            })
+            client.query(`update promociones set verificado='true' , status = 'rechazado' where idPromocion='${data[0]}'`)
+            resolve({message:"promocion rechazada"})
+          })
+          };      
+        const GetAllSuperUser = async data => {
+          console.log("data" , data)
+          return  new Promise((resolve, reject) => {
+            client.query(`select * from superusuario`, function(err,results,fields){
+              var string = JSON.stringify(results)
+              var resultados = JSON.parse(string)
+              if(resultados[0])
+              resolve(resultados)
+            })
           })
           };    
       module.exports = {
+        GetAllSuperUser,
+        RejectPromotion,
+        ApprovedPromotion,
+        GetPromocion,
+        GetRenovacion,
         AddPromotions,
         RenovationLicence,
         GetSuperUSer,

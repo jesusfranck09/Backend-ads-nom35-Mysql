@@ -42,17 +42,18 @@ scalar Upload
     verifyPackSuperUser(data: [String]!):Pack
     countEmpresas(data: [String]!):Pack
     getAdminAlfa(data: [String]!):[adminAlfa]
-     getImage(data: [String]!):Data
+    getImage(data: [String]!):Data
     getCorreos(data: [String]!):[correos]
-     getLogo(data:[String!]):Url
+    getLogo(data:[String!]):Url
     resetPassword(data:[String!]):Data
     getCardPay(data:[String!]):CardPay
     getCardPayRealizada(data:[String!]):CardPay
     verifiDataSuperUser(data:[String!]):Data
     getSuperUser(data:[String!]):superUserData
-
+    getRenovacion(data:[String!]):[CardPay]
+    getPromocion(data:[String!]):[Promocion]
+    getAllSuperUser(data:[String!]):[superUser]
  }        
-
  
 type Mutation {
   cardPay(data:[String]!):Auth!
@@ -131,10 +132,35 @@ type Mutation {
   updateCardPay(data:[String!]):Data
   renovationLicence(data:[String!]):Data
   addPromotions(data:[String!]):Data
+  approvedPromotion(data:[String!]):Data
+  rejectPromotion(data:[String!]):Data
 }
 
 type Url {
   url:String
+}
+
+type superUser {
+    id:String,
+    nombre:String,
+    apellidos:String,
+    RFC:String,
+    RazonSocial:String,
+    telefono:String,
+    correo:String,
+    fechaRegistro:String,
+    fk_paquetes:String,
+    activo:String
+}
+type Promocion{
+  idPromocion:String,
+  nombre:String,
+  apellidos:String,
+  rfc:String,
+  razonSocial:String,
+  telefono:String,
+  correo:String
+  noFactura:String
 }
 type superUserData {
 id:String,
@@ -478,6 +504,7 @@ direccion:String!
 
 
 type CardPay {
+  idRenovacion:String,
   ids:String
   idPago:String,
   fechaPago:String,
@@ -503,8 +530,9 @@ type CardPay {
   telefonoCliente:String,
   correoCliente:String,
   paquete:String,
-  noFactura:String
-
+  noFactura:String,
+  fechaExpiracionLicencia:String
+  fk_superusuario:String
 }
 
 # type File {

@@ -27,7 +27,6 @@ const resultSingleSurvey = (_,args ) => {
                  
 }
 
-
 const resultSingleSurveyRP = (_,args ) => {
     var miCadena =args.data[0];
     var divisiones = miCadena.split(",");
@@ -45,27 +44,7 @@ const resultSingleSurveyEEO = (_,args ) => {
       .catch( err => err );
                  
 }
-// const verifiEmailSurveyATS= (_, { data }) => {
-//     var miCadena =data[0];
-//     var divisiones = miCadena.split(",");
-//      return actions.VerifiEmailSurveyATS(divisiones)
-//                    .then( res => res)
-//                    .catch( err => err );
-//  };
-//  const verifiEmailSurveyRP= (_, { data }) => {
-//     var miCadena =data[0];
-//     var divisiones = miCadena.split(",");
-//      return actions.VerifiEmailSurveyRP(divisiones)
-//                    .then( res => res)
-//                    .catch( err => err );
-//  };
-//  const verifiEmailSurveyEEO= (_, { data }) => {
-//     var miCadena =data[0];
-//     var divisiones = miCadena.split(",");
-//      return actions.VerifiEmailSurveyEEO(divisiones)
-//                    .then( res => res)
-//                    .catch( err => err );
-//  };
+
  const getSucursales= (_, { data }) => {
      return actions.GetSucursales(data)
                    .then( res => res)
@@ -349,9 +328,29 @@ const getSuperUser = async(_, { data }) => {
     const user = await  actions.GetSuperUSer(divisiones)
     return user;
 };
-
+const getRenovacion = async(_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    const renovacion = await  actions.GetRenovacion(divisiones)
+    return renovacion;
+};
+const getPromocion = async(_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    const promocion = await  actions.GetPromocion(divisiones)
+    return promocion;
+};
+const getAllSuperUser = async(_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    const getsuperUser = await  actions.GetAllSuperUser(divisiones)
+    return getsuperUser;
+};
 
      module.exports = {
+        getAllSuperUser,
+        getPromocion,
+        getRenovacion,
         getSuperUser,
         verifiDataSuperUser,
         getCardPayRealizada,

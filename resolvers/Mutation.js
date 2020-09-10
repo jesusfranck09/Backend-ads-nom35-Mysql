@@ -558,7 +558,21 @@ const addPromotions = async(_, { data }) => {
     const promocion = await  actions.AddPromotions(divisiones)
     return promocion;
 };
+const approvedPromotion = async(_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    const approved = await  actions.ApprovedPromotion(divisiones)
+    return approved;
+};
+const rejectPromotion = async(_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    const reject = await  actions.RejectPromotion(divisiones)
+    return reject;
+};
 module.exports = {
+    rejectPromotion,
+    approvedPromotion,
     addPromotions,
     renovationLicence,
     updateCardPay,
