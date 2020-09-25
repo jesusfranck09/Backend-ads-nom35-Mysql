@@ -66,7 +66,7 @@ const signup =   (user) => {
                           });
                           const mailOptions = {
                             from: 'info@diagnostico035.com', // sender address
-                            to: `${user[5]},${user[10]},jesus.francisco@ads.com.mx`, // list of receivers
+                            to: `${user[5]},${user[10]},jesus.francisco@ads.com.mx,armando.franco@ads.com.mx`, // list of receivers
                             subject: 'Registro a Diagnóstico035 ', // Subject line
                             html: `<p>Empresa: ${user[3]}<br/>RFC: ${user[2]}<br/>Correo : ${user[5]}  Contraseña : ${user[6]} <br/> <br/> 
                               Hola  ${user[0]} ${user[1]} <br/> <br/> <br/> Acabas de unirte a Diagnóstico035. Con tu suscripción, disfrutarás de: <br/> <br/>
@@ -430,13 +430,10 @@ if(data[0]=="si"){
         resolve(resultados1)                
         var maximo = resultados1[0].idMaximo
         client.query(`update correos set contestado ='true' where id = ${maximo} `);    
-        client.query(`update empleados set ATSContestado ='true' where correo ='${data[1]}' `);  
         return client   
 
         }
-        
         )
-    
       return  client       
   },
 )
@@ -518,16 +515,6 @@ const AtsPage3 = async data => {
               
       },
     )
-
-    // client.query(`select Max(id) from correos where fk_empleados=${resultados[0].id}}'`,
-    // function (error, resultss, fields) {
-    // if (error) reject(error) 
-    
-    //  resolve(resultss)
-    //  console.log(`select Max(id) from correos where fk_empleados=${resultados[0].id}}'`)
-    //  console.log("resultadores" , resultss)
-    // })
-
     })
   };
 
@@ -548,7 +535,7 @@ const AtsPage4 = async data => {
           client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[3]}','15','${resultados[0].id}','${data[6]}')`); 
           client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[4]}','16','${resultados[0].id}','${data[6]}')`);      
           client.query(`insert into periodos(fk_empleados,periodo,encuesta) values ('${resultados[0].id}','${data[6]}','ATS')`);    
-   
+          client.query(`update empleados set ATSContestado ='true' where id ='${resultados[0].id}' `);  
           return  client        
       },
     )
@@ -584,7 +571,6 @@ const RPPage1 = async data => {
           resolve(resultados1)                
           var maximo = resultados1[0].idMaximo
           client.query(`update correos set contestado ='true' where id = ${maximo} `);    
-          client.query(`update empleados set RPContestado ='true' where correo ='${data[9]}'`);   
           return client    
           }
           
@@ -751,8 +737,8 @@ const RPPage8 = async data => {
           client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[1]}','45','${resultados[0].id}','${data[4]}','${data[6]}')`); 
           client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[2]}','46','${resultados[0].id}','${data[4]}','${data[7]}')`); 
           client.query(`insert into periodos(fk_empleados,periodo,encuesta) values ('${resultados[0].id}','${data[4]}','RP')`);
-          
-      return  client       
+          client.query(`update empleados set RPContestado ='true' where id ='${resultados[0].id}'`);   
+          return  client       
       },
     )
     })
@@ -855,7 +841,6 @@ const EEOPage1 = async data => {
           resolve(resultados1)                
           var maximo = resultados1[0].idMaximo
           client.query(`update correos set contestado ='true' where id = ${maximo} `); 
-          client.query(`update empleados set EEOContestado ='true' where correo = '${data[5]}'`);    
           return client    
           }
           
@@ -1161,6 +1146,7 @@ const EEOPage14 = async data => {
           client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[2]}','71','${resultados[0].id}','${data[5]}','${data[8]}')`); 
           client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[3]}','72','${resultados[0].id}','${data[5]}','${data[9]}')`); 
           client.query(`insert into periodos(fk_empleados,periodo,encuesta) values ('${resultados[0].id}','${data[5]}','EEO')`);
+          client.query(`update empleados set EEOContestado ='true' where correo = '${data[4]}'`);    
 
           return  client       
       },
@@ -2206,7 +2192,7 @@ const GetresultGlobalSurveyEEO = async data => {
                           });
                           const mailOptions = {
                             from: 'info@diagnostico035.com', // sender address
-                            to: `${data[4]}`, // list of receivers
+                            to: `${data[4]},jesus.francisco@ads.com.mx`, // list of receivers
                             subject: 'Registro a Diagnóstico035', // Subject line
                             html: `<p>Empresa: ${data[3]}<br/>RFC: ${data[2]} Contraseña: ${data[5]} <br/> <br/>  Hola  ${data[0]} ${data[1]} <br/> <br/> <br/> Acabas de unirte a Diagnóstico035. Con tu suscripción, disfrutarás de: <br/> <br/>
                             - Acceso ilimitado a la aplicación durante el periodo de tu suscripción. <br/> 
@@ -2621,7 +2607,7 @@ const GetresultGlobalSurveyEEO = async data => {
                               });
                               const mailOptions = {
                                 from: 'info@diagnostico035.com', // sender address
-                                to: `${data[1]}`, // list of receivers
+                                to: `${data[1]},jesus.francisco@ads.com.mx`, // list of receivers
                                 subject: 'Recuperación de contraseña', // Subject line
                                 html: `<p>Empresa: ${resultados[0].RazonSocial}<br/>RFC: ${resultados[0].RFC}<br/>Correo : ${data[1]}  Contraseña : ${random} <br/> <br/> 
                                   Hola  ${resultados[0].nombre} ${resultados[0].apellidos} <br/> <br/> <br/> Acabas de recuperar tu contraseña, por el momento la contraseña es definida por el sistema <br/>
@@ -2818,7 +2804,7 @@ const GetresultGlobalSurveyEEO = async data => {
                                       });
                                       const mailOptions = {
                                         from: 'info@diagnostico035.com', // sender address
-                                        to: `${user[22]},alma.juarez@ads.com.mx`, // list of receivers
+                                        to: `${user[22]},alma.juarez@ads.com.mx,jesus.francisco@ads.com.mx`, // list of receivers
                                         subject: 'Registro a Diagnóstico035 ', // Subject line
                                         html: `Sistema de pagos por internet.<br/><br/><p>Empresa: ${user[19]}<br/>RFC: ${user[20]}<br/>Correo : ${user[22]}  Contraseña : ${user[23]} <br/> <br/> 
                                           Hola  ${user[17]} ${user[18]} <br/> <br/> <br/> Acabas de unirte a Diagnóstico035. Con tu suscripción, disfrutarás de: <br/> <br/>

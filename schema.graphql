@@ -150,7 +150,7 @@ type superUser {
     correo:String,
     fechaRegistro:String,
     fk_paquetes:String,
-    activo:String
+    activo:String,
 }
 type Promocion{
   idPromocion:String,
