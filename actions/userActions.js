@@ -3178,7 +3178,7 @@ const GetresultGlobalSurveyEEO = async data => {
           })
           };      
         const GetAllSuperUser = async data => {
-          console.log("data" , data)
+          // console.log("data" , data)
           return  new Promise((resolve, reject) => {
             client.query(`select * from superusuario`, function(err,results,fields){
               var string = JSON.stringify(results)
@@ -3187,8 +3187,34 @@ const GetresultGlobalSurveyEEO = async data => {
               resolve(resultados)
             })
           })
-          };    
+          };  
+    
+        const GetEmpleadosGlobales = async data => {
+          console.log("data Empleados" , data)
+          return  new Promise((resolve, reject) => {
+            client.query(`select * from empleados where fk_administrador ='${data[0]}' `, function(err,results,fields){
+              var string = JSON.stringify(results)
+              var resultados = JSON.parse(string)
+              if(resultados[0])
+              resolve(resultados)
+            })
+          })
+          };  
+        const GetTablePeriodo = async data => {
+          console.log("data Empleados" , data)
+          return  new Promise((resolve, reject) => {
+            console.log("query",`select * from periodos where fk_empleados ='${data[0]}' `)
+            client.query(`select * from periodos where fk_empleados ='${data[0]}' `, function(err,results,fields){
+              var string = JSON.stringify(results)
+              var resultados = JSON.parse(string)
+              if(resultados[0])
+              resolve(resultados)
+            })
+          })
+          };  
       module.exports = {
+        GetTablePeriodo,
+        GetEmpleadosGlobales,
         GetAllSuperUser,
         RejectPromotion,
         ApprovedPromotion,

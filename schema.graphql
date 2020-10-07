@@ -53,6 +53,8 @@ scalar Upload
     getRenovacion(data:[String!]):[CardPay]
     getPromocion(data:[String!]):[Promocion]
     getAllSuperUser(data:[String!]):[superUser]
+    getEmpleadosGlobales(data:[String!]):[Employees]
+    getTablePeriodo(data:[String!]):[tablePeriodo]
  }        
  
 type Mutation {
@@ -599,4 +601,10 @@ type correos{
   ApellidoP:String
   ApellidoM:String
   Curp:String
+}
+
+type tablePeriodo{
+   idPeriodo:String
+    periodo:String
+    encuesta:String
 }

@@ -346,8 +346,22 @@ const getAllSuperUser = async(_, { data }) => {
     const getsuperUser = await  actions.GetAllSuperUser(divisiones)
     return getsuperUser;
 };
+const getEmpleadosGlobales = async(_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    const getEmpleados = await  actions.GetEmpleadosGlobales(divisiones)
+    return getEmpleados;
+};
+const getTablePeriodo = async(_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    const table = await  actions.GetTablePeriodo(divisiones)
+    return table;
+};
 
      module.exports = {
+        getTablePeriodo,
+        getEmpleadosGlobales,
         getAllSuperUser,
         getPromocion,
         getRenovacion,
