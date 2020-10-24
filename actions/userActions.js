@@ -227,7 +227,8 @@ const  login = async (email,password) => {
             bcrypt.compare(password,resultados[0].contraseña, function(err, result) {
               if(result){
                 resolve({     
-                  message: 'Login exitoso',
+                 message: 'Login exitoso',
+                 nombre:resultados[0].nombreAdmin, 
                  token: createToken( resultados[0].correo, resultados[0].contraseña),
                  id:resultados[0].id,
                  correo:resultados[0].correo
@@ -1269,14 +1270,14 @@ return  new Promise((resolve, reject) => {
     if(ids[ids.length - 2]==1){
 
       encuesta="ATS"
-      url =  "https://ats.diagnostico035.com/"
+      url =  "https://eval.diagnostico035.com/ATS"
 
     }if(ids[ids.length - 2]==2){
-      url =  "https://rp.diagnostico035.com/"
+      url =  "https://eval.diagnostico035.com/RP"
       encuesta="RP"
     }
     if(ids[ids.length - 2]==3){
-      url =  "https://eeo.diagnostico035.com/"
+      url =  "https://eval.diagnostico035.com/EEO"
       encuesta="EEO"
     }
     nombres.map(rows=>{
