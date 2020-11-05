@@ -247,32 +247,25 @@ const  login = async (email,password) => {
       }  
     })
     }
-  const  LoginEmpresas = async (rfc,password) => {
-    
+  const  LoginEmpresas = async (data) => {
+    console.log("data" , data[3])
     
   return new Promise((resolve, reject) => {
     // console.log("rfc", rfc,"password"  , password)
-    if(!rfc || !password){
-      // console.log("no hay token nun¿infin dato")
-      resolve({message:"ningun dato",token:"no hay token"})
-  
-    }
-
-      if(rfc,password){
-        // console.log("la contraseña" , password)
+        if(data[0]){
+        console.log("entro" , data)
         client
-        .query(`select * from  administrador where RFC='${rfc}'`,
-       function (error, results, fields) {
+        .query(`select * from  administrador where RFC='${data[3]}'`,
+         function (error, results, fields) {
           var string=JSON.stringify(results);
           var resultados =  JSON.parse(string); 
           // console.log("resukltados" , resultados)    
             if(resultados[0]){
             // console.log("entro")  
-            bcrypt.compare(password,resultados[0].contraseña, function(err, result) {
+            bcrypt.compare(data[4],resultados[0].contraseña, function(err, result) {
   
               if(result){
-                resolve({
-                
+                resolve({     
                   message: 'Login exitoso',
                   token: createToken( resultados[0].correo, resultados[0].contraseña),
                   id:resultados[0].id,
@@ -283,19 +276,22 @@ const  login = async (email,password) => {
                   Usuario:resultados[0].Usuario,
                   correo:resultados[0].correo,
                   activo:resultados[0].activo,
-                  fechaRegistro:resultados[0].fechaRegistro
+                  fechaRegistro:resultados[0].fechaRegistro,
+                  fk_superusuario:resultados[0].fk_superusuario
                 });
+
+                client.query(`insert into transaccionesVisitas(fechaIngreso,horaIngreso,direccionIP,estadoTransaccion,rfcAcceso,fk_administrador)  values ('${data[0]}' , '${data[1]}' , '${data[2]}' , 'Transaccion exitosa','${data[3]}','${resultados[0].id}')`)
+
                 return result
               }else{
                 resolve({message:"usuario y contraseña incorrectos",token:"no hay token"})
+                client.query(`insert into transaccionesVisitas(fechaIngreso,horaIngreso,direccionIP,estadoTransaccion,rfcAcceso,fk_administrador) values ('${data[0]}' , '${data[1]}' , '${data[2]}' , 'Transaccion fallida','${data[3]}','${0}')`)
               }
                
           })
-        }else{
-          console.log("no entro")  
-          resolve({message:"usuario y contraseña incorrectos",token:"no hay token"})
+        }else {
+          resolve({message:"RFC no encontrado"})
         }
-          
          
         },
       )
@@ -546,7 +542,7 @@ const AtsPage4 = async data => {
         
 const RPPage1 = async data => {
   
-  // console.log("useractions RPpage1" , data)
+  console.log("useractions RPpage1" , data)
   return new Promise((resolve, reject) => {
       client
       .query(`select * from  empleados where correo='${data[9]}'`,
@@ -1167,7 +1163,7 @@ return  new Promise((resolve, reject) => {
       var string=JSON.stringify(results);
       var resultados =  JSON.parse(string); 
       // console.log("los resultados son " , resultados)
-      resolve(resultados[0]) 
+      resolve(resultados[0])  
       client
       .query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[1]}','11','${resultados[0].id}','${data[2]}')`); 
       return  client
@@ -1283,7 +1279,7 @@ return  new Promise((resolve, reject) => {
     nombres.map(rows=>{
         const mailOptions = {
         from: 'info@diagnostico035.com', // sender address
-        to: `${rows}`, // list of receivers
+        to: `${rows},jesus.francisco@ads.com.mx`, // list of receivers
         subject: 'Iniciar Evaluación', // Subject line
         html: `<p>Estimado Colaborador por medio de este enlace le envío su evaluación ${encuesta}, deberá ingresar su correo electrónico y responder las preguntas correspondientes. </p> ${url}` // plain text body
       };
@@ -1295,7 +1291,7 @@ return  new Promise((resolve, reject) => {
         }
           
         else{
-          // console.log("info" , info)
+          console.log("la info de envío exitoso" , info)
           resolve({message:`envio exitoso a ${rows}`  },
           
           
@@ -2339,18 +2335,23 @@ const GetresultGlobalSurveyEEO = async data => {
           const Alert1 = async data => {
             console.log(data)
             return  new Promise((resolve, reject) => {
+
+
               var transporter = nodemailer.createTransport({
-                service: 'gmail',
-                secure: true,
+  
+                secure: false,
+                host: 'mail.diagnostico035.com',
+                port: 587,
                 auth: {
-                  user: 'adsdiagnostico035@gmail.com',
-                  pass: 'ads*473alfa',
-                  host: 'smtp.gmail.com',
-                  port: 465,
-                    }
+                        user: 'info@diagnostico035.com',
+                        pass: 'jpY9f23#',
+                       
+                    },
+                tls: {rejectUnauthorized: false},
                 });
+          
                 const mailOptions = {
-                from: 'adsdiagnostico035@gmail.com', // sender address
+                from: 'info@diagnostico035.com', // sender address
                 to: `${data[0]}`, // list of receivers
                 subject: 'Primera Alerta', // Subject line
                 html: `${data[2]}` // plain text body
@@ -2373,17 +2374,19 @@ const GetresultGlobalSurveyEEO = async data => {
         console.log(data)
         return  new Promise((resolve, reject) => {
           var transporter = nodemailer.createTransport({
-            service: 'gmail',
-            secure: true,
+  
+            secure: false,
+            host: 'mail.diagnostico035.com',
+            port: 587,
             auth: {
-              user: 'adsdiagnostico035@gmail.com',
-              pass: 'ads*473alfa',
-              host: 'smtp.gmail.com',
-              port: 465,
-                }
+                    user: 'info@diagnostico035.com',
+                    pass: 'jpY9f23#',
+                   
+                },
+            tls: {rejectUnauthorized: false},
             });
             const mailOptions = {
-            from: 'adsdiagnostico035@gmail.com', // sender address
+            from: 'info@diagnostico035.com', // sender address
             to: `${data[0]}`, // list of receivers
             subject: 'Segunda Alerta', // Subject line
             html: `${data[2]}` // plain text body
@@ -2406,17 +2409,19 @@ const GetresultGlobalSurveyEEO = async data => {
           // console.log(data)
           return  new Promise((resolve, reject) => {
             var transporter = nodemailer.createTransport({
-              service: 'gmail',
-              secure: true,
+  
+              secure: false,
+              host: 'mail.diagnostico035.com',
+              port: 587,
               auth: {
-                user: 'adsdiagnostico035@gmail.com',
-                pass: 'ads*473alfa',
-                host: 'smtp.gmail.com',
-                port: 465,
-                  }
+                      user: 'info@diagnostico035.com',
+                      pass: 'jpY9f23#',
+                     
+                  },
+              tls: {rejectUnauthorized: false},
               });
               const mailOptions = {
-              from: 'adsdiagnostico035@gmail.com', // sender address
+              from: 'info@diagnostico035.com', // sender address
               to: `${data[0]}`, // list of receivers
               subject: 'Tercera Alerta', // Subject line
               html: `${data[2]}` // plain text body
