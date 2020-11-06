@@ -247,58 +247,105 @@ const  login = async (email,password) => {
       }  
     })
     }
-  const  LoginEmpresas = async (data) => {
-    console.log("data" , data[3])
+
+    const  LoginEmpresas = async (rfc,password) => {
     
-  return new Promise((resolve, reject) => {
-    // console.log("rfc", rfc,"password"  , password)
-        if(data[0]){
-        console.log("entro" , data)
-        client
-        .query(`select * from  administrador where RFC='${data[3]}'`,
-         function (error, results, fields) {
-          var string=JSON.stringify(results);
-          var resultados =  JSON.parse(string); 
-          // console.log("resukltados" , resultados)    
-            if(resultados[0]){
-            // console.log("entro")  
-            bcrypt.compare(data[4],resultados[0].contraseña, function(err, result) {
-  
-              if(result){
-                resolve({     
-                  message: 'Login exitoso',
-                  token: createToken( resultados[0].correo, resultados[0].contraseña),
-                  id:resultados[0].id,
-                  nombre:resultados[0].nombreAdmin,
-                  Apellidos:resultados[0].Apellidos,
-                  RFC:resultados[0].RFC,
-                  RazonSocial:resultados[0].RazonSocial,
-                  Usuario:resultados[0].Usuario,
-                  correo:resultados[0].correo,
-                  activo:resultados[0].activo,
-                  fechaRegistro:resultados[0].fechaRegistro,
-                  fk_superusuario:resultados[0].fk_superusuario
-                });
-
-                client.query(`insert into transaccionesVisitas(fechaIngreso,horaIngreso,direccionIP,estadoTransaccion,rfcAcceso,fk_administrador)  values ('${data[0]}' , '${data[1]}' , '${data[2]}' , 'Transaccion exitosa','${data[3]}','${resultados[0].id}')`)
-
-                return result
-              }else{
-                resolve({message:"usuario y contraseña incorrectos",token:"no hay token"})
-                client.query(`insert into transaccionesVisitas(fechaIngreso,horaIngreso,direccionIP,estadoTransaccion,rfcAcceso,fk_administrador) values ('${data[0]}' , '${data[1]}' , '${data[2]}' , 'Transaccion fallida','${data[3]}','${0}')`)
-              }
-               
-          })
-        }else {
-          resolve({message:"RFC no encontrado"})
+      let rfcData =  rfc
+      console.log("rfc" , rfc)
+      return new Promise((resolve, reject) => {
+        console.log("rfc", rfc,"password"  , password)
+        if(!rfc || !password){
+          // console.log("no hay token nun¿infin dato")
+          resolve({message:"ningun dato",token:"no hay token"})
+      
         }
+    
+          if(rfc,password){
+            // console.log("la contraseña" , password)
+            client
+            .query(`select * from  administrador where RFC='${rfc}'`,
+              function (error, results, fields) {
+                  var string=JSON.stringify(results);
+                  var resultados =  JSON.parse(string); 
+                  // console.log("resukltados" , resultados)    
+                    if(resultados[0]){
+                    bcrypt.compare(password,resultados[0].contraseña, function(err, result) {
+          
+                      if(result){
+                        resolve({     
+                          message: 'Login exitoso',
+                          token: createToken( resultados[0].correo, resultados[0].contraseña),
+                          id:resultados[0].id,
+                          nombre:resultados[0].nombreAdmin,
+                          Apellidos:resultados[0].Apellidos,
+                          RFC:resultados[0].RFC,
+                          RazonSocial:resultados[0].RazonSocial,
+                          Usuario:resultados[0].Usuario,
+                          correo:resultados[0].correo,
+                          activo:resultados[0].activo,
+                          fechaRegistro:resultados[0].fechaRegistro,
+                          fk_superusuario:resultados[0].fk_superusuario
+                        });
+                        return result
+                      }else{
+
+                    resolve({
+                      message:"usuario y contraseña incorrectos",token:"no hay token"
+                    })
+                  }
+                   
+              })
+            }else{
+              console.log("no entro")  
+              resolve({  RFC:rfcData,message:"usuario y contraseña incorrectos",token:"no hay token"})
+            }
+              
+             
+            },
+          )
+          }
          
-        },
-      )
-      }
+        })
+        }
+
+  // const  LoginEmpresas = async (data) => {
+  //   console.log("data" , data[3])
+    
+  // return new Promise((resolve, reject) => {
+  //   // console.log("rfc", rfc,"password"  , password)
+  //       if(data[0]){
+  //       console.log("entro" , data)
+  //       client
+  //       .query(`select * from  administrador where RFC='${data[3]}'`,
+  //        function (error, results, fields) {
+  //         var string=JSON.stringify(results);
+  //         var resultados =  JSON.parse(string); 
+  //         // console.log("resukltados" , resultados)    
+  //           if(resultados[0]){
+  //           // console.log("entro")  
+  //           bcrypt.compare(data[4],resultados[0].contraseña, function(err, result) {
+  
+  //             if(result){
+                
+  //               return result
+  //             }else{
+  //               resolve({message:"usuario y contraseña incorrectos",token:"no hay token"})
+  //             }
+               
+  //         })
+  //       }else {
+  //         resolve({message:"RFC no encontrado"})
+  //       }
+         
+  //       },
+  //     )
+  //     }
      
-    })
-    }
+  //   })
+  //   }
+
+
+
     const registerEm = (data) => {
       console.log("data", data)
       var correo = data[8].toUpperCase().replace(/ /g, "")
@@ -3218,7 +3265,20 @@ const GetresultGlobalSurveyEEO = async data => {
             })
           })
           };  
+        const Transactions = async data => {
+         
+          return new Promise((resolve,reject) => {
+            if(data[0]&& data[1] && data[2] && data[3] && data[4]){
+            client.query(`insert into transaccionesVisitas(fechaIngreso,horaIngreso,direccionIP,estadoTransaccion,rfcAcceso,fk_administrador)  values ('${data[0]}' , '${data[1]}' , '${data[2]}' , 'Transaccion exitosa','${data[3]}','${data[4]}')`)
+            resolve({message:"registro exitoso"})
+            }else {
+             client.query(`insert into transaccionesVisitas(fechaIngreso,horaIngreso,direccionIP,estadoTransaccion,rfcAcceso,fk_administrador) values ('${data[0]}' , '${data[1]}' , '${data[2]}' , 'Transaccion fallida','${data[3]}','${0}')`)
+             resolve({message:"registro exitoso con sesion fallida"})
+            }
+          })         
+          };  
       module.exports = {
+        Transactions,
         GetTablePeriodo,
         GetEmpleadosGlobales,
         GetAllSuperUser,

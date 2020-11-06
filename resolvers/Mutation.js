@@ -475,12 +475,16 @@ const addAdminEmpresa= async (_, { data }) => {
     return add;
 };
 
-const loginEmpresas = async (_, {data}) => { 
-    var miCadena =data[0];
-    var divisiones = miCadena.split(",");
-    const loginEm = await  actions.LoginEmpresas(divisiones)
-    return loginEm;
+const loginEmpresas = async (_, {rfc, password}) => { 
+    return actions.LoginEmpresas(rfc, password)      
 };
+
+// const loginEmpresas = async (_, {data}) => { 
+//     var miCadena =data[0];
+//     var divisiones = miCadena.split(",");
+//     const loginEm = await  actions.LoginEmpresas(divisiones)
+//     return loginEm;
+// };
 const editDataAdmin= async (_, { data }) => {
     var miCadena =data[0];
     var divisiones = miCadena.split(",");
@@ -573,7 +577,14 @@ const rejectPromotion = async(_, { data }) => {
     const reject = await  actions.RejectPromotion(divisiones)
     return reject;
 };
+const transactions = async(_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    const transactions = await  actions.Transactions(divisiones)
+    return transactions;
+};
 module.exports = {
+    transactions,
     rejectPromotion,
     approvedPromotion,
     addPromotions,

@@ -63,7 +63,10 @@ type Mutation {
   signupAdminAlfa(data: UserCreateInput!): Auth! 
   login(email: String!, password: String!): Auth!
   loginAdminAlfa(email: String!, password: String!): Auth!
-  loginEmpresas(data:[String]!): Auth!
+
+  loginEmpresas(rfc: String!, password: String!): Auth!
+
+  # loginEmpresas(data:[String]!): Auth!
   createUser(data: UserCreateInput!): Auth!
   registerEmployee(data:[String]!):Data!
   registerRS(data:[String]):Data
@@ -136,6 +139,7 @@ type Mutation {
   addPromotions(data:[String!]):Data
   approvedPromotion(data:[String!]):Data
   rejectPromotion(data:[String!]):Data
+  transactions(data:[String!]):Data
 }
 
 type Url {
