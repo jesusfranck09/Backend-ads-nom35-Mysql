@@ -18,7 +18,6 @@ const getUsersTableEmployees = (_,args ) => {
 }
 
 const resultSingleSurvey = (_,args ) => {
-    console.log("args",args)
     var miCadena =args.data[0];
     var divisiones = miCadena.split(",");
      return actions.ResultSingleSurvey(divisiones)
@@ -126,7 +125,6 @@ const getresultGlobalSurveyRP= async (_, { data }) => {
     var miCadena =data[0];
 
     var divisiones = miCadena.split(",");
-    console.log("divisiones",divisiones)
     return actions.GetresultGlobalSurveyRP(divisiones)
     .then( res => res)
     .catch( err => err );
@@ -190,7 +188,6 @@ const getEmployeesFkAdmin= async (_, { data }) => {
 const getUsersTableEmployeesthisPeriodoEEO= async (_, { data }) => {
     var miCadena =data[0];
     var divisiones = miCadena.split(",");
-    console.log("divisiones",divisiones)
     return actions.GetUsersTableEmployeesthisPeriodoEEO(divisiones)
     .then( res => res)
     .catch( err => err );
@@ -204,7 +201,6 @@ const getAdminFechaRegistro= async (_, { data }) => {
 const getUsersTableEmployeesthisPeriodoATS= async (_, { data }) => {
     var miCadena =data[0];
     var divisiones = miCadena.split(",");
-    console.log("divisiones",divisiones)
     return actions.GetUsersTableEmployeesthisPeriodoATS(divisiones)
     .then( res => res)
     .catch( err => err );
@@ -212,7 +208,6 @@ const getUsersTableEmployeesthisPeriodoATS= async (_, { data }) => {
 const getEmpresas= async (_, { data }) => {
     var miCadena =data[0];
     var divisiones = miCadena.split(",");
-    console.log("divisiones",divisiones)
     return actions.GetEmpresas(divisiones)
     .then( res => res)
     .catch( err => err );
@@ -220,7 +215,6 @@ const getEmpresas= async (_, { data }) => {
 const getAdminDashboard= async (_, { data }) => {
     var miCadena =data[0];
     var divisiones = miCadena.split(",");
-    console.log("divisiones",divisiones)
     return actions.GetAdminDashboard(divisiones)
     .then( res => res)
     .catch( err => err );
@@ -228,7 +222,6 @@ const getAdminDashboard= async (_, { data }) => {
 const verifyPackSuperUser= async (_, { data }) => {
     var miCadena =data[0];
     var divisiones = miCadena.split(",");
-    console.log("divisiones",divisiones)
     return actions.VerifyPackSuperUser(divisiones)
     .then( res => res)
     .catch( err => err );
@@ -236,7 +229,6 @@ const verifyPackSuperUser= async (_, { data }) => {
 const countEmpresas= async (_, { data }) => {
     var miCadena =data[0];
     var divisiones = miCadena.split(",");
-    console.log("divisiones",divisiones)
     return actions.CountEmpresas(divisiones)
     .then( res => res)
     .catch( err => err );
@@ -244,7 +236,6 @@ const countEmpresas= async (_, { data }) => {
 const getAdminAlfa= async (_, { data }) => {
     var miCadena =data[0];
     var divisiones = miCadena.split(",");
-    console.log("divisiones",divisiones)
     return actions.GetAdminAlfa(divisiones)
     .then( res => res)
     .catch( err => err );
@@ -253,7 +244,6 @@ const getAdminAlfa= async (_, { data }) => {
 const getImage= async (_, { data }) => {
     var miCadena =data[0];
     var divisiones = miCadena.split(",");
-    console.log("divisiones",divisiones)
     return actions.getImage(divisiones)
     .then( res => res)
     .catch( err => err );

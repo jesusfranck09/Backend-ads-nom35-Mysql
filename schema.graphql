@@ -71,35 +71,12 @@ type Mutation {
   registerEmployee(data:[String]!):Data!
   registerRS(data:[String]):Data
   atsPage1(data:[String]!):Data!
-  atsPage2(data:[String]!):Data!
-  atsPage3(data:[String]!):Data!
   atsPage4(data:[String]!):Data!
-
-  rpPage1(data:[String]!):Data!
-  rpPage2(data:[String]!):Data!
-  rpPage3(data:[String]!):Data!
-  rpPage4(data:[String]!):Data!
-  rpPage5(data:[String]!):Data!
-  rpPage6(data:[String]!):Data!
-  rpPage7(data:[String]!):Data!
   rpPage8(data:[String]!):Data!
 
   rpValidadorPage7(data:[String]!):Data!
   rpValidadorPage8(data:[String]!):Data!
 
-  eeoPage1(data:[String]!):Data!
-  eeoPage2(data:[String]!):Data!
-  eeoPage3(data:[String]!):Data!
-  eeoPage4(data:[String]!):Data!
-  eeoPage5(data:[String]!):Data!
-  eeoPage6(data:[String]!):Data!
-  eeoPage7(data:[String]!):Data!
-  eeoPage8(data:[String]!):Data!
-  eeoPage9(data:[String]!):Data!
-  eeoPage10(data:[String]!):Data!
-  eeoPage11(data:[String]!):Data!
-  eeoPage12(data:[String]!):Data!
-  eeoPage13(data:[String]!):Data!
   eeoPage14(data:[String]!):Data!
 
   rpPoliticaPrivacidad(data:[String]!):SurveyData!
@@ -140,6 +117,9 @@ type Mutation {
   approvedPromotion(data:[String!]):Data
   rejectPromotion(data:[String!]):Data
   transactions(data:[String!]):Data
+  transactionsMadmin(data:[String!]):Data
+  transactionsEval(data:[String!]):Data
+
 }
 
 type Url {
@@ -168,6 +148,7 @@ type Promocion{
   correo:String
   noFactura:String
 }
+
 type superUserData {
 id:String,
 message:String,
@@ -182,6 +163,7 @@ fk_paquetes:String,
 empresas:String,
 empleados:String
 }
+
 type Sucursales {
 id:String,
 nombreSucursal:String,
@@ -375,6 +357,7 @@ type respuestas {
 
     }
 type periodo {
+  message:String
   idEventos:String
   fk_administrador:String
   Descripcion:String
@@ -547,6 +530,7 @@ type CardPay {
 #   }
 
 type SurveyData {
+  id:String
   nombre:String
   ApellidoP:String
   ApellidoM:String

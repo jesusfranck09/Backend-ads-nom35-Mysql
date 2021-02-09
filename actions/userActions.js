@@ -82,7 +82,9 @@ const signup =   (user) => {
                               Una vez hecho esto deberás ingresar a la siguiente dirección y podrás comenzar a utilizar Diagnóstico035.<br/><br/>
 
                               https://admin.diagnostico035.com/<br/><br/>
-
+                              <br/><br/>
+                              También puedes encontrar una serie de videos que te ayudaran a entender más sobre diagnóstico035 en el siguiente enlace https://www.youtube.com/channel/UC2isBB9Kv5lJE5rZsfU5xPw
+                              <br/><br/>
                               Conoce más sobre los beneficios de Diagnóstico035 en https://diagnostico035.com/
                               <br/><br/>
                               Gracias, <br/>
@@ -125,8 +127,6 @@ const signup =   (user) => {
 
 
 const SignupAdminAlfa =   (user) => {
-  // console.log("fecha", new Date(new Date().toUTCString()))
-  
   const utcDate2 = new Date()
   var fechaRegistro =  utcDate2.toGMTString()
   return new Promise((resolve, reject) => {
@@ -167,6 +167,7 @@ const SignupAdminAlfa =   (user) => {
 };
 
 const  login = async (email,password) => {
+  let correo = email
   return new Promise((resolve, reject) => {   
   if(!email || !password){
     resolve({message:"ningun dato",token:"no hay token"})
@@ -183,10 +184,10 @@ const  login = async (email,password) => {
         var string=JSON.stringify(results);
         var resultados =  JSON.parse(string); 
           if(resultados[0]){
-          bcrypt.compare(password,resultados[0].contraseña, function(err, result) {
+            bcrypt.compare(password,resultados[0].contraseña, function(err, result) {
             if(result){
               resolve({     
-                message: 'Login exitoso',
+              message: 'Login exitoso',
                token: createToken( resultados[0].correo, resultados[0].contraseña),
                id:resultados[0].id,
                nombre:resultados[0].nombre,
@@ -199,12 +200,12 @@ const  login = async (email,password) => {
               });
               return result
             }else{
-              resolve({message:"usuario y contraseña incorrectos",token:"no hay token"})
+              console.log("correo", correo) 
+              resolve({correo:correo,message:"usuario y contraseña incorrectos",token:"no hay token"})
             }       
         })
       }else{
-        // console.log("no entro")  
-        resolve({message:"usuario y contraseña incorrectos",token:"no hay token"})
+        resolve({correo:correo,message:"usuario y contraseña incorrectos",token:"no hay token"})
       }
       },
     )
@@ -290,6 +291,7 @@ const  login = async (email,password) => {
                       }else{
 
                     resolve({
+                      RFC:rfcData,
                       message:"usuario y contraseña incorrectos",token:"no hay token"
                     })
                   }
@@ -308,46 +310,8 @@ const  login = async (email,password) => {
         })
         }
 
-  // const  LoginEmpresas = async (data) => {
-  //   console.log("data" , data[3])
-    
-  // return new Promise((resolve, reject) => {
-  //   // console.log("rfc", rfc,"password"  , password)
-  //       if(data[0]){
-  //       console.log("entro" , data)
-  //       client
-  //       .query(`select * from  administrador where RFC='${data[3]}'`,
-  //        function (error, results, fields) {
-  //         var string=JSON.stringify(results);
-  //         var resultados =  JSON.parse(string); 
-  //         // console.log("resukltados" , resultados)    
-  //           if(resultados[0]){
-  //           // console.log("entro")  
-  //           bcrypt.compare(data[4],resultados[0].contraseña, function(err, result) {
-  
-  //             if(result){
-                
-  //               return result
-  //             }else{
-  //               resolve({message:"usuario y contraseña incorrectos",token:"no hay token"})
-  //             }
-               
-  //         })
-  //       }else {
-  //         resolve({message:"RFC no encontrado"})
-  //       }
-         
-  //       },
-  //     )
-  //     }
-     
-  //   })
-  //   }
-
-
-
     const registerEm = (data) => {
-      console.log("data", data)
+      console.log("data empleados", data)
       var correo = data[8].toUpperCase().replace(/ /g, "")
       // console.log("data register single em" , data)
       return new Promise( (resolve, reject) => {
@@ -452,340 +416,152 @@ new Promise((resolve, reject) => {
 
 
 const AtsPage1 = async data => {
-console.log("el correo en atspage1 es " ,data)
-return new Promise((resolve, reject) => {
 
-if(data[0]=="si"){
-  client
-  .query(`select * from  empleados where correo='${data[1]}'`,
-    function (error, results, fields) {
-    if (error) reject(error) 
-    var string=JSON.stringify(results);
-    var resultados =  JSON.parse(string); 
-    resolve(resultados)
-      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','1','${resultados[0].id}','${data[2]}')`); 
-      client.query(`update empleados set ATSDetectado='true' where id = ${resultados[0].id} `);    
-    
+return new Promise((resolve, reject) => {  
+      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[4]}','11','${data[3]}','${data[2]}')`);
+      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','1','${data[3]}','${data[2]}')`); 
+      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','2','${data[3]}','${data[2]}')`);
+      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','3','${data[3]}','${data[2]}')`);
+      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','4','${data[3]}','${data[2]}')`);
+      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','5','${data[3]}','${data[2]}')`);
+      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','6','${data[3]}','${data[2]}')`);
+      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','7','${data[3]}','${data[2]}')`);
+      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','8','${data[3]}','${data[2]}')`);
+      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','9','${data[3]}','${data[2]}')`);
+      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','10','${data[3]}','${data[2]}')`);
+      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','12','${data[3]}','${data[2]}')`);
+      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','13','${data[3]}','${data[2]}')`);
+      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','14','${data[3]}','${data[2]}')`);
+      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','15','${data[3]}','${data[2]}')`);
+      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','16','${data[3]}','${data[2]}')`);
+      client.query(`update empleados set ATSContestado = 'true' where id = '${data[3]}'`);
+      client.query(`insert into periodos(fk_empleados,periodo,encuesta) values ('${data[3]}','${data[2]}','ATS')`);    
+
       client
-        .query(`select Max(id) as idMaximo from  correos where fk_empleados='${resultados[0].id}' and encuesta = "ATS"`,
+        .query(`select Max(id) as idMaximo from correos where fk_empleados='${[data[3]]}' and encuesta = "ATS"`,
           function (error, redults, fields) {
           var string=JSON.stringify(redults);
         var resultados1 =  JSON.parse(string); 
         resolve(resultados1)                
         var maximo = resultados1[0].idMaximo
-        client.query(`update correos set contestado ='true' where id = ${maximo} `);    
-        return client   
-
-        }
-        )
-      return  client       
-  },
-)
-} 
-if(data[0]=="no"){
-  client
-  .query(`select * from  empleados where correo='${data[1]}'`,
-  function (error, results, fields) {
-  if (error) reject(error) 
-    var string=JSON.stringify(results);
-    var resultados =  JSON.parse(string); 
-    resolve(resultados)
-      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','1','${resultados[0].id}','${data[2]}')`); 
-      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','2','${resultados[0].id}','${data[2]}')`);
-      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','3','${resultados[0].id}','${data[2]}')`);
-      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','4','${resultados[0].id}','${data[2]}')`);
-      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','5','${resultados[0].id}','${data[2]}')`);
-      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','6','${resultados[0].id}','${data[2]}')`);
-      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','7','${resultados[0].id}','${data[2]}')`);
-      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','8','${resultados[0].id}','${data[2]}')`);
-      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','9','${resultados[0].id}','${data[2]}')`);
-      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','10','${resultados[0].id}','${data[2]}')`);
-      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','11','${resultados[0].id}','${data[2]}')`);
-      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','12','${resultados[0].id}','${data[2]}')`);
-      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','13','${resultados[0].id}','${data[2]}')`);
-      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','14','${resultados[0].id}','${data[2]}')`);
-      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','15','${resultados[0].id}','${data[2]}')`);
-      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','16','${resultados[0].id}','${data[2]}')`);
-      client.query(`update empleados set ATSContestado='true' where id = ${resultados[0].id} `);
-      client.query(`insert into periodos(fk_empleados,periodo,encuesta) values ('${resultados[0].id}','${data[2]}','ATS')`);    
+        client.query(`update correos set contestado ='true' where id = ${maximo} `); 
+        })   
+        return client  
       
-      return  client       
-  },
-)
-}  })
-};
-
-
-const AtsPage2 = async data => {
-// console.log("la data en useractios es  " ,   data)
-return new Promise((resolve, reject) => {
-    client
-    .query(`select * from  empleados where correo='${data[2]}'`,
-      function (error, results, fields) {
-      if (error) reject(error) 
-      var string=JSON.stringify(results);
-      var resultados =  JSON.parse(string); 
-      resolve(resultados)
-        client
-        .query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','2','${resultados[0].id}','${data[3]}')`); 
-        client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[1]}','3','${resultados[0].id}','${data[3]}')`); 
-        return  client        
-    },
-  )
-  })
-};
-
-const AtsPage3 = async data => {
-  var resultados=""
-  return new Promise((resolve, reject) => {
-      client
-      .query(`select * from  empleados where correo='${data[7]}'`,
-        function (error, results, fields) {
-        if (error) reject(error) 
-        var string=JSON.stringify(results);
-        resultados =  JSON.parse(string); 
-        resolve(resultados)
-        // console.log("los resultados de la primera consulta son " , resultados)
-          client
-          .query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','4','${resultados[0].id}','${data[8]}')`); 
-          client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[1]}','5','${resultados[0].id}','${data[8]}')`); 
-          client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[2]}','6','${resultados[0].id}','${data[8]}')`); 
-          client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[3]}','7','${resultados[0].id}','${data[8]}')`); 
-          client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[4]}','8','${resultados[0].id}','${data[8]}')`); 
-          client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[5]}','9','${resultados[0].id}','${data[8]}')`); 
-          client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[6]}','10','${resultados[0].id}','${data[8]}')`); 
-
-          return  client   
-              
-      },
-    )
-    })
-  };
-
+      })
+    };
 const AtsPage4 = async data => {      
-  console.log("atspage4" , data)
   return new Promise((resolve, reject) => {
+      console.log("data[4] " , data[4])
+      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[2]}','11','${data[1]}','${data[0]}')`);
+      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[3]}','1','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[4]}','2','${data[1]}','${data[0]}')`);
+      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[5]}','3','${data[1]}','${data[0]}')`);
+      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[6]}','4','${data[1]}','${data[0]}')`);
+      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[7]}','5','${data[1]}','${data[0]}')`);
+      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[8]}','6','${data[1]}','${data[0]}')`);
+      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[9]}','7','${data[1]}','${data[0]}')`);
+      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[10]}','8','${data[1]}','${data[0]}')`);
+      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[11]}','9','${data[1]}','${data[0]}')`);
+      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[12]}','10','${data[1]}','${data[0]}')`);
+      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[13]}','12','${data[1]}','${data[0]}')`);
+      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[14]}','13','${data[1]}','${data[0]}')`);
+      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[15]}','14','${data[1]}','${data[0]}')`);
+      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[16]}','15','${data[1]}','${data[0]}')`);
+      client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[17]}','16','${data[1]}','${data[0]}')`);
+      client.query(`update empleados set ATSContestado = 'true' where id = '${data[1]}'`);
+      client.query(`insert into periodos(fk_empleados,periodo,encuesta) values ('${data[1]}','${data[0]}','ATS')`);    
+
+      console.log("data[18] " , data[18])
+      if(data[18]=='Si'){
+        client.query(`update empleados set ATSDetectado='true' where id = ${data[1]} `);    
+      }
+
       client
-      .query(`select * from  empleados where correo='${data[5]}'`,
-        function (error, results, fields) {
-        if (error) reject(error) 
-        var string=JSON.stringify(results);
-        var resultados =  JSON.parse(string); 
-        resolve(resultados)
-          client
-          .query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','12','${resultados[0].id}','${data[6]}')`); 
-          client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[1]}','13','${resultados[0].id}','${data[6]}')`); 
-          client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[2]}','14','${resultados[0].id}','${data[6]}')`); 
-          client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[3]}','15','${resultados[0].id}','${data[6]}')`); 
-          client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[4]}','16','${resultados[0].id}','${data[6]}')`);      
-          client.query(`insert into periodos(fk_empleados,periodo,encuesta) values ('${resultados[0].id}','${data[6]}','ATS')`);    
-          client.query(`update empleados set ATSContestado ='true' where id ='${resultados[0].id}' `);  
-          return  client        
-      },
-    )
+        .query(`select Max(id) as idMaximo from correos where fk_empleados='${[data[1]]}' and encuesta = "ATS"`,
+          function (error, redults, fields) {
+          var string=JSON.stringify(redults);
+        var resultados1 =  JSON.parse(string); 
+        resolve(resultados1)                
+        var maximo = resultados1[0].idMaximo
+        client.query(`update correos set contestado ='true' where id = ${maximo} `); 
+        })
+
+
     })
   };
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        
-const RPPage1 = async data => {
-  
-  console.log("useractions RPpage1" , data)
-  return new Promise((resolve, reject) => {
-      client
-      .query(`select * from  empleados where correo='${data[9]}'`,
-      function (error, results, fields) {
-      if (error) reject(error) 
-        var string=JSON.stringify(results);
-        var resultados =  JSON.parse(string); 
-        resolve({message:"datos guardados"})
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[0]}','1','${resultados[0].id}','${data[10]}','${data[11]}')`); 
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[1]}','2','${resultados[0].id}','${data[10]}','${data[12]}')`); 
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[2]}','3','${resultados[0].id}','${data[10]}','${data[13]}')`); 
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[3]}','4','${resultados[0].id}','${data[10]}','${data[14]}')`); 
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[4]}','5','${resultados[0].id}','${data[10]}','${data[15]}')`); 
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[5]}','6','${resultados[0].id}','${data[10]}','${data[16]}')`); 
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[6]}','7','${resultados[0].id}','${data[10]}','${data[17]}')`); 
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[7]}','8','${resultados[0].id}','${data[10]}','${data[18]}')`); 
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[8]}','9','${resultados[0].id}','${data[10]}','${data[19]}')`); 
 
-          client.query(`select Max(id) as idMaximo from  correos where fk_empleados='${resultados[0].id}' and encuesta = "RP"`,
-          function (error, redults, fields) {
-          var string=JSON.stringify(redults);
-          var resultados1 =  JSON.parse(string); 
-          resolve(resultados1)                
-          var maximo = resultados1[0].idMaximo
-          client.query(`update correos set contestado ='true' where id = ${maximo} `);    
-          return client    
-          }
-          
-          )
-          return  client       
-      },
-    )
-    })
-  };
-
-const RPPage2 = async data => {
-
-  // console.log("useractions RPpage2" , data)
-  return new Promise((resolve, reject) => {
-      client
-      .query(`select * from  empleados where correo='${data[4]}'`,
-      function (error, results, fields) {
-      if (error) reject(error) 
-        var string=JSON.stringify(results);
-        var resultados =  JSON.parse(string); 
-        resolve(resultados)
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[0]}','10','${resultados[0].id}','${data[5]}','${data[6]}')`); 
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[1]}','11','${resultados[0].id}','${data[5]}','${data[7]}')`); 
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[2]}','12','${resultados[0].id}','${data[5]}','${data[8]}')`); 
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[3]}','13','${resultados[0].id}','${data[5]}','${data[9]}')`);            
-          return  client       
-      },
-    )
-    })
-  };
-
-const RPPage3 = async data => {
-
-  // console.log("useractions RPpage3" , data)
-  return new Promise((resolve, reject) => {
-      client
-      .query(`select * from  empleados where correo='${data[4]}'`,
-      function (error, results, fields) {
-      if (error) reject(error) 
-        var string=JSON.stringify(results);
-        var resultados =  JSON.parse(string); 
-        resolve(resultados)
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[0]}','14','${resultados[0].id}','${data[5]}','${data[6]}')`); 
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[1]}','15','${resultados[0].id}','${data[5]}','${data[7]}')`); 
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[2]}','16','${resultados[0].id}','${data[5]}','${data[8]}')`); 
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[3]}','17','${resultados[0].id}','${data[5]}','${data[9]}')`);            
-          return  client       
-      },
-    )
-    })
-  };
-
-            
-const RPPage4 = async data => {
-
-  // console.log("useractions RPpage4" , data)
-  return new Promise((resolve, reject) => {
-      client
-      .query(`select * from  empleados where correo='${data[5]}'`,
-      function (error, results, fields) {
-      if (error) reject(error) 
-        var string=JSON.stringify(results);
-        var resultados =  JSON.parse(string); 
-        resolve(resultados)
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[0]}','18','${resultados[0].id}','${data[6]}','${data[7]}')`); 
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[1]}','19','${resultados[0].id}','${data[6]}','${data[8]}')`); 
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[2]}','20','${resultados[0].id}','${data[6]}','${data[9]}')`); 
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[3]}','21','${resultados[0].id}','${data[6]}','${data[10]}')`);            
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[4]}','22','${resultados[0].id}','${data[6]}','${data[11]}')`);            
-
-          return  client       
-      },
-    )
-    })
-  };
-
-const RPPage5 = async data => {
-
-  // console.log("useractions RPpage4" , data)
-  return new Promise((resolve, reject) => {
-      client
-      .query(`select * from  empleados where correo='${data[5]}'`,
-      function (error, results, fields) {
-      if (error) reject(error) 
-        var string=JSON.stringify(results);
-        var resultados =  JSON.parse(string); 
-        resolve(resultados)
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[0]}','23','${resultados[0].id}','${data[6]}','${data[7]}')`); 
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[1]}','24','${resultados[0].id}','${data[6]}','${data[8]}')`); 
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[2]}','25','${resultados[0].id}','${data[6]}','${data[9]}')`); 
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[3]}','26','${resultados[0].id}','${data[6]}','${data[10]}')`);            
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[4]}','27','${resultados[0].id}','${data[6]}','${data[11]}')`);            
-
-          return  client       
-      },
-    )
-    })
-  };
-
-const RPPage6 = async data => {
-
-  // console.log("useractions RPpage4" , data)
-  return new Promise((resolve, reject) => {
-      client
-      .query(`select * from  empleados where correo='${data[13]}'`,
-      function (error, results, fields) {
-      if (error) reject(error) 
-        var string=JSON.stringify(results);
-        var resultados =  JSON.parse(string); 
-        resolve(resultados)
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[0]}','28','${resultados[0].id}','${data[14]}','${data[15]}')`); 
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[1]}','29','${resultados[0].id}','${data[14]}','${data[16]}')`); 
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[2]}','30','${resultados[0].id}','${data[14]}','${data[17]}')`); 
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[3]}','31','${resultados[0].id}','${data[14]}','${data[18]}')`);            
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[4]}','32','${resultados[0].id}','${data[14]}','${data[19]}')`);            
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[5]}','33','${resultados[0].id}','${data[14]}','${data[20]}')`); 
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[6]}','34','${resultados[0].id}','${data[14]}','${data[21]}')`); 
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[7]}','35','${resultados[0].id}','${data[14]}','${data[22]}')`); 
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[8]}','36','${resultados[0].id}','${data[14]}','${data[23]}')`);            
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[9]}','37','${resultados[0].id}','${data[14]}','${data[24]}')`);            
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[10]}','38','${resultados[0].id}','${data[14]}','${data[25]}')`);            
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[11]}','39','${resultados[0].id}','${data[14]}','${data[26]}')`);            
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[12]}','40','${resultados[0].id}','${data[14]}','${data[27]}')`);            
-
-          return  client       
-      },
-    )
-    })
-  };
-
-const RPPage7 = async data => {
-
-  // console.log("useractions RPpage4" , data)
-  return new Promise((resolve, reject) => {
-      client
-      .query(`select * from  empleados where correo='${data[3]}'`,
-      function (error, results, fields) {
-      if (error) reject(error) 
-        var string=JSON.stringify(results);
-        var resultados =  JSON.parse(string); 
-        resolve(resultados)
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[0]}','41','${resultados[0].id}','${data[4]}','${data[5]}')`); 
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[1]}','42','${resultados[0].id}','${data[4]}','${data[6]}')`); 
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[2]}','43','${resultados[0].id}','${data[4]}','${data[7]}')`); 
-
-          return  client       
-      },
-    )
-    })
-  };
 
 const RPPage8 = async data => {
 
-  // console.log("useractions RPpage4" , data)
+  console.log("data page 8" , data)
   return new Promise((resolve, reject) => {
-      client
-      .query(`select * from  empleados where correo='${data[3]}'`,
-      function (error, results, fields) {
-      if (error) reject(error) 
-        var string=JSON.stringify(results);
-        var resultados =  JSON.parse(string); 
-        resolve(resultados)
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[0]}','44','${resultados[0].id}','${data[4]}','${data[5]}')`); 
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[1]}','45','${resultados[0].id}','${data[4]}','${data[6]}')`); 
-          client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[2]}','46','${resultados[0].id}','${data[4]}','${data[7]}')`); 
-          client.query(`insert into periodos(fk_empleados,periodo,encuesta) values ('${resultados[0].id}','${data[4]}','RP')`);
-          client.query(`update empleados set RPContestado ='true' where id ='${resultados[0].id}'`);   
-          return  client       
-      },
-    )
-    })
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[2]}','47','${data[1]}','${data[0]}','${0}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[3]}','1','${data[1]}','${data[0]}','${data[4]}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[5]}','2','${data[1]}','${data[0]}','${data[6]}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[7]}','3','${data[1]}','${data[0]}','${data[8]}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[9]}','4','${data[1]}','${data[0]}','${data[10]}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[11]}','5','${data[1]}','${data[0]}','${data[12]}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[13]}','6','${data[1]}','${data[0]}','${data[14]}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[15]}','7','${data[1]}','${data[0]}','${data[16]}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[17]}','8','${data[1]}','${data[0]}','${data[18]}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[19]}','9','${data[1]}','${data[0]}','${data[20]}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[21]}','10','${data[1]}','${data[0]}','${data[22]}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[23]}','11','${data[1]}','${data[0]}','${data[24]}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[25]}','12','${data[1]}','${data[0]}','${data[26]}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[27]}','13','${data[1]}','${data[0]}','${data[28]}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[29]}','14','${data[1]}','${data[0]}','${data[30]}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[31]}','15','${data[1]}','${data[0]}','${data[32]}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[33]}','16','${data[1]}','${data[0]}','${data[34]}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[35]}','17','${data[1]}','${data[0]}','${data[36]}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[37]}','18','${data[1]}','${data[0]}','${data[38]}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[39]}','19','${data[1]}','${data[0]}','${data[40]}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[41]}','20','${data[1]}','${data[0]}','${data[42]}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[43]}','21','${data[1]}','${data[0]}','${data[44]}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[45]}','22','${data[1]}','${data[0]}','${data[46]}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[47]}','23','${data[1]}','${data[0]}','${data[48]}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[49]}','24','${data[1]}','${data[0]}','${data[50]}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[51]}','25','${data[1]}','${data[0]}','${data[52]}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[53]}','26','${data[1]}','${data[0]}','${data[54]}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[55]}','27','${data[1]}','${data[0]}','${data[56]}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[57]}','28','${data[1]}','${data[0]}','${data[58]}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[59]}','29','${data[1]}','${data[0]}','${data[60]}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[61]}','30','${data[1]}','${data[0]}','${data[62]}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[63]}','31','${data[1]}','${data[0]}','${data[64]}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[65]}','32','${data[1]}','${data[0]}','${data[66]}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[67]}','33','${data[1]}','${data[0]}','${data[68]}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[69]}','34','${data[1]}','${data[0]}','${data[70]}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[71]}','35','${data[1]}','${data[0]}','${data[72]}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[73]}','36','${data[1]}','${data[0]}','${data[74]}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[75]}','37','${data[1]}','${data[0]}','${data[76]}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[77]}','38','${data[1]}','${data[0]}','${data[78]}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[79]}','39','${data[1]}','${data[0]}','${data[80]}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[81]}','40','${data[1]}','${data[0]}','${data[82]}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[83]}','48','${data[1]}','${data[0]}','${data[84]}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[85]}','41','${data[1]}','${data[0]}','${data[86]}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[87]}','42','${data[1]}','${data[0]}','${data[88]}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[89]}','43','${data[1]}','${data[0]}','${data[90]}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[91]}','49','${data[1]}','${data[0]}','${data[92]}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[93]}','44','${data[1]}','${data[0]}','${data[94]}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[95]}','45','${data[1]}','${data[0]}','${data[96]}')`); 
+    client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[97]}','46','${data[1]}','${data[0]}','${data[98]}')`); 
+
+    client.query(`update empleados set RPContestado ='true' where id = '${data[1]}'`);   
+    client.query(`insert into periodos(fk_Empleados,periodo,encuesta) values ('${data[1]}','${data[0]}','RP')`);
+
+    client
+        .query(`select Max(id) as idMaximo from correos where fk_Empleados='${[data[1]]}' and encuesta = "RP"`,
+          function (error, redults, fields) {
+          var string=JSON.stringify(redults);
+        var resultados1 =  JSON.parse(string); 
+        resolve(resultados1)                
+        var maximo = resultados1[0].idMaximo
+        client.query(`update correos set contestado ='true' where id = ${maximo} `); 
+        })
+       resolve({message:"registro exitoso"}) 
+     })
+
   };
   
 
@@ -819,7 +595,6 @@ const RPValidadorPage7 = async data => {
 
 const RPValidadorPage8 = async data => {
 
-// console.log("useractions RPValidadorPage8" , data)
 return new Promise((resolve, reject) => {
     client
     .query(`select * from  empleados where correo='${data[1]}'`,
@@ -857,350 +632,102 @@ return new Promise((resolve, reject) => {
   )
   })
 };
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////77
-const EEOPage1 = async data => {
-        
-  // console.log("useractions eEOpage1" , data)
 
-  return new Promise((resolve, reject) => {
-      client
-      .query(`select * from  empleados where correo='${data[5]}'`,
-      function (error, results, fields) {
-      if (error) reject(error) 
-        var string=JSON.stringify(results);
-        var resultados =  JSON.parse(string); 
-        resolve(resultados)
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[0]}','1','${resultados[0].id}','${data[6]}','${data[7]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[1]}','2','${resultados[0].id}','${data[6]}','${data[8]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[2]}','3','${resultados[0].id}','${data[6]}','${data[9]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[3]}','4','${resultados[0].id}','${data[6]}','${data[10]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[4]}','5','${resultados[0].id}','${data[6]}','${data[11]}')`); 
-          
-          
-          client
-          .query(`select Max(id) as idMaximo from  correos where fk_empleados='${resultados[0].id}' and encuesta = "EEO"`,
-            function (error, redults, fields) {
-            var string=JSON.stringify(redults);
-          var resultados1 =  JSON.parse(string); 
-          resolve(resultados1)                
-          var maximo = resultados1[0].idMaximo
-          client.query(`update correos set contestado ='true' where id = ${maximo} `); 
-          return client    
-          }
-          
-          )
-          
-          return  client       
-      },
-    )
-    })
-  };
-
-const EEOPage2 = async data => {
-      
-  // console.log("useractions eEOpage2" , data)
-  return new Promise((resolve, reject) => {
-      client
-      .query(`select * from  empleados where correo='${data[3]}'`,
-      function (error, results, fields) {
-      if (error) reject(error) 
-        var string=JSON.stringify(results);
-        var resultados =  JSON.parse(string); 
-        resolve(resultados)
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[0]}','6','${resultados[0].id}','${data[4]}','${data[5]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[1]}','7','${resultados[0].id}','${data[4]}','${data[6]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[2]}','8','${resultados[0].id}','${data[4]}','${data[7]}')`);   
-          return  client       
-      },
-    )
-    })
-  };
-const EEOPage3 = async data => {
-    
-  // console.log("useractions eEOpage3" , data)
-  return new Promise((resolve, reject) => {
-      client
-      .query(`select * from  empleados where correo='${data[4]}'`,
-      function (error, results, fields) {
-      if (error) reject(error) 
-        var string=JSON.stringify(results);
-        var resultados =  JSON.parse(string); 
-        resolve(resultados)
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[0]}','9','${resultados[0].id}','${data[5]}','${data[6]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[1]}','10','${resultados[0].id}','${data[5]}','${data[7]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[2]}','11','${resultados[0].id}','${data[5]}','${data[8]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[3]}','12','${resultados[0].id}','${data[5]}','${data[9]}')`); 
-
-          return  client       
-      },
-    )
-    })
-  };
-
-
-const EEOPage4 = async data => {
-  
-  // console.log("useractions eEOpage4" , data)
-  return new Promise((resolve, reject) => {
-      client
-      .query(`select * from  empleados where correo='${data[4]}'`,
-      function (error, results, fields) {
-      if (error) reject(error) 
-        var string=JSON.stringify(results);
-        var resultados =  JSON.parse(string); 
-        resolve(resultados)
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[0]}','13','${resultados[0].id}','${data[5]}','${data[6]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[1]}','14','${resultados[0].id}','${data[5]}','${data[7]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[2]}','15','${resultados[0].id}','${data[5]}','${data[8]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[3]}','16','${resultados[0].id}','${data[5]}','${data[9]}')`); 
-
-          return  client       
-      },
-    )
-    })
-  };
-
-const EEOPage5 = async data => {
-
-  // console.log("useractions eEOpage5" , data)
-  return new Promise((resolve, reject) => {
-      client
-      .query(`select * from  empleados where correo='${data[6]}'`,
-      function (error, results, fields) {
-      if (error) reject(error) 
-        var string=JSON.stringify(results);
-        var resultados =  JSON.parse(string); 
-        resolve(resultados)
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[0]}','17','${resultados[0].id}','${data[7]}','${data[8]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[1]}','18','${resultados[0].id}','${data[7]}','${data[9]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[2]}','19','${resultados[0].id}','${data[7]}','${data[10]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[3]}','20','${resultados[0].id}','${data[7]}','${data[11]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[4]}','21','${resultados[0].id}','${data[7]}','${data[12]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[5]}','22','${resultados[0].id}','${data[7]}','${data[13]}')`); 
-
-          return  client       
-      },
-    )
-    })
-};
-
-const EEOPage6 = async data => {
-
-  // console.log("useractions eEOpage5" , data)
-  return new Promise((resolve, reject) => {
-      client
-      .query(`select * from  empleados where correo='${data[6]}'`,
-      function (error, results, fields) {
-      if (error) reject(error) 
-        var string=JSON.stringify(results);
-        var resultados =  JSON.parse(string); 
-        resolve(resultados)
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[0]}','23','${resultados[0].id}','${data[7]}','${data[8]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[1]}','24','${resultados[0].id}','${data[7]}','${data[9]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[2]}','25','${resultados[0].id}','${data[7]}','${data[10]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[3]}','26','${resultados[0].id}','${data[7]}','${data[11]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[4]}','27','${resultados[0].id}','${data[7]}','${data[12]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[5]}','28','${resultados[0].id}','${data[7]}','${data[13]}')`); 
-
-          return  client       
-      },
-    )
-    })
-  };
-
-const EEOPage7 = async data => {
-
-  // console.log("useractions eEOpage5" , data)
-  return new Promise((resolve, reject) => {
-      client
-      .query(`select * from  empleados where correo='${data[2]}'`,
-      function (error, results, fields) {
-      if (error) reject(error) 
-        var string=JSON.stringify(results);
-        var resultados =  JSON.parse(string); 
-        resolve(resultados)
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[0]}','29','${resultados[0].id}','${data[3]}','${data[4]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[1]}','30','${resultados[0].id}','${data[3]}','${data[5]}')`); 
-
-          return  client       
-      },
-    )
-    })
-};
-
-const EEOPage8 = async data => {
-
-  // console.log("useractions eEOpage5" , data)
-  return new Promise((resolve, reject) => {
-      client
-      .query(`select * from  empleados where correo='${data[6]}'`,
-      function (error, results, fields) {
-      if (error) reject(error) 
-        var string=JSON.stringify(results);
-        var resultados =  JSON.parse(string); 
-        resolve(resultados)
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[0]}','31','${resultados[0].id}','${data[7]}','${data[8]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[1]}','32','${resultados[0].id}','${data[7]}','${data[9]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[2]}','33','${resultados[0].id}','${data[7]}','${data[10]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[3]}','34','${resultados[0].id}','${data[7]}','${data[11]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[4]}','35','${resultados[0].id}','${data[7]}','${data[12]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[5]}','36','${resultados[0].id}','${data[7]}','${data[13]}')`); 
-
-          return  client       
-      },
-    )
-    })
-  };
-
-const EEOPage9 = async data => {
-
-  // console.log("useractions eEOpage5" , data)
-  return new Promise((resolve, reject) => {
-      client
-      .query(`select * from  empleados where correo='${data[5]}'`,
-      function (error, results, fields) {
-      if (error) reject(error) 
-        var string=JSON.stringify(results);
-        var resultados =  JSON.parse(string); 
-        resolve(resultados)
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[0]}','37','${resultados[0].id}','${data[6]}','${data[7]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[1]}','38','${resultados[0].id}','${data[6]}','${data[8]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[2]}','39','${resultados[0].id}','${data[6]}','${data[9]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[3]}','40','${resultados[0].id}','${data[6]}','${data[10]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[4]}','41','${resultados[0].id}','${data[6]}','${data[11]}')`); 
-
-          return  client       
-      },
-    )
-    })
-  };
-const EEOPage10 = async data => {
-
-  // console.log("useractions eEOpage10" , data)
-  return new Promise((resolve, reject) => {
-      client
-      .query(`select * from  empleados where correo='${data[5]}'`,
-      function (error, results, fields) {
-      if (error) reject(error) 
-        var string=JSON.stringify(results);
-        var resultados =  JSON.parse(string); 
-        resolve(resultados)
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[0]}','42','${resultados[0].id}','${data[6]}','${data[7]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[1]}','43','${resultados[0].id}','${data[6]}','${data[8]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[2]}','44','${resultados[0].id}','${data[6]}','${data[9]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[3]}','45','${resultados[0].id}','${data[6]}','${data[10]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[4]}','46','${resultados[0].id}','${data[6]}','${data[11]}')`); 
-
-          return  client       
-      },
-    )
-    })
-  };
-
-const EEOPage11 = async data => {
-
-  // console.log("useractions eEOpage10" , data)
-  return new Promise((resolve, reject) => {
-      client
-      .query(`select * from  empleados where correo='${data[10]}'`,
-      function (error, results, fields) {
-      if (error) reject(error) 
-        var string=JSON.stringify(results);
-        var resultados =  JSON.parse(string); 
-        resolve({message:"exito"})
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[0]}','47','${resultados[0].id}','${data[11]}','${data[12]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[1]}','48','${resultados[0].id}','${data[11]}','${data[13]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[2]}','49','${resultados[0].id}','${data[11]}','${data[14]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[3]}','50','${resultados[0].id}','${data[11]}','${data[15]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[4]}','51','${resultados[0].id}','${data[11]}','${data[16]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[5]}','52','${resultados[0].id}','${data[11]}','${data[17]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[6]}','53','${resultados[0].id}','${data[11]}','${data[18]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[7]}','54','${resultados[0].id}','${data[11]}','${data[19]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[8]}','55','${resultados[0].id}','${data[11]}','${data[20]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[9]}','56','${resultados[0].id}','${data[11]}','${data[21]}')`); 
-
-          return  client       
-      },
-    )
-    })
-};
-
-const EEOPage12 = async data => {
-
-  // console.log("useractions eEOpage12" , data)
-  return new Promise((resolve, reject) => {
-      client
-      .query(`select * from  empleados where correo='${data[8]}'`,
-      function (error, results, fields) {
-      if (error) reject(error) 
-        var string=JSON.stringify(results);
-        var resultados =  JSON.parse(string); 
-        resolve(resultados)
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[0]}','57','${resultados[0].id}','${data[9]}','${data[10]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[1]}','58','${resultados[0].id}','${data[9]}','${data[11]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[2]}','59','${resultados[0].id}','${data[9]}','${data[12]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[3]}','60','${resultados[0].id}','${data[9]}','${data[13]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[4]}','61','${resultados[0].id}','${data[9]}','${data[14]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[5]}','62','${resultados[0].id}','${data[9]}','${data[15]}')`); 
-    
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[6]}','63','${resultados[0].id}','${data[9]}','${data[16]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[7]}','64','${resultados[0].id}','${data[9]}','${data[17]}')`); 
-          
-          return  client       
-      },
-    )
-    })
-  };
-
-const EEOPage13 = async data => {
-
-  // console.log("useractions eEOpage10" , data)
-  return new Promise((resolve, reject) => {
-      client
-      .query(`select * from  empleados where correo='${data[4]}'`,
-      function (error, results, fields) {
-      if (error) reject(error) 
-        var string=JSON.stringify(results);
-        var resultados =  JSON.parse(string); 
-        resolve(resultados)
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[0]}','65','${resultados[0].id}','${data[5]}','${data[6]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[1]}','66','${resultados[0].id}','${data[5]}','${data[7]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[2]}','67','${resultados[0].id}','${data[5]}','${data[8]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[3]}','68','${resultados[0].id}','${data[5]}','${data[9]}')`); 
-          
-          return  client       
-      },
-    )
-    })
-};
 
 const EEOPage14 = async data => {
 
-  // console.log("useractions eEOpage14" , data)
   return new Promise((resolve, reject) => {
-      client
-      .query(`select * from  empleados where correo='${data[4]}'`,
-      function (error, results, fields) {
-      if (error) reject(error) 
-        var string=JSON.stringify(results);
-        var resultados =  JSON.parse(string); 
-        resolve(resultados)
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[0]}','69','${resultados[0].id}','${data[5]}','${data[6]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[1]}','70','${resultados[0].id}','${data[5]}','${data[7]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[2]}','71','${resultados[0].id}','${data[5]}','${data[8]}')`); 
-          client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[3]}','72','${resultados[0].id}','${data[5]}','${data[9]}')`); 
-          client.query(`insert into periodos(fk_empleados,periodo,encuesta) values ('${resultados[0].id}','${data[5]}','EEO')`);
-          client.query(`update empleados set EEOContestado ='true' where correo = '${data[4]}'`);    
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[2]}','73','${data[1]}','${data[0]}',${0})`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[3]}','1','${data[1]}','${data[0]}','${data[4]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[5]}','2','${data[1]}','${data[0]}','${data[6]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[7]}','3','${data[1]}','${data[0]}','${data[8]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[9]}','4','${data[1]}','${data[0]}','${data[10]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[11]}','5','${data[1]}','${data[0]}','${data[12]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[13]}','6','${data[1]}','${data[0]}','${data[14]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[15]}','7','${data[1]}','${data[0]}','${data[16]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[17]}','8','${data[1]}','${data[0]}','${data[18]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[19]}','9','${data[1]}','${data[0]}','${data[20]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[21]}','10','${data[1]}','${data[0]}','${data[22]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[23]}','11','${data[1]}','${data[0]}','${data[24]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[25]}','12','${data[1]}','${data[0]}','${data[26]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[27]}','13','${data[1]}','${data[0]}','${data[28]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[29]}','14','${data[1]}','${data[0]}','${data[30]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[31]}','15','${data[1]}','${data[0]}','${data[32]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[33]}','16','${data[1]}','${data[0]}','${data[34]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[35]}','17','${data[1]}','${data[0]}','${data[36]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[37]}','18','${data[1]}','${data[0]}','${data[38]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[39]}','19','${data[1]}','${data[0]}','${data[40]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[41]}','20','${data[1]}','${data[0]}','${data[42]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[43]}','21','${data[1]}','${data[0]}','${data[44]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[45]}','22','${data[1]}','${data[0]}','${data[46]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[47]}','23','${data[1]}','${data[0]}','${data[48]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[49]}','24','${data[1]}','${data[0]}','${data[50]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[51]}','25','${data[1]}','${data[0]}','${data[52]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[53]}','26','${data[1]}','${data[0]}','${data[54]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[55]}','27','${data[1]}','${data[0]}','${data[56]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[57]}','28','${data[1]}','${data[0]}','${data[58]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[59]}','29','${data[1]}','${data[0]}','${data[60]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[61]}','30','${data[1]}','${data[0]}','${data[62]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[63]}','31','${data[1]}','${data[0]}','${data[64]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[65]}','32','${data[1]}','${data[0]}','${data[66]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[67]}','33','${data[1]}','${data[0]}','${data[68]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[69]}','34','${data[1]}','${data[0]}','${data[70]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[71]}','35','${data[1]}','${data[0]}','${data[72]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[73]}','36','${data[1]}','${data[0]}','${data[74]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[75]}','37','${data[1]}','${data[0]}','${data[76]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[77]}','38','${data[1]}','${data[0]}','${data[78]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[79]}','39','${data[1]}','${data[0]}','${data[80]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[81]}','40','${data[1]}','${data[0]}','${data[82]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[83]}','41','${data[1]}','${data[0]}','${data[84]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[85]}','42','${data[1]}','${data[0]}','${data[86]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[87]}','43','${data[1]}','${data[0]}','${data[88]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[89]}','44','${data[1]}','${data[0]}','${data[90]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[91]}','45','${data[1]}','${data[0]}','${data[92]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[93]}','46','${data[1]}','${data[0]}','${data[94]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[95]}','47','${data[1]}','${data[0]}','${data[96]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[97]}','48','${data[1]}','${data[0]}','${data[98]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[99]}','49','${data[1]}','${data[0]}','${data[100]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[101]}','50','${data[1]}','${data[0]}','${data[102]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[103]}','51','${data[1]}','${data[0]}','${data[104]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[105]}','52','${data[1]}','${data[0]}','${data[106]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[107]}','53','${data[1]}','${data[0]}','${data[108]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[109]}','54','${data[1]}','${data[0]}','${data[110]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[111]}','55','${data[1]}','${data[0]}','${data[112]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[113]}','56','${data[1]}','${data[0]}','${data[114]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[115]}','57','${data[1]}','${data[0]}','${data[116]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[117]}','58','${data[1]}','${data[0]}','${data[118]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[119]}','59','${data[1]}','${data[0]}','${data[120]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[121]}','60','${data[1]}','${data[0]}','${data[122]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[123]}','61','${data[1]}','${data[0]}','${data[124]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[125]}','62','${data[1]}','${data[0]}','${data[126]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[127]}','63','${data[1]}','${data[0]}','${data[128]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[129]}','64','${data[1]}','${data[0]}','${data[130]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[131]}','65','${data[1]}','${data[0]}','${data[132]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[133]}','66','${data[1]}','${data[0]}','${data[134]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[135]}','67','${data[1]}','${data[0]}','${data[136]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[137]}','68','${data[1]}','${data[0]}','${data[138]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[139]}','69','${data[1]}','${data[0]}','${data[140]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[141]}','70','${data[1]}','${data[0]}','${data[142]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[143]}','71','${data[1]}','${data[0]}','${data[144]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[145]}','72','${data[1]}','${data[0]}','${data[146]}')`); 
+    client.query(`update empleados set EEOContestado ='true' where id = '${data[1]}'`);   
+    client.query(`insert into periodos(fk_empleados,periodo,encuesta) values ('${data[1]}','${data[0]}','EEO')`);
 
-          return  client       
-      },
-    )
+    client
+        .query(`select Max(id) as idMaximo from correos where fk_empleados='${[data[1]]}' and encuesta = "EEO"`,
+          function (error, redults, fields) {
+          var string=JSON.stringify(redults);
+        var resultados1 =  JSON.parse(string); 
+        resolve(resultados1)                
+        var maximo = resultados1[0].idMaximo
+        client.query(`update correos set contestado ='true' where id = ${maximo} `); 
+        })
+       resolve({message:"registro exitoso"}) 
     })
   };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const AtsPoliticaPrivacidad = async data => {
-console.log("data" , data)  
 return  new Promise((resolve, reject) => {
   client
   .query(`select * from  empleados where correo='${data[0]}'and atsContestado='false'`,
@@ -1211,9 +738,6 @@ return  new Promise((resolve, reject) => {
       var resultados =  JSON.parse(string); 
       // console.log("los resultados son " , resultados)
       resolve(resultados[0])  
-      client
-      .query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[1]}','11','${resultados[0].id}','${data[2]}')`); 
-      return  client
     }else{
       resolve({message:"usuario incorrecto"})
     }
@@ -1235,11 +759,7 @@ const RPPoliticaPrivacidad = async data => {
         if(results[0]){
         var string=JSON.stringify(results);
         var resultados =  JSON.parse(string); 
-        // console.log("los resultados son " , resultados[0])
         resolve(resultados[0])  
-          client
-          .query(`insert into respuestasRP(Respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[1]}','47','${resultados[0].id}','${data[2]}','${0}')`); 
-          return  client
         }else{
           resolve({message:"usuario incorrecto"})
         }
@@ -1258,9 +778,6 @@ const EEOPoliticaPrivacidad = async data => {
         var string=JSON.stringify(results);
         var resultados =  JSON.parse(string); 
         resolve(resultados[0]) 
-          client
-          .query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[1]}','73','${resultados[0].id}','${data[2]}','${0}')`); 
-          return  client
         }else{
           resolve({message:"usuario incorrecto"})
         }
@@ -2030,7 +1547,8 @@ const GetresultGlobalSurveyEEO = async data => {
                 client.query(`select * from eventos where Descripcion = '${data[0]}' and fk_administrador ='${data[6]}'`,
                 function (error, results, fields) {
                 var string=JSON.stringify(results);
-                var resultados =  JSON.parse(string);
+                var re
+                sultados =  JSON.parse(string);
                 if(resultados[0]){
                   resolve({message:"periodo existente"}) 
                 }else{
@@ -2051,8 +1569,13 @@ const GetresultGlobalSurveyEEO = async data => {
                 var string=JSON.stringify(results);
                 var resultados =  JSON.parse(string);
                 // console.log("los resu son", resultados)
-                resolve(resultados
-                ) 
+                if(resultados[0]){
+                  resolve(resultados
+                    ) 
+                }else{
+                  resolve([{message:"Periodo finalizado"}]) 
+                }
+               
               },
             )
             })
@@ -3266,7 +2789,6 @@ const GetresultGlobalSurveyEEO = async data => {
           })
           };  
         const Transactions = async data => {
-         
           return new Promise((resolve,reject) => {
             if(data[0]&& data[1] && data[2] && data[3] && data[4]){
             client.query(`insert into transaccionesVisitas(fechaIngreso,horaIngreso,direccionIP,estadoTransaccion,rfcAcceso,fk_administrador)  values ('${data[0]}' , '${data[1]}' , '${data[2]}' , 'Transaccion exitosa','${data[3]}','${data[4]}')`)
@@ -3277,7 +2799,27 @@ const GetresultGlobalSurveyEEO = async data => {
             }
           })         
           };  
+        const TransactionsMadmin = async data => {
+            console.log("dataTansaccionsmadmin" , data)
+          return new Promise((resolve,reject) => {
+            if(data[0]&& data[1] && data[2] && data[3] && data[4]){
+            client.query(`insert into transaccionesVisitas_madmin(fechaIngreso,horaIngreso,direccionIP,estadoTransaccion,correoAcceso,fk_superusuario)  values ('${data[0]}' , '${data[1]}' , '${data[2]}' , 'Transaccion exitosa','${data[3]}','${data[4]}')`)
+            resolve({message:"registro exitoso"})
+            }else {
+              client.query(`insert into transaccionesVisitas_madmin(fechaIngreso,horaIngreso,direccionIP,estadoTransaccion,correoAcceso,fk_superusuario) values ('${data[0]}' , '${data[1]}' , '${data[2]}' , 'Transaccion fallida','${data[3]}','${0}')`)
+              resolve({message:"registro exitoso con sesion fallida"})
+            }
+          })         
+          }; 
+        const TransactionsEval= async data => {
+          return new Promise((resolve,reject) => {
+            client.query(`insert into transaccionesVisitas_eval(fechaIngreso,horaIngreso,direccionIP,estadoTransaccion,correoAcceso,evaluacion)  values ('${data[0]}' , '${data[1]}' , '00000' , 'Transaccion exitosa','${data[2]}','${data[3]}')`)
+            resolve({message:"Transaccion exitosa"})
+          })         
+        };  
       module.exports = {
+        TransactionsEval,
+        TransactionsMadmin,
         Transactions,
         GetTablePeriodo,
         GetEmpleadosGlobales,
@@ -3371,34 +2913,11 @@ const GetresultGlobalSurveyEEO = async data => {
         registerRazonS,
         getUsers,
         AtsPage1,
-        AtsPage2,
-        AtsPage3,
         AtsPage4,
-
-        RPPage1,
-        RPPage2,
-        RPPage3,
-        RPPage4,
-        RPPage5,
-        RPPage6,
-        RPPage7,
         RPPage8,
         
         RPValidadorPage7,
         RPValidadorPage8,
-        EEOPage1,
-        EEOPage2,
-        EEOPage3,
-        EEOPage4,
-        EEOPage5,
-        EEOPage6,
-        EEOPage7,
-        EEOPage8,
-        EEOPage9,
-        EEOPage10,
-        EEOPage11,
-        EEOPage12,
-        EEOPage13,
         EEOPage14,
         AtsPoliticaPrivacidad,
         RPPoliticaPrivacidad,

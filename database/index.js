@@ -11,8 +11,6 @@ var con = mysql.createPool({
 console.log("connected!")
 )
 
-
-
  module.exports=con;
 
 //  var mysql = require('mysql');
