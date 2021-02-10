@@ -887,14 +887,13 @@ const getUsers = async data => {
     })
 };
 const ResultSingleSurvey = async data => {
-console.log("query",`select * from respuestasats inner join empleados on respuestasats.fk_empleados = empleados.id where respuestasats.fk_empleados = '${data[0]}' and respuestasats.periodo = '${data[1]}' `)
   return  new Promise((resolve, reject) => {
       client
       .query(`select * from respuestasats inner join empleados on respuestasats.fk_empleados = empleados.id where respuestasats.fk_empleados = '${data[0]}' and respuestasats.periodo = '${data[1]}' `,
         function (error, results, fields) {
         var string=JSON.stringify(results);
         var resultados =  JSON.parse(string); 
-        // console.log("los resultados single survey  son ",resultados )
+        console.log("los resultados single survey  son ",resultados )
         resolve(resultados
         ) 
       
