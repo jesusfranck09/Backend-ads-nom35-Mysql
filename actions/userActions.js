@@ -435,7 +435,7 @@ return new Promise((resolve, reject) => {
       client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','15','${data[3]}','${data[2]}')`);
       client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','16','${data[3]}','${data[2]}')`);
       client.query(`update empleados set ATSContestado = 'true' where id = '${data[3]}'`);
-      client.query(`insert into periodos(fk_empleados,periodo,encuesta) values ('${data[3]}','${data[2]}','ATS')`);    
+      client.query(`insert into periodos(fk_empleados,periodo,encuesta,fechaEvaluacion) values ('${data[3]}','${data[2]}','ATS','${data[5]}')`);    
 
       client
         .query(`select Max(id) as idMaximo from correos where fk_empleados='${[data[3]]}' and encuesta = "ATS"`,
@@ -452,7 +452,7 @@ return new Promise((resolve, reject) => {
     };
 const AtsPage4 = async data => {      
   return new Promise((resolve, reject) => {
-      console.log("data[4] " , data[4])
+      console.log("data[4] ")
       client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[2]}','11','${data[1]}','${data[0]}')`);
       client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[3]}','1','${data[1]}','${data[0]}')`); 
       client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[4]}','2','${data[1]}','${data[0]}')`);
@@ -470,7 +470,7 @@ const AtsPage4 = async data => {
       client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[16]}','15','${data[1]}','${data[0]}')`);
       client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[17]}','16','${data[1]}','${data[0]}')`);
       client.query(`update empleados set ATSContestado = 'true' where id = '${data[1]}'`);
-      client.query(`insert into periodos(fk_empleados,periodo,encuesta) values ('${data[1]}','${data[0]}','ATS')`);    
+      client.query(`insert into periodos(fk_empleados,periodo,encuesta,fechaEvaluacion) values ('${data[1]}','${data[0]}','ATS','${data[19]}')`);    
 
       console.log("data[18] " , data[18])
       if(data[18]=='Si'){
@@ -548,7 +548,7 @@ const RPPage8 = async data => {
     client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[97]}','46','${data[1]}','${data[0]}','${data[98]}')`); 
 
     client.query(`update empleados set RPContestado ='true' where id = '${data[1]}'`);   
-    client.query(`insert into periodos(fk_Empleados,periodo,encuesta) values ('${data[1]}','${data[0]}','RP')`);
+    client.query(`insert into periodos(fk_Empleados,periodo,encuesta,fechaEvaluacion) values ('${data[1]}','${data[0]}','RP','${data[99]}')`);
 
     client
         .query(`select Max(id) as idMaximo from correos where fk_Empleados='${[data[1]]}' and encuesta = "RP"`,
@@ -710,8 +710,11 @@ const EEOPage14 = async data => {
     client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[141]}','70','${data[1]}','${data[0]}','${data[142]}')`); 
     client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[143]}','71','${data[1]}','${data[0]}','${data[144]}')`); 
     client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[145]}','72','${data[1]}','${data[0]}','${data[146]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[147]}','74','${data[1]}','${data[0]}','${data[148]}')`); 
+    client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[149]}','75','${data[1]}','${data[0]}','${data[150]}')`); 
+
     client.query(`update empleados set EEOContestado ='true' where id = '${data[1]}'`);   
-    client.query(`insert into periodos(fk_empleados,periodo,encuesta) values ('${data[1]}','${data[0]}','EEO')`);
+    client.query(`insert into periodos(fk_empleados,periodo,encuesta,fechaEvaluacion) values ('${data[1]}','${data[0]}','EEO','${data[151]}')`);
 
     client
         .query(`select Max(id) as idMaximo from correos where fk_empleados='${[data[1]]}' and encuesta = "EEO"`,
@@ -2816,7 +2819,20 @@ const GetresultGlobalSurveyEEO = async data => {
             resolve({message:"Transaccion exitosa"})
           })         
         };  
+
+        const updateEvalEEO= async data => {
+          console.log("data" , data)
+          return new Promise((resolve,reject) => {
+            for(var i = 1; i <= data.length; i ++ ){
+              // console.log("data[i]" , data[i])
+              // client.query(`insert into transaccionesVisitas_eval(fechaIngreso,horaIngreso,direccionIP,estadoTransaccion,correoAcceso,evaluacion)  values ('${data[0]}' , '${data[1]}' , '00000' , 'Transaccion exitosa','${data[2]}','${data[3]}')`)
+              // resolve({message:"Transaccion exitosa"})
+            }
+            
+          })         
+        };  
       module.exports = {
+        updateEvalEEO,
         TransactionsEval,
         TransactionsMadmin,
         Transactions,
