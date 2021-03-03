@@ -375,7 +375,14 @@ const updateEvalEEO = async(_, { data }) => {
     const transactionsEval = await  actions.updateEvalEEO(divisiones)
     return transactionsEval;
 };
+const deleteEval = async(_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    const transactionsEval = await  actions.DeleteEval(divisiones)
+    return transactionsEval;
+};
 module.exports = {
+    deleteEval,
     updateEvalEEO,
     transactionsEval,
     transactionsMadmin,

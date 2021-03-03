@@ -55,6 +55,7 @@ scalar Upload
     getAllSuperUser(data:[String!]):[superUser]
     getEmpleadosGlobales(data:[String!]):[Employees]
     getTablePeriodo(data:[String!]):[tablePeriodo]
+    getSingleEmployee(data:[String!]):[JsonEmployee]
  }        
  
 type Mutation {
@@ -120,6 +121,7 @@ type Mutation {
   transactionsMadmin(data:[String!]):Data
   transactionsEval(data:[String!]):Data
   updateEvalEEO(data:[String!]):Data
+  deleteEval(data:[String!]):JsonEmployee
 }
 
 type Url {
@@ -275,6 +277,9 @@ type  JsonEmployee{
   EEOContestado:String
   CentroTrabajo:String,
   ATSDetectado:String
+  periodo:String
+  message:String
+  encuesta:String
 }
 
 type Auth {

@@ -1426,7 +1426,6 @@ const GetEmployeesResolvesRP = async data => {
   const GetEmployeesResolvesATS = async data => { 
 
     return new Promise((resolve, reject) => {
-      console.log("data" ,data)
         if(data[0]){
           client.query(`select * from empleados inner join periodos on periodos.fk_empleados = empleados.id where empleados.fk_Administrador='${data[0]}'  and empleados.EmpleadoActivo='true' and periodos.encuesta='ATS'`,                                                                                   
           function (error, results, fields) {
@@ -2831,7 +2830,43 @@ const GetresultGlobalSurveyEEO = async data => {
             
           })         
         };  
+        const GetSingleEmployee= async data => {
+          return new Promise((resolve,reject) => {
+            client.query(`select * from administrador inner join empleados on empleados.fk_administrador =  administrador.id inner join periodos on periodos.fk_empleados  =  empleados.id where  administrador.id='${data[0]}' `, function(err,results,fields){
+              var string = JSON.stringify(results)
+              var resultados = JSON.parse(string)
+              resolve(resultados)
+            })
+          })         
+        }; 
+        const DeleteEval= async data => {
+          return new Promise((resolve,reject) => {
+            if(data[2]  == 'ATS'){
+              client.query(`update empleados set atsContestado = 'false' where  id = '${data[0]}'`)
+              client.query(`update empleados set atsDetectado = 'false' where  id = '${data[0]}'`)
+              client.query(`delete from respuestasats where fk_empleados = '${data[0]}' and Periodo  = '${data[1]}'`)
+              client.query(`delete from periodos where fk_empleados = '${data[0]}' and encuesta  = '${data[2]}'`)
+              client.query(` update correos set contestado = 'false' where fk_empleados = '${data[0] }' and encuesta ='${data[2]}'`)
+
+            } else if(data[2]  == 'RP'){
+              client.query(`update empleados set RPContestado = 'false' where  id = '${data[0]}'`)
+              client.query(`delete from respuestasrp where fk_empleadosrp = '${data[0]}' and Periodo  = '${data[1]}'`)
+              client.query(`delete from periodos where fk_empleados = '${data[0]}' and encuesta  = '${data[2]}'`)
+              client.query(` update correos set contestado = 'false' where fk_empleados = '${data[0] }' and encuesta ='${data[2]}'`)
+
+            }else if(data[2]  == 'EEO'){
+              client.query(`update empleados set EEOContestado = 'false' where  id = '${data[0]}'`)
+              client.query(`delete from respuestaseeo where fk_empleados = '${data[0]}' and Periodo  = '${data[1]}'`)
+              client.query(`delete from periodos where fk_empleados = '${data[0]}' and encuesta  = '${data[2]}'`)
+              client.query(` update correos set contestado = 'false' where fk_empleados = '${data[0] }' and encuesta ='${data[2]}'`)
+
+            }
+            resolve({message:"Evaluación removida con éxito"})
+          })         
+        }; 
       module.exports = {
+        DeleteEval,
+        GetSingleEmployee,
         updateEvalEEO,
         TransactionsEval,
         TransactionsMadmin,

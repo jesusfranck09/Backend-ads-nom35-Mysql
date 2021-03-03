@@ -349,7 +349,15 @@ const getTablePeriodo = async(_, { data }) => {
     return table;
 };
 
+const getSingleEmployee = async(_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    const table = await  actions.GetSingleEmployee(divisiones)
+    return table;
+};
+
      module.exports = {
+        getSingleEmployee,
         getTablePeriodo,
         getEmpleadosGlobales,
         getAllSuperUser,
