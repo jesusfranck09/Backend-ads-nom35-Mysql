@@ -1548,8 +1548,7 @@ const GetresultGlobalSurveyEEO = async data => {
                 client.query(`select * from eventos where Descripcion = '${data[0]}' and fk_administrador ='${data[6]}'`,
                 function (error, results, fields) {
                 var string=JSON.stringify(results);
-                var re
-                sultados =  JSON.parse(string);
+                var resultados =  JSON.parse(string);
                 if(resultados[0]){
                   resolve({message:"periodo existente"}) 
                 }else{
