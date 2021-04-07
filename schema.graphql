@@ -465,6 +465,7 @@ type respuestasATS{
     CentroTrabajo:String,
     fk_administrador:String,
     fk_correos:String
+    ATSDetectado:String
 }
 
 type Admin {
