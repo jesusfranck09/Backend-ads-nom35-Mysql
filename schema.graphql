@@ -101,7 +101,7 @@ type Mutation {
   updateDeptos(data:[String]!):Data! 
   updatePuestos(data:[String]!):Data! 
   addPeriodo(data:[String]!):Data! 
-  deletePeriodo(data: [String]!):[Data]
+  deletePeriodo(data: [String]!):Data
   addPeriodoInicial(data: [String]!):Data
   addAdminEmpresa(data: [String]!):Auth
   editDataAdmin(data:[String!]):Data
@@ -436,6 +436,7 @@ type respuestasEEO {
     RotacionTurnos:String,
     fk_administrador:String,
     fk_correos:String
+    Periodo:String
 }
 type respuestasATS{
     id:String,
@@ -464,8 +465,9 @@ type respuestasATS{
     RotacionTurnos:String,
     CentroTrabajo:String,
     fk_administrador:String,
-    fk_correos:String
-    ATSDetectado:String
+    fk_correos:String,
+    ATSDetectado:String,
+    Periodo:String
 }
 
 type Admin {

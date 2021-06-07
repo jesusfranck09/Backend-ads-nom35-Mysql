@@ -1180,42 +1180,8 @@ const DeletePuestos = async data => {
 
 const UpdateEmployees = async data => { 
   return new Promise((resolve, reject) => {
-    client.query(`select  *  from  administrador where correo='${data[12]}'`,
-  function (error, results, fields) {
-      var string=JSON.stringify(results);
-      var resultados =  JSON.parse(string); 
-
-      client.query(`select  *  from  sucursales where nombreSucursal='${data[6]}' and fk_administrador =  '${resultados[0].id}' and SucursalActiva='true'`,
-      function (error, results, fields) {
-
-        if(results[0]){
-          client.query(`select  *  from  departamentos where nombre='${data[8]}' and fk_administrador =  '${resultados[0].id}' and DepartamentoActivo='true'`,
-          function (error, results, fields) {
-            if(results[0]){
-              client.query(`select  *  from  puestos where nombre='${data[9]}' and fk_administrador =  '${resultados[0].id}' and PuestoActivo='true'`,
-              function (error, results, fields) {
-                if(results[0]){
-                  client.query(`update empleados set nombre='${data[0].toUpperCase() }',ApellidoP ='${data[1].toUpperCase() }',ApellidoM='${data[2].toUpperCase() }',Curp='${data[3].toUpperCase() }',RFC='${data[4].toUpperCase() }', Sexo ='${data[5].toUpperCase() }',CentroTrabajo='${data[6].toUpperCase() }',correo='${data[7].toUpperCase() }',AreaTrabajo='${data[8].toUpperCase() }',Puesto='${data[9].toUpperCase() }',TipoPuesto= '${data[10].toUpperCase() }'  where id ='${data[11]}' and fk_administrador='${resultados[0].id}'`)
-                  resolve({message:"actualizacion exitosa"}) 
-                  return client
-                    }else{
-                      resolve({message:"puesto no encontrado"}) 
-                    }  
-                    },
-                  )
-                }else{
-                  resolve({message:"departamento no encontrado"}) 
-                }  
-                },
-              )
-            }else{
-              resolve({message:"Sucursal no encontrada"})  
-            }  
-            },
-          )
-
-       },
-      )
+    client.query(`update empleados set nombre='${data[0].toUpperCase() }',ApellidoP ='${data[1].toUpperCase() }',ApellidoM='${data[2].toUpperCase() }',Curp='${data[3].toUpperCase() }',RFC='${data[4].toUpperCase() }', Sexo ='${data[5].toUpperCase() }',CentroTrabajo='${data[6].toUpperCase() }',correo='${data[7].toUpperCase() }',AreaTrabajo='${data[8].toUpperCase() }',Puesto='${data[9].toUpperCase() }',TipoPuesto= '${data[10].toUpperCase() }'  where id ='${data[11]}' and fk_administrador='${data[12]}'`)
+    resolve({message:"actualizacion exitosa"}) 
     })
   };
 
@@ -1424,16 +1390,17 @@ const GetEmployeesResolvesRP = async data => {
   };    
 
   const GetEmployeesResolvesATS = async data => { 
-
+    console.log("data" , data)
     return new Promise((resolve, reject) => {
         if(data[0]){
-          client.query(`select * from empleados inner join periodos on periodos.fk_empleados = empleados.id where empleados.fk_Administrador='${data[0]}'  and empleados.EmpleadoActivo='true' and periodos.encuesta='ATS'`,                                                                                   
+          client.query(`select * from empleados inner join periodos on periodos.fk_empleados = empleados.id where empleados.fk_Administrador='${data[0]}' and periodos.encuesta='ATS'`,                                                                                   
           function (error, results, fields) {
             if(error) {
               console.log("error" , error)
             }
             var string=JSON.stringify(results);
             var resultados =  JSON.parse(string);   
+            console.log("resultados" ,resultados)
             resolve(resultados)
           //  console.log("resultados" , resultados) 
             return client
@@ -1582,17 +1549,16 @@ const GetresultGlobalSurveyEEO = async data => {
           };   
 
         const DeletePeriodo = async data => {
-          // console.log("la data es ",data)
           return  new Promise((resolve, reject) => {
-              client.query(`update eventos set eventoActivo='false' where fk_Administrador='${data[1]}' and Descripcion='${data[0]}' `,
-              client.query(`update empleados set ATSContestado='false',RPContestado='false',EEOContestado='false' where fk_Administrador='${data[1]}'`),
+            console.log("eventos" , data)
+              client.query(`update eventos set eventoActivo='false' where fk_Administrador='${data[1]}' and Descripcion='${data[0]}' `)
+              // client.query(`update empleados set ATSContestado='false',RPContestado='false',EEOContestado='false' where fk_Administrador='${data[1]}'`),
              
               resolve({message:"evento Actualizado"})
-            )
+            // )
             })
           };   
   
-    
         const GetPeriodoDesabilited = async data => {
           // console.log("la data es ",data)
           return  new Promise((resolve, reject) => {
@@ -1607,7 +1573,6 @@ const GetresultGlobalSurveyEEO = async data => {
             )
             })
           };  
-
 
             const GetEventos = async data => {
 
@@ -2011,34 +1976,34 @@ const GetresultGlobalSurveyEEO = async data => {
           })
           }; 
         const UpdatePeriodo = async data => {
-          // console.log("data" , data)
+          console.log("data" , data)
           return  new Promise((resolve, reject) => {
-            client.query(`select * from eventos where fk_administrador = '${data[5]}' and Descripcion = '${data[0]}'`,
-            function (error, results, fields) {
-            if (error) reject(error) 
-            var string=JSON.stringify(results);
-            var resultados =  JSON.parse(string);       
-            if(resultados[0]){
-              resolve({message:"evento existente"})
-          }else{
-            client.query(`select * from eventos where fk_administrador = '${data[5]}' and EventoActivo = 'true'`,
-            function (error, results, fields) {
-            if (error) reject(error) 
-            var string=JSON.stringify(results);
-            var resultados =  JSON.parse(string);       
-            if(resultados[0]){
-            client.query(`update eventos set eventoFinal='${data[1]}', alerta1 = '${data[2]}' , alerta2='${data[3]}', alerta3='${data[4]}' , Descripcion ='${data[0]}' where fk_administrador = '${data[5]}' and eventoActivo ='true'`)
-              resolve({message:"evento Actualizdo"})
-          }else{
-             resolve({message:"no hay eventos"})
-            }   
-             
-          },
-        )
-            }   
-             
-          },
-        )
+                client.query(`select * from eventos where fk_administrador = '${data[5]}' and Descripcion = '${data[0]}'`,
+                    function (error, results, fields) {
+                    if (error) reject(error) 
+                    var string=JSON.stringify(results);
+                    var resultados =  JSON.parse(string);       
+                    if(resultados[0]){
+                      resolve({message:"evento existente"})
+                    }else{
+                      client.query(`select * from eventos where fk_administrador = '${data[5]}' and EventoActivo = 'true'`,
+                      function (error, results, fields) {
+                      if (error) reject(error) 
+                      var string=JSON.stringify(results);
+                      var resultados =  JSON.parse(string);       
+                      if(resultados[0]){
+                      client.query(`update eventos set eventoFinal='${data[1]}', alerta1 = '${data[2]}' , alerta2='${data[3]}', alerta3='${data[4]}' , Descripcion ='${data[0]}' where fk_administrador = '${data[5]}' and eventoActivo ='true'`)
+                        resolve({message:"evento Actualizdo"})
+                    }else{
+                    resolve({message:"no hay eventos"})
+                    }   
+                    
+                  },
+                )
+                }   
+                
+              },
+            )
 
           })
           }; 
@@ -2096,7 +2061,6 @@ const GetresultGlobalSurveyEEO = async data => {
           };   
 
         const GetresultGlobalSurveyATS = async data => {
-          console.log("la data que llega" , data)
           return  new Promise((resolve, reject) => {
               client.query(`select * from empleados inner join respuestasats on respuestasats.fk_empleados= empleados.id where empleados.id =' ${data[0]}'  and respuestasats.periodo='${data[1]}'`,
                 function (error, results, fields) {
