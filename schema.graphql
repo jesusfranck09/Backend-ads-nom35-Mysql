@@ -56,6 +56,8 @@ scalar Upload
     getEmpleadosGlobales(data:[String!]):[Employees]
     getTablePeriodo(data:[String!]):[tablePeriodo]
     getSingleEmployee(data:[String!]):[JsonEmployee]
+    getEmployeesPerido(data:[String!]):[tablePeriodo]
+
  }        
  
 type Mutation {
@@ -603,7 +605,13 @@ type correos{
 }
 
 type tablePeriodo{
-   idPeriodo:String
+    id:String
+    nombre:String
+    ApellidoP:String
+    ApellidoM:String
+    CentroTrabajo:String
+    idPeriodo:String
     periodo:String
     encuesta:String
+    fk_empleados:String
 }

@@ -6,9 +6,6 @@ const { createToken } = require('../utils');
 var nodemailer = require('nodemailer');
 
 const signup =   (user) => {
-
-  console.log("datos signup" , user)
-  // console.log("fecha", new Date(new Date().toUTCString()))
   const utcDate2 = new Date()
   var fechaRegistro =  utcDate2.toGMTString()
   return new Promise((resolve, reject) => {
@@ -42,7 +39,6 @@ const signup =   (user) => {
                     client.query(`insert into superusuario (nombre,apellidos,RFC,RazonSocial,telefono,correo,contraseña,activo,fechaRegistro,fk_paquetes) values('${user[0]}','${user[1]}','${user[2]}','${user[3]}','${user[4]}','${user[5]}','${hash}','true','${fechaRegistro}','${user[9]}')`); 
 
                      client.query(`insert into ventasAdminAlfa (fk_adminAlfa,fk_paquetes,fechaVenta,RazonSocial,telefono,RFC) values('${user[7]}','${user[9]}','${user[8]}','${user[3].toUpperCase() }','${user[4] }','${user[2].toUpperCase() }')`)
-                    // console.log(hash)
                     resolve({ message: 'Signup exitoso',token:hash})
             
                     client
@@ -149,7 +145,6 @@ const SignupAdminAlfa =   (user) => {
               if (err) {
                 throw err
               } else {
-                // console.log(hash)
                 resolve({ message: 'Signup exitoso',token:hash})
                client
                 .query(`insert into adminAlfa (nombreAdmin,apellidosAdmin,correo,contraseña) values  ('${user.first_name.toUpperCase() }','${user.last_name.toUpperCase() }','${user.email}','${hash}')`); 
@@ -200,7 +195,6 @@ const  login = async (email,password) => {
               });
               return result
             }else{
-              console.log("correo", correo) 
               resolve({correo:correo,message:"usuario y contraseña incorrectos",token:"no hay token"})
             }       
         })
@@ -240,7 +234,6 @@ const  login = async (email,password) => {
               }       
           })
         }else{
-          // console.log("no entro")  
           resolve({message:"usuario y contraseña incorrectos",token:"no hay token"})
         }
         },
@@ -252,23 +245,18 @@ const  login = async (email,password) => {
     const  LoginEmpresas = async (rfc,password) => {
     
       let rfcData =  rfc
-      console.log("rfc" , rfc)
       return new Promise((resolve, reject) => {
-        console.log("rfc", rfc,"password"  , password)
         if(!rfc || !password){
-          // console.log("no hay token nun¿infin dato")
           resolve({message:"ningun dato",token:"no hay token"})
       
         }
     
           if(rfc,password){
-            // console.log("la contraseña" , password)
             client
             .query(`select * from  administrador where RFC='${rfc}'`,
               function (error, results, fields) {
                   var string=JSON.stringify(results);
                   var resultados =  JSON.parse(string); 
-                  // console.log("resukltados" , resultados)    
                     if(resultados[0]){
                     bcrypt.compare(password,resultados[0].contraseña, function(err, result) {
           
@@ -298,7 +286,6 @@ const  login = async (email,password) => {
                    
               })
             }else{
-              console.log("no entro")  
               resolve({  RFC:rfcData,message:"usuario y contraseña incorrectos",token:"no hay token"})
             }
               
@@ -311,20 +298,14 @@ const  login = async (email,password) => {
         }
 
     const registerEm = (data) => {
-      console.log("data empleados", data)
       var correo = data[8].toUpperCase().replace(/ /g, "")
-      // console.log("data register single em" , data)
       return new Promise( (resolve, reject) => {
-        // console.log(`select * from  empleados where correo='${data[8]}'  and fk_administrador='${data[20]}'`)
         client
         .query(`select * from  empleados where correo='${correo}'  and fk_administrador='${data[20]}'`,
         function (error, results, fields) {
-        //  console.log(`select * from  empleados where correo='${correo}'  and fk_administrador='${data[20]}'`)
-          // console.log("los results" , results)
           if(results[0]){
             var string=JSON.stringify(results);
             var resultados =  JSON.parse(string); 
-            // console.log("entro", resultados)
             resolve({message:"correo existente",
             nombreExistente:data[0],
             apellidoPExistente:data[1],
@@ -345,7 +326,6 @@ const  login = async (email,password) => {
                if (error) reject(error) 
                var strings=JSON.stringify(results);
                 var result=  JSON.parse(strings); 
-                // console.log("resultados de la consulta dep" , results)
                if(result[0]){
                  client
                 .query(`select * from puestos where fk_administrador = '${data[20]}' and nombre='${data[10]}' `,
@@ -353,7 +333,6 @@ const  login = async (email,password) => {
                  if (error) reject(error) 
                  var stringss=JSON.stringify(results);
                  var resu =  JSON.parse(stringss); 
-                //  console.log("resultados de la consulta pue" , results)
                  if(resu[0]){
                      client
                   .query(`insert into empleados (nombre,ApellidoP,ApellidoM,Curp,RFC,FechaNacimiento,Sexo,EstadoCivil,CentroTrabajo,correo,AreaTrabajo,Puesto,TipoPuesto,NivelEstudios,TipoPersonal,JornadaTrabajo,TipoContratacion,TiempoPuesto,ExperienciaLaboral,RotacionTurnos,fk_administrador,ATSContestado,RPContestado,EEOContestado,ATSDetectado,EmpleadoActivo) values ('${data[0].toUpperCase() }', '${data[1].toUpperCase() }', '${data[2].toUpperCase() }', '${data[3].toUpperCase() }', '${data[4].toUpperCase() }', '${data[5].toUpperCase() }', '${data[6].toUpperCase() }', '${data[7].toUpperCase() }', '${data[19].toUpperCase() }','${correo}', '${data[9].toUpperCase() }', '${data[10].toUpperCase() }', '${data[11].toUpperCase() }', '${data[12].toUpperCase() }', '${data[13].toUpperCase() }', '${data[14].toUpperCase() }', '${data[15].toUpperCase() }', '${data[16].toUpperCase() }', '${data[17].toUpperCase() }', '${data[18].toUpperCase() }','${data[20].toUpperCase() }','false','false','false','false','true')`); 
@@ -365,7 +344,6 @@ const  login = async (email,password) => {
                   });
 
                  }else{
-                  //  console.log("data en la posicion 10" , data [10])
                   resolve({
                      
                     valor1:data[10],
@@ -452,7 +430,6 @@ return new Promise((resolve, reject) => {
     };
 const AtsPage4 = async data => {      
   return new Promise((resolve, reject) => {
-      console.log("data[4] ")
       client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[2]}','11','${data[1]}','${data[0]}')`);
       client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[3]}','1','${data[1]}','${data[0]}')`); 
       client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[4]}','2','${data[1]}','${data[0]}')`);
@@ -471,8 +448,6 @@ const AtsPage4 = async data => {
       client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[17]}','16','${data[1]}','${data[0]}')`);
       client.query(`update empleados set ATSContestado = 'true' where id = '${data[1]}'`);
       client.query(`insert into periodos(fk_empleados,periodo,encuesta,fechaEvaluacion) values ('${data[1]}','${data[0]}','ATS','${data[19]}')`);    
-
-      console.log("data[18] " , data[18])
       if(data[18]=='Si'){
         client.query(`update empleados set ATSDetectado='true' where id = ${data[1]} `);    
       }
@@ -494,8 +469,6 @@ const AtsPage4 = async data => {
 
 
 const RPPage8 = async data => {
-
-  console.log("data page 8" , data)
   return new Promise((resolve, reject) => {
     client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[2]}','47','${data[1]}','${data[0]}','${0}')`); 
     client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[3]}','1','${data[1]}','${data[0]}','${data[4]}')`); 
@@ -566,10 +539,7 @@ const RPPage8 = async data => {
   
 
 const RPValidadorPage7 = async data => {
-
-  // console.log("useractions RPValidadorPage7" , data)
   return new Promise((resolve, reject) => {
-    
       client
       .query(`select * from  empleados where correo='${data[1]}'`,
       function (error, results, fields) {
@@ -577,7 +547,6 @@ const RPValidadorPage7 = async data => {
         var string=JSON.stringify(results);
         var resultados =  JSON.parse(string); 
         resolve(resultados)
-
         if(data[0]=="si"){
           client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[0]}','48','${resultados[0].id}','${data[2]}','${0}')`); 
           return  client   
@@ -739,7 +708,6 @@ return  new Promise((resolve, reject) => {
     if(results[0]){
       var string=JSON.stringify(results);
       var resultados =  JSON.parse(string); 
-      // console.log("los resultados son " , resultados)
       resolve(resultados[0])  
     }else{
       resolve({message:"usuario incorrecto"})
@@ -752,8 +720,6 @@ return  new Promise((resolve, reject) => {
 
 
 const RPPoliticaPrivacidad = async data => {
-  // console.log("datauseraction" ,  data)
-
   return  new Promise((resolve, reject) => {
       client
       .query(`select * from  empleados where correo='${data[0]}' and rpContestado='false'`,
@@ -792,7 +758,6 @@ const EEOPoliticaPrivacidad = async data => {
 
 
 const  SendMail = async (args) => {
-  // console.log("las args que llegan" , args)
   var str = args;
   var nombres = str.filter(function (item) {
     return !(parseInt(item) == item);
@@ -858,10 +823,7 @@ return  new Promise((resolve, reject) => {
         }
           
         else{
-          console.log("la info de envío exitoso" , info)
-          resolve({message:`envio exitoso a ${rows}`  },
-          
-          
+          resolve({message:`envio exitoso a ${rows}`  },          
           )
         }
       });
@@ -884,7 +846,6 @@ const getUsers = async data => {
         var string=JSON.stringify(results);
         var resultados =  JSON.parse(string); 
         resolve(resultados) 
-      //  console.log("resultados getusers",resultados)
       },
     )
     })
@@ -896,7 +857,6 @@ const ResultSingleSurvey = async data => {
         function (error, results, fields) {
         var string=JSON.stringify(results);
         var resultados =  JSON.parse(string); 
-        console.log("los resultados single survey  son ",resultados )
         resolve(resultados
         ) 
       
@@ -908,13 +868,11 @@ const ResultSingleSurvey = async data => {
 
 const ResultSingleSurveyRP = async data => {
     return  new Promise((resolve, reject) => {
-      console.log("query ",`select * from respuestasrp inner join empleados on respuestasrp.fk_empleadosrp = empleados.id where respuestasrp.fk_empleadosrp ='${data[0]}' and respuestasrp.periodo ='${data[1]}' `)
         client
         .query(`select * from respuestasrp inner join empleados on respuestasrp.fk_empleadosrp = empleados.id where respuestasrp.fk_empleadosrp ='${data[0]}' and respuestasrp.periodo ='${data[1]}' `,
           function (error, results, fields) {
           var string=JSON.stringify(results);
           var resultados =  JSON.parse(string); 
-          // console.log("los resultados single surveyats  son ",resultados )
           resolve(resultados
           ) 
         },
@@ -924,13 +882,11 @@ const ResultSingleSurveyRP = async data => {
 
 const ResultSingleSurveyEEO = async data => {
   return  new Promise((resolve, reject) => {
-  // console.log("el id del empleado es " , data[0])
       client
       .query(`select * from respuestaseeo inner join empleados on respuestaseeo.fk_empleados = empleados.id where respuestaseeo.fk_empleados = '${data[0]}' and respuestaseeo.periodo ='${data[1]}' `,
         function (error, results, fields) {
         var string=JSON.stringify(results);
         var resultados =  JSON.parse(string); 
-        // console.log("los resultados single survey  son ",resultados )
         resolve(resultados
         ) 
       },
@@ -940,9 +896,6 @@ const ResultSingleSurveyEEO = async data => {
 
 
 const GetAdmin = async data => {
-
-  // console.log("datauseraction" ,  data)
-
   return  new Promise((resolve, reject) => {
     client
     .query(`select empleados.id from empleados inner join administrador on empleados.fk_administrador = administrador.id where administrador.correo ='${data[0]}' `,
@@ -950,7 +903,6 @@ const GetAdmin = async data => {
       if (error) reject(error) 
       var string=JSON.stringify(results);
       var resultados =  JSON.parse(string); 
-      // console.log("los resultados son  " , resultados)
       resolve(resultados) 
     },
   )
@@ -963,11 +915,9 @@ return new Promise((resolve, reject) => {
   function (error, results, fields) {
     var string=JSON.stringify(results);
     var resultados =  JSON.parse(string); 
-    // console.log("los resultados de la primera consulta son " , resultados)
       client.query(`select count(id) as max from empleados where empleados.fk_administrador = ' ${resultados[0].id}'`,  function (error, valores, fields) {
       var val=JSON.stringify(valores);
       var valor =  JSON.parse(val); 
-      // console.log("los resultados de la segunda consulta son " , valor)
       resolve(valor) 
       return  client
     }) 
@@ -1003,20 +953,15 @@ const RegisterSucursales = async data => {
   };
 
 const GetSucursales = async data => { 
-  
-  // console.log("la data en useractions getsucursales es " , data)
   return new Promise((resolve, reject) => {
     client.query(`select  *  from  administrador where correo='${data}'`,
     function (error, results, fields) {
       var string=JSON.stringify(results);
       var resultados =  JSON.parse(string);   
-      
-      // console.log("el administrador es " , resultados[0].id)
-      client.query(`select  * from sucursales where fk_administrador ='${resultados[0].id}' and SucursalActiva='true'`,
+            client.query(`select  * from sucursales where fk_administrador ='${resultados[0].id}' and SucursalActiva='true'`,
       function (error, results, fields) {
           var string=JSON.stringify(results);
           var resultados =  JSON.parse(string);   
-          // console.log("los resultados son ", resultados)
           resolve(resultados)
           return client
         },
@@ -1027,7 +972,6 @@ const GetSucursales = async data => {
   };
 
 const RegisterApartments = async data => { 
-  // console.log("la data en useractions REGISTER aPARTMENT es " , data[1])
   return  new Promise((resolve, reject) => {
     client
     .query(`select * from  administrador where correo='${data[1]}' `,
@@ -1045,7 +989,6 @@ const RegisterApartments = async data => {
   };
 
 const GetDeptos = async data => { 
-  // console.log("la data en useractions getdeptos es " ,`select  *  from  administrador where correo='${data}'`)
   return new Promise((resolve, reject) => {
     client.query(`select  *  from  administrador where correo='${data}'`,
     function (error, results, fields) {
@@ -1081,7 +1024,6 @@ const RegisterPuesto = async data => {
   };
 
 const GetPuestos = async data => { 
-  // console.log("la data en useractions getpuestos es " , data)
   return new Promise((resolve, reject) => {
     client.query(`select  *  from  administrador where correo='${data}'`,
     function (error, results, fields) {
@@ -1100,7 +1042,6 @@ const GetPuestos = async data => {
   })
   };
 const DeleteEmployees = async data => { 
-// console.log("la data en delete es " , data)
 return new Promise((resolve, reject) => {
   client.query(`select  *  from  administrador where correo='${data[1]}'`,
   function (error, results, fields) {
@@ -1120,7 +1061,6 @@ return new Promise((resolve, reject) => {
 };
 
 const DeleteSucursales = async data => { 
-  // console.log("la data en deleteSucursales es " , data)
   return new Promise((resolve, reject) => {
     client.query(`select  *  from  administrador where correo='${data[1]}'`,
   function (error, results, fields) {
@@ -1139,7 +1079,6 @@ const DeleteSucursales = async data => {
   })
 };
 const DeleteDeptos = async data => { 
-  // console.log("la data en deleteSucursales es " , data)
   return new Promise((resolve, reject) => {
     client.query(`select  *  from  administrador where correo='${data[1]}'`,
     function (error, results, fields) {
@@ -1159,7 +1098,6 @@ const DeleteDeptos = async data => {
   };
 
 const DeletePuestos = async data => { 
-  // console.log("la data en deleteSucursales es " , data)
   return new Promise((resolve, reject) => {
     client.query(`select  *  from  administrador where correo='${data[1]}'`,
     function (error, results, fields) {
@@ -1187,7 +1125,6 @@ const UpdateEmployees = async data => {
 
 
 const UpdateSucursales = async data => { 
-  // console.log("la data en updatesucursales es  " , data)
   return new Promise((resolve, reject) => {
     client.query(`select  *  from  administrador where correo='${data[10]}'`,
   function (error, results, fields) {
@@ -1202,7 +1139,6 @@ const UpdateSucursales = async data => {
   };
 
 const UpdateDeptos = async data => { 
-  // console.log("la data en updateDeptos es  " , data)
   return new Promise((resolve, reject) => {
     client.query(`select  *  from  administrador where correo='${data[2]}'`,
     function (error, results, fields) {
@@ -1231,14 +1167,12 @@ const UpdatePuestos = async data => {
   })
   };    
 const GetPonderacion = async data => { 
-  // console.log("la data en getPonderacion es  " , data)
   return new Promise((resolve, reject) => {
     client.query(`select  *  from  ponderacionrp`,
     function (error, results, fields) {
       var string=JSON.stringify(results);
       var resultados =  JSON.parse(string);   
       resolve(resultados)
-    //  console.log("resultados" , resultados) 
       return client
     },
   )
@@ -1246,14 +1180,12 @@ const GetPonderacion = async data => {
   };      
 
 const GetPonderacionEEO = async data => { 
-  // console.log("la data en getPonderacion es  " , data)
   return new Promise((resolve, reject) => {
     client.query(`select  *  from  ponderacionEEO`,
     function (error, results, fields) {
       var string=JSON.stringify(results);
       var resultados =  JSON.parse(string);   
       resolve(resultados)
-      // console.log("resultados" , resultados) 
       return client
     },
   )
@@ -1261,41 +1193,35 @@ const GetPonderacionEEO = async data => {
   };
                                                                   
 const GetEmployeesResolvesSurveyATS = async data => { 
-  // console.log("la data en getPonderacion es  " , data)
   return new Promise((resolve, reject) => {
     client.query(`select  empleados.id,empleados.nombre,empleados.ApellidoP,empleados.ApellidoM,empleados.correo, empleados.ATSContestado from empleados where fk_Administrador='${data[0]}' and ATSContestado='true' and EmpleadoActivo='true'`,
   function (error, results, fields) {
       var string=JSON.stringify(results);
       var resultados =  JSON.parse(string);   
     resolve(resultados)
-    // console.log("resultados" , resultados) 
     return client
     },)
   })
   };
 const GetEmployeesResolvesSurveyRP = async data => { 
-  // console.log("la data en getPonderacion es  " , data)
   return new Promise((resolve, reject) => {
     client.query(`select  empleados.id,empleados.nombre,empleados.ApellidoP,empleados.ApellidoM,empleados.correo, empleados.RPContestado from empleados where fk_Administrador='${data[0]}' and RPContestado='true' and EmpleadoActivo='true'`,
     function (error, results, fields) {
       var string=JSON.stringify(results);
       var resultados =  JSON.parse(string);   
       resolve(resultados)
-      // console.log("resultados" , resultados) 
       return client
     },
   )
   })
   };
 const GetEmployeesResolvesSurveyEEO = async data => { 
-  // console.log("la data en getPonderacion es  " , data)
   return new Promise((resolve, reject) => {
     client.query(`select  empleados.id,empleados.nombre,empleados.ApellidoP,empleados.ApellidoM,empleados.correo, empleados.EEOContestado from empleados where fk_Administrador='${data[0]}' and EEOContestado='true' and EmpleadoActivo='true'`,
     function (error, results, fields) {
       var string=JSON.stringify(results);
       var resultados =  JSON.parse(string);   
       resolve(resultados)
-      // console.log("resultados" , resultados) 
       return client
     },
   )
@@ -1303,28 +1229,23 @@ const GetEmployeesResolvesSurveyEEO = async data => {
   };                  
                               
 const GetEmployeesResolvesSurveyATSFalse = async data => { 
-  // console.log("entro a false")
-    // console.log("la data en getPonderacionFalse es  " , data)
     return new Promise((resolve, reject) => {
       client.query(`select  empleados.id,empleados.nombre,empleados.ApellidoP,empleados.ApellidoM,empleados.correo, empleados.ATSContestado,empleados.CentroTrabajo from empleados where fk_Administrador='${data[0]}' and ATSContestado='false' and EmpleadoActivo='true'`,
     function (error, results, fields) {
         var string=JSON.stringify(results);
         var resultados =  JSON.parse(string);   
         resolve(resultados)
-        // console.log("resultados" , resultados) 
         return client
       },)
   })
   };
 const GetEmployeesResolvesSurveyRPFalse = async data => { 
-  // console.log("la data en getPonderacion es  " , data)
   return new Promise((resolve, reject) => {
     client.query(`select  empleados.id,empleados.nombre,empleados.ApellidoP,empleados.ApellidoM,empleados.correo, empleados.RPContestado,empleados.CentroTrabajo from empleados where fk_Administrador='${data[0]}' and RPContestado='false' and EmpleadoActivo='true'`,
     function (error, results, fields) {
       var string=JSON.stringify(results);
       var resultados =  JSON.parse(string);   
       resolve(resultados)
-      // console.log("resultados" , resultados) 
       return client
     },
   )
@@ -1332,28 +1253,24 @@ const GetEmployeesResolvesSurveyRPFalse = async data => {
   };        
 
 const GetEmployeesResolvesSurveyEEOFalse = async data => { 
-  // console.log("la data en getPonderacion es  " , data)
   return new Promise((resolve, reject) => {
     client.query(`select  empleados.id,empleados.nombre,empleados.ApellidoP,empleados.ApellidoM,empleados.correo, empleados.EEOContestado,empleados.CentroTrabajo from empleados where fk_Administrador='${data[0]}' and EEOContestado='false' and EmpleadoActivo='true'`,
     function (error, results, fields) {
       var string=JSON.stringify(results);
       var resultados =  JSON.parse(string);   
       resolve(resultados)
-    //  console.log("resultados" , resultados) 
       return client
     },
   )
   })
   };    
 const CountEmployees = async data => { 
-  // console.log("la data en getPonderacion es  " , data)
   return new Promise((resolve, reject) => {
     client.query(`select count(id) as id from empleados where fk_administrador='${data[0]}'`,
     function (error, results, fields) {
       var string=JSON.stringify(results);
       var resultados =  JSON.parse(string);   
       resolve(resultados)
-    //  console.log("resultados" , resultados) 
       return client
     },
   )
@@ -1367,7 +1284,6 @@ const GetEmployeesATSDetectado = async data => {
       var string=JSON.stringify(results);
       var resultados =  JSON.parse(string);   
       resolve(resultados)
-    //  console.log("resultados" , resultados) 
       return client
     },
   )
@@ -1375,14 +1291,12 @@ const GetEmployeesATSDetectado = async data => {
   };    
 
 const GetEmployeesResolvesRP = async data => { 
-
   return new Promise((resolve, reject) => {
     client.query(`select * from empleados inner join periodos on periodos.fk_empleados = empleados.id where empleados.fk_Administrador='${data[0]}'  and empleados.EmpleadoActivo='true' and periodos.encuesta='RP'`,                                                                                   
     function (error, results, fields) {
       var string=JSON.stringify(results);
       var resultados =  JSON.parse(string);   
       resolve(resultados)
-    //  console.log("resultados" , resultados) 
       return client
     },
   )
@@ -1390,7 +1304,6 @@ const GetEmployeesResolvesRP = async data => {
   };    
 
   const GetEmployeesResolvesATS = async data => { 
-    console.log("data" , data)
     return new Promise((resolve, reject) => {
         if(data[0]){
           client.query(`select * from empleados inner join periodos on periodos.fk_empleados = empleados.id where empleados.fk_Administrador='${data[0]}' and periodos.encuesta='ATS'`,                                                                                   
@@ -1400,9 +1313,7 @@ const GetEmployeesResolvesRP = async data => {
             }
             var string=JSON.stringify(results);
             var resultados =  JSON.parse(string);   
-            console.log("resultados" ,resultados)
             resolve(resultados)
-          //  console.log("resultados" , resultados) 
             return client
           },
         )
@@ -1429,7 +1340,6 @@ const GetEmployeesResolvesEEO = async data => {
     client.query(`select * from empleados inner join periodos on periodos.fk_empleados = empleados.id where empleados.fk_Administrador='${data[0]}'  and empleados.EmpleadoActivo='true' and periodos.encuesta='EEO'`,                                                                                   function (error, results, fields) {
       var string=JSON.stringify(results);
       var resultados =  JSON.parse(string);   
-      console.log("resultados",resultados)
       resolve(resultados)
       return client
     },
@@ -1438,14 +1348,12 @@ const GetEmployeesResolvesEEO = async data => {
   };    
 const GetresultGlobalSurveyEEO = async data => {
   let array=[]
-  // console.log("la data es ",data[0])
   return  new Promise((resolve, reject) => {
       client.query(`select * from empleados inner join respuestaseeo on respuestaseeo.fk_empleados = empleados.id where empleados.id =' ${data[0]}'  and respuestaseeo.periodo='${data[1]}'`,
         function (error, results, fields) {
         var string=JSON.stringify(results);
         var resultados =  JSON.parse(string);
         array.push(resultados)
-        // console.log(`select * from empleados inner join respuestaseeo on respuestaseeo.fk_empleados = empleados.id where empleados.id =' ${data[0]}'  and respuestaseeo.periodo='${data[1]}'`)
         resolve(resultados
         ) 
       },
@@ -1454,13 +1362,11 @@ const GetresultGlobalSurveyEEO = async data => {
   }; 
   
   const EmployeeActive = async data => {
-    // console.log("la data es ",data)
     return  new Promise((resolve, reject) => {
         client.query(`select * from empleados where fk_administrador = '${data[0]}' and empleadoActivo='true' limit 1`,
           function (error, results, fields) {
           var string=JSON.stringify(results);
           var resultados =  JSON.parse(string);
-          // console.log("los resuktadis son", resultados)
           resolve(resultados
           ) 
         },
@@ -1468,13 +1374,11 @@ const GetresultGlobalSurveyEEO = async data => {
       })
     }; 
     const DeptoActive = async data => {
-      // console.log("la data es ",data)
       return  new Promise((resolve, reject) => {
           client.query(`select * from departamentos where fk_administrador = '${data[0]}' and DepartamentoActivo='true' limit 1`,
             function (error, results, fields) {
             var string=JSON.stringify(results);
             var resultados =  JSON.parse(string);
-            // console.log("los resu son", resultados)
             resolve(resultados
             ) 
           },
@@ -1482,13 +1386,11 @@ const GetresultGlobalSurveyEEO = async data => {
         })
       }; 
       const SucActive = async data => {
-        // console.log("la data es ",data)
         return  new Promise((resolve, reject) => {
             client.query(`select * from sucursales where fk_administrador = '${data[0]}' and SucursalActiva='true' limit 1`,
               function (error, results, fields) {
               var string=JSON.stringify(results);
               var resultados =  JSON.parse(string);
-              // console.log("los resu son", resultados)
               resolve(resultados
               ) 
             },
@@ -1496,13 +1398,11 @@ const GetresultGlobalSurveyEEO = async data => {
           })
         }; 
         const PuestoActive = async data => {
-          // console.log("la data es ",data)
           return  new Promise((resolve, reject) => {
               client.query(`select * from puestos where fk_administrador = '${data[0]}' and PuestoActivo='true' limit 1`,
                 function (error, results, fields) {
                 var string=JSON.stringify(results);
                 var resultados =  JSON.parse(string);
-                // console.log("los resu son", resultados)
                 resolve(resultados
                 ) 
               },
@@ -1510,7 +1410,6 @@ const GetresultGlobalSurveyEEO = async data => {
             })
           }; 
         const AddPeriodo = async data => {
-        //  console.log("data periodo" , data[1]) 
           return  new Promise((resolve, reject) => {
                 client.query(`select * from eventos where Descripcion = '${data[0]}' and fk_administrador ='${data[6]}'`,
                 function (error, results, fields) {
@@ -1535,14 +1434,12 @@ const GetresultGlobalSurveyEEO = async data => {
                 function (error, results, fields) {
                 var string=JSON.stringify(results);
                 var resultados =  JSON.parse(string);
-                // console.log("los resu son", resultados)
                 if(resultados[0]){
                   resolve(resultados
                     ) 
                 }else{
                   resolve([{message:"Periodo finalizado"}]) 
                 }
-               
               },
             )
             })
@@ -1550,23 +1447,18 @@ const GetresultGlobalSurveyEEO = async data => {
 
         const DeletePeriodo = async data => {
           return  new Promise((resolve, reject) => {
-            console.log("eventos" , data)
               client.query(`update eventos set eventoActivo='false' where fk_Administrador='${data[1]}' and Descripcion='${data[0]}' `)
-              // client.query(`update empleados set ATSContestado='false',RPContestado='false',EEOContestado='false' where fk_Administrador='${data[1]}'`),
-             
               resolve({message:"evento Actualizado"})
             // )
             })
           };   
   
         const GetPeriodoDesabilited = async data => {
-          // console.log("la data es ",data)
           return  new Promise((resolve, reject) => {
               client.query(`select * from eventos where fk_administrador = '${data[0]}' and EventoActivo='false'`,
                 function (error, results, fields) {
                 var string=JSON.stringify(results);
                 var resultados =  JSON.parse(string);
-                // console.log("los resu son", resultados)
                 resolve(resultados
                 ) 
               },
@@ -1583,9 +1475,7 @@ const GetresultGlobalSurveyEEO = async data => {
                   if (error) reject(error) 
                   var string=JSON.stringify(results);
                   var resultados =  JSON.parse(string); 
-                  // console.log("get eventos" , resultados)
                   if(resultados[0]){
-                    
                   resolve({message:"evento encontrado",eventoFinal:resultados[0].eventoFinal,alerta1:resultados[0].alerta1,alerta2:resultados[0].alerta2,alerta3:resultados[0].alerta3})    
                   }else{
                     resolve({message:"exito"})
@@ -1595,9 +1485,7 @@ const GetresultGlobalSurveyEEO = async data => {
               })
               }; 
 
-              
           const GetEmployeesFkAdmin = async data => {
-
             return  new Promise((resolve, reject) => {
               client
               .query(`select * from empleados where correo='${data[0]}'`,
@@ -1606,14 +1494,11 @@ const GetresultGlobalSurveyEEO = async data => {
                 var string=JSON.stringify(results);
                 var resultados =  JSON.parse(string);           
                 resolve(resultados)  
-                  
-             
               },
             )
             })
             }; 
           const AddPeriodoInicial = async data => {
-
             return  new Promise((resolve, reject) => {
               client
               .query(`select MAX(id) as id from administrador`,
@@ -1623,14 +1508,12 @@ const GetresultGlobalSurveyEEO = async data => {
               var resultados = JSON.parse(string)
                  client.query(`insert into eventos (fk_administrador,evento,eventoFinal,alerta1,alerta2,alerta3,Descripcion,EventoActivo,Alerta1Enviada,Alerta2Enviada,Alerta3Enviada) values ('${resultados[0].id}','${data[0]}','no hay Eventos','no hay Eventos','no hay Eventos','no hay Eventos','Periodo Inicial','true','false','false','false')`,     
                 resolve(client)  
-                  
                  )
               },
             )
             })
             }; 
           const GetUsersTableEmployeesthisPeriodo = async data => {
-            // console.log("la data es " , data)
             return  new Promise((resolve, reject) => {
               client.query(`select * from empleados inner join periodos on periodos.fk_empleados = empleados.id  where empleados.fk_administrador='${data[0]}' and empleados.EmpleadoActivo='true'and periodos.periodo='${data[1]}' and periodos.encuesta='RP'`,
                 function (error, results, fields) {
@@ -1638,13 +1521,11 @@ const GetresultGlobalSurveyEEO = async data => {
                 var string=JSON.stringify(results);
                 var resultados =  JSON.parse(string); 
                 resolve(resultados) 
-                // console.log("resultados getusers",resultados)
               },
             )
             })
             }; 
           const GetUsersTableEmployeesthisPeriodoEEO = async data => {
-            // console.log("la data es " , data)
             return  new Promise((resolve, reject) => {
               client.query(`select * from empleados inner join periodos on periodos.fk_empleados = empleados.id  where empleados.fk_administrador='${data[0]}' and empleados.EmpleadoActivo='true'and periodos.periodo='${data[1]}' and periodos.encuesta='EEO'`,
                 function (error, results, fields) {
@@ -1652,7 +1533,6 @@ const GetresultGlobalSurveyEEO = async data => {
                 var string=JSON.stringify(results);
                 var resultados =  JSON.parse(string); 
                 resolve(resultados) 
-                // console.log("resultados getusers",resultados)
               },
             )
             })
@@ -1665,14 +1545,11 @@ const GetresultGlobalSurveyEEO = async data => {
               var string=JSON.stringify(results);
               var resultados =  JSON.parse(string); 
               resolve(resultados[0]) 
-                // console.log("resultados getusers",resultados)
             },
           )
           })
           }; 
         const GetUsersTableEmployeesthisPeriodoATS = async data => {
-          // console.log("la data que revcibo es es " , data)
-          // console.log("la consulta",`select * from empleados inner join periodos on periodos.fk_empleados = empleados.id  where empleados.fk_administrador='${data[0]}' and empleados.EmpleadoActivo='true'and periodos.periodo='${data[1]}' and periodos.encuesta='ATS'`)
           return  new Promise((resolve, reject) => {
             client.query(`select * from empleados inner join periodos on periodos.fk_empleados = empleados.id  where empleados.fk_administrador='${data[0]}' and empleados.EmpleadoActivo='true'and periodos.periodo='${data[1]}' and periodos.encuesta='ATS'`,
               function (error, results, fields) {
@@ -1680,13 +1557,11 @@ const GetresultGlobalSurveyEEO = async data => {
               var string=JSON.stringify(results);
               var resultados =  JSON.parse(string); 
               resolve(resultados) 
-              // console.log("resultados getusers",resultados)
             },
           )
           })
           }; 
         const AddAdminEmpresa = async data => {
-          // console.log("dataadmin" ,data)
           let auth1;
           let auth2;
           return  new Promise((resolve, reject) => {
@@ -1764,17 +1639,12 @@ const GetresultGlobalSurveyEEO = async data => {
                   }
                 })
               }
-
-              
-              // console.log("resultados getusers",resultados)
             },
           )
-
           })
           }; 
   
         const GetEmpresas = async data => {
-         
           return  new Promise((resolve, reject) => {
             client.query(`select * from administrador where fk_superusuario ='${data[0]}'`,
               function (error, results, fields) {
@@ -1782,23 +1652,18 @@ const GetresultGlobalSurveyEEO = async data => {
               var string=JSON.stringify(results);
               var resultados =  JSON.parse(string); 
               resolve(resultados) 
-              // console.log("resultados getusers",resultados)
             },
           )
           })
           }; 
           const GetAdminDashboard = async data => {
-         
             return  new Promise((resolve, reject) => {        
               client.query(`select * from administrador where id='${data[0]}'`,
                 function (error, results, fields) {
                 if (error) reject(error) 
                 var string=JSON.stringify(results);
                 var resultados =  JSON.parse(string);
-                // console.log("los resultados" , resultados[0])
-                
                 resolve(resultados[0]) 
-                // console.log("resultados getusers",resultados)
               },
             )
             })
@@ -1812,9 +1677,7 @@ const GetresultGlobalSurveyEEO = async data => {
               if (error) reject(error) 
               var string=JSON.stringify(results);
               var resultados =  JSON.parse(string);    
-              // console.log("los datos emoresas empleados son" , resultados)            
               resolve(resultados[0]) 
-              // console.log("resultados getusers",resultados)
             },
           )
           })
@@ -1827,13 +1690,11 @@ const GetresultGlobalSurveyEEO = async data => {
                 var string=JSON.stringify(results);
                 var resultados =  JSON.parse(string);                
                 resolve(resultados[0]) 
-                // console.log("resultados getusers",resultados)
               },
             )
             })
             }; 
           const EditDataAdmin = async data => {
-            // console.log("la data para editar es " , data[0])
             return  new Promise((resolve, reject) => {
               bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
                 if (err) {
@@ -1843,7 +1704,6 @@ const GetresultGlobalSurveyEEO = async data => {
                     if (err) {
                       throw err
                     } else {
-                      // console.log(hash)
                       resolve({ message: 'Actualización exitosa'})
                       client.query(`update administrador set nombreAdmin='${data[0].toUpperCase() }',Apellidos='${data[1].toUpperCase() }',correo='${data[2].toUpperCase() }',contraseña='${hash}',objetivo='${data[5].toUpperCase() }' where id='${data[4]}' `)    
                     return client
@@ -1861,8 +1721,6 @@ const GetresultGlobalSurveyEEO = async data => {
                 var string=JSON.stringify(results);
                 var resultados =  JSON.parse(string);                
                 resolve(resultados) 
-                  // console.log("resultados GetAdminAlfa",resultados)
-
               },
             )
             })
@@ -1870,17 +1728,13 @@ const GetresultGlobalSurveyEEO = async data => {
           const Alert1 = async data => {
             console.log(data)
             return  new Promise((resolve, reject) => {
-
-
               var transporter = nodemailer.createTransport({
-  
                 secure: false,
                 host: 'mail.diagnostico035.com',
                 port: 587,
                 auth: {
                         user: 'info@diagnostico035.com',
                         pass: 'jpY9f23#',
-                       
                     },
                 tls: {rejectUnauthorized: false},
                 });
@@ -1906,7 +1760,6 @@ const GetresultGlobalSurveyEEO = async data => {
             })
             }; 
       const Alert2 = async data => {
-        console.log(data)
         return  new Promise((resolve, reject) => {
           var transporter = nodemailer.createTransport({
   
@@ -1941,10 +1794,8 @@ const GetresultGlobalSurveyEEO = async data => {
         })
         }; 
         const Alert3 = async data => {
-          // console.log(data)
           return  new Promise((resolve, reject) => {
             var transporter = nodemailer.createTransport({
-  
               secure: false,
               host: 'mail.diagnostico035.com',
               port: 587,
@@ -1964,19 +1815,16 @@ const GetresultGlobalSurveyEEO = async data => {
             
             transporter.sendMail(mailOptions, function (err, info) {
               if("este es el error" , err){
-                // console.log(err)
+                console.log(err)
               }
-                
               else{
                 client.query(`update eventos set Alerta3Enviada='true' where idEventos = '${data[3]}'`)
                 resolve({message:"envio exitoso"})
               }
-                
             });
           })
           }; 
         const UpdatePeriodo = async data => {
-          console.log("data" , data)
           return  new Promise((resolve, reject) => {
                 client.query(`select * from eventos where fk_administrador = '${data[5]}' and Descripcion = '${data[0]}'`,
                     function (error, results, fields) {
@@ -1997,22 +1845,17 @@ const GetresultGlobalSurveyEEO = async data => {
                     }else{
                     resolve({message:"no hay eventos"})
                     }   
-                    
                   },
                 )
                 }   
-                
               },
             )
-
           })
           }; 
 
           const LoadLogo = async data => {
-            // console.log("la data es " , data[0],data[1])
             return  new Promise((resolve, reject) => {
               client.query(`insert into logos (url,fk_administrador) values ('${data[1]}','${data[0]}')`)
-              // console.log(`insert into logos (url,fk_administrador) values ('${data[1]}','${data[0]}')`)
               resolve({message:"registro exitoso"})
             })
             }; 
@@ -2025,7 +1868,6 @@ const GetresultGlobalSurveyEEO = async data => {
                   var string=JSON.stringify(results);
                   var resultados =  JSON.parse(string);                
                   resolve({image:resultados[0].image}) 
-                  // console.log("load image",resultados[0].image)
                 },
               )
               })
@@ -2037,7 +1879,6 @@ const GetresultGlobalSurveyEEO = async data => {
                   function (error, results, fields) {
                   var string=JSON.stringify(results);
                   var resultados =  JSON.parse(string);
-                  // console.log("los resu son", resultados)
                   resolve(resultados
                   ) 
                 },
@@ -2047,12 +1888,10 @@ const GetresultGlobalSurveyEEO = async data => {
             
         const GetCorreos = async data => {
           return  new Promise((resolve, reject) => {
-            // console.log("correos")
               client.query(`select * from correos inner join empleados on correos.fk_empleados = empleados.id where correos.fk_administrador = '${data[0]}'`,
                 function (error, results, fields) {
                 var string=JSON.stringify(results);
                 var resultados =  JSON.parse(string);
-                // console.log("los resu son", resultados)
                 resolve(resultados
                 )  
               },
@@ -2073,7 +1912,6 @@ const GetresultGlobalSurveyEEO = async data => {
                   resolve(resultados
                   ) 
                 }  
-             
               },
             )
             })
@@ -2089,24 +1927,19 @@ const GetresultGlobalSurveyEEO = async data => {
                 if(results) { 
                   var string=JSON.stringify(results);
                   var resultados =  JSON.parse(string);
-                  // console.log("resultados" , resultados)
-
                   resolve(resultados[0]) 
                 }  
-              
               },
             )
             })
           }; 
         const ResetPassword = async data => {
-          // console.log("data" , `select * from superusuario where correo ='${data[1]}' and rfc = '${data[0]}'`)
           return  new Promise((resolve, reject) => {
               client.query(`select * from superusuario where correo ='${data[1]}' and rfc = '${data[0]}'`,
                 function (error, results, fields) {
                   var string=JSON.stringify(results);
                   var resultados =  JSON.parse(string);
                   if(resultados[0]) { 
-
                     function makeid(length) {
                       var result           = '';
                       var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -2118,8 +1951,6 @@ const GetresultGlobalSurveyEEO = async data => {
                    }
                    
                    var random = makeid(8)
-                  //  console.log("random" , random);
-
                     bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
                       if (err) {
                         reject(err,{message: 'Error',token: err}) 
@@ -2128,11 +1959,7 @@ const GetresultGlobalSurveyEEO = async data => {
                           if (err) {
                             throw err
                           } else {
-                            // console.log("resultados [0", resultados[0])
-                            // console.log("query",`update superusuario set contraseña='${hash}' where id = '${resultados[0].id}'`)
-
                             client.query(`update superusuario set contraseña='${hash}' where id = '${resultados[0].id}'`)
-
                             var transporter = nodemailer.createTransport({
   
                               secure: false,
@@ -2141,7 +1968,6 @@ const GetresultGlobalSurveyEEO = async data => {
                               auth: {
                                       user: 'info@diagnostico035.com',
                                       pass: 'jpY9f23#',
-                                     
                                   },
                               tls: {rejectUnauthorized: false},
                               });
@@ -2180,7 +2006,6 @@ const GetresultGlobalSurveyEEO = async data => {
                                   console.log("esta es la info" ,  info);
                               });
                               resolve({message:"actualizacion exitosa"})
-                              
                           }
                         })
                       }
@@ -2188,7 +2013,6 @@ const GetresultGlobalSurveyEEO = async data => {
                   }else{
                     resolve({message:"el correo o rfc no existen"})
                   }
-              
               },
             )
             })
@@ -2230,18 +2054,13 @@ const GetresultGlobalSurveyEEO = async data => {
           }; 
 
       const UpdateLogo = async data => {
-        // console.log("la data es " , data[0],data[1])
         return  new Promise((resolve, reject) => {
           client.query(`update logos set url='${data[1]}' where fk_administrador='${data[0]}'`)
-          // console.log(`insert into logos (url,fk_administrador) values ('${data[1]}','${data[0]}')`)
           resolve({message:"registro exitoso"})
         })
         };
 
         const CardPay = async user => {
-          console.log("datos signup" , user)
-
-              // console.log("fecha", new Date(new Date().toUTCString()))
               const utcDate2 = new Date()
               var fechaRegistro =  utcDate2.toGMTString()
               return new Promise((resolve, reject) => {
@@ -2320,18 +2139,14 @@ const GetresultGlobalSurveyEEO = async data => {
                               } else {
                                 client.query(`insert into cardPay (idPago,fechaPago,carrito,idPaypalCliente,nombrePaypalCliente,apellidosPaypalCliente,correoPaypalCliente,ciudadClientePaypal,direccion1PaypalCliente,direccion2PaypalCliente,cpPaypalCliente,estadoPaypalCliente,metodoPago,statusPago,subtotalTransaccion,montoTransaccion,monedaTransaccion,nombrecliente,apellidosCliente,rfcCliente,razonSocialCliente,telefonoCliente,correoCliente,contraseñaCliente,paquete,aprobado) values ('${user[0]}','${user[1]}','${user[2]}','${user[6]}','${user[4]}','${user[5]}','${user[3]}','${user[7]}','${user[8]}','${user[9]}','${user[10]}','${user[11]}','${user[12]}','${user[13]}','${user[14]}','${user[15]}','${user[16]}','${user[17]}','${user[18]}','${user[20]}','${user[19]}','${user[21]}','${user[22]}','${user[23]}','${user[24]}','false')`)
                                 client.query(`insert into superusuario (nombre,apellidos,RFC,RazonSocial,telefono,correo,contraseña,activo,fechaRegistro,fk_paquetes) values('${user[17]}','${user[18]}','${user[20]}','${user[19]}','${user[21]}','${user[22]}','${hash}','true','${fechaRegistro}','${paquete}')`); 
-                                // console.log(hash)
                                 resolve({ message: 'Signup exitoso',token:hash})
-                        
                                 client
                                 .query(`select * from  paquetes where id='${paquete}'`,
-                                
                                 function (error, results, fields) {
                                   var string=JSON.stringify(results);
                                   var resultados =  JSON.parse(string); 
                                   if(resultados[0]){
                                     var transporter = nodemailer.createTransport({
-              
                                       secure: false,
                                       host: 'mail.diagnostico035.com',
                                       port: 587,
@@ -2368,9 +2183,7 @@ const GetresultGlobalSurveyEEO = async data => {
 
                                           Tel: (55) 3603 9970 y (55) 5553 2049<br/>
                                           Ext 101 y 102<br/>
-                                          www.diagnostico035.com<br/>
-                                        
-                                        
+                                          www.diagnostico035.com<br/>                                        
                                         </p> ` // plain text body
                                       };
                                       
@@ -2392,14 +2205,12 @@ const GetresultGlobalSurveyEEO = async data => {
                       return  client
                     },
                   )
-                  
                   }   
                   return  client
                 },
               )
               }
             });
-      
           };  
           
           const GetCardPay = async data => {
@@ -2408,7 +2219,6 @@ const GetresultGlobalSurveyEEO = async data => {
                 var string = JSON.stringify(results)
                 var resultados  = JSON.parse(string)
                 if(resultados[0]){
-                  console.log("resultados" , resultados)
                   resolve(resultados[0])
                 }
               })
@@ -2420,7 +2230,6 @@ const GetresultGlobalSurveyEEO = async data => {
                 var string = JSON.stringify(results)
                 var resultados  = JSON.parse(string)
                 if(resultados[0]){
-                  console.log("resultados" , resultados)
                   resolve(resultados[0])
                 }
               })
@@ -2435,14 +2244,12 @@ const GetresultGlobalSurveyEEO = async data => {
           const VerifiDataSuperUser = async data => {
             return  new Promise((resolve, reject) => {
               client.query(`select * from superusuario where RFC='${data[0]}'`,function(err,results,fields){
-                console.log(`select * from superusuario where RFC='${data[0]}'`)
                 var string = JSON.stringify(results)
                 var resultados  = JSON.parse(string)
                 if(resultados[0]){
                  resolve({message:"rfc existente"})
                 }else{
                   client.query(`select * from superusuario where RazonSocial = '${data[1]}'`,function(err,results2,fields){
-                    console.log(`select * from superusuario where RazonSocial = '${data[1]}'`)
                     var stringRS = JSON.stringify(results2)
                     var resultadosRS  = JSON.parse(stringRS)
                     if(resultadosRS[0]){
@@ -2450,7 +2257,6 @@ const GetresultGlobalSurveyEEO = async data => {
 
                     }else{
                       client.query(`select * from superusuario where correo = '${data[2]}'`,function(err,results3,fields){
-                        console.log(`select * from superusuario where correo = '${data[2]}'`)
                         var stringCorreo = JSON.stringify(results3)
                         var resultadosCorreo = JSON.parse(stringCorreo)
                         if(resultadosCorreo[0]){
@@ -2471,7 +2277,6 @@ const GetresultGlobalSurveyEEO = async data => {
               var string = JSON.stringify(results)
               var resultados  = JSON.parse(string)
               if(resultados[0]){
-                console.log("resultados" , resultados)
                 resolve(resultados[0])
               }else {
                 resolve({message:"usuario no encontrado"})
@@ -2481,14 +2286,9 @@ const GetresultGlobalSurveyEEO = async data => {
           };    
             
         const RenovationLicence = async data => {
-          console.log("data" , data)
           let fecha = data[18]
           let fecha1 = fecha.substring(0,3)
           let fecha2  = fecha.substring(4,28)
-
-          console.log("fecha1",fecha1)
-          console.log("fecha2",fecha2)
-
           let fechaCompleta  =  fecha1.concat(","," ",fecha2)
           return  new Promise((resolve, reject) => {
             client.query(`select * from superusuario where correo='${data[17]}' and rfc = '${data[21]}'`, function(err,results,fields){
@@ -2550,52 +2350,43 @@ const GetresultGlobalSurveyEEO = async data => {
                   });
               } 
             })
-           
             resolve({message:"registro exitoso"})
           })
           };   
         const AddPromotions = async data => {
-          console.log("data" , data)
           return  new Promise((resolve, reject) => {
             client.query(`insert into promociones (nombre,apellidos,rfc,razonSocial,telefono,correo,contraseña,noFactura,verificado,status) values('${data[0]}','${data[1]}','${data[2]}','${data[4]}','${data[3]}','${data[5]}','${data[6]}','${data[7]}','false','pendiente')`)
             resolve({message:"registro exitoso"})
           })
           }; 
         const GetRenovacion = async data => {
-          console.log("data" , data)
           return  new Promise((resolve, reject) => {
             client.query(`select * from renovacionLicencia`, function(err,results,fields){
               var string = JSON.stringify(results)
               var resultados = JSON.parse(string)
               if(resultados[0])
-              // console.log("resultados" , resultados)
               resolve(resultados)
             })
           })
           };   
         const GetPromocion = async data => {
-          console.log("data" , data)
           return  new Promise((resolve, reject) => {
             client.query(`select * from promociones where verificado='false'`, function(err,results,fields){
               var string = JSON.stringify(results)
               var resultados = JSON.parse(string)
               if(resultados[0])
-              // console.log("resultados" , resultados)
               resolve(resultados)
             })
           })
           };         
         const ApprovedPromotion = async data => {
-          // console.log("data" , data)
-
-          const utcDate2 = new Date()
+        const utcDate2 = new Date()
          var fechaRegistro =  utcDate2.toGMTString()
           return  new Promise((resolve, reject) => {
             client.query(`select * from promociones where idPromocion='${data[0]}'`, function(err,results,fields){
               var string = JSON.stringify(results)
               var resultados = JSON.parse(string)
               if(resultados[0]){
-                console.log("resuultados[0]",resultados[0])
                 bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
                   if (err) {
                     reject(err,{message: 'Error',token: err}) 
@@ -2619,7 +2410,6 @@ const GetresultGlobalSurveyEEO = async data => {
                           },
                       tls: {rejectUnauthorized: false},
                       });
-                      console.log("correo" , resultados[0].correo)
                       const mailOptions = {
                         from: 'info@diagnostico035.com', // sender address
                         to: `${resultados[0].correo},alma.juarez@ads.com.mx,jesus.francisco@ads.com.mx`, // list of receivers
@@ -2670,7 +2460,6 @@ const GetresultGlobalSurveyEEO = async data => {
           })
           };      
         const RejectPromotion = async data => {
-          console.log("data" , data)
           return  new Promise((resolve, reject) => {
             client.query(`select * from promociones where idPromocion='${data[0]}'`, function(err,results,fields){
               var string = JSON.stringify(results)
@@ -2688,7 +2477,6 @@ const GetresultGlobalSurveyEEO = async data => {
                       },
                   tls: {rejectUnauthorized: false},
                   });
-                  console.log("correo" , resultados[0].correo)
                   const mailOptions = {
                     from: 'info@diagnostico035.com', // sender address
                     to: `${resultados[0].correo},alma.juarez@ads.com.mx,jesus.francisco@ads.com.mx`, // list of receivers
@@ -2718,7 +2506,6 @@ const GetresultGlobalSurveyEEO = async data => {
           })
           };      
         const GetAllSuperUser = async data => {
-          // console.log("data" , data)
           return  new Promise((resolve, reject) => {
             client.query(`select * from superusuario`, function(err,results,fields){
               var string = JSON.stringify(results)
@@ -2730,7 +2517,6 @@ const GetresultGlobalSurveyEEO = async data => {
           };  
     
         const GetEmpleadosGlobales = async data => {
-          console.log("data Empleados" , data)
           return  new Promise((resolve, reject) => {
             client.query(`select * from empleados where fk_administrador ='${data[0]}' `, function(err,results,fields){
               var string = JSON.stringify(results)
@@ -2741,9 +2527,7 @@ const GetresultGlobalSurveyEEO = async data => {
           })
           };  
         const GetTablePeriodo = async data => {
-          console.log("data Empleados" , data)
           return  new Promise((resolve, reject) => {
-            console.log("query",`select * from periodos where fk_empleados ='${data[0]}' `)
             client.query(`select * from periodos where fk_empleados ='${data[0]}' `, function(err,results,fields){
               var string = JSON.stringify(results)
               var resultados = JSON.parse(string)
@@ -2764,7 +2548,6 @@ const GetresultGlobalSurveyEEO = async data => {
           })         
           };  
         const TransactionsMadmin = async data => {
-            console.log("dataTansaccionsmadmin" , data)
           return new Promise((resolve,reject) => {
             if(data[0]&& data[1] && data[2] && data[3] && data[4]){
             client.query(`insert into transaccionesVisitas_madmin(fechaIngreso,horaIngreso,direccionIP,estadoTransaccion,correoAcceso,fk_superusuario)  values ('${data[0]}' , '${data[1]}' , '${data[2]}' , 'Transaccion exitosa','${data[3]}','${data[4]}')`)
@@ -2783,12 +2566,8 @@ const GetresultGlobalSurveyEEO = async data => {
         };  
 
         const updateEvalEEO= async data => {
-          console.log("data" , data)
           return new Promise((resolve,reject) => {
             for(var i = 1; i <= data.length; i ++ ){
-              // console.log("data[i]" , data[i])
-              // client.query(`insert into transaccionesVisitas_eval(fechaIngreso,horaIngreso,direccionIP,estadoTransaccion,correoAcceso,evaluacion)  values ('${data[0]}' , '${data[1]}' , '00000' , 'Transaccion exitosa','${data[2]}','${data[3]}')`)
-              // resolve({message:"Transaccion exitosa"})
             }
             
           })         
@@ -2827,7 +2606,19 @@ const GetresultGlobalSurveyEEO = async data => {
             resolve({message:"Evaluación removida con éxito"})
           })         
         }; 
+      const GetEmployeesPerido = async data => {
+        console.log("data user" , data)
+        return new Promise((resolve,reject) => {
+          client.query(`select * from empleados inner join periodos on periodos.fk_empleados = empleados.id where empleados.fk_administrador ='${data[0]}'`, function(err,results,fields){
+              var string = JSON.stringify(results)
+              var resultados = JSON.parse(string)
+              console.log("resultados" ,resultados)
+              resolve(resultados)
+          })
+        })            
+      };
       module.exports = {
+        GetEmployeesPerido,
         DeleteEval,
         GetSingleEmployee,
         updateEvalEEO,

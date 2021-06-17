@@ -355,8 +355,15 @@ const getSingleEmployee = async(_, { data }) => {
     const table = await  actions.GetSingleEmployee(divisiones)
     return table;
 };
+const getEmployeesPerido = async(_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    const periodo = await  actions.GetEmployeesPerido(divisiones)
+    return periodo;
+};
 
      module.exports = {
+        getEmployeesPerido,
         getSingleEmployee,
         getTablePeriodo,
         getEmpleadosGlobales,
