@@ -57,6 +57,7 @@ scalar Upload
     getTablePeriodo(data:[String!]):[tablePeriodo]
     getSingleEmployee(data:[String!]):[JsonEmployee]
     getEmployeesPerido(data:[String!]):[tablePeriodo]
+    # getLicencia(data:[String!]):[tablePeriodo]
 
  }        
  

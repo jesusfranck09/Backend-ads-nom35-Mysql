@@ -139,7 +139,9 @@ const authRegisterSingleEmployee = (_, { data }) => {
 
 
 const inactiveAdmin= (_, { data }) => {
-    return actions.InactiveAdmin(data)
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    return actions.InactiveAdmin(divisiones)
                   .then( res => res)
                   .catch( err => err );
 };

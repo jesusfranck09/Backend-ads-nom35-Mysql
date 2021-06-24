@@ -702,18 +702,21 @@ const EEOPage14 = async data => {
 const AtsPoliticaPrivacidad = async data => {
 return  new Promise((resolve, reject) => {
   client
-  .query(`select * from  empleados where correo='${data[0]}'and atsContestado='false'`,
+  .query(`select * from  empleados where correo='${data[0]}'`,
   function (error, results, fields) {
   if (error) reject(error) 
-    if(results[0]){
       var string=JSON.stringify(results);
       var resultados =  JSON.parse(string); 
-      resolve(resultados[0])  
-    }else{
-      resolve({message:"usuario incorrecto"})
-    }
-
-  },
+      client.query(`select * from periodos where fk_empleados= '${resultados[0].id}' and encuesta= "ATS" `,function(error,results2,fields){
+        var string2=JSON.stringify(results2);
+        var resultados2 =  JSON.parse(string2);
+        if(resultados2[0]){
+          resolve({message:"Evaluacion resuelta"})  
+        }else{
+          resolve(resultados[0])  
+        }
+      })
+    },
 )
 })
 };
@@ -722,16 +725,21 @@ return  new Promise((resolve, reject) => {
 const RPPoliticaPrivacidad = async data => {
   return  new Promise((resolve, reject) => {
       client
-      .query(`select * from  empleados where correo='${data[0]}' and rpContestado='false'`,
+      .query(`select * from  empleados where correo='${data[0]}'`,
         function (error, results, fields) {
         if (error) reject(error) 
-        if(results[0]){
+        // if(results[0]){
         var string=JSON.stringify(results);
         var resultados =  JSON.parse(string); 
-        resolve(resultados[0])  
-        }else{
-          resolve({message:"usuario incorrecto"})
-        }
+        client.query(`select * from periodos where fk_empleados= '${resultados[0].id}' and encuesta= "RP" `,function(error,results2,fields){
+          var string2=JSON.stringify(results2);
+          var resultados2 =  JSON.parse(string2);
+          if(resultados2[0]){
+            resolve({message:"Evaluacion resuelta"})  
+          }else{
+            resolve(resultados[0])  
+          }
+        })
       },
     )
     })
@@ -740,16 +748,20 @@ const RPPoliticaPrivacidad = async data => {
 const EEOPoliticaPrivacidad = async data => {
   return  new Promise((resolve, reject) => {
       client
-      .query(`select * from  empleados where correo='${data[0]}' and eeoContestado='false'`,
+      .query(`select * from  empleados where correo='${data[0]}'`,
         function (error, results, fields) {
         if (error) reject(error) 
-        if(results[0]){
         var string=JSON.stringify(results);
         var resultados =  JSON.parse(string); 
-        resolve(resultados[0]) 
-        }else{
-          resolve({message:"usuario incorrecto"})
-        }
+        client.query(`select * from periodos where fk_empleados= '${resultados[0].id}' and encuesta= "EEO" `,function(error,results2,fields){
+          var string2=JSON.stringify(results2);
+          var resultados2 =  JSON.parse(string2);
+          if(resultados2[0]){
+            resolve({message:"Evaluacion resuelta"})  
+          }else{
+            resolve(resultados[0])  
+          }
+        })
       },
     )
     })
@@ -929,10 +941,13 @@ return new Promise((resolve, reject) => {
 
 const InactiveAdmin = async data => {
   return  new Promise((resolve, reject) => {
-    resolve({message:"Usuario Blqueado"})
     client
     .query(`update superusuario set Activo='false' where id  ='${data[0]}'` );
+    client
+    .query(`update administrador set Activo='false' where fk_superusuario = '${data[0]}'` );
+    resolve({message:"Usuario Blqueado"})
     })
+    
   };
 
 const RegisterSucursales = async data => { 
