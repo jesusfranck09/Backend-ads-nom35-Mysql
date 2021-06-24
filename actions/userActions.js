@@ -707,7 +707,7 @@ return  new Promise((resolve, reject) => {
   if (error) reject(error) 
       var string=JSON.stringify(results);
       var resultados =  JSON.parse(string); 
-      client.query(`select * from periodos where fk_empleados= '${resultados[0].id}' and encuesta= "ATS" `,function(error,results2,fields){
+      client.query(`select * from periodos where fk_empleados= '${resultados[0].id}' and encuesta= "ATS" and periodo = '${data[1]}'`,function(error,results2,fields){
         var string2=JSON.stringify(results2);
         var resultados2 =  JSON.parse(string2);
         if(resultados2[0]){
@@ -731,7 +731,7 @@ const RPPoliticaPrivacidad = async data => {
         // if(results[0]){
         var string=JSON.stringify(results);
         var resultados =  JSON.parse(string); 
-        client.query(`select * from periodos where fk_empleados= '${resultados[0].id}' and encuesta= "RP" `,function(error,results2,fields){
+        client.query(`select * from periodos where fk_empleados= '${resultados[0].id}' and encuesta= "RP" and periodo = '${data[1]}' `,function(error,results2,fields){
           var string2=JSON.stringify(results2);
           var resultados2 =  JSON.parse(string2);
           if(resultados2[0]){
@@ -753,7 +753,7 @@ const EEOPoliticaPrivacidad = async data => {
         if (error) reject(error) 
         var string=JSON.stringify(results);
         var resultados =  JSON.parse(string); 
-        client.query(`select * from periodos where fk_empleados= '${resultados[0].id}' and encuesta= "EEO" `,function(error,results2,fields){
+        client.query(`select * from periodos where fk_empleados= '${resultados[0].id}' and encuesta= "EEO" and periodo = '${data[1]}' `,function(error,results2,fields){
           var string2=JSON.stringify(results2);
           var resultados2 =  JSON.parse(string2);
           if(resultados2[0]){
