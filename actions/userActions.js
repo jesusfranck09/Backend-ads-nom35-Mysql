@@ -2658,8 +2658,8 @@ const GetresultGlobalSurveyEEO = async data => {
             
             NumeroDeMes=LaFecha.getMonth();
             FechaCompleta=diasem[diasemana]+" "+LaFecha.getDate()+" de "+Mes[NumeroDeMes]+" de "+LaFecha.getFullYear()+" "+hora+":"+minuto+":"+segundo;
-
             client.query(`update superusuario set  activo='true', fechaRegistro = '${fechaFinal}', fk_paquetes= '${paqueteAdquirido}' where id = '${idCliente}'`);
+            client.query(`update administrador set  Activo='true' where fk_superusuario = '${idCliente}'`);
             client.query(`insert into datosRenovaciones(rfc,razonSocial,nombreCliente,periodoInicial,periodoFinal,paqueteActivo,fk_superusuario,fechaAdquisicion) values ('${rfc}','${razonSocial}','${nombreCliente}', '${fechaInicial}', '${fechaFinal}', '${paqueteAdquirido}', '${idCliente}', '${FechaCompleta}')`)
             resolve({message:"licencia actualizada"});
 
