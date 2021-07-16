@@ -57,8 +57,7 @@ scalar Upload
     getTablePeriodo(data:[String!]):[tablePeriodo]
     getSingleEmployee(data:[String!]):[JsonEmployee]
     getEmployeesPerido(data:[String!]):[tablePeriodo]
-    # getLicencia(data:[String!]):[tablePeriodo]
-
+    getSuperUserWithRFC(data:[String!]):[superUser]
  }        
  
 type Mutation {
@@ -125,11 +124,15 @@ type Mutation {
   transactionsEval(data:[String!]):Data
   updateEvalEEO(data:[String!]):Data
   deleteEval(data:[String!]):JsonEmployee
+  renovacionLicencias(data:[String!]):Data
+  updateSuperUser(data:[String!]):Data
+
 }
 
 type Url {
   url:String
 }
+
 
 type superUser {
     id:String,
@@ -553,7 +556,7 @@ type SurveyData {
 }
 
 type Data {
-  message: String,
+  message:String,
   eventoFinal:String,
   alerta1:String,
   alerta2:String,

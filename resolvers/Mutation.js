@@ -374,16 +374,31 @@ const transactionsEval = async(_, { data }) => {
 const updateEvalEEO = async(_, { data }) => {
     var miCadena =data[0];
     var divisiones = miCadena.split(",");
-    const transactionsEval = await  actions.updateEvalEEO(divisiones)
-    return transactionsEval;
+    const updateEvalEEO = await  actions.updateEvalEEO(divisiones)
+    return updateEvalEEO;
 };
 const deleteEval = async(_, { data }) => {
     var miCadena =data[0];
     var divisiones = miCadena.split(",");
-    const transactionsEval = await  actions.DeleteEval(divisiones)
-    return transactionsEval;
+    const deleteEval = await  actions.DeleteEval(divisiones)
+    return deleteEval;
+};
+const renovacionLicencias = async(_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    const renovacion = await actions.RenovacionLicencias(divisiones)
+    return renovacion;
+};
+
+const updateSuperUser = async(_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    const updateSuperUser = await actions.UpdateSuperUser(divisiones)
+    return updateSuperUser;
 };
 module.exports = {
+    updateSuperUser,
+    renovacionLicencias,
     deleteEval,
     updateEvalEEO,
     transactionsEval,

@@ -271,7 +271,7 @@ const  login = async (email,password) => {
                           RazonSocial:resultados[0].RazonSocial,
                           Usuario:resultados[0].Usuario,
                           correo:resultados[0].correo,
-                          activo:resultados[0].activo,
+                          activo:resultados[0].Activo,
                           fechaRegistro:resultados[0].fechaRegistro,
                           fk_superusuario:resultados[0].fk_superusuario
                         });
@@ -2622,17 +2622,74 @@ const GetresultGlobalSurveyEEO = async data => {
           })         
         }; 
       const GetEmployeesPerido = async data => {
-        console.log("data user" , data)
         return new Promise((resolve,reject) => {
           client.query(`select * from empleados inner join periodos on periodos.fk_empleados = empleados.id where empleados.fk_administrador ='${data[0]}'`, function(err,results,fields){
               var string = JSON.stringify(results)
               var resultados = JSON.parse(string)
-              console.log("resultados" ,resultados)
               resolve(resultados)
           })
         })            
       };
+      const RenovacionLicencias = async data => {
+        return new Promise((resolve,reject)=>{
+
+            let substring1 = data[5].substring(0,3);
+            let substring2 = data[5].substring(4,28); 
+            let substring3 = data[6].substring(0,3);
+            let substring4 = data[6].substring(4,28); 
+           
+            let idCliente = data[0];
+            let rfc = data[1];
+            let razonSocial = data[2];
+            let nombreCliente = data[3];
+            let paqueteAdquirido = data[4];  
+            let fechaInicial = substring1.concat(", ").concat(substring2);
+            let fechaFinal = substring3.concat(", ").concat(substring4);
+
+            var LaFecha=new Date();
+            var Mes=new Array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+            var diasem=new Array('domingo','lunes','martes','miercoles','jueves','viernes','sabado');
+            var diasemana=LaFecha.getDay();
+            var FechaCompleta="";
+            var NumeroDeMes="";
+            var hora = LaFecha.getHours() 
+            var minuto = LaFecha.getMinutes() 
+            var segundo = LaFecha.getSeconds() 
+            
+            NumeroDeMes=LaFecha.getMonth();
+            FechaCompleta=diasem[diasemana]+" "+LaFecha.getDate()+" de "+Mes[NumeroDeMes]+" de "+LaFecha.getFullYear()+" "+hora+":"+minuto+":"+segundo;
+
+            client.query(`update superusuario set  activo='true', fechaRegistro = '${fechaFinal}', fk_paquetes= '${paqueteAdquirido}' where id = '${idCliente}'`);
+            client.query(`insert into datosRenovaciones(rfc,razonSocial,nombreCliente,periodoInicial,periodoFinal,paqueteActivo,fk_superusuario,fechaAdquisicion) values ('${rfc}','${razonSocial}','${nombreCliente}', '${fechaInicial}', '${fechaFinal}', '${paqueteAdquirido}', '${idCliente}', '${FechaCompleta}')`)
+            resolve({message:"licencia actualizada"});
+
+        })
+      };
+    const GetSuperUserWithRFC = async data => {
+      return new Promise((resolve,reject) => {
+        client.query(`select * from superusuario where RFC='${data[0]}' `, function(err,results,fields){
+            var string = JSON.stringify(results)
+            var resultados = JSON.parse(string)
+            if(resultados){
+              resolve(resultados)
+            }
+            
+        })
+    }) 
+    }
+    const UpdateSuperUser = async data => {
+      console.log(data)
+      return new Promise((resolve,reject) => {
+        client.query(`update superusuario set nombre = '${data[1]}', apellidos = '${data[2]}', RFC = '${data[0]}', RazonSocial = '${data[3]}', telefono = '${data[4]}', correo = '${data[5]}' where id = '${data[6]}'`);
+        client.query(`update ventasadminalfa set RazonSocial = '${data[3]}', telefono = '${data[4]}', RFC = '${data[0]}' where RFC = '${data[0]}'`);
+        resolve({message:"Actualización exitosa"})
+    }) 
+    }
+
       module.exports = {
+        UpdateSuperUser,
+        GetSuperUserWithRFC,
+        RenovacionLicencias,
         GetEmployeesPerido,
         DeleteEval,
         GetSingleEmployee,

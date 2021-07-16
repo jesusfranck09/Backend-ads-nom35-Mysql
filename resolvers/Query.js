@@ -362,7 +362,15 @@ const getEmployeesPerido = async(_, { data }) => {
     return periodo;
 };
 
+const getSuperUserWithRFC = async(_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    const periodo = await  actions.GetSuperUserWithRFC(divisiones)
+    return periodo;
+};
+
      module.exports = {
+        getSuperUserWithRFC,
         getEmployeesPerido,
         getSingleEmployee,
         getTablePeriodo,
