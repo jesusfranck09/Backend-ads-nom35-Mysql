@@ -2586,7 +2586,8 @@ const GetresultGlobalSurveyEEO = async data => {
             }
             
           })         
-        };  
+        };     
+
         const GetSingleEmployee= async data => {
           return new Promise((resolve,reject) => {
             client.query(`select * from administrador inner join empleados on empleados.fk_administrador =  administrador.id inner join periodos on periodos.fk_empleados  =  empleados.id where  administrador.id='${data[0]}' `, function(err,results,fields){
@@ -2596,6 +2597,7 @@ const GetresultGlobalSurveyEEO = async data => {
             })
           })         
         }; 
+
         const DeleteEval= async data => {
           return new Promise((resolve,reject) => {
             if(data[2]  == 'ATS'){
@@ -2632,7 +2634,6 @@ const GetresultGlobalSurveyEEO = async data => {
       };
       const RenovacionLicencias = async data => {
         return new Promise((resolve,reject)=>{
-
             let substring1 = data[5].substring(0,3);
             let substring2 = data[5].substring(4,28); 
             let substring3 = data[6].substring(0,3);
@@ -2685,8 +2686,18 @@ const GetresultGlobalSurveyEEO = async data => {
         resolve({message:"Actualización exitosa"})
     }) 
     }
-
+    
+    const GetHistoryRenovation = () => {
+    return new Promise((resolve,reject)=>{
+      client.query(`select * from datosRenovaciones inner join superusuario on datosrenovaciones.fk_superusuario = superusuario.id`,function(err,results,fields){
+        let string = JSON.stringify(results)
+        let resultados = JSON.parse(string)
+        resolve(resultados)
+      });
+    })
+    }
       module.exports = {
+        GetHistoryRenovation,
         UpdateSuperUser,
         GetSuperUserWithRFC,
         RenovacionLicencias,

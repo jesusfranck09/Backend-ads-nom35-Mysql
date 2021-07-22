@@ -58,6 +58,7 @@ scalar Upload
     getSingleEmployee(data:[String!]):[JsonEmployee]
     getEmployeesPerido(data:[String!]):[tablePeriodo]
     getSuperUserWithRFC(data:[String!]):[superUser]
+    getHistoryRenovation:[historyRenovation]
  }        
  
 type Mutation {
@@ -133,7 +134,20 @@ type Url {
   url:String
 }
 
-
+type historyRenovation {
+    idRenovacion:String
+    rfc:String
+    razonSocial:String
+    nombreCliente:String
+    periodoInicial:String
+    periodoFinal:String
+    paqueteActivo:String
+    fechaAdquisicion:String
+    nombre:String
+    apellidos:String
+    RFC:String
+    RazonSocial:String
+}
 type superUser {
     id:String,
     nombre:String,

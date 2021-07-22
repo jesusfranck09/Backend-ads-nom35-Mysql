@@ -369,7 +369,12 @@ const getSuperUserWithRFC = async(_, { data }) => {
     return periodo;
 };
 
+const getHistoryRenovation = async() => {
+    const periodo = await  actions.GetHistoryRenovation()
+    return periodo;
+};
      module.exports = {
+        getHistoryRenovation,
         getSuperUserWithRFC,
         getEmployeesPerido,
         getSingleEmployee,
