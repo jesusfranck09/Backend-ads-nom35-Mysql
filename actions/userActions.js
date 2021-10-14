@@ -55,7 +55,7 @@ const signup =   (user) => {
                           port: 587,
                           auth: {
                                   user: 'info@diagnostico035.com',
-                                  pass: 'jpY9f23#',
+                                  pass: 'zAvb54$3',
                                  
                               },
                           tls: {rejectUnauthorized: false},
@@ -161,15 +161,13 @@ const SignupAdminAlfa =   (user) => {
 });
 };
 
-const  login = async (email,password) => {
+  const  login = async (email,password) => {
   let correo = email
   return new Promise((resolve, reject) => {   
   if(!email || !password){
     resolve({message:"ningun dato",token:"no hay token"})
   }
-
   if(email && password){
-
     client
       .query(`select * from  superusuario where correo='${email}' `,
      function (error, results, fields) {
@@ -181,15 +179,14 @@ const  login = async (email,password) => {
           if(resultados[0]){
             bcrypt.compare(password,resultados[0].contraseña, function(err, result) {
             if(result){
-              resolve({     
+              resolve({    
               message: 'Login exitoso',
                token: createToken( resultados[0].correo, resultados[0].contraseña),
                id:resultados[0].id,
                nombre:resultados[0].nombre,
-               Apellidos:resultados[0].Apellidos,
+               apellidos:resultados[0].apellidos,
                RFC:resultados[0].RFC,
                RazonSocial:resultados[0].RazonSocial,
-               Usuario:resultados[0].Usuario,
                correo:resultados[0].correo,
                activo:resultados[0].activo
               });
@@ -201,7 +198,7 @@ const  login = async (email,password) => {
       }else{
         resolve({correo:correo,message:"usuario y contraseña incorrectos",token:"no hay token"})
       }
-      },
+     },
     )
     }  
   })
@@ -800,7 +797,7 @@ return  new Promise((resolve, reject) => {
       port: 587,
       auth: {
               user: 'info@diagnostico035.com',
-              pass: 'jpY9f23#',
+              pass: 'zAvb54$3',
             
           },
       tls: {rejectUnauthorized: false},
@@ -824,7 +821,7 @@ return  new Promise((resolve, reject) => {
         const mailOptions = {
         from: 'info@diagnostico035.com', // sender address
         to: `${rows},jesus.francisco@ads.com.mx`, // list of receivers
-        subject: 'Iniciar Evaluación', // Subject line
+        subject: 'Evaluación Diagnostico035', // Subject line
         html: `<p>Estimado Colaborador por medio de este enlace le envío su evaluación ${encuesta}, deberá ingresar su correo electrónico y responder las preguntas correspondientes. </p> ${url}` // plain text body
       };
 
@@ -1607,7 +1604,7 @@ const GetresultGlobalSurveyEEO = async data => {
                           port: 587,
                           auth: {
                                   user: 'info@diagnostico035.com',
-                                  pass: 'jpY9f23#',
+                                  pass: 'zAvb54$3',
                                  
                               },
                           tls: {rejectUnauthorized: false},
@@ -1749,7 +1746,7 @@ const GetresultGlobalSurveyEEO = async data => {
                 port: 587,
                 auth: {
                         user: 'info@diagnostico035.com',
-                        pass: 'jpY9f23#',
+                        pass: 'zAvb54$3',
                     },
                 tls: {rejectUnauthorized: false},
                 });
@@ -1783,7 +1780,7 @@ const GetresultGlobalSurveyEEO = async data => {
             port: 587,
             auth: {
                     user: 'info@diagnostico035.com',
-                    pass: 'jpY9f23#',
+                    pass: 'zAvb54$3',
                    
                 },
             tls: {rejectUnauthorized: false},
@@ -1816,7 +1813,7 @@ const GetresultGlobalSurveyEEO = async data => {
               port: 587,
               auth: {
                       user: 'info@diagnostico035.com',
-                      pass: 'jpY9f23#',
+                      pass: 'zAvb54$3',
                      
                   },
               tls: {rejectUnauthorized: false},
@@ -1982,7 +1979,7 @@ const GetresultGlobalSurveyEEO = async data => {
                               port: 587,
                               auth: {
                                       user: 'info@diagnostico035.com',
-                                      pass: 'jpY9f23#',
+                                      pass: 'zAvb54$3',
                                   },
                               tls: {rejectUnauthorized: false},
                               });
@@ -2167,7 +2164,7 @@ const GetresultGlobalSurveyEEO = async data => {
                                       port: 587,
                                       auth: {
                                               user: 'info@diagnostico035.com',
-                                              pass: 'jpY9f23#',
+                                              pass: 'zAvb54$3',
                                             
                                           },
                                       tls: {rejectUnauthorized: false},
@@ -2320,7 +2317,7 @@ const GetresultGlobalSurveyEEO = async data => {
                   port: 587,
                   auth: {
                           user: 'info@diagnostico035.com',
-                          pass: 'jpY9f23#',
+                          pass: 'zAvb54$3',
                         
                       },
                   tls: {rejectUnauthorized: false},
@@ -2420,7 +2417,7 @@ const GetresultGlobalSurveyEEO = async data => {
                       port: 587,
                       auth: {
                               user: 'info@diagnostico035.com',
-                              pass: 'jpY9f23#',
+                              pass: 'zAvb54$3',
                              
                           },
                       tls: {rejectUnauthorized: false},
@@ -2487,7 +2484,7 @@ const GetresultGlobalSurveyEEO = async data => {
                   port: 587,
                   auth: {
                           user: 'info@diagnostico035.com',
-                          pass: 'jpY9f23#',
+                          pass: 'zAvb54$3',
                          
                       },
                   tls: {rejectUnauthorized: false},
@@ -2696,7 +2693,19 @@ const GetresultGlobalSurveyEEO = async data => {
       });
     })
     }
+    const GetLicence = async data => {
+      console.log(data)
+      return new Promise((resolve,reject) => {
+        console.log(`select * from licencias where fk_superusuario = '${data[0]}'`)
+        client.query(`select * from licencias where fk_superusuario = '${data[0]}'`,function(err, results, field){
+          let string = JSON.stringify(results);
+          let resultados = JSON.parse(string);
+          resolve(resultados)
+        })
+      }) 
+    }
       module.exports = {
+        GetLicence,
         GetHistoryRenovation,
         UpdateSuperUser,
         GetSuperUserWithRFC,

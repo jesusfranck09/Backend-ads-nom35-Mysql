@@ -373,7 +373,14 @@ const getHistoryRenovation = async() => {
     const periodo = await  actions.GetHistoryRenovation()
     return periodo;
 };
+const getLicence = async(_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    const licencia = await  actions.GetLicence(divisiones)
+    return licencia;
+};
      module.exports = {
+        getLicence,
         getHistoryRenovation,
         getSuperUserWithRFC,
         getEmployeesPerido,

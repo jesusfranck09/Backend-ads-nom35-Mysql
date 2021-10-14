@@ -59,13 +59,14 @@ scalar Upload
     getEmployeesPerido(data:[String!]):[tablePeriodo]
     getSuperUserWithRFC(data:[String!]):[superUser]
     getHistoryRenovation:[historyRenovation]
+    getLicence(data:[String!]):[licencia]
  }        
  
 type Mutation {
   cardPay(data:[String]!):Auth!
   registroSuperUser(data:[String]!):Auth!
   signupAdminAlfa(data: UserCreateInput!): Auth! 
-  login(email: String!, password: String!): Auth!
+  login(email: String!, password: String!):Auth
   loginAdminAlfa(email: String!, password: String!): Auth!
 
   loginEmpresas(rfc: String!, password: String!): Auth!
@@ -132,6 +133,14 @@ type Mutation {
 
 type Url {
   url:String
+}
+
+type licencia {
+  id:String,
+  fechaRegistro:String,
+  licenciaActiva:String,
+  fk_superusuario:String,
+  fk_paquetes:String
 }
 
 type historyRenovation {
@@ -303,18 +312,20 @@ type  JsonEmployee{
 }
 
 type Auth {
-message:String!
+message:String
 token:String
 id:String
 nombre:String
-Apellidos:String
+apellidos:String
 RFC:String
 RazonSocial:String
 telefono:String
 correo:String
 activo:String
 fechaRegistro:String
+licenciaActiva:String
 fk_superusuario:String
+fk_paquetes:String
 
 }
 
