@@ -263,7 +263,7 @@ const SignupAdminAlfa =   (user) => {
                           token: createToken( resultados[0].correo, resultados[0].contraseña),
                           id:resultados[0].id,
                           nombre:resultados[0].nombreAdmin,
-                          apellidos:resultados[0].Apellidos,
+                          Apellidos:resultados[0].Apellidos,
                           RFC:resultados[0].RFC,
                           RazonSocial:resultados[0].RazonSocial,
                           Usuario:resultados[0].Usuario,

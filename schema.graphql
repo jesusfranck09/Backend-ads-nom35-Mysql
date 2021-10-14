@@ -316,7 +316,7 @@ message:String
 token:String
 id:String
 nombre:String
-apellidos:String
+Apellidos:String
 RFC:String
 RazonSocial:String
 telefono:String
