@@ -317,6 +317,7 @@ token:String
 id:String
 nombre:String
 Apellidos:String
+apellidos:String
 RFC:String
 RazonSocial:String
 telefono:String
@@ -326,7 +327,6 @@ fechaRegistro:String
 licenciaActiva:String
 fk_superusuario:String
 fk_paquetes:String
-
 }
 
 type DataAdmin {
