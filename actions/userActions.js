@@ -239,8 +239,10 @@ const SignupAdminAlfa =   (user) => {
     })
     }
 
-    const  LoginEmpresas = async (rfc,password) => {
-    
+    const  LoginEmpresas = async (data) => {
+      console.log("data",data)
+      let rfc = data[0]
+      let password = data[1]
       let rfcData =  rfc
       return new Promise((resolve, reject) => {
         if(!rfc || !password){
@@ -258,6 +260,8 @@ const SignupAdminAlfa =   (user) => {
                     bcrypt.compare(password,resultados[0].contraseña, function(err, result) {
           
                       if(result){
+                        console.log("resultados",result)
+
                         resolve({     
                           message: 'Login exitoso',
                           token: createToken( resultados[0].correo, resultados[0].contraseña),
@@ -775,7 +779,6 @@ const  SendMail = async (args) => {
     return (parseInt(item) == item);
   });
 
-
 return  new Promise((resolve, reject) => {   
   var LaFecha=new Date();
   var Mes=new Array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
@@ -837,7 +840,6 @@ return  new Promise((resolve, reject) => {
         }
       });
     })
-   
     ids.map(row=>{
       client.query(`insert into correos(Encuesta,fecha,fk_empleados,contestado,fk_administrador) values ('${encuesta}','${FechaCompleta}','${row}','false','${ids[ids.length - 1]}')`); 
     
@@ -888,20 +890,22 @@ const ResultSingleSurveyRP = async data => {
       )
       })
     };
+    // `select * from empleados inner join respuestaseeo on respuestaseeo.fk_empleados = empleados.id where empleados.id =' ${data[0]}'  and respuestaseeo.periodo='${data[1]}'`
+    // `select * from respuestaseeo inner join empleados on respuestaseeo.fk_empleados = empleados.id where respuestaseeo.fk_empleados = '${data[0]}' and respuestaseeo.periodo ='${data[1]}' `
 
-const ResultSingleSurveyEEO = async data => {
-  return  new Promise((resolve, reject) => {
-      client
-      .query(`select * from respuestaseeo inner join empleados on respuestaseeo.fk_empleados = empleados.id where respuestaseeo.fk_empleados = '${data[0]}' and respuestaseeo.periodo ='${data[1]}' `,
-        function (error, results, fields) {
-        var string=JSON.stringify(results);
-        var resultados =  JSON.parse(string); 
-        resolve(resultados
-        ) 
-      },
-    )
-    })
-  };
+    const ResultSingleSurveyEEO = async data => {
+      return  new Promise((resolve, reject) => {
+          client
+          .query(`select * from respuestaseeo inner join empleados on respuestaseeo.fk_empleados = empleados.id where respuestaseeo.fk_empleados = '${data[0]}' and respuestaseeo.periodo ='${data[1]}' `,
+            function (error, results, fields) {
+            var string=JSON.stringify(results);
+            var resultados =  JSON.parse(string); 
+            resolve(resultados
+            ) 
+          },
+        )
+        })
+      };
 
 
 const GetAdmin = async data => {
@@ -2694,9 +2698,7 @@ const GetresultGlobalSurveyEEO = async data => {
     })
     }
     const GetLicence = async data => {
-      console.log(data)
       return new Promise((resolve,reject) => {
-        console.log(`select * from licencias where fk_superusuario = '${data[0]}'`)
         client.query(`select * from licencias where fk_superusuario = '${data[0]}'`,function(err, results, field){
           let string = JSON.stringify(results);
           let resultados = JSON.parse(string);

@@ -258,8 +258,10 @@ const addAdminEmpresa= async (_, { data }) => {
     return add;
 };
 
-const loginEmpresas = async (_, {rfc, password}) => { 
-    return actions.LoginEmpresas(rfc, password)      
+const loginEmpresas = async (_, {data}) => { 
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    return actions.LoginEmpresas(divisiones)      
 };
 
 const editDataAdmin= async (_, { data }) => {
