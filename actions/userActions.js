@@ -2813,7 +2813,6 @@ const GetresultGlobalSurveyEEO = async data => {
         AtsPage1,
         AtsPage4,
         RPPage8,
-        
         RPValidadorPage7,
         RPValidadorPage8,
         EEOPage14,
