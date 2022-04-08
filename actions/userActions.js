@@ -778,7 +778,6 @@ const  SendMail = async (args) => {
   var ids = str.filter(function (item) {
     return (parseInt(item) == item);
   });
-
 return  new Promise((resolve, reject) => {   
   var LaFecha=new Date();
   var Mes=new Array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
@@ -786,22 +785,18 @@ return  new Promise((resolve, reject) => {
   var diasemana=LaFecha.getDay();
   var FechaCompleta="";
   var NumeroDeMes="";
-  var hora = LaFecha.getHours() 
-  var minuto = LaFecha.getMinutes() 
-  var segundo = LaFecha.getSeconds() 
-  
+  var hora = LaFecha.getHours(); 
+  var minuto = LaFecha.getMinutes(); 
+  var segundo = LaFecha.getSeconds(); 
   NumeroDeMes=LaFecha.getMonth();
   FechaCompleta=diasem[diasemana]+" "+LaFecha.getDate()+" de "+Mes[NumeroDeMes]+" de "+LaFecha.getFullYear()+" "+hora+":"+minuto+":"+segundo;
-  
    var transporter = nodemailer.createTransport({
-      
       secure: false,
       host: 'mail.diagnostico035.com',
       port: 587,
       auth: {
               user: 'info@diagnostico035.com',
               pass: 'zAvb54$3',
-            
           },
       tls: {rejectUnauthorized: false},
       });
@@ -815,34 +810,31 @@ return  new Promise((resolve, reject) => {
     }if(ids[ids.length - 2]==2){
       url =  "https://eval.diagnostico035.com/RP"
       encuesta="RP"
-    }
-    if(ids[ids.length - 2]==3){
+    }if(ids[ids.length - 2]==3){
       url =  "https://eval.diagnostico035.com/EEO"
       encuesta="EEO"
     }
-    nombres.map(rows=>{
+        nombres.map(rows=>{
         const mailOptions = {
         from: 'info@diagnostico035.com', // sender address
         to: `${rows},jesus.francisco@ads.com.mx`, // list of receivers
-        subject: 'Evaluación Diagnostico035', // Subject line
+        subject: '¡Evaluación Diagnostico035!', // Subject line
         html: `<p>Estimado Colaborador por medio de este enlace le envío su evaluación ${encuesta}, deberá ingresar su correo electrónico y responder las preguntas correspondientes. </p> ${url}` // plain text body
-      };
-
+    };
       transporter.sendMail(mailOptions, function (err, info) {
-      
-        if( err){
+        console.log("info",info)
+        if(err){
           console.log("este es el error" , err)
-        }
-          
-        else{
-          resolve({message:`envio exitoso a ${rows}`  },          
+          reject("err",err)
+        }else{
+          resolve({message:`envio exitoso a ${rows}`},          
           )
         }
       });
     })
+    
     ids.map(row=>{
       client.query(`insert into correos(Encuesta,fecha,fk_empleados,contestado,fk_administrador) values ('${encuesta}','${FechaCompleta}','${row}','false','${ids[ids.length - 1]}')`); 
-    
       return  client
     })
 })
