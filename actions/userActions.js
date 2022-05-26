@@ -2698,7 +2698,106 @@ const GetresultGlobalSurveyEEO = async data => {
         })
       }) 
     }
+    const ResendEmailSuperUSer = async data => {
+      console.log("data",data)
+      return new Promise((resolve,reject) => {
+        function makeid(length) {
+          var result           = '';
+          var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+          var charactersLength = characters.length;
+          for ( var i = 0; i < length; i++ ) {
+             result += characters.charAt(Math.floor(Math.random() * charactersLength));
+          }
+          return result;
+       }
+       
+       var random = makeid(8)
+       console.log("random",random)
+       bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
+        if (err) {
+          reject(err,{message: 'Error',token: err}) 
+        } else {
+        bcrypt.hash(random, salt, function(err, hash) {
+          if (err) {
+            throw err
+          } else {
+            client .query(`select * from  paquetes where id='${data[5]}'`,
+            function (error, results, fields) {
+              var string=JSON.stringify(results);
+              var resultados =  JSON.parse(string);
+              console.log("resultados",resultados) 
+              if(resultados[0]){
+                client.query(`update superusuario set contraseña = '${hash}' where RFC = '${data[2]}'`)
+                var transporter = nodemailer.createTransport({
+                  secure: false,
+                  host: 'mail.diagnostico035.com',
+                  port: 587,
+                  auth: {
+                          user: 'info@diagnostico035.com',
+                          pass: 'zAvb54$3',
+                         
+                      },
+                  tls: {rejectUnauthorized: false},
+                  });
+                  const mailOptions = {
+                    from: 'info@diagnostico035.com', // sender address
+                    to: `${data[4]},jesus.francisco@ads.com.mx,armando.franco@ads.com.mx`, // list of receivers
+                    subject: 'Registro a Diagnóstico035 ', // Subject line
+                    html: `<p>Empresa: <strong>${data[3]}</strong> <br/>RFC: <strong>${data[2]}</strong><br/>Correo:<strong> ${data[4]}</strong> <br/>  Contraseña: <strong>${random}</strong> <br/> <br/> 
+                      Hola <strong> ${data[0]} ${data[1]}</strong> <br/> <br/> Acabas de unirte a Diagnóstico035. Con tu suscripción, disfrutarás de: <br/> <br/>
+                    - Acceso ilimitado a la aplicación durante el periodo de tu suscripción. <br/> 
+                    - Registro de   ${resultados[0].empresas} Empresas y ${resultados[0].empleados} Empleados. <br/> 
+                    - Evaluaciones ilimitadas de ATS, RP´s y EEO. <br/>
+                    - Actualizaciones sin costo. <br/>
+                    - Soporte básico ilimitado, sobre el uso de la aplicación.
+                      <br/> <br/>  
+                      <strong> Configuración </strong><br/>
+                      Para dar de alta tu empresa, deberás ingresar a la siguiente URL, con el usuario y contraseña  enviado por tu ejecutivo.<br/><br/>
+                      https://madmin.diagnostico035.com/<br/><br/>
+                      Una vez hecho esto deberás ingresar a la siguiente dirección y podrás comenzar a utilizar Diagnóstico035.<br/><br/>
+
+                      https://admin.diagnostico035.com/<br/><br/>
+                      <br/><br/>
+                      También puedes encontrar una serie de videos que te ayudaran a entender más sobre diagnóstico035 en el siguiente enlace https://www.youtube.com/channel/UC2isBB9Kv5lJE5rZsfU5xPw
+                      <br/><br/>
+                      <strong>Nota: Para mayor seguridad no olvide cambiar su contraseña de acceso.</strong>
+                      <br/>
+                      Conoce más sobre los beneficios de Diagnóstico035 en <br/> https://diagnostico035.com/
+                      <br/><br/>
+                      Gracias, <br/>
+                      <center>
+                      <strong>El equipo de Diagnóstico035.</strong><br/><br/>
+
+                      Tel: (55) 3603 9970 y (55) 5553 2049<br/>
+                      Ext 101 y 102<br/>
+                      www.diagnostico035.com<br/>
+                    </center>
+                    
+                    </p> ` // plain text body
+                  };
+                  
+                  transporter.sendMail(mailOptions, function (err, info) {
+                    if(err){
+                      console.log(err)
+                      console.log("este es el error" , err.response)
+                    }
+                    else{
+                     resolve({ message:'Reenvio exitoso',token:hash})
+                     console.log("esta es la info" ,  info);
+                    }
+                  });
+              }
+            },
+          )
+            return client
+          }
+        })
+        }
+      })
+      }) 
+    }
       module.exports = {
+        ResendEmailSuperUSer,
         GetLicence,
         GetHistoryRenovation,
         UpdateSuperUser,

@@ -128,13 +128,16 @@ type Mutation {
   deleteEval(data:[String!]):JsonEmployee
   renovacionLicencias(data:[String!]):Data
   updateSuperUser(data:[String!]):Data
-
+  resendEmailSuperUSer(data:[String!]):message
 }
 
 type Url {
   url:String
 }
-
+type message {
+  message:String
+  token:String
+}
 type licencia {
   id:String,
   fechaRegistro:String,
