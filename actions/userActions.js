@@ -818,8 +818,29 @@ return  new Promise((resolve, reject) => {
         const mailOptions = {
         from: 'info@diagnostico035.com', // sender address
         to: `${rows},jesus.francisco@ads.com.mx`, // list of receivers
-        subject: '¡Evaluación Diagnostico035!', // Subject line
-        html: `<p>Estimado Colaborador por medio de este enlace le envío su evaluación ${encuesta}, deberá ingresar su correo electrónico y responder las preguntas correspondientes. </p> ${url}` // plain text body
+        subject: `Evaluación ${encuesta} de Diagnostico035`, // Subject line
+        html: 
+        `<p>Diagnóstico035 es una herramienta en la nube (100% web) que te ayuda a dar cumplimiento a la <strong> Normatividad NOM-035-STPS-2018 </strong>, a través de la evaluación de cada uno de tus colaboradores con el fin de identificar, analizar y mitigar los factores de riesgo psicosocial de tu empresa.
+                    <br/>
+                    <br/>
+                    Basado en su solicitud, adjunto en este correo la liga de acceso al sistema de evaluaciones.
+                    <br/>
+                    <br/>
+                    <strong>No olvide completar de forma satisfactoria el total de preguntas antes de enviar su evaluación.</strong>
+                    <br/>
+                    <strong>Acceda al siguiente link para completar el proceso ${url}</strong>
+                    <br/>
+                    <br/>
+
+                    para mayor información visite nuestro canal de youtube https://www.youtube.com/channel/UC2isBB9Kv5lJE5rZsfU5xPw.
+                    <br/>
+                    <br/>
+                    Saludos cordiales, 
+                    <center><br/>
+                    <br/>
+                El equipo de desarrollo de Diagnostico035<br/>
+                www.diagnostico035.com<br/></center>
+                </p>` // plain text body
     };
       transporter.sendMail(mailOptions, function (err, info) {
         console.log("info",info)
