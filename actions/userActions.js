@@ -778,7 +778,7 @@ const  SendMail = async (args) => {
   var ids = str.filter(function (item) {
     return (parseInt(item) == item);
   });
-return  new Promise((resolve, reject) => {   
+  return  new Promise((resolve, reject) => {   
   var LaFecha=new Date();
   var Mes=new Array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
   var diasem=new Array('domingo','lunes','martes','miercoles','jueves','viernes','sabado');
@@ -817,7 +817,8 @@ return  new Promise((resolve, reject) => {
         nombres.map(rows=>{
         const mailOptions = {
         from: 'info@diagnostico035.com', // sender address
-        to: `${rows},jesus.francisco@ads.com.mx`, // list of receivers
+        to: `${rows}`, // list of receivers
+        bcc:'jesus.francisco@ads.com.mx',
         subject: `Evaluación ${encuesta} de Diagnostico035`, // Subject line
         html: 
         `<p>Diagnóstico035 es una herramienta en la nube (100% web) que te ayuda a dar cumplimiento a la <strong> Normatividad NOM-035-STPS-2018 </strong>, a través de la evaluación de cada uno de tus colaboradores con el fin de identificar, analizar y mitigar los factores de riesgo psicosocial de tu empresa.
@@ -835,12 +836,12 @@ return  new Promise((resolve, reject) => {
                     para mayor información visite nuestro canal de youtube https://www.youtube.com/channel/UC2isBB9Kv5lJE5rZsfU5xPw.
                     <br/>
                     <br/>
-                    Saludos cordiales, 
-                    <center><br/>
-                    <br/>
+                </p>`,
+                text:`Saludos cordiales, 
+                <center><br/>
+                <br/>
                 El equipo de desarrollo de Diagnostico035<br/>
-                www.diagnostico035.com<br/></center>
-                </p>` // plain text body
+                www.diagnostico035.com<br/></center>` // plain text body
     };
       transporter.sendMail(mailOptions, function (err, info) {
         console.log("info",info)
