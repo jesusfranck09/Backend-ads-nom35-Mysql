@@ -40,16 +40,12 @@ const signup =   (user) => {
 
                      client.query(`insert into ventasAdminAlfa (fk_adminAlfa,fk_paquetes,fechaVenta,RazonSocial,telefono,RFC) values('${user[7]}','${user[9]}','${user[8]}','${user[3].toUpperCase() }','${user[4] }','${user[2].toUpperCase() }')`)
                     resolve({ message: 'Signup exitoso',token:hash})
-            
-                    client
-                    .query(`select * from  paquetes where id='${user[9]}'`,
-                    
+                    client.query(`select * from  paquetes where id='${user[9]}'`,
                     function (error, results, fields) {
                       var string=JSON.stringify(results);
                       var resultados =  JSON.parse(string); 
                       if(resultados[0]){
                         var transporter = nodemailer.createTransport({
-  
                           secure: false,
                           host: 'mail.diagnostico035.com',
                           port: 587,
@@ -771,6 +767,7 @@ const EEOPoliticaPrivacidad = async data => {
 
 
 const  SendMail = async (args) => {
+  console.log("args",args)
   var str = args;
   var nombres = str.filter(function (item) {
     return !(parseInt(item) == item);
@@ -815,11 +812,12 @@ const  SendMail = async (args) => {
       encuesta="EEO"
     }
         nombres.map(rows=>{
+          console.log("rows",rows);
+
         const mailOptions = {
-        from: 'info@diagnostico035.com', // sender address
-        to: `${rows}`, // list of receivers
-        bcc:'jesus.francisco@ads.com.mx',
-        subject: `Evaluación ${encuesta} de Diagnostico035`, // Subject line
+        from: 'info@diagnostico035.com',
+        to: `jesus.francisco@ads.com.mx,${rows}`,
+        subject:`Evaluación ${encuesta} de Diagnostico035`,
         html: 
         `<p>Diagnóstico035 es una herramienta en la nube (100% web) que te ayuda a dar cumplimiento a la <strong> Normatividad NOM-035-STPS-2018 </strong>, a través de la evaluación de cada uno de tus colaboradores con el fin de identificar, analizar y mitigar los factores de riesgo psicosocial de tu empresa.
                     <br/>
@@ -841,7 +839,7 @@ const  SendMail = async (args) => {
                 <center><br/>
                 <br/>
                 El equipo de desarrollo de Diagnostico035<br/>
-                www.diagnostico035.com<br/></center>` // plain text body
+                www.diagnostico035.com<br/></center>`
     };
       transporter.sendMail(mailOptions, function (err, info) {
         console.log("info",info)
@@ -862,7 +860,7 @@ const  SendMail = async (args) => {
 })
 }
 
-const getUsers = async data => {
+  const getUsers = async data => {
   return  new Promise((resolve, reject) => {
       client
       .query(`select empleados.id,empleados.nombre, empleados.ApellidoP, empleados.ApellidoM,empleados.Curp,empleados.RFC,empleados.FechaNacimiento,empleados.Sexo ,empleados.EstadoCivil,empleados.CentroTrabajo,empleados.correo, empleados.AreaTrabajo,empleados.Puesto,empleados.TipoPuesto,empleados.NivelEstudios,empleados.TipoPersonal,empleados.JornadaTrabajo,empleados.TipoContratacion,empleados.TiempoPuesto,empleados.ExperienciaLaboral,empleados.RotacionTurnos,empleados.fk_Administrador,empleados.ATSContestado,empleados.RPContestado,empleados.EEOContestado,empleados.ATSDetectado,empleados.EmpleadoActivo from empleados inner join administrador on empleados.fk_administrador = administrador.id where empleados.fk_administrador = '${data.data[0]}' and empleados.EmpleadoActivo ='true'`,
@@ -874,8 +872,8 @@ const getUsers = async data => {
       },
     )
     })
-};
-const ResultSingleSurvey = async data => {
+  };
+  const ResultSingleSurvey = async data => {
   return  new Promise((resolve, reject) => {
       client
       .query(`select * from respuestasats inner join empleados on respuestasats.fk_empleados = empleados.id where respuestasats.fk_empleados = '${data[0]}' and respuestasats.periodo = '${data[1]}' `,
@@ -891,17 +889,17 @@ const ResultSingleSurvey = async data => {
   };
 
 
-const ResultSingleSurveyRP = async data => {
-    return  new Promise((resolve, reject) => {
-        client
-        .query(`select * from respuestasrp inner join empleados on respuestasrp.fk_empleadosrp = empleados.id where respuestasrp.fk_empleadosrp ='${data[0]}' and respuestasrp.periodo ='${data[1]}' `,
-          function (error, results, fields) {
-          var string=JSON.stringify(results);
-          var resultados =  JSON.parse(string); 
-          resolve(resultados
-          ) 
-        },
-      )
+  const ResultSingleSurveyRP = async data => {
+      return  new Promise((resolve, reject) => {
+          client
+          .query(`select * from respuestasrp inner join empleados on respuestasrp.fk_empleadosrp = empleados.id where respuestasrp.fk_empleadosrp ='${data[0]}' and respuestasrp.periodo ='${data[1]}' `,
+            function (error, results, fields) {
+            var string=JSON.stringify(results);
+            var resultados =  JSON.parse(string); 
+            resolve(resultados
+            ) 
+          },
+        )
       })
     };
     // `select * from empleados inner join respuestaseeo on respuestaseeo.fk_empleados = empleados.id where empleados.id =' ${data[0]}'  and respuestaseeo.periodo='${data[1]}'`
@@ -947,10 +945,9 @@ return new Promise((resolve, reject) => {
       var valor =  JSON.parse(val); 
       resolve(valor) 
       return  client
-    }) 
-    
-  },
-)
+      }) 
+    },
+  )
 })
 };
 
@@ -962,7 +959,6 @@ const InactiveAdmin = async data => {
     .query(`update administrador set Activo='false' where fk_superusuario = '${data[0]}'` );
     resolve({message:"Usuario Blqueado"})
     })
-    
   };
 
 const RegisterSucursales = async data => { 

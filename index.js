@@ -14,16 +14,12 @@ const schema = makeExecutableSchema({
 
 const app = express();
 
-
-app.use(express.static(path.join(__dirname,'public')))
-
-
+app.use(express.static(path.join(__dirname,'public')));
 const options = {
   endpoint: '/graphql',
   subscriptions: '/subscriptions',
   playground: '/playground',
 };
-
 
 const server = new GraphQLServer({
   schema,
@@ -32,7 +28,6 @@ const server = new GraphQLServer({
 });
 
 const PORT = process.env.PORT || 4000;
-
 
 server.start(options, () =>
   console.log(
