@@ -39,7 +39,7 @@ scalar Upload
     getEventos(data: [String]!):Data
     getEmployeesFkAdmin(data: [String]!):[JsonEmployee]
     getEmpresas(data: [String]!):[DataAdmin]
-    verifyPackSuperUser(data: [String]!):Pack
+    verifyPackSuperUser(data: [String]!):[Pack]
     countEmpresas(data: [String]!):Pack
     getAdminAlfa(data: [String]!):[adminAlfa]
     getImage(data: [String]!):Data
@@ -230,9 +230,17 @@ nombre:String,
 fk_Administrador:String
 }
 type Pack{
-  empresas:String,
+  empresas:String
   empleados:String
   id:String
+  nombre:String
+  apellidos:String
+  RazonSocial:String
+  telefono:String
+  correo:String
+  activo:String
+  fechaRegistro:String
+  fk_paquetes:String
 }
 
 type Puestos {
@@ -625,6 +633,7 @@ correo:String,
 Activo:String,
 fk_superusuario:String,
 objetivo:String
+fk_paquetes:String
 }
 
 type correos{

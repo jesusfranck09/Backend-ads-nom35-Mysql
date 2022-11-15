@@ -1702,8 +1702,9 @@ const GetresultGlobalSurveyEEO = async data => {
               function (error, results, fields) {
               if (error) reject(error) 
               var string=JSON.stringify(results);
-              var resultados =  JSON.parse(string);    
-              resolve(resultados[0]) 
+              var resultados =  JSON.parse(string);
+              console.log("resultados",resultados)    
+              resolve(resultados) 
             },
           )
           })
