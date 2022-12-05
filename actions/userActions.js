@@ -767,7 +767,6 @@ const EEOPoliticaPrivacidad = async data => {
 
 
 const  SendMail = async (args) => {
-  console.log("args",args)
   var str = args;
   var nombres = str.filter(function (item) {
     return !(parseInt(item) == item);
