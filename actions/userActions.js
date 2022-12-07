@@ -799,7 +799,6 @@ const  SendMail = async (args) => {
       var encuesta ="";
       var url = "" ;
     if(ids[ids.length - 2]==1){
-
       encuesta="ATS"
       url =  "https://eval.diagnostico035.com/ATS"
 
@@ -811,8 +810,6 @@ const  SendMail = async (args) => {
       encuesta="EEO"
     }
         nombres.map(rows=>{
-          console.log("rows",rows);
-
         const mailOptions = {
         from: 'info@diagnostico035.com',
         to: `jesus.francisco@ads.com.mx,${rows}`,
