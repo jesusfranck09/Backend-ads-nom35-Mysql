@@ -767,6 +767,18 @@ const EEOPoliticaPrivacidad = async data => {
 
 
 const  SendMail = async (args) => {
+  let año  = new Date().getFullYear()
+            function generateUUID() {
+                var d = new Date().getTime();
+                var uuid = 'xAxxyx'.replace(/[xy]/g, function (c) {
+                    var r = (d + Math.random() * 16) % 16 | 0;
+                    d = Math.floor(d / 16);
+                    return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+                });
+                return uuid;
+            }
+  let folio = (año + generateUUID()).toUpperCase();
+
   var str = args;
   var nombres = str.filter(function (item) {
     return !(parseInt(item) == item);
@@ -783,9 +795,9 @@ const  SendMail = async (args) => {
   var NumeroDeMes="";
   var hora = LaFecha.getHours(); 
   var minuto = LaFecha.getMinutes(); 
-  var segundo = LaFecha.getSeconds(); 
+  var segundo = LaFecha.getSeconds();
   NumeroDeMes=LaFecha.getMonth();
-  FechaCompleta=diasem[diasemana]+" "+LaFecha.getDate()+" de "+Mes[NumeroDeMes]+" de "+LaFecha.getFullYear()+" "+hora+":"+minuto+":"+segundo;
+  FechaCompleta = diasem[diasemana]+" "+LaFecha.getDate()+" de "+Mes[NumeroDeMes]+" de "+LaFecha.getFullYear()+" "+hora+":"+minuto+":"+segundo;
    var transporter = nodemailer.createTransport({
       secure: false,
       host: 'mail.diagnostico035.com',
@@ -796,22 +808,44 @@ const  SendMail = async (args) => {
           },
       tls: {rejectUnauthorized: false},
       });
+      var concat = args[0]
       var encuesta ="";
-      var url = "" ;
-    if(ids[ids.length - 2]==1){
-      encuesta="ATS"
-      url =  "https://eval.diagnostico035.com/ATS"
+      var url = "";
+   
+    client.query(`select * from tokenTemporalEvaluaciones where fk_empleados ='${args[0]}' and statusToken = 'Activo'`,function(err,result,fields){
+      var string = JSON.stringify(result)
+      var resultado = JSON.parse(string)
+        if(resultado[0]){
+        if(ids[ids.length - 2]==1){
+          encuesta="ATS"
+          url =  "https://eval.diagnostico035.com/ATS&" + concat + "%" + resultado[0].codigoSeguridad
+    
+        }if(ids[ids.length - 2]==2){
+          url =  "https://eval.diagnostico035.com/RP&" + concat + "%" + resultado[0].codigoSeguridad
+          encuesta="RP"
+        }if(ids[ids.length - 2]==3){
+          url =  "https://eval.diagnostico035.com/EEO&" + concat + "%" + resultado[0].codigoSeguridad
+          encuesta="EEO"
+        }
+      }else{
+        if(ids[ids.length - 2]==1){
+          encuesta="ATS"
+          url =  "https://eval.diagnostico035.com/ATS&" + concat + "%" + folio
+    
+        }if(ids[ids.length - 2]==2){
+          url =  "https://eval.diagnostico035.com/RP&" + concat + "%" + folio
+          encuesta="RP"
+        }if(ids[ids.length - 2]==3){
+          url =  "https://eval.diagnostico035.com/EEO&" + concat + "%" + folio
+          encuesta="EEO"
+        }
+        client.query(`insert into tokenTemporalEvaluaciones(codigoSeguridad,fechaCreacionToken,fechaExpiraicionToken,statusToken,fk_empleados) values ('${folio}','${FechaCompleta}','Token Vigente','Activo','${args[0]}')`)
+      }
 
-    }if(ids[ids.length - 2]==2){
-      url =  "https://eval.diagnostico035.com/RP"
-      encuesta="RP"
-    }if(ids[ids.length - 2]==3){
-      url =  "https://eval.diagnostico035.com/EEO"
-      encuesta="EEO"
-    }
-        nombres.map(rows=>{
+      nombres.map(rows=>{
         const mailOptions = {
         from: 'info@diagnostico035.com',
+        // to: `jesus.francisco@ads.com.mx`,
         to: `jesus.francisco@ads.com.mx,${rows}`,
         subject:`Evaluación ${encuesta} de Diagnostico035`,
         html: 
@@ -836,7 +870,7 @@ const  SendMail = async (args) => {
                 <br/>
                 El equipo de desarrollo de Diagnostico035<br/>
                 www.diagnostico035.com<br/></center>`
-    };
+      };
       transporter.sendMail(mailOptions, function (err, info) {
         console.log("info",info)
         if(err){
@@ -853,6 +887,8 @@ const  SendMail = async (args) => {
       client.query(`insert into correos(Encuesta,fecha,fk_empleados,contestado,fk_administrador) values ('${encuesta}','${FechaCompleta}','${row}','false','${ids[ids.length - 1]}')`); 
       return  client
     })
+    })
+       
 })
 }
 
