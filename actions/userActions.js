@@ -839,7 +839,7 @@ const  SendMail = async (args) => {
           url =  "https://eval.diagnostico035.com/EEO:&" + concat + "%" + folio
           encuesta="EEO"
         }
-        client.query(`insert into tokenTemporalEvaluaciones(codigoSeguridad,fechaCreacionToken,fechaExpiraicionToken,statusToken,fk_empleados) values ('${folio}','${FechaCompleta}','Token Vigente','Activo','${args[0]}')`)
+        client.query(`insert into tokenTemporalEvaluaciones(codigoSeguridad,fechaCreacionToken,fechaExpiraicionToken,statusToken,evaluacion,fk_empleados) values ('${folio}','${FechaCompleta}','Token Vigente','Activo','${encuesta}','${args[0]}')`)
       }
 
       nombres.map(rows=>{
