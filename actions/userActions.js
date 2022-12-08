@@ -818,25 +818,25 @@ const  SendMail = async (args) => {
         if(resultado[0]){
         if(ids[ids.length - 2]==1){
           encuesta="ATS"
-          url =  "https://eval.diagnostico035.com/ATS&" + concat + "%" + resultado[0].codigoSeguridad
+          url =  "https://eval.diagnostico035.com/ATS:&" + concat + "%" + resultado[0].codigoSeguridad
     
         }if(ids[ids.length - 2]==2){
-          url =  "https://eval.diagnostico035.com/RP&" + concat + "%" + resultado[0].codigoSeguridad
+          url =  "https://eval.diagnostico035.com/RP:&" + concat + "%" + resultado[0].codigoSeguridad
           encuesta="RP"
         }if(ids[ids.length - 2]==3){
-          url =  "https://eval.diagnostico035.com/EEO&" + concat + "%" + resultado[0].codigoSeguridad
+          url =  "https://eval.diagnostico035.com/EEO:&" + concat + "%" + resultado[0].codigoSeguridad
           encuesta="EEO"
         }
       }else{
         if(ids[ids.length - 2]==1){
           encuesta="ATS"
-          url =  "https://eval.diagnostico035.com/ATS&" + concat + "%" + folio
+          url =  "https://eval.diagnostico035.com/ATS:&" + concat + "%" + folio
     
         }if(ids[ids.length - 2]==2){
-          url =  "https://eval.diagnostico035.com/RP&" + concat + "%" + folio
+          url =  "https://eval.diagnostico035.com/RP:&" + concat + "%" + folio
           encuesta="RP"
         }if(ids[ids.length - 2]==3){
-          url =  "https://eval.diagnostico035.com/EEO&" + concat + "%" + folio
+          url =  "https://eval.diagnostico035.com/EEO:&" + concat + "%" + folio
           encuesta="EEO"
         }
         client.query(`insert into tokenTemporalEvaluaciones(codigoSeguridad,fechaCreacionToken,fechaExpiraicionToken,statusToken,fk_empleados) values ('${folio}','${FechaCompleta}','Token Vigente','Activo','${args[0]}')`)
