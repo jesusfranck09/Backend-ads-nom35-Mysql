@@ -320,6 +320,12 @@ type  JsonEmployee{
   periodo:String
   message:String
   encuesta:String
+  idtokenEvaluaciones:String
+  codigoSeguridad:String
+  fechaCreacionToken:String
+  fechaExpiraicionToken:String
+  statusToken:String
+  evaluacion:String
 }
 
 type Auth {

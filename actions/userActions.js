@@ -411,6 +411,7 @@ return new Promise((resolve, reject) => {
       client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','16','${data[3]}','${data[2]}')`);
       client.query(`update empleados set ATSContestado = 'true' where id = '${data[3]}'`);
       client.query(`insert into periodos(fk_empleados,periodo,encuesta,fechaEvaluacion) values ('${data[3]}','${data[2]}','ATS','${data[5]}')`);    
+      client.query(`update tokenTemporalEvaluaciones set statusToken = 'Inactivo' where fk_empleados = '${data[3]}'`);
 
       client
         .query(`select Max(id) as idMaximo from correos where fk_empleados='${[data[3]]}' and encuesta = "ATS"`,
@@ -448,6 +449,7 @@ const AtsPage4 = async data => {
       if(data[18]=='Si'){
         client.query(`update empleados set ATSDetectado='true' where id = ${data[1]} `);    
       }
+      client.query(`update tokenTemporalEvaluaciones set statusToken = 'Inactivo' where fk_empleados = '${data[1]}'`);
 
       client
         .query(`select Max(id) as idMaximo from correos where fk_empleados='${[data[1]]}' and encuesta = "ATS"`,
@@ -699,7 +701,7 @@ const EEOPage14 = async data => {
 const AtsPoliticaPrivacidad = async data => {
 return  new Promise((resolve, reject) => {
   client
-  .query(`select * from  empleados where correo='${data[0]}'`,
+  .query(`select * from  empleados where id='${data[0]}'`,
   function (error, results, fields) {
   if (error) reject(error) 
       var string=JSON.stringify(results);
@@ -722,7 +724,7 @@ return  new Promise((resolve, reject) => {
 const RPPoliticaPrivacidad = async data => {
   return  new Promise((resolve, reject) => {
       client
-      .query(`select * from  empleados where correo='${data[0]}'`,
+      .query(`select * from  empleados where id='${data[0]}'`,
         function (error, results, fields) {
         if (error) reject(error) 
         // if(results[0]){
@@ -745,7 +747,7 @@ const RPPoliticaPrivacidad = async data => {
 const EEOPoliticaPrivacidad = async data => {
   return  new Promise((resolve, reject) => {
       client
-      .query(`select * from  empleados where correo='${data[0]}'`,
+      .query(`select * from  empleados where id='${data[0]}'`,
         function (error, results, fields) {
         if (error) reject(error) 
         var string=JSON.stringify(results);
@@ -764,21 +766,102 @@ const EEOPoliticaPrivacidad = async data => {
     })
   };
 
-
+const  SendMail = async (args) => {
+  console.log("args",args)
+  return  new Promise((resolve, reject) => {   
+  var LaFecha=new Date();
+  var Mes=new Array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+  var diasem=new Array('domingo','lunes','martes','miercoles','jueves','viernes','sabado');
+  var diasemana=LaFecha.getDay();
+  var FechaCompleta="";
+  var NumeroDeMes="";
+  var hora = LaFecha.getHours(); 
+  var minuto = LaFecha.getMinutes(); 
+  var segundo = LaFecha.getSeconds();
+  NumeroDeMes=LaFecha.getMonth();
+  FechaCompleta = diasem[diasemana]+" "+LaFecha.getDate()+" de "+Mes[NumeroDeMes]+" de "+LaFecha.getFullYear()+" "+hora+":"+minuto+":"+segundo;
+   var transporter = nodemailer.createTransport({
+      secure: false,
+      host: 'mail.diagnostico035.com',
+      port: 587,
+      auth: {
+              user: 'info@diagnostico035.com',
+              pass: 'zAvb54$3',
+          },
+      tls: {rejectUnauthorized: false},
+      });
+      var concat = args[1]
+      var encuesta ="";
+    
+        var url = "";
+        client.query(`select * from tokenTemporalEvaluaciones where fk_empleados ='${args[1]}' and statusToken = 'Activo'`,function(err,result,fields){
+          var string = JSON.stringify(result)
+          var resultado = JSON.parse(string)
+            if(resultado[0]){
+            if(args[2]=="1"){
+              encuesta="ATS"
+            }if(args[2]=="2"){
+              encuesta="RP"
+            }if(args[2]=="3"){
+              encuesta="EEO"
+            }
+            url =  "https://eval.diagnostico035.com/politicaPrivacidad:&" + concat + "%" + resultado[0].codigoSeguridad
+          }else{
+            if(args[2]=="1"){
+              encuesta="ATS"
+            }if(args[2]=="2"){
+              encuesta="RP"
+            }if(args[2]=="3"){
+              encuesta="EEO"
+            }
+            url =  "https://eval.diagnostico035.com/politicaPrivacidad:&" + concat + "%" + args[4]
+            client.query(`insert into tokenTemporalEvaluaciones(codigoSeguridad,fechaCreacionToken,fechaExpiraicionToken,statusToken,evaluacion,fk_empleados) values ('${args[4]}','${FechaCompleta}','Token Vigente','Activo','${encuesta}','${args[1]}')`)
+          }
+          const mailOptions = {
+            from: 'info@diagnostico035.com',
+            // to: `jesus.francisco@ads.com.mx`,
+            to: `jesus.francisco@ads.com.mx,${args[0]}`,
+            subject:`Evaluación ${encuesta} de Diagnostico035`,
+            html: 
+            `<p>Diagnóstico035 es una herramienta en la nube (100% web) que te ayuda a dar cumplimiento a la <strong> Normatividad NOM-035-STPS-2018 </strong>, a través de la evaluación de cada uno de tus colaboradores con el fin de identificar, analizar y mitigar los factores de riesgo psicosocial de tu empresa.
+                        <br/>
+                        <br/>
+                        Basado en su solicitud, adjunto en este correo la liga de acceso al sistema de evaluaciones.
+                        <br/>
+                        <br/>
+                        <strong>No olvide completar de forma satisfactoria el total de preguntas antes de enviar su evaluación.</strong>
+                        <br/>
+                        <strong>Acceda al siguiente link para completar el proceso ${url}</strong>
+                        <br/>
+                        <br/>
+    
+                        para mayor información visite nuestro canal de youtube https://www.youtube.com/channel/UC2isBB9Kv5lJE5rZsfU5xPw.
+                        <br/>
+                        <br/>
+                    </p>`,
+                    text:`Saludos cordiales, 
+                    <center><br/>
+                    <br/>
+                    El equipo de desarrollo de Diagnostico035<br/>
+                    www.diagnostico035.com<br/></center>`
+          };
+  
+          transporter.sendMail(mailOptions, function (err, info) {
+            console.log("info",info)
+            if(err){
+              console.log("este es el error" , err)
+              reject("err",err)
+            }else{
+              resolve({message:`envio exitoso`},          
+              )
+            }
+          });
+          client.query(`insert into correos(Encuesta,fecha,fk_empleados,contestado,fk_administrador) values ('${encuesta}','${FechaCompleta}','${args[1]}','false','${args[3]}')`); 
+          })
+      })       
+}
 
 // const  SendMail = async (args) => {
-//   let año  = new Date().getFullYear()
-//             function generateUUID() {
-//                 var d = new Date().getTime();
-//                 var uuid = 'xAxxyx'.replace(/[xy]/g, function (c) {
-//                     var r = (d + Math.random() * 16) % 16 | 0;
-//                     d = Math.floor(d / 16);
-//                     return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
-//                 });
-//                 return uuid;
-//             }
-//   let folio = (año + generateUUID()).toUpperCase();
-
 //   var str = args;
 //   var nombres = str.filter(function (item) {
 //     return !(parseInt(item) == item);
@@ -795,9 +878,9 @@ const EEOPoliticaPrivacidad = async data => {
 //   var NumeroDeMes="";
 //   var hora = LaFecha.getHours(); 
 //   var minuto = LaFecha.getMinutes(); 
-//   var segundo = LaFecha.getSeconds();
+//   var segundo = LaFecha.getSeconds(); 
 //   NumeroDeMes=LaFecha.getMonth();
-//   FechaCompleta = diasem[diasemana]+" "+LaFecha.getDate()+" de "+Mes[NumeroDeMes]+" de "+LaFecha.getFullYear()+" "+hora+":"+minuto+":"+segundo;
+//   FechaCompleta=diasem[diasemana]+" "+LaFecha.getDate()+" de "+Mes[NumeroDeMes]+" de "+LaFecha.getFullYear()+" "+hora+":"+minuto+":"+segundo;
 //    var transporter = nodemailer.createTransport({
 //       secure: false,
 //       host: 'mail.diagnostico035.com',
@@ -808,44 +891,22 @@ const EEOPoliticaPrivacidad = async data => {
 //           },
 //       tls: {rejectUnauthorized: false},
 //       });
-//       var concat = args[0]
 //       var encuesta ="";
-//       var url = "";
-   
-//     client.query(`select * from tokenTemporalEvaluaciones where fk_empleados ='${args[0]}' and statusToken = 'Activo'`,function(err,result,fields){
-//       var string = JSON.stringify(result)
-//       var resultado = JSON.parse(string)
-//         if(resultado[0]){
-//         if(ids[ids.length - 2]==1){
-//           encuesta="ATS"
-//           url =  "https://eval.diagnostico035.com/ATS:&" + concat + "%" + resultado[0].codigoSeguridad
-    
-//         }if(ids[ids.length - 2]==2){
-//           url =  "https://eval.diagnostico035.com/RP:&" + concat + "%" + resultado[0].codigoSeguridad
-//           encuesta="RP"
-//         }if(ids[ids.length - 2]==3){
-//           url =  "https://eval.diagnostico035.com/EEO:&" + concat + "%" + resultado[0].codigoSeguridad
-//           encuesta="EEO"
-//         }
-//       }else{
-//         if(ids[ids.length - 2]==1){
-//           encuesta="ATS"
-//           url =  "https://eval.diagnostico035.com/ATS:&" + concat + "%" + folio
-    
-//         }if(ids[ids.length - 2]==2){
-//           url =  "https://eval.diagnostico035.com/RP:&" + concat + "%" + folio
-//           encuesta="RP"
-//         }if(ids[ids.length - 2]==3){
-//           url =  "https://eval.diagnostico035.com/EEO:&" + concat + "%" + folio
-//           encuesta="EEO"
-//         }
-//         client.query(`insert into tokenTemporalEvaluaciones(codigoSeguridad,fechaCreacionToken,fechaExpiraicionToken,statusToken,evaluacion,fk_empleados) values ('${folio}','${FechaCompleta}','Token Vigente','Activo','${encuesta}','${args[0]}')`)
-//       }
+//       var url = "" ;
+//     if(ids[ids.length - 2]==1){
+//       encuesta="ATS"
+//       url =  "https://eval.diagnostico035.com/ATS"
 
-//       nombres.map(rows=>{
+//     }if(ids[ids.length - 2]==2){
+//       url =  "https://eval.diagnostico035.com/RP"
+//       encuesta="RP"
+//     }if(ids[ids.length - 2]==3){
+//       url =  "https://eval.diagnostico035.com/EEO"
+//       encuesta="EEO"
+//     }
+//         nombres.map(rows=>{
 //         const mailOptions = {
 //         from: 'info@diagnostico035.com',
-//         // to: `jesus.francisco@ads.com.mx`,
 //         to: `jesus.francisco@ads.com.mx,${rows}`,
 //         subject:`Evaluación ${encuesta} de Diagnostico035`,
 //         html: 
@@ -860,7 +921,6 @@ const EEOPoliticaPrivacidad = async data => {
 //                     <strong>Acceda al siguiente link para completar el proceso ${url}</strong>
 //                     <br/>
 //                     <br/>
-
 //                     para mayor información visite nuestro canal de youtube https://www.youtube.com/channel/UC2isBB9Kv5lJE5rZsfU5xPw.
 //                     <br/>
 //                     <br/>
@@ -870,7 +930,7 @@ const EEOPoliticaPrivacidad = async data => {
 //                 <br/>
 //                 El equipo de desarrollo de Diagnostico035<br/>
 //                 www.diagnostico035.com<br/></center>`
-//       };
+//     };
 //       transporter.sendMail(mailOptions, function (err, info) {
 //         console.log("info",info)
 //         if(err){
@@ -887,99 +947,8 @@ const EEOPoliticaPrivacidad = async data => {
 //       client.query(`insert into correos(Encuesta,fecha,fk_empleados,contestado,fk_administrador) values ('${encuesta}','${FechaCompleta}','${row}','false','${ids[ids.length - 1]}')`); 
 //       return  client
 //     })
-//     })
-       
 // })
 // }
-
-const  SendMail = async (args) => {
-  var str = args;
-  var nombres = str.filter(function (item) {
-    return !(parseInt(item) == item);
-  });
-  var ids = str.filter(function (item) {
-    return (parseInt(item) == item);
-  });
-  return  new Promise((resolve, reject) => {   
-  var LaFecha=new Date();
-  var Mes=new Array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-  var diasem=new Array('domingo','lunes','martes','miercoles','jueves','viernes','sabado');
-  var diasemana=LaFecha.getDay();
-  var FechaCompleta="";
-  var NumeroDeMes="";
-  var hora = LaFecha.getHours(); 
-  var minuto = LaFecha.getMinutes(); 
-  var segundo = LaFecha.getSeconds(); 
-  NumeroDeMes=LaFecha.getMonth();
-  FechaCompleta=diasem[diasemana]+" "+LaFecha.getDate()+" de "+Mes[NumeroDeMes]+" de "+LaFecha.getFullYear()+" "+hora+":"+minuto+":"+segundo;
-   var transporter = nodemailer.createTransport({
-      secure: false,
-      host: 'mail.diagnostico035.com',
-      port: 587,
-      auth: {
-              user: 'info@diagnostico035.com',
-              pass: 'zAvb54$3',
-          },
-      tls: {rejectUnauthorized: false},
-      });
-      var encuesta ="";
-      var url = "" ;
-    if(ids[ids.length - 2]==1){
-      encuesta="ATS"
-      url =  "https://eval.diagnostico035.com/ATS"
-
-    }if(ids[ids.length - 2]==2){
-      url =  "https://eval.diagnostico035.com/RP"
-      encuesta="RP"
-    }if(ids[ids.length - 2]==3){
-      url =  "https://eval.diagnostico035.com/EEO"
-      encuesta="EEO"
-    }
-        nombres.map(rows=>{
-        const mailOptions = {
-        from: 'info@diagnostico035.com',
-        to: `jesus.francisco@ads.com.mx,${rows}`,
-        subject:`Evaluación ${encuesta} de Diagnostico035`,
-        html: 
-        `<p>Diagnóstico035 es una herramienta en la nube (100% web) que te ayuda a dar cumplimiento a la <strong> Normatividad NOM-035-STPS-2018 </strong>, a través de la evaluación de cada uno de tus colaboradores con el fin de identificar, analizar y mitigar los factores de riesgo psicosocial de tu empresa.
-                    <br/>
-                    <br/>
-                    Basado en su solicitud, adjunto en este correo la liga de acceso al sistema de evaluaciones.
-                    <br/>
-                    <br/>
-                    <strong>No olvide completar de forma satisfactoria el total de preguntas antes de enviar su evaluación.</strong>
-                    <br/>
-                    <strong>Acceda al siguiente link para completar el proceso ${url}</strong>
-                    <br/>
-                    <br/>
-                    para mayor información visite nuestro canal de youtube https://www.youtube.com/channel/UC2isBB9Kv5lJE5rZsfU5xPw.
-                    <br/>
-                    <br/>
-                </p>`,
-                text:`Saludos cordiales, 
-                <center><br/>
-                <br/>
-                El equipo de desarrollo de Diagnostico035<br/>
-                www.diagnostico035.com<br/></center>`
-    };
-      transporter.sendMail(mailOptions, function (err, info) {
-        console.log("info",info)
-        if(err){
-          console.log("este es el error" , err)
-          reject("err",err)
-        }else{
-          resolve({message:`envio exitoso a ${rows}`},          
-          )
-        }
-      });
-    })
-    
-    ids.map(row=>{
-      client.query(`insert into correos(Encuesta,fecha,fk_empleados,contestado,fk_administrador) values ('${encuesta}','${FechaCompleta}','${row}','false','${ids[ids.length - 1]}')`); 
-      return  client
-    })
-})
-}
   const getUsers = async data => {
   return  new Promise((resolve, reject) => {
       client
@@ -1060,7 +1029,7 @@ return new Promise((resolve, reject) => {
   function (error, results, fields) {
     var string=JSON.stringify(results);
     var resultados =  JSON.parse(string); 
-      client.query(`select count(id) as max from empleados where empleados.fk_administrador = ' ${resultados[0].id}'`,  function (error, valores, fields) {
+      client.query(`select count(id) as max from empleados where fk_administrador = ' ${resultados[0].id}'`,  function (error, valores, fields) {
       var val=JSON.stringify(valores);
       var valor =  JSON.parse(val); 
       resolve(valor) 
@@ -1632,13 +1601,14 @@ const GetresultGlobalSurveyEEO = async data => {
               }; 
 
           const GetEmployeesFkAdmin = async data => {
+            
             return  new Promise((resolve, reject) => {
-              client
-              .query(`select * from empleados where correo='${data[0]}'`,
+              client.query(`select * from empleados inner join tokenTemporalEvaluaciones on tokenTemporalEvaluaciones.fk_empleados = empleados.id where empleados.id='${data[0]}'`,
                 function (error, results, fields) {
                 if (error) reject(error) 
                 var string=JSON.stringify(results);
-                var resultados =  JSON.parse(string);           
+                var resultados =  JSON.parse(string); 
+                console.log("resultados",resultados)          
                 resolve(resultados)  
               },
             )
@@ -1818,7 +1788,7 @@ const GetresultGlobalSurveyEEO = async data => {
         const VerifyPackSuperUser = async data => {
           
           return  new Promise((resolve, reject) => {
-            client.query(`select * from paquetes inner join superusuario on superusuario.fk_paquetes = paquetes.id  where superusuario.id='${data[0]}'`,
+            client.query(`select * from superusuario inner join paquetes on superusuario.fk_paquetes = paquetes.id  where superusuario.id='${data[0]}'`,
               function (error, results, fields) {
               if (error) reject(error) 
               var string=JSON.stringify(results);
