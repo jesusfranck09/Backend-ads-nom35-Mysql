@@ -794,7 +794,6 @@ const  SendMail = async (args) => {
       var encuesta ="";
     
         var url = "";
-        client.query(`insert into tokenTemporalEvaluaciones(codigoSeguridad,fechaCreacionToken,fechaExpiraicionToken,statusToken,evaluacion,fk_empleados) values ('${args[4]}','${FechaCompleta}','Token Vigente','Activo','${encuesta}','${args[1]}')`)
 
         client.query(`select * from tokenTemporalEvaluaciones where fk_empleados ='${args[1]}' and statusToken = 'Activo'`,function(err,result,fields){
           var string = JSON.stringify(result)
@@ -821,6 +820,7 @@ const  SendMail = async (args) => {
             url =  "https://eval.diagnostico035.com/politicaPrivacidad:&" +  args[1] + "%" + args[4]
           
           }
+          client.query(`insert into tokenTemporalEvaluaciones(codigoSeguridad,fechaCreacionToken,fechaExpiraicionToken,statusToken,evaluacion,fk_empleados) values ('${args[4]}','${FechaCompleta}','Token Vigente','Activo','${encuesta}','${args[1]}')`)
           const mailOptions = {
             from: 'info@diagnostico035.com',
             // to: `jesus.francisco@ads.com.mx`,
