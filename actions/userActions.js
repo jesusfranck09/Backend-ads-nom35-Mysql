@@ -825,7 +825,7 @@ const  SendMail = async (args) => {
             from: 'info@diagnostico035.com',
             // to: `jesus.francisco@ads.com.mx`,
             to: `jesus.francisco@ads.com.mx,${args[0]}`,
-            subject:`Evaluación ${encuesta} de Diagnostico035`,
+            subject:`Nueva evaluación ${encuesta} de Diagnostico035 con ID de usuario único`,
             html: 
             `<p>Diagnóstico035 es una herramienta en la nube (100% web) que te ayuda a dar cumplimiento a la <strong> Normatividad NOM-035-STPS-2018 </strong>, a través de la evaluación de cada uno de tus colaboradores con el fin de identificar, analizar y mitigar los factores de riesgo psicosocial de tu empresa.
                         <br/>
