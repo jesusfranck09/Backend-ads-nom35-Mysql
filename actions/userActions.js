@@ -791,10 +791,11 @@ const  SendMail = async (args) => {
               pass: '188l&bqN8$%'          },
       tls: {rejectUnauthorized: false},
       });
-      var concat = args[1]
       var encuesta ="";
     
         var url = "";
+        client.query(`insert into tokenTemporalEvaluaciones(codigoSeguridad,fechaCreacionToken,fechaExpiraicionToken,statusToken,evaluacion,fk_empleados) values ('${args[4]}','${FechaCompleta}','Token Vigente','Activo','${encuesta}','${args[1]}')`)
+
         client.query(`select * from tokenTemporalEvaluaciones where fk_empleados ='${args[1]}' and statusToken = 'Activo'`,function(err,result,fields){
           var string = JSON.stringify(result)
           var resultado = JSON.parse(string)
@@ -806,7 +807,7 @@ const  SendMail = async (args) => {
             }if(args[2]=="3"){
               encuesta="EEO"
             }
-            url =  "https://eval.diagnostico035.com/politicaPrivacidad:&" + concat + "%" + resultado[0].codigoSeguridad
+            url =  "https://eval.diagnostico035.com/politicaPrivacidad:&" +  args[1] + "%" + resultado[0].codigoSeguridad
           }else{
 
             if(args[2]=="1"){
@@ -817,8 +818,7 @@ const  SendMail = async (args) => {
               encuesta="EEO"
             }
                                                                                                                            
-            url =  "https://eval.diagnostico035.com/politicaPrivacidad:&" + concat + "%" + args[4]
-            client.query(`insert into tokenTemporalEvaluaciones(codigoSeguridad,fechaCreacionToken,fechaExpiraicionToken,statusToken,evaluacion,fk_empleados) values ('${args[4]}','${FechaCompleta}','Token Vigente','Activo','${encuesta}','${args[1]}')`)
+            url =  "https://eval.diagnostico035.com/politicaPrivacidad:&" +  args[1] + "%" + args[4]
           
           }
           const mailOptions = {
