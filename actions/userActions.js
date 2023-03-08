@@ -2774,7 +2774,7 @@ const GetresultGlobalSurveyEEO = async data => {
                 from: 'info@diagnostico035.com', // sender address
                 to: `${data[7]},jesus.francisco@ads.com.mx`, // list of receivers
                 subject: 'Registro a Diagnóstico035 ', // Subject line
-                html: `Sistema de renovaciones.<br/><br/><p>Empresa: ${razonSocial}<br/>RFC: ${rfc}<br/>Correo : ${7}  <br/> <br/> 
+                html: `Sistema de renovaciones.<br/><br/><p>Empresa: ${razonSocial}<br/>RFC: ${rfc}<br/>Correo : ${data[7]}  <br/> <br/> 
                   Hola  ${nombreCliente} <br/> <br/> <br/> Acabas de renovar tu licencia de Diagnóstico035. Con tu suscripción, seguiras disfrutando de: <br/> <br/>
                 - Acceso ilimitado a la aplicación durante el periodo de tu suscripción. <br/> 
                 - Evaluaciones ilimitadas de ATS, RP´s y EEO. <br/>
