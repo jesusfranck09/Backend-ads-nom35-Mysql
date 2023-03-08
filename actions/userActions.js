@@ -2759,56 +2759,54 @@ const GetresultGlobalSurveyEEO = async data => {
             NumeroDeMes=LaFecha.getMonth();
             FechaCompleta=diasem[diasemana]+" "+LaFecha.getDate()+" de "+Mes[NumeroDeMes]+" de "+LaFecha.getFullYear()+" "+hora+":"+minuto+":"+segundo;
 
-            // var transporter = nodemailer.createTransport({
+            var transporter = nodemailer.createTransport({
               
-            //   secure: false,
-            //   host: 'mail.diagnostico035.com',
-            //   port: 587,
-            //   auth: {
-            //           user: 'info@diagnostico035.com',
-            //           pass: 'zAvb54$3',
-                    
-            //       },
-            //   tls: {rejectUnauthorized: false},
-            //   });
-            //   const mailOptions = {
-            //     from: 'info@diagnostico035.com', // sender address
-            //     to: `${data[17]},alma.juarez@ads.com.mx,jesus.francisco@ads.com.mx`, // list of receivers
-            //     subject: 'Registro a Diagnóstico035 ', // Subject line
-            //     html: `Sistema de pagos por internet.<br/><br/><p>Empresa: ${data[24]}<br/>RFC: ${data[21]}<br/>Correo : ${data[17]}  <br/> <br/> 
-            //       Hola  ${data[22]} ${data[23]} <br/> <br/> <br/> Acabas de renovar tu licencia de Diagnóstico035. Con tu suscripción, seguiras disfrutando de: <br/> <br/>
-            //     - Acceso ilimitado a la aplicación durante el periodo de tu suscripción. <br/> 
-            //     - Registro de ${data[19]}  <br/> 
-            //     - Evaluaciones ilimitadas de ATS, RP´s y EEO. <br/>
-            //     - Actualizaciones sin costo. <br/>
-            //     - Soporte básico ilimitado, sobre el uso de la aplicación.
-            //       <br/> <br/> <br/> 
-            //       <strong> Configuración </strong><br/>
-            //       Para dar de alta tu empresa, deberás ingresar a la siguiente URL, con el usuario y contraseña  enviado por tu ejecutivo.<br/><br/>
-            //       https://madmin.diagnostico035.com/ <br/><br/>
-            //       Una vez hecho esto deberás ingresar a la siguiente dirección y podrás comenzar a utilizar Diagnóstico035.<br/><br/>
+              secure: false,
+              host: 'mail.diagnostico035.com',
+              port: 587,
+              auth: {
+                      user: 'info@diagnostico035.com',
+                      pass: '188l&bqN8$%',                         
+                  },
+              tls: {rejectUnauthorized: false},
+              });
+              const mailOptions = {
+                from: 'info@diagnostico035.com', // sender address
+                to: `${data[7]},jesus.francisco@ads.com.mx`, // list of receivers
+                subject: 'Registro a Diagnóstico035 ', // Subject line
+                html: `Sistema de renovaciones.<br/><br/><p>Empresa: ${razonSocial}<br/>RFC: ${rfc}<br/>Correo : ${7}  <br/> <br/> 
+                  Hola  ${nombreCliente} <br/> <br/> <br/> Acabas de renovar tu licencia de Diagnóstico035. Con tu suscripción, seguiras disfrutando de: <br/> <br/>
+                - Acceso ilimitado a la aplicación durante el periodo de tu suscripción. <br/> 
+                - Evaluaciones ilimitadas de ATS, RP´s y EEO. <br/>
+                - Actualizaciones sin costo. <br/>
+                - Soporte básico ilimitado, sobre el uso de la aplicación.
+                  <br/> <br/> <br/> 
+                  <strong> Configuración </strong><br/>
+                  Para dar de alta tu empresa, deberás ingresar a la siguiente URL, con el usuario y contraseña  enviado por tu ejecutivo.<br/><br/>
+                  https://madmin.diagnostico035.com/ <br/><br/>
+                  Una vez hecho esto deberás ingresar a la siguiente dirección y podrás comenzar a utilizar Diagnóstico035.<br/><br/>
 
-            //       https://admin.diagnostico035.com/<br/><br/>
+                  https://admin.diagnostico035.com/<br/><br/>
 
-            //       Conoce más sobre los beneficios de Diagnóstico035 en https://diagnostico035.com/
-            //       <br/><br/>
-            //       Gracias, <br/>
-            //       El equipo de Diagnóstico035.<br/><br/>
+                  Conoce más sobre los beneficios de Diagnóstico035 en https://diagnostico035.com/
+                  <br/><br/>
+                  Gracias, <br/>
+                  El equipo de Diagnóstico035.<br/><br/>
 
-            //       Tel: (55) 3603 9970 y (55) 5553 2049<br/>
-            //       Ext 101 y 102<br/>
-            //       www.diagnostico035.com<br/>
+                  Tel: (55) 3603 9970 y (55) 5553 2049<br/>
+                  Ext 101 y 102<br/>
+                  www.diagnostico035.com<br/>
                 
                 
-            //     </p> ` // plain text body
-            //   };
+                </p> ` // plain text body
+              };
               
-            //   transporter.sendMail(mailOptions, function (err, info) {
-            //     if("este es el error" , err)
-            //       console.log(err)
-            //     else
-            //       console.log("esta es la info" ,  info);
-            //   });
+              transporter.sendMail(mailOptions, function (err, info) {
+                if("este es el error" , err)
+                  console.log(err)
+                else
+                  console.log("esta es la info" ,  info);
+              });
             client.query(`update superusuario set  activo='true', fechaRegistro = '${fechaFinal}', fk_paquetes= '${paqueteAdquirido}' where id = '${idCliente}'`);
             client.query(`update administrador set  Activo='true' where fk_superusuario = '${idCliente}'`);
             client.query(`insert into datosRenovaciones(rfc,razonSocial,nombreCliente,periodoInicial,periodoFinal,paqueteActivo,fk_superusuario,fechaAdquisicion) values ('${rfc}','${razonSocial}','${nombreCliente}', '${fechaInicial}', '${fechaFinal}', '${paqueteAdquirido}', '${idCliente}', '${FechaCompleta}')`)
