@@ -411,7 +411,7 @@ return new Promise((resolve, reject) => {
       client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','16','${data[3]}','${data[2]}')`);
       client.query(`update empleados set ATSContestado = 'true' where id = '${data[3]}'`);
       client.query(`insert into periodos(fk_empleados,periodo,encuesta,fechaEvaluacion) values ('${data[3]}','${data[2]}','ATS','${data[5]}')`);    
-      client.query(`update tokenTemporalEvaluaciones set statusToken = 'Inactivo' where fk_empleados = '${data[3]}'`);
+      client.query(`update tokenTemporalEvaluaciones set statusToken = 'Inactivo' where codigoSeguridad = '${data[6]}'`);
 
       client
         .query(`select Max(id) as idMaximo from correos where fk_empleados='${[data[3]]}' and encuesta = "ATS"`,
@@ -449,7 +449,7 @@ const AtsPage4 = async data => {
       if(data[18]=='Si'){
         client.query(`update empleados set ATSDetectado='true' where id = ${data[1]} `);    
       }
-      client.query(`update tokenTemporalEvaluaciones set statusToken = 'Inactivo' where fk_empleados = '${data[1]}'`);
+      client.query(`delete from tokenTemporalEvaluaciones where codigoSeguridad = '${data[20]}'`);   
 
       client
         .query(`select Max(id) as idMaximo from correos where fk_empleados='${[data[1]]}' and encuesta = "ATS"`,
@@ -520,6 +520,8 @@ const RPPage8 = async data => {
     client.query(`insert into respuestasRP(respuestas,fk_preguntasRP,fk_EmpleadosRP,Periodo,ponderacion) values ('${data[97]}','46','${data[1]}','${data[0]}','${data[98]}')`); 
 
     client.query(`update empleados set RPContestado ='true' where id = '${data[1]}'`);   
+    client.query(`delete from tokenTemporalEvaluaciones where codigoSeguridad = '${data[100]}'`);   
+
     client.query(`insert into periodos(fk_Empleados,periodo,encuesta,fechaEvaluacion) values ('${data[1]}','${data[0]}','RP','${data[99]}')`);
 
     client
@@ -680,6 +682,7 @@ const EEOPage14 = async data => {
     client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[145]}','72','${data[1]}','${data[0]}','${data[146]}')`); 
     client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[147]}','74','${data[1]}','${data[0]}','${data[148]}')`); 
     client.query(`insert into respuestasEEO(respuestas,fk_preguntasEEO,fk_Empleados,Periodo,ponderacion) values ('${data[149]}','75','${data[1]}','${data[0]}','${data[150]}')`); 
+    client.query(`delete from tokenTemporalEvaluaciones where codigoSeguridad = '${data[152]}'`);   
 
     client.query(`update empleados set EEOContestado ='true' where id = '${data[1]}'`);   
     client.query(`insert into periodos(fk_empleados,periodo,encuesta,fechaEvaluacion) values ('${data[1]}','${data[0]}','EEO','${data[151]}')`);
@@ -721,7 +724,7 @@ return  new Promise((resolve, reject) => {
 };
 
 
-const RPPoliticaPrivacidad = async data => {
+  const RPPoliticaPrivacidad = async data => {
   return  new Promise((resolve, reject) => {
       client
       .query(`select * from  empleados where id='${data[0]}'`,
@@ -807,6 +810,7 @@ const  SendMail = async (args) => {
             }
             url =  "https://eval.diagnostico035.com/politicaPrivacidad:&" + concat + "%" + resultado[0].codigoSeguridad
           }else{
+
             if(args[2]=="1"){
               encuesta="ATS"
             }if(args[2]=="2"){
@@ -814,8 +818,10 @@ const  SendMail = async (args) => {
             }if(args[2]=="3"){
               encuesta="EEO"
             }
+                                                                                                                           
             url =  "https://eval.diagnostico035.com/politicaPrivacidad:&" + concat + "%" + args[4]
             client.query(`insert into tokenTemporalEvaluaciones(codigoSeguridad,fechaCreacionToken,fechaExpiraicionToken,statusToken,evaluacion,fk_empleados) values ('${args[4]}','${FechaCompleta}','Token Vigente','Activo','${encuesta}','${args[1]}')`)
+          
           }
           const mailOptions = {
             from: 'info@diagnostico035.com',
@@ -2761,6 +2767,57 @@ const GetresultGlobalSurveyEEO = async data => {
             
             NumeroDeMes=LaFecha.getMonth();
             FechaCompleta=diasem[diasemana]+" "+LaFecha.getDate()+" de "+Mes[NumeroDeMes]+" de "+LaFecha.getFullYear()+" "+hora+":"+minuto+":"+segundo;
+
+            // var transporter = nodemailer.createTransport({
+              
+            //   secure: false,
+            //   host: 'mail.diagnostico035.com',
+            //   port: 587,
+            //   auth: {
+            //           user: 'info@diagnostico035.com',
+            //           pass: 'zAvb54$3',
+                    
+            //       },
+            //   tls: {rejectUnauthorized: false},
+            //   });
+            //   const mailOptions = {
+            //     from: 'info@diagnostico035.com', // sender address
+            //     to: `${data[17]},alma.juarez@ads.com.mx,jesus.francisco@ads.com.mx`, // list of receivers
+            //     subject: 'Registro a Diagnóstico035 ', // Subject line
+            //     html: `Sistema de pagos por internet.<br/><br/><p>Empresa: ${data[24]}<br/>RFC: ${data[21]}<br/>Correo : ${data[17]}  <br/> <br/> 
+            //       Hola  ${data[22]} ${data[23]} <br/> <br/> <br/> Acabas de renovar tu licencia de Diagnóstico035. Con tu suscripción, seguiras disfrutando de: <br/> <br/>
+            //     - Acceso ilimitado a la aplicación durante el periodo de tu suscripción. <br/> 
+            //     - Registro de ${data[19]}  <br/> 
+            //     - Evaluaciones ilimitadas de ATS, RP´s y EEO. <br/>
+            //     - Actualizaciones sin costo. <br/>
+            //     - Soporte básico ilimitado, sobre el uso de la aplicación.
+            //       <br/> <br/> <br/> 
+            //       <strong> Configuración </strong><br/>
+            //       Para dar de alta tu empresa, deberás ingresar a la siguiente URL, con el usuario y contraseña  enviado por tu ejecutivo.<br/><br/>
+            //       https://madmin.diagnostico035.com/ <br/><br/>
+            //       Una vez hecho esto deberás ingresar a la siguiente dirección y podrás comenzar a utilizar Diagnóstico035.<br/><br/>
+
+            //       https://admin.diagnostico035.com/<br/><br/>
+
+            //       Conoce más sobre los beneficios de Diagnóstico035 en https://diagnostico035.com/
+            //       <br/><br/>
+            //       Gracias, <br/>
+            //       El equipo de Diagnóstico035.<br/><br/>
+
+            //       Tel: (55) 3603 9970 y (55) 5553 2049<br/>
+            //       Ext 101 y 102<br/>
+            //       www.diagnostico035.com<br/>
+                
+                
+            //     </p> ` // plain text body
+            //   };
+              
+            //   transporter.sendMail(mailOptions, function (err, info) {
+            //     if("este es el error" , err)
+            //       console.log(err)
+            //     else
+            //       console.log("esta es la info" ,  info);
+            //   });
             client.query(`update superusuario set  activo='true', fechaRegistro = '${fechaFinal}', fk_paquetes= '${paqueteAdquirido}' where id = '${idCliente}'`);
             client.query(`update administrador set  Activo='true' where fk_superusuario = '${idCliente}'`);
             client.query(`insert into datosRenovaciones(rfc,razonSocial,nombreCliente,periodoInicial,periodoFinal,paqueteActivo,fk_superusuario,fechaAdquisicion) values ('${rfc}','${razonSocial}','${nombreCliente}', '${fechaInicial}', '${fechaFinal}', '${paqueteAdquirido}', '${idCliente}', '${FechaCompleta}')`)
@@ -2905,7 +2962,16 @@ const GetresultGlobalSurveyEEO = async data => {
       })
       }) 
     }
+    const DesactivarLicencia = async data => {
+    return new Promise((resolve,reject) => {
+      // client.query(`update superusuario set activo = "false" where id = "${data[0]}"`)
+      client.query(`update administrador set Activo = "false" where fk_superusuario = "${data[0]}"`)
+      resolve({message:"Empresa desactivada"})
+
+    })
+    }
       module.exports = {
+        DesactivarLicencia,
         ResendEmailSuperUSer,
         GetLicence,
         GetHistoryRenovation,

@@ -404,7 +404,14 @@ const resendEmailSuperUSer = async(_, { data }) => {
     const updateSuperUser = await actions.ResendEmailSuperUSer(divisiones)
     return updateSuperUser;
 };
+const desactivarLicencia = async(_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    const desactivar = await actions.DesactivarLicencia(divisiones)
+    return desactivar;
+};
 module.exports = {
+    desactivarLicencia,
     resendEmailSuperUSer,
     updateSuperUser,
     renovacionLicencias,
