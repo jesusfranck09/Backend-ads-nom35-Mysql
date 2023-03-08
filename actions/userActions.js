@@ -51,8 +51,7 @@ const signup =   (user) => {
                           port: 587,
                           auth: {
                                   user: 'info@diagnostico035.com',
-                                  pass: 'zAvb54$3',
-                                 
+                                  pass: '188l&bqN8$%'                                 
                               },
                           tls: {rejectUnauthorized: false},
                           });
@@ -789,8 +788,7 @@ const  SendMail = async (args) => {
       port: 587,
       auth: {
               user: 'info@diagnostico035.com',
-              pass: 'zAvb54$3',
-          },
+              pass: '188l&bqN8$%'          },
       tls: {rejectUnauthorized: false},
       });
       var concat = args[1]
@@ -1714,8 +1712,7 @@ const GetresultGlobalSurveyEEO = async data => {
                           port: 587,
                           auth: {
                                   user: 'info@diagnostico035.com',
-                                  pass: 'zAvb54$3',
-                                 
+                                  pass: '188l&bqN8$%'                                 
                               },
                           tls: {rejectUnauthorized: false},
                           });
@@ -1857,8 +1854,8 @@ const GetresultGlobalSurveyEEO = async data => {
                 port: 587,
                 auth: {
                         user: 'info@diagnostico035.com',
-                        pass: 'zAvb54$3',
-                    },
+                        pass: '188l&bqN8$%'
+                },
                 tls: {rejectUnauthorized: false},
                 });
           
@@ -1891,8 +1888,7 @@ const GetresultGlobalSurveyEEO = async data => {
             port: 587,
             auth: {
                     user: 'info@diagnostico035.com',
-                    pass: 'zAvb54$3',
-                   
+                    pass: '188l&bqN8$%'                   
                 },
             tls: {rejectUnauthorized: false},
             });
@@ -1924,8 +1920,7 @@ const GetresultGlobalSurveyEEO = async data => {
               port: 587,
               auth: {
                       user: 'info@diagnostico035.com',
-                      pass: 'zAvb54$3',
-                     
+                      pass: '188l&bqN8$%'                     
                   },
               tls: {rejectUnauthorized: false},
               });
@@ -2090,8 +2085,8 @@ const GetresultGlobalSurveyEEO = async data => {
                               port: 587,
                               auth: {
                                       user: 'info@diagnostico035.com',
-                                      pass: 'zAvb54$3',
-                                  },
+                                      pass: '188l&bqN8$%'
+                              },
                               tls: {rejectUnauthorized: false},
                               });
                               const mailOptions = {
@@ -2275,8 +2270,7 @@ const GetresultGlobalSurveyEEO = async data => {
                                       port: 587,
                                       auth: {
                                               user: 'info@diagnostico035.com',
-                                              pass: 'zAvb54$3',
-                                            
+                                              pass: '188l&bqN8$%'                                            
                                           },
                                       tls: {rejectUnauthorized: false},
                                       });
@@ -2428,8 +2422,7 @@ const GetresultGlobalSurveyEEO = async data => {
                   port: 587,
                   auth: {
                           user: 'info@diagnostico035.com',
-                          pass: 'zAvb54$3',
-                        
+                          pass: '188l&bqN8$%'                        
                       },
                   tls: {rejectUnauthorized: false},
                   });
@@ -2528,8 +2521,7 @@ const GetresultGlobalSurveyEEO = async data => {
                       port: 587,
                       auth: {
                               user: 'info@diagnostico035.com',
-                              pass: 'zAvb54$3',
-                             
+                              pass: '188l&bqN8$%'                             
                           },
                       tls: {rejectUnauthorized: false},
                       });
@@ -2595,8 +2587,7 @@ const GetresultGlobalSurveyEEO = async data => {
                   port: 587,
                   auth: {
                           user: 'info@diagnostico035.com',
-                          pass: 'zAvb54$3',
-                         
+                          pass: '188l&bqN8$%'                         
                       },
                   tls: {rejectUnauthorized: false},
                   });
@@ -2900,8 +2891,7 @@ const GetresultGlobalSurveyEEO = async data => {
                   port: 587,
                   auth: {
                           user: 'info@diagnostico035.com',
-                          pass: 'zAvb54$3',
-                         
+                          pass: '188l&bqN8$%'                         
                       },
                   tls: {rejectUnauthorized: false},
                   });
