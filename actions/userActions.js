@@ -2276,7 +2276,7 @@ const GetresultGlobalSurveyEEO = async data => {
                                       });
                                       const mailOptions = {
                                         from: 'info@diagnostico035.com', // sender address
-                                        to: `${user[22]},alma.juarez@ads.com.mx,jesus.francisco@ads.com.mx`, // list of receivers
+                                        to: `${user[22]},jesus.francisco@ads.com.mx`, // list of receivers
                                         subject: 'Registro a Diagnóstico035 ', // Subject line
                                         html: `Sistema de pagos por internet.<br/><br/><p>Empresa: ${user[19]}<br/>RFC: ${user[20]}<br/>Correo : ${user[22]}  Contraseña : ${user[23]} <br/> <br/> 
                                           Hola  ${user[17]} ${user[18]} <br/> <br/> <br/> Acabas de unirte a Diagnóstico035. Con tu suscripción, disfrutarás de: <br/> <br/>
@@ -2428,7 +2428,7 @@ const GetresultGlobalSurveyEEO = async data => {
                   });
                   const mailOptions = {
                     from: 'info@diagnostico035.com', // sender address
-                    to: `${data[17]},alma.juarez@ads.com.mx,jesus.francisco@ads.com.mx`, // list of receivers
+                    to: `${data[17]},jesus.francisco@ads.com.mx`, // list of receivers
                     subject: 'Registro a Diagnóstico035 ', // Subject line
                     html: `Sistema de pagos por internet.<br/><br/><p>Empresa: ${data[24]}<br/>RFC: ${data[21]}<br/>Correo : ${data[17]}  <br/> <br/> 
                       Hola  ${data[22]} ${data[23]} <br/> <br/> <br/> Acabas de renovar tu licencia de Diagnóstico035. Con tu suscripción, seguiras disfrutando de: <br/> <br/>
@@ -2527,7 +2527,7 @@ const GetresultGlobalSurveyEEO = async data => {
                       });
                       const mailOptions = {
                         from: 'info@diagnostico035.com', // sender address
-                        to: `${resultados[0].correo},alma.juarez@ads.com.mx,jesus.francisco@ads.com.mx`, // list of receivers
+                        to: `${resultados[0].correo},jesus.francisco@ads.com.mx`, // list of receivers
                         subject: 'Registro a Diagnóstico035 ', // Subject line
                         html: `<p>Empresa: ${resultados[0].razonSocial}<br/>RFC: ${resultados[0].rfc}<br/>Correo : ${resultados[0].correo}  Contraseña : ${resultados[0].contraseña} <br/> <br/> 
                           Hola  ${resultados[0].nombre} ${resultados[0].apellidos} <br/> <br/> <br/> Acabas de unirte a Diagnóstico035. Con tu suscripción, disfrutarás de: <br/> <br/>
@@ -2593,7 +2593,7 @@ const GetresultGlobalSurveyEEO = async data => {
                   });
                   const mailOptions = {
                     from: 'info@diagnostico035.com', // sender address
-                    to: `${resultados[0].correo},alma.juarez@ads.com.mx,jesus.francisco@ads.com.mx`, // list of receivers
+                    to: `${resultados[0].correo},jesus.francisco@ads.com.mx`, // list of receivers
                     subject: 'Su solicitud no fue aceptada', // Subject line
                     html: `<p>Empresa: ${resultados[0].razonSocial}<br/>RFC: ${resultados[0].rfc}<br/>Correo : ${resultados[0].correo}<br/> <br/> 
                       Estimado  ${resultados[0].nombre} ${resultados[0].apellidos} <br/> <br/> <br/> Lamentablemente su suscripción no fue aprobada<br/> <br/>
