@@ -379,7 +379,14 @@ const getLicence = async(_, { data }) => {
     const licencia = await  actions.GetLicence(divisiones)
     return licencia;
 };
+const verifySurvey = async(_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    const licencia = await  actions.VerifySurvey(divisiones)
+    return licencia;
+};
      module.exports = {
+        verifySurvey,
         getLicence,
         getHistoryRenovation,
         getSuperUserWithRFC,

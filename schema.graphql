@@ -60,6 +60,7 @@ scalar Upload
     getSuperUserWithRFC(data:[String!]):[superUser]
     getHistoryRenovation:[historyRenovation]
     getLicence(data:[String!]):[licencia]
+    verifySurvey(data:[String!]):[tokenTemporal]
  }        
  
 type Mutation {
@@ -130,6 +131,15 @@ type Mutation {
   updateSuperUser(data:[String!]):Data
   resendEmailSuperUSer(data:[String!]):message
   desactivarLicencia(data:[String!]):message
+}
+type tokenTemporal{
+  idtokenEvaluaciones:String
+  codigoSeguridad:String
+  fechaCreacionToken:String
+  fechaExpiraicionToken:String
+  statusToken:String
+  evaluacion:String
+  fk_empleados:String
 }
 
 type Url {
@@ -301,6 +311,7 @@ type  JsonEmployee{
   FechaNacimiento:String,
   Sexo:String,
   EstadoCivil:String,
+  telefono:String,
   correo:String,
   AreaTrabajo:String,
   Puesto:String,
@@ -614,6 +625,7 @@ type Data {
   nombreExistente:String
   apellidoPExistente:String
   apellidoMExistente:String
+  folio:String
 }
 
 type MaxidEmployeesResolves{

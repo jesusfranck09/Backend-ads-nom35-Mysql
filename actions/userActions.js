@@ -769,7 +769,6 @@ const EEOPoliticaPrivacidad = async data => {
   };
 
 const  SendMail = async (args) => {
-  console.log("args",args)
   return  new Promise((resolve, reject) => {   
   var LaFecha=new Date();
   var Mes=new Array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
@@ -792,20 +791,20 @@ const  SendMail = async (args) => {
       tls: {rejectUnauthorized: false},
       });
       var encuesta ="";
-    
+      if(args[2]=="1"){
+        encuesta="ATS"
+      }if(args[2]=="2"){
+        encuesta="RP"
+      }if(args[2]=="3"){
+        encuesta="EEO"
+      }
         var url = "";
 
-        client.query(`select * from tokenTemporalEvaluaciones where fk_empleados ='${args[1]}' and statusToken = 'Activo'`,function(err,result,fields){
+        client.query(`select * from tokenTemporalEvaluaciones where fk_empleados ='${args[1]}' and statusToken = 'Activo' and evaluacion = '${encuesta}'`,function(err,result,fields){
           var string = JSON.stringify(result)
           var resultado = JSON.parse(string)
             if(resultado[0]){
-            if(args[2]=="1"){
-              encuesta="ATS"
-            }if(args[2]=="2"){
-              encuesta="RP"
-            }if(args[2]=="3"){
-              encuesta="EEO"
-            }
+            
             url =  "https://eval.diagnostico035.com/politicaPrivacidad:&" +  args[1] + "%" + resultado[0].codigoSeguridad
           }else{
 
@@ -818,9 +817,8 @@ const  SendMail = async (args) => {
             }
                                                                                                                            
             url =  "https://eval.diagnostico035.com/politicaPrivacidad:&" +  args[1] + "%" + args[4]
-          
+            client.query(`insert into tokenTemporalEvaluaciones(codigoSeguridad,fechaCreacionToken,fechaExpiraicionToken,statusToken,evaluacion,fk_empleados) values ('${args[4]}','${FechaCompleta}','Token Vigente','Activo','${encuesta}','${args[1]}')`);
           }
-          client.query(`insert into tokenTemporalEvaluaciones(codigoSeguridad,fechaCreacionToken,fechaExpiraicionToken,statusToken,evaluacion,fk_empleados) values ('${args[4]}','${FechaCompleta}','Token Vigente','Activo','${encuesta}','${args[1]}')`)
           const mailOptions = {
             from: 'info@diagnostico035.com',
             // to: `jesus.francisco@ads.com.mx`,
@@ -851,15 +849,13 @@ const  SendMail = async (args) => {
           };
   
           transporter.sendMail(mailOptions, function (err, info) {
-            console.log("info",info)
+            
             if(err){
               console.log("este es el error" , err)
               reject("err",err)
-            }else{
-              resolve({message:`envio exitoso`},          
-              )
-            }
+            }else console.log("info",info)
           });
+          resolve({message:`envio exitoso`});
           client.query(`insert into correos(Encuesta,fecha,fk_empleados,contestado,fk_administrador) values ('${encuesta}','${FechaCompleta}','${args[1]}','false','${args[3]}')`); 
           })
       })       
@@ -956,7 +952,7 @@ const  SendMail = async (args) => {
   const getUsers = async data => {
   return  new Promise((resolve, reject) => {
       client
-      .query(`select empleados.id,empleados.nombre, empleados.ApellidoP, empleados.ApellidoM,empleados.Curp,empleados.RFC,empleados.FechaNacimiento,empleados.Sexo ,empleados.EstadoCivil,empleados.CentroTrabajo,empleados.correo, empleados.AreaTrabajo,empleados.Puesto,empleados.TipoPuesto,empleados.NivelEstudios,empleados.TipoPersonal,empleados.JornadaTrabajo,empleados.TipoContratacion,empleados.TiempoPuesto,empleados.ExperienciaLaboral,empleados.RotacionTurnos,empleados.fk_Administrador,empleados.ATSContestado,empleados.RPContestado,empleados.EEOContestado,empleados.ATSDetectado,empleados.EmpleadoActivo from empleados inner join administrador on empleados.fk_administrador = administrador.id where empleados.fk_administrador = '${data.data[0]}' and empleados.EmpleadoActivo ='true'`,
+      .query(`select empleados.id,empleados.nombre, empleados.ApellidoP, empleados.ApellidoM,empleados.Curp,empleados.RFC,empleados.FechaNacimiento,empleados.Sexo ,empleados.EstadoCivil,empleados.CentroTrabajo,empleados.correo,empleados.telefono, empleados.AreaTrabajo,empleados.Puesto,empleados.TipoPuesto,empleados.NivelEstudios,empleados.TipoPersonal,empleados.JornadaTrabajo,empleados.TipoContratacion,empleados.TiempoPuesto,empleados.ExperienciaLaboral,empleados.RotacionTurnos,empleados.fk_Administrador,empleados.ATSContestado,empleados.RPContestado,empleados.EEOContestado,empleados.ATSDetectado,empleados.EmpleadoActivo from empleados inner join administrador on empleados.fk_administrador = administrador.id where empleados.fk_administrador = '${data.data[0]}' and empleados.EmpleadoActivo ='true'`,
         function (error, results, fields) {
         if (error) reject(error) 
         var string=JSON.stringify(results);
@@ -1237,7 +1233,7 @@ const DeletePuestos = async data => {
 
 const UpdateEmployees = async data => { 
   return new Promise((resolve, reject) => {
-    client.query(`update empleados set nombre='${data[0].toUpperCase() }',ApellidoP ='${data[1].toUpperCase() }',ApellidoM='${data[2].toUpperCase() }',Curp='${data[3].toUpperCase() }',RFC='${data[4].toUpperCase() }', Sexo ='${data[5].toUpperCase() }',CentroTrabajo='${data[6].toUpperCase() }',correo='${data[7].toUpperCase() }',AreaTrabajo='${data[8].toUpperCase() }',Puesto='${data[9].toUpperCase() }',TipoPuesto= '${data[10].toUpperCase() }'  where id ='${data[11]}' and fk_administrador='${data[12]}'`)
+    client.query(`update empleados set nombre='${data[0].toUpperCase() }',ApellidoP ='${data[1].toUpperCase() }',ApellidoM='${data[2].toUpperCase() }',Curp='${data[3].toUpperCase() }',RFC='${data[4].toUpperCase() }', Sexo ='${data[5].toUpperCase() }',CentroTrabajo='${data[6].toUpperCase() }',telefono='${data[13].toUpperCase() }',correo='${data[7].toUpperCase() }',AreaTrabajo='${data[8].toUpperCase() }',Puesto='${data[9].toUpperCase() }',TipoPuesto= '${data[10].toUpperCase() }'  where id ='${data[11]}' and fk_administrador='${data[12]}'`)
     resolve({message:"actualizacion exitosa"}) 
     })
   };
@@ -2958,7 +2954,35 @@ const GetresultGlobalSurveyEEO = async data => {
 
     })
     }
+    const VerifySurvey = async data => {
+      console.log("data",data)
+      var LaFecha=new Date();
+      var Mes=new Array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+      var diasem=new Array('domingo','lunes','martes','miercoles','jueves','viernes','sabado');
+      var diasemana=LaFecha.getDay();
+      var FechaCompleta="";
+      var NumeroDeMes="";
+      var hora = LaFecha.getHours(); 
+      var minuto = LaFecha.getMinutes(); 
+      var segundo = LaFecha.getSeconds();
+      NumeroDeMes=LaFecha.getMonth();
+      FechaCompleta = diasem[diasemana]+" "+LaFecha.getDate()+" de "+Mes[NumeroDeMes]+" de "+LaFecha.getFullYear()+" "+hora+":"+minuto+":"+segundo;
+      return new Promise((resolve,reject) => {
+          client.query(`select * from tokenTemporalEvaluaciones where fk_Empleados = '${data[1]}' and statusToken = 'Activo' and evaluacion = '${data[2]}'`, function(err, result, fields){
+          var string = JSON.stringify(result)
+          var resultados = JSON.parse(string)
+          if(resultados[0]){
+            resolve(resultados);
+          }else{
+            let encuesta = data[1]
+            client.query(`insert into tokenTemporalEvaluaciones(codigoSeguridad,fechaCreacionToken,fechaExpiraicionToken,statusToken,evaluacion,fk_empleados) values ('${data[4]}','${FechaCompleta}','Token Vigente','Activo','${data[2]}','${data[1]}')`);
+            resolve([{message:"no existe",fk_empleados:data[1],codigoSeguridad:data[4],fechaCreacionToken:FechaCompleta,evaluacion:data[2]}])
+          }          
+        })
+      })
+      }
       module.exports = {
+        VerifySurvey,
         DesactivarLicencia,
         ResendEmailSuperUSer,
         GetLicence,
