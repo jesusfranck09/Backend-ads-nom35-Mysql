@@ -1604,13 +1604,25 @@ const GetresultGlobalSurveyEEO = async data => {
           const GetEmployeesFkAdmin = async data => {
             
             return  new Promise((resolve, reject) => {
-              client.query(`select * from empleados inner join tokenTemporalEvaluaciones on tokenTemporalEvaluaciones.fk_empleados = empleados.id where empleados.id='${data[0]}'`,
+              client.query(`select * from empleados where id='${data[0]}'`,
                 function (error, results, fields) {
-                if (error) reject(error) 
-                var string=JSON.stringify(results);
-                var resultados =  JSON.parse(string); 
-                console.log("resultados",resultados)          
-                resolve(resultados)  
+                  var string=JSON.stringify(results);
+                  var resultados =  JSON.parse(string); 
+                   
+                if (error){ 
+                  reject(error)
+                } 
+                client.query(`select * from tokenTemporalEvaluaciones where fk_empleados='${data[0]}' and codigoSeguridad = '${data[1]}'`,function(error,result,field){
+                  var string2 = JSON.stringify(result)
+                  var resultado2 = JSON.parse(string2)
+                  if(resultado2[0]){
+                    let arr = resultados.map((item, i) => Object.assign({}, item, resultado2[i]));
+                    resolve(arr) 
+                  }else{
+                    resolve([{message:"no encontrado"}])
+                  }
+                })
+                
               },
             )
             })

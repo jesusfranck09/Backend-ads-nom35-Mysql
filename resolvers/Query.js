@@ -180,7 +180,9 @@ const getEventos= async (_, { data }) => {
     .catch( err => err );
 };
 const getEmployeesFkAdmin= async (_, { data }) => {
-    return actions.GetEmployeesFkAdmin(data)
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    return actions.GetEmployeesFkAdmin(divisiones)
     .then( res => res)
     .catch( err => err );
 };
