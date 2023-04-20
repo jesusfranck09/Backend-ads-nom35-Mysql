@@ -2993,6 +2993,7 @@ const GetresultGlobalSurveyEEO = async data => {
         })
       })
       }
+
       DeleteEmpleadosPermanente = async (data)=>{
         console.log("data",data)
         return new Promise(async (resolve,reject)=>{
@@ -3008,6 +3009,7 @@ const GetresultGlobalSurveyEEO = async data => {
             },
           )
       }
+
       module.exports = {
         DeleteEmpleadosPermanente,
         VerifySurvey,
