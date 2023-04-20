@@ -4,6 +4,7 @@ var con = mysql.createPool({
   host: "us-cdbr-iron-east-04.cleardb.net",
   user: "b32fbf2647107b",
   password: "57e93245",
+  multipleStatements: true
 },
 
 console.log("connected!")

@@ -131,6 +131,7 @@ type Mutation {
   updateSuperUser(data:[String!]):Data
   resendEmailSuperUSer(data:[String!]):message
   desactivarLicencia(data:[String!]):message
+  deleteEmpleadosPermanente(data:[String!]):message
 }
 type tokenTemporal{
   idtokenEvaluaciones:String

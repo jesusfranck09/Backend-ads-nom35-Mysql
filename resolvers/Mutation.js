@@ -410,7 +410,15 @@ const desactivarLicencia = async(_, { data }) => {
     const desactivar = await actions.DesactivarLicencia(divisiones)
     return desactivar;
 };
+
+const deleteEmpleadosPermanente = async(_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    const desactivar = await actions.DeleteEmpleadosPermanente(divisiones)
+    return desactivar;
+};
 module.exports = {
+    deleteEmpleadosPermanente,
     desactivarLicencia,
     resendEmailSuperUSer,
     updateSuperUser,

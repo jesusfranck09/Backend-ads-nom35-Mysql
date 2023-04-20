@@ -309,14 +309,14 @@ const SignupAdminAlfa =   (user) => {
           })
           }else{
               client
-            .query(`select * from sucursales where fk_administrador = '${data[20]}' and nombreSucursal='${data[19]}' `,
+            .query(`select * from sucursales where fk_administrador = '${data[21]}' and nombreSucursal='${data[19]}' `,
              function (error, results, fields) {
              if (error) reject(error) 
              var string=JSON.stringify(results);
              var resultados =  JSON.parse(string); 
              if(resultados[0]){
                client
-              .query(`select * from departamentos where fk_administrador = '${data[20]}' and nombre='${data[9]}' `,
+              .query(`select * from departamentos where fk_administrador = '${data[21]}' and nombre='${data[9]}' `,
             
               function (error, results, fields) {
                if (error) reject(error) 
@@ -324,14 +324,13 @@ const SignupAdminAlfa =   (user) => {
                 var result=  JSON.parse(strings); 
                if(result[0]){
                  client
-                .query(`select * from puestos where fk_administrador = '${data[20]}' and nombre='${data[10]}' `,
+                .query(`select * from puestos where fk_administrador = '${data[21]}' and nombre='${data[10]}' `,
                  function (error, results, fields) {
                  if (error) reject(error) 
                  var stringss=JSON.stringify(results);
                  var resu =  JSON.parse(stringss); 
                  if(resu[0]){
-                     client
-                  .query(`insert into empleados (nombre,ApellidoP,ApellidoM,Curp,RFC,FechaNacimiento,Sexo,EstadoCivil,CentroTrabajo,correo,AreaTrabajo,Puesto,TipoPuesto,NivelEstudios,TipoPersonal,JornadaTrabajo,TipoContratacion,TiempoPuesto,ExperienciaLaboral,RotacionTurnos,fk_administrador,ATSContestado,RPContestado,EEOContestado,ATSDetectado,EmpleadoActivo) values ('${data[0].toUpperCase() }', '${data[1].toUpperCase() }', '${data[2].toUpperCase() }', '${data[3].toUpperCase() }', '${data[4].toUpperCase() }', '${data[5].toUpperCase() }', '${data[6].toUpperCase() }', '${data[7].toUpperCase() }', '${data[19].toUpperCase() }','${correo}', '${data[9].toUpperCase() }', '${data[10].toUpperCase() }', '${data[11].toUpperCase() }', '${data[12].toUpperCase() }', '${data[13].toUpperCase() }', '${data[14].toUpperCase() }', '${data[15].toUpperCase() }', '${data[16].toUpperCase() }', '${data[17].toUpperCase() }', '${data[18].toUpperCase() }','${data[20].toUpperCase() }','false','false','false','false','true')`); 
+                     client.query(`insert into empleados (nombre,ApellidoP,ApellidoM,Curp,RFC,FechaNacimiento,Sexo,EstadoCivil,CentroTrabajo,telefono,correo,AreaTrabajo,Puesto,TipoPuesto,NivelEstudios,TipoPersonal,JornadaTrabajo,TipoContratacion,TiempoPuesto,ExperienciaLaboral,RotacionTurnos,fk_administrador,ATSContestado,RPContestado,EEOContestado,ATSDetectado,EmpleadoActivo) values ('${data[0].toUpperCase() }', '${data[1].toUpperCase() }', '${data[2].toUpperCase() }', '${data[3].toUpperCase() }', '${data[4].toUpperCase() }', '${data[5].toUpperCase() }', '${data[6].toUpperCase() }', '${data[7].toUpperCase() }', '${data[19].toUpperCase() }','${data[20]}','${correo}', '${data[9].toUpperCase() }', '${data[10].toUpperCase() }', '${data[11].toUpperCase() }', '${data[12].toUpperCase() }', '${data[13].toUpperCase() }', '${data[14].toUpperCase() }', '${data[15].toUpperCase() }', '${data[16].toUpperCase() }', '${data[17].toUpperCase() }', '${data[18].toUpperCase() }','${data[21].toUpperCase() }','false','false','false','false','true')`); 
                   resolve({
                     message: 'registro exitoso',
                     nombre:data[0],
@@ -2994,7 +2993,23 @@ const GetresultGlobalSurveyEEO = async data => {
         })
       })
       }
+      DeleteEmpleadosPermanente = async (data)=>{
+        console.log("data",data)
+        return new Promise(async (resolve,reject)=>{
+          client.query(`set foreign_key_checks = 0; delete from empleados where id = '${data[0]}'; delete from periodos where fk_empleados = '${data[0]}'; delete from respuestasats where fk_empleados = '${data[0]}';
+          delete from respuestasrp where fk_empleadosrp = '${data[0]}'; delete from respuestaseeo where fk_empleados = '${data[0]}'
+          `,function(error,fields){
+            if(error){
+              throw error
+            }else{
+              resolve({message:"empleado eliminado"})
+            }
+            })         
+            },
+          )
+      }
       module.exports = {
+        DeleteEmpleadosPermanente,
         VerifySurvey,
         DesactivarLicencia,
         ResendEmailSuperUSer,
