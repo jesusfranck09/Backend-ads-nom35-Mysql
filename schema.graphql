@@ -87,6 +87,8 @@ type Mutation {
 
   rpPoliticaPrivacidad(data:[String]!):SurveyData!
   atsPoliticaPrivacidad(data:[String]!):SurveyData!
+  atsPoliticaPrivacidadEval(data:[String]!):SurveyData!
+
   eeoPoliticaPrivacidad(data:[String]!):SurveyData!
 
  sendMail(data:[String]!):Data!

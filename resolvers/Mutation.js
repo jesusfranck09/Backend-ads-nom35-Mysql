@@ -417,7 +417,15 @@ const deleteEmpleadosPermanente = async(_, { data }) => {
     const desactivar = await actions.DeleteEmpleadosPermanente(divisiones)
     return desactivar;
 };
+const atsPoliticaPrivacidadEval = async (_,  data ) => {
+    var miCadena =data.data[0];
+    var divisiones = miCadena.split(",");
+    const datosRS = await  actions.AtsPoliticaPrivacidadEval(divisiones)
+                   return datosRS;
+
+};
 module.exports = {
+    atsPoliticaPrivacidadEval,
     deleteEmpleadosPermanente,
     desactivarLicencia,
     resendEmailSuperUSer,
