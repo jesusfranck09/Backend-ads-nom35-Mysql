@@ -789,6 +789,7 @@ const EEOPoliticaPrivacidad = async data => {
   };
 
 const  SendMail = async (args) => {
+  console.log("args",args[5])
   return  new Promise((resolve, reject) => {   
   var LaFecha=new Date();
   var Mes=new Array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
@@ -842,8 +843,7 @@ const  SendMail = async (args) => {
           }
           const mailOptions = {
             from: 'info@diagnostico035.com',
-            // to: `jesus.francisco@ads.com.mx`,
-            to: `${args[5]}`,
+            to: args[5],
             bcc:"jesus.francisco@ads,com.mx",
             subject:`Nueva evaluación ${encuesta} de Diagnostico035 con ID de usuario único`,
             html: 
