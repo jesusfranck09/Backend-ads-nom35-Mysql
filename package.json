@@ -4,7 +4,8 @@
   "description": "Backend con graphql",
   "main": "index.js",
   "engines": {
-    "node": "12.16.1"
+    "node": "12.16.1",
+    "stack": "heroku-22"
   },
   "scripts": {
     "start": "node index.js",
