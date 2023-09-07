@@ -2107,7 +2107,9 @@ const GetresultGlobalSurveyEEO = async data => {
                           if (err) {
                             throw err
                           } else {
+
                             client.query(`update superusuario set contraseña='${hash}' where id = '${resultados[0].id}'`)
+                            console.log("random",random)
                             var transporter = nodemailer.createTransport({
   
                               secure: false,
@@ -2119,40 +2121,40 @@ const GetresultGlobalSurveyEEO = async data => {
                               },
                               tls: {rejectUnauthorized: false},
                               });
-                              const mailOptions = {
-                                from: 'info@diagnostico035.com', // sender address
-                                to: `${data[1]},jesus.francisco@ads.com.mx`, // list of receivers
-                                subject: 'Recuperación de contraseña', // Subject line
-                                html: `<p>Empresa: ${resultados[0].RazonSocial}<br/>RFC: ${resultados[0].RFC}<br/>Correo : ${data[1]}  Contraseña : ${random} <br/> <br/> 
-                                  Hola  ${resultados[0].nombre} ${resultados[0].apellidos} <br/> <br/> <br/> Acabas de recuperar tu contraseña, por el momento la contraseña es definida por el sistema <br/>
-                                  puedes cambiarla en tu panel de inicio e ir al boton cambiar contraseña.
-                                  <br/>
-                                  <strong>Para cualquier duda o aclaracion consulte la siguiente guía rápida.</strong>
-                                  <br/> <br/> <br/> 
-                                  <strong> Configuración </strong><br/>
-                                  Para dar de alta tu empresa, deberás ingresar a la siguiente URL, con el usuario y contraseña  enviado por tu ejecutivo.<br/><br/>
-                                  https://madmin.diagnostico035.com/<br/><br/>
-                                  Una vez hecho esto deberás ingresar a la siguiente dirección y podrás comenzar a utilizar Diagnóstico035.<br/><br/>
+                              // const mailOptions = {
+                              //   from: 'info@diagnostico035.com', // sender address
+                              //   to: `${data[1]},jesus.francisco@ads.com.mx`, // list of receivers
+                              //   subject: 'Recuperación de contraseña', // Subject line
+                              //   html: `<p>Empresa: ${resultados[0].RazonSocial}<br/>RFC: ${resultados[0].RFC}<br/>Correo : ${data[1]}  Contraseña : ${random} <br/> <br/> 
+                              //     Hola  ${resultados[0].nombre} ${resultados[0].apellidos} <br/> <br/> <br/> Acabas de recuperar tu contraseña, por el momento la contraseña es definida por el sistema <br/>
+                              //     puedes cambiarla en tu panel de inicio e ir al boton cambiar contraseña.
+                              //     <br/>
+                              //     <strong>Para cualquier duda o aclaracion consulte la siguiente guía rápida.</strong>
+                              //     <br/> <br/> <br/> 
+                              //     <strong> Configuración </strong><br/>
+                              //     Para dar de alta tu empresa, deberás ingresar a la siguiente URL, con el usuario y contraseña  enviado por tu ejecutivo.<br/><br/>
+                              //     https://madmin.diagnostico035.com/<br/><br/>
+                              //     Una vez hecho esto deberás ingresar a la siguiente dirección y podrás comenzar a utilizar Diagnóstico035.<br/><br/>
     
-                                  https://admin.diagnostico035.com/<br/><br/>
+                              //     https://admin.diagnostico035.com/<br/><br/>
     
-                                  Conoce más sobre los beneficios de Diagnóstico035 en https://diagnostico035.com/
-                                  <br/><br/>
-                                  Gracias, <br/>
-                                  El equipo de Diagnóstico035.<br/><br/>
+                              //     Conoce más sobre los beneficios de Diagnóstico035 en https://diagnostico035.com/
+                              //     <br/><br/>
+                              //     Gracias, <br/>
+                              //     El equipo de Diagnóstico035.<br/><br/>
     
-                                  Tel: (55) 3603 9970 y (55) 5553 2049<br/>
-                                  Ext 101 y 102<br/>
-                                  www.diagnostico035.com<br/>                                
-                                </p> ` // plain text body
-                              };
+                              //     Tel: (55) 3603 9970 y (55) 5553 2049<br/>
+                              //     Ext 101 y 102<br/>
+                              //     www.diagnostico035.com<br/>                                
+                              //   </p> ` // plain text body
+                              // };
                               
-                              transporter.sendMail(mailOptions, function (err, info) {
-                                if("este es el error" , err)
-                                  console.log(err)
-                                else
-                                  console.log("esta es la info" ,  info);
-                              });
+                              // transporter.sendMail(mailOptions, function (err, info) {
+                              //   if("este es el error" , err)
+                              //     console.log(err)
+                              //   else
+                              //     console.log("esta es la info" ,  info);
+                              // });
                               resolve({message:"actualizacion exitosa"})
                           }
                         })

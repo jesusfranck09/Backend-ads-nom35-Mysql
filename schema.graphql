@@ -341,6 +341,7 @@ type  JsonEmployee{
   fechaExpiraicionToken:String
   statusToken:String
   evaluacion:String
+  accesoPortal:String
 }
 
 type Auth {
