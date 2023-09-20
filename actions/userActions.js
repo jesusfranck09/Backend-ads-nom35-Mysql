@@ -729,14 +729,21 @@ const AtsPoliticaPrivacidadEval = async data => {
     if (error) reject(error) 
         var string=JSON.stringify(results);
         var resultados =  JSON.parse(string);
-        console.log("ersultados",resultados) 
         client.query(`select * from periodos where fk_empleados= '${resultados[0].id}' and encuesta= "ATS" and periodo = '${data[1]}'`,function(error,results2,fields){
           var string2=JSON.stringify(results2);
           var resultados2 =  JSON.parse(string2);
           if(resultados2[0]){
             resolve({message:"Evaluacion resuelta"})  
           }else{
-            resolve(resultados[0])  
+            resolve(
+              {id:resultados[0].id,
+              nombre:resultados[0].nombre,
+              ApellidoP:resultados[0].ApellidoP,
+              ApellidoM:resultados[0].ApellidoM,
+              correo:resultados[0].correo,
+              fk_administrador:resultados[0].fk_administrador,
+              message: "Evaluacion activa"}
+            )  
           }
         })
       },
@@ -759,7 +766,15 @@ const AtsPoliticaPrivacidadEval = async data => {
           if(resultados2[0]){
             resolve({message:"Evaluacion resuelta"})  
           }else{
-            resolve(resultados[0])  
+            resolve(
+              {id:resultados[0].id,
+                nombre:resultados[0].nombre,
+                ApellidoP:resultados[0].ApellidoP,
+                ApellidoM:resultados[0].ApellidoM,
+                correo:resultados[0].correo,
+                fk_administrador:resultados[0].fk_administrador,
+                message: "Evaluacion activa"}
+            )  
           }
         })
       },
@@ -781,7 +796,15 @@ const EEOPoliticaPrivacidad = async data => {
           if(resultados2[0]){
             resolve({message:"Evaluacion resuelta"})  
           }else{
-            resolve(resultados[0])  
+            resolve(
+              {id:resultados[0].id,
+                nombre:resultados[0].nombre,
+                ApellidoP:resultados[0].ApellidoP,
+                ApellidoM:resultados[0].ApellidoM,
+                correo:resultados[0].correo,
+                fk_administrador:resultados[0].fk_administrador,
+                message: "Evaluacion activa"}
+            )  
           }
         })
       },
@@ -2900,7 +2923,6 @@ const GetresultGlobalSurveyEEO = async data => {
        }
        
        var random = makeid(8)
-       console.log("random",random)
        bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
         if (err) {
           reject(err,{message: 'Error',token: err}) 
@@ -2992,7 +3014,6 @@ const GetresultGlobalSurveyEEO = async data => {
     })
     }
     const VerifySurvey = async data => {
-      console.log("data",data)
       var LaFecha=new Date();
       var Mes=new Array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
       var diasem=new Array('domingo','lunes','martes','miercoles','jueves','viernes','sabado');
@@ -3020,7 +3041,6 @@ const GetresultGlobalSurveyEEO = async data => {
       }
 
       DeleteEmpleadosPermanente = async (data)=>{
-        console.log("data",data)
         return new Promise(async (resolve,reject)=>{
           client.query(`set foreign_key_checks = 0; delete from empleados where id = '${data[0]}'; delete from periodos where fk_empleados = '${data[0]}'; delete from respuestasats where fk_empleados = '${data[0]}';
           delete from respuestasrp where fk_empleadosrp = '${data[0]}'; delete from respuestaseeo where fk_empleados = '${data[0]}'
@@ -3036,7 +3056,6 @@ const GetresultGlobalSurveyEEO = async data => {
       }
 
       AccesoPortal = async (data)=>{
-        console.log("data",data)
         return new Promise(async (resolve,reject)=>{
           client.query(`update empleados set accesoPortal = "true", passwordPortal= '${data[1]}'  where id = '${data[0]}'`)      
           resolve({message:"Actualizacion exitosa"})
@@ -3056,7 +3075,6 @@ const GetresultGlobalSurveyEEO = async data => {
           )
       }
       SuspenderAccesoPortal = async (data)=>{
-        console.log("data",data)
         return new Promise(async (resolve,reject)=>{
               client.query(`update empleados set accesoPortal = 'false' where id = '${data[0]}'`)
               resolve({message:"Sin acceso al portal"})
@@ -3080,7 +3098,6 @@ const GetresultGlobalSurveyEEO = async data => {
           )
       }
       LoginEmployee = async (data)=>{
-        console.log("data",data)
         return new Promise(async (resolve,reject)=>{
              client.query(`select * from empleados where correo = '${data[0]}'`, function(err,result,field){
               var string = JSON.stringify(result)
@@ -3130,7 +3147,6 @@ const GetresultGlobalSurveyEEO = async data => {
               client.query(`select * from tokentemporalevaluaciones where fk_empleados = '${data[0]}' and statusToken = 'Activo'`,function(err, results, field){
                 let string = JSON.stringify(results);
                 let resultados = JSON.parse(string);
-                console.log("resultados",resultados)
                 resolve(resultados)
               })
             },
