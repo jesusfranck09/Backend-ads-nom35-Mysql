@@ -61,6 +61,9 @@ scalar Upload
     getHistoryRenovation:[historyRenovation]
     getLicence(data:[String!]):[licencia]
     verifySurvey(data:[String!]):[tokenTemporal]
+    getEmployeeById(data:[String]!):[JsonEmployee]
+    getAllEvalEmployee(data:[String]!):[tablePeriodo]
+    getActiveEvalEmployee(data:[String]!):[JsonEmployee]
  }        
  
 type Mutation {
@@ -134,6 +137,11 @@ type Mutation {
   resendEmailSuperUSer(data:[String!]):message
   desactivarLicencia(data:[String!]):message
   deleteEmpleadosPermanente(data:[String!]):message
+  accesoPortal(data:[String!]):message
+  suspenderAccesoPortal(data:[String!]):message
+  registerPlantilla(data:[String!]):message
+  quitarAccesoTeletrabajo(data:[String!]):message
+  loginEmployee(data:[String!]):Auth!
 }
 type tokenTemporal{
   idtokenEvaluaciones:String
@@ -342,6 +350,9 @@ type  JsonEmployee{
   statusToken:String
   evaluacion:String
   accesoPortal:String
+  passwordPortal:String
+  teletrabajo:String
+  fk_empleados:String
 }
 
 type Auth {
@@ -678,4 +689,5 @@ type tablePeriodo{
     periodo:String
     encuesta:String
     fk_empleados:String
+    fechaEvaluacion:String
 }

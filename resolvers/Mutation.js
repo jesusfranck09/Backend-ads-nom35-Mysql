@@ -424,7 +424,47 @@ const atsPoliticaPrivacidadEval = async (_,  data ) => {
                    return datosRS;
 
 };
+const accesoPortal = async (_,  data ) => {
+    var miCadena =data.data[0];
+    var divisiones = miCadena.split(",");
+    const datosRS = await  actions.AccesoPortal(divisiones)
+                   return datosRS;
+
+};
+const suspenderAccesoPortal = async (_,  data ) => {
+    var miCadena =data.data[0];
+    var divisiones = miCadena.split(",");
+    const datosRS = await  actions.SuspenderAccesoPortal(divisiones)
+                   return datosRS;
+
+};
+const registerPlantilla = async (_,  data ) => {
+    var miCadena =data.data[0];
+    var divisiones = miCadena.split(",");
+    const datosRS = await  actions.RegisterPlantilla(divisiones)
+                   return datosRS;
+
+};
+const quitarAccesoTeletrabajo = async (_,  data ) => {
+    var miCadena =data.data[0];
+    var divisiones = miCadena.split(",");
+    const datosRS = await  actions.QuitarAccesoTeletrabajo(divisiones)
+                   return datosRS;
+
+};
+const loginEmployee = async (_,  data ) => {
+    var miCadena =data.data[0];
+    var divisiones = miCadena.split(",");
+    const datosRS = await  actions.LoginEmployee(divisiones)
+                   return datosRS;
+
+};
 module.exports = {
+    loginEmployee,
+    quitarAccesoTeletrabajo,
+    registerPlantilla,
+    suspenderAccesoPortal,
+    accesoPortal,
     atsPoliticaPrivacidadEval,
     deleteEmpleadosPermanente,
     desactivarLicencia,

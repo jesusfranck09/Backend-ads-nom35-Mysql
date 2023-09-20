@@ -387,7 +387,28 @@ const verifySurvey = async(_, { data }) => {
     const licencia = await  actions.VerifySurvey(divisiones)
     return licencia;
 };
+const getEmployeeById = async(_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    const licencia = await  actions.GetEmployeeById(divisiones)
+    return licencia;
+};
+const getAllEvalEmployee = async(_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    const licencia = await  actions.GetAllEvalEmployee(divisiones)
+    return licencia;
+};
+const getActiveEvalEmployee = async(_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    const licencia = await  actions.GetActiveEvalEmployee(divisiones)
+    return licencia;
+};
      module.exports = {
+        getActiveEvalEmployee,
+        getAllEvalEmployee,
+        getEmployeeById,
         verifySurvey,
         getLicence,
         getHistoryRenovation,

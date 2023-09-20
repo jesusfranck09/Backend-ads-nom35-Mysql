@@ -408,8 +408,8 @@ return new Promise((resolve, reject) => {
       client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','15','${data[3]}','${data[2]}')`);
       client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','16','${data[3]}','${data[2]}')`);
       client.query(`update empleados set ATSContestado = 'true' where id = '${data[3]}'`);
-      client.query(`insert into periodos(fk_empleados,periodo,encuesta,fechaEvaluacion) values ('${data[3]}','${data[2]}','ATS','${data[5]}')`);    
-      client.query(`update tokenTemporalEvaluaciones set statusToken = 'Inactivo' where codigoSeguridad = '${data[6]}'`);
+      client.query(`insert into periodos(fk_empleados,periodo,encuesta,fechaEvaluacion) values ('${data[3]}','${data[2]}','ATS','${data[5]}')`);  
+      client.query(`delete from tokenTemporalEvaluaciones where codigoSeguridad = '${data[6]}'`);   
 
       client
         .query(`select Max(id) as idMaximo from correos where fk_empleados='${[data[3]]}' and encuesta = "ATS"`,
@@ -974,7 +974,7 @@ const  SendMail = async (args) => {
   const getUsers = async data => {
   return  new Promise((resolve, reject) => {
       client
-      .query(`select empleados.id,empleados.nombre, empleados.ApellidoP, empleados.ApellidoM,empleados.Curp,empleados.RFC,empleados.FechaNacimiento,empleados.Sexo ,empleados.EstadoCivil,empleados.CentroTrabajo,empleados.correo,empleados.telefono, empleados.AreaTrabajo,empleados.Puesto,empleados.TipoPuesto,empleados.NivelEstudios,empleados.TipoPersonal,empleados.JornadaTrabajo,empleados.TipoContratacion,empleados.TiempoPuesto,empleados.ExperienciaLaboral,empleados.RotacionTurnos,empleados.fk_Administrador,empleados.ATSContestado,empleados.RPContestado,empleados.EEOContestado,empleados.ATSDetectado,empleados.EmpleadoActivo,empleados.accesoPortal from empleados inner join administrador on empleados.fk_administrador = administrador.id where empleados.fk_administrador = '${data.data[0]}' and empleados.EmpleadoActivo ='true'`,
+      .query(`select empleados.id,empleados.nombre, empleados.ApellidoP, empleados.ApellidoM,empleados.Curp,empleados.RFC,empleados.FechaNacimiento,empleados.Sexo ,empleados.EstadoCivil,empleados.CentroTrabajo,empleados.correo,empleados.telefono, empleados.AreaTrabajo,empleados.Puesto,empleados.TipoPuesto,empleados.NivelEstudios,empleados.TipoPersonal,empleados.JornadaTrabajo,empleados.TipoContratacion,empleados.TiempoPuesto,empleados.ExperienciaLaboral,empleados.RotacionTurnos,empleados.fk_Administrador,empleados.ATSContestado,empleados.RPContestado,empleados.EEOContestado,empleados.ATSDetectado,empleados.EmpleadoActivo,empleados.accesoPortal,empleados.passwordPortal,empleados.teletrabajo from empleados inner join administrador on empleados.fk_administrador = administrador.id where empleados.fk_administrador = '${data.data[0]}' and empleados.EmpleadoActivo ='true'`,
         function (error, results, fields) {
         if (error) reject(error) 
         var string=JSON.stringify(results);
@@ -3034,7 +3034,116 @@ const GetresultGlobalSurveyEEO = async data => {
           )
       }
 
+      AccesoPortal = async (data)=>{
+        console.log("data",data)
+        return new Promise(async (resolve,reject)=>{
+          client.query(`update empleados set accesoPortal = "true", passwordPortal= '${data[1]}'  where id = '${data[0]}'`)      
+          resolve({message:"Actualizacion exitosa"})
+          // bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
+          //   if (err) {
+          //     reject(err,{message: 'Error',token: err}) 
+          //   } else {
+          //     bcrypt.hash(data[1], salt, function(err, hash) {
+          //       if (err) {
+          //         throw err
+          //       } else {
+                 
+          //       }
+          //     })
+          //   }})
+            },
+          )
+      }
+      SuspenderAccesoPortal = async (data)=>{
+        console.log("data",data)
+        return new Promise(async (resolve,reject)=>{
+              client.query(`update empleados set accesoPortal = 'false' where id = '${data[0]}'`)
+              resolve({message:"Sin acceso al portal"})
+            },
+
+          )
+      }
+      RegisterPlantilla = async (data)=>{
+        return new Promise(async (resolve,reject)=>{
+             client.query(`update empleados set teletrabajo = 'true' where id = '${data[0]}'`)
+             resolve({message:"Teletrabajo permitido"}) 
+
+            },
+          )
+      }
+      QuitarAccesoTeletrabajo = async (data)=>{
+        return new Promise(async (resolve,reject)=>{
+             client.query(`update empleados set teletrabajo = 'false' where id = '${data[0]}'`)
+             resolve({message:"Teletrabajo permitido"}) 
+            },
+          )
+      }
+      LoginEmployee = async (data)=>{
+        console.log("data",data)
+        return new Promise(async (resolve,reject)=>{
+             client.query(`select * from empleados where correo = '${data[0]}'`, function(err,result,field){
+              var string = JSON.stringify(result)
+              var resultados = JSON.parse(string)
+              if(resultados[0]){
+                if(resultados[0].accesoPortal === "true"){
+                  if(resultados[0].passwordPortal === data[1]){
+                    resolve({
+                      message:"login exitoso",
+                      id:resultados[0].id
+                  })
+                  }else{
+                    resolve({message:"contraseña incorrecta"})
+                  }  
+                }else{
+                  resolve({message:"sin acceso"})
+                }
+              }else{
+                resolve({message:"sin datos"})
+              }
+             })
+            },
+          )
+      }
+      GetEmployeeById = async (data)=>{
+        return new Promise(async (resolve,reject)=>{
+              client.query(`select * from empleados where id = '${data[0]}'`,function(err, results, field){
+                let string = JSON.stringify(results);
+                let resultados = JSON.parse(string);
+                resolve(resultados)
+              })
+            },
+          )
+      }
+      GetAllEvalEmployee = async (data)=>{
+        return new Promise(async (resolve,reject)=>{
+              client.query(`select * from periodos where fk_empleados = '${data[0]}'`,function(err, results, field){
+                let string = JSON.stringify(results);
+                let resultados = JSON.parse(string);
+                resolve(resultados)
+              })
+            },
+          )
+      }
+      GetActiveEvalEmployee = async (data)=>{
+        return new Promise(async (resolve,reject)=>{
+              client.query(`select * from tokentemporalevaluaciones where fk_empleados = '${data[0]}' and statusToken = 'Activo'`,function(err, results, field){
+                let string = JSON.stringify(results);
+                let resultados = JSON.parse(string);
+                console.log("resultados",resultados)
+                resolve(resultados)
+              })
+            },
+          )
+      }
       module.exports = {
+        GetActiveEvalEmployee,
+        GetAllEvalEmployee,
+        GetEmployeeById,
+        LoginEmployee,
+        QuitarAccesoTeletrabajo,
+        RegisterPlantilla,
+        SuspenderAccesoPortal,
+        AccesoPortal,
         DeleteEmpleadosPermanente,
         VerifySurvey,
         DesactivarLicencia,
