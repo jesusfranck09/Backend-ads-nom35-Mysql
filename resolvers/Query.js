@@ -25,7 +25,14 @@ const resultSingleSurvey = (_,args ) => {
       .catch( err => err );
                  
 }
-
+const resultSingleSurveyVSS = (_,args ) => {
+    var miCadena =args.data[0];
+    var divisiones = miCadena.split(",");
+     return actions.ResultSingleSurveyVSS(divisiones)
+     .then( res => res)
+      .catch( err => err );
+                 
+}
 const resultSingleSurveyRP = (_,args ) => {
     var miCadena =args.data[0];
     var divisiones = miCadena.split(",");
@@ -272,11 +279,25 @@ const getresultGlobalSurveyATS= async (_, { data }) => {
     .then( res => res)
     .catch( err => err );
 };
+const getresultGlobalSurveyVSS= async (_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    return actions.GetresultGlobalSurveyVSS(divisiones)
+    .then( res => res)
+    .catch( err => err );
+};
 
 const getEmployeesResolvesATS= async (_, { data }) => {
     var miCadena =data[0];
     var divisiones = miCadena.split(",");
     return actions.GetEmployeesResolvesATS(divisiones)
+    .then( res => res)
+    .catch( err => err );
+};
+const getEmployeesResolvesVSS= async (_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    return actions.GetEmployeesResolvesVSS(divisiones)
     .then( res => res)
     .catch( err => err );
 };
@@ -406,6 +427,8 @@ const getActiveEvalEmployee = async(_, { data }) => {
     return licencia;
 };
      module.exports = {
+        getEmployeesResolvesVSS,
+        getresultGlobalSurveyVSS,
         getActiveEvalEmployee,
         getAllEvalEmployee,
         getEmployeeById,
@@ -468,6 +491,7 @@ const getActiveEvalEmployee = async(_, { data }) => {
 
           getUsersTableEmployees,
           resultSingleSurvey ,
+          resultSingleSurveyVSS,
           resultSingleSurveyRP,
           resultSingleSurveyEEO
      }

@@ -92,6 +92,13 @@ const eeoPage14 = async (_,  data ) => {
                    return datosRS;
 };
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+const vssPage1 = async (_,  data ) => {
+    var miCadena =data.data[0];
+   var divisiones = miCadena.split(",");
+   const datosRS = await  actions.VSSPage1(divisiones)
+                  return datosRS;
+};
+
 const atsPoliticaPrivacidad = async (_,  data ) => {
     var miCadena =data.data[0];
     var divisiones = miCadena.split(",");
@@ -459,7 +466,24 @@ const loginEmployee = async (_,  data ) => {
                    return datosRS;
 
 };
+const sendMailTeletrabajo = async (_,  data ) => {
+    var miCadena =data.data[0];
+    var divisiones = miCadena.split(",");
+    const datosRS = await  actions.SendMailTeletrabajo(divisiones)
+                   return datosRS;
+
+};
+const vssPoliticaPrivacidad = async (_,  data ) => {
+    var miCadena =data.data[0];
+    var divisiones = miCadena.split(",");
+    const datosRS = await  actions.VSSPoliticaPrivacidad(divisiones)
+                   return datosRS;
+
+};
 module.exports = {
+    vssPage1,
+    vssPoliticaPrivacidad,
+    sendMailTeletrabajo,
     loginEmployee,
     quitarAccesoTeletrabajo,
     registerPlantilla,

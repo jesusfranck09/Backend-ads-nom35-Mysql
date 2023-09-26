@@ -8,6 +8,7 @@ scalar Upload
     getUsersTableEmployeesthisPeriodoEEO(data: [String]!):[JsonEmployee]
     getUsersTableEmployees(data:[String]):[JsonEmployee]
     resultSingleSurvey(data: [String]!):[ respuestas]
+    resultSingleSurveyVSS(data: [String]!):[ respuestasVSS]
     resultSingleSurveyRP(data: [String]!):[ respuestasRP]
     resultSingleSurveyEEO(data: [String]!):[ respuestasEEO]
     getSucursales(data:String):[Sucursales]
@@ -25,10 +26,15 @@ scalar Upload
     countEmployees(data: [String]!):[idEmployees]
     getEmployeesResolvesRP(data: [String]!):[Employees]
     getEmployeesResolvesATS(data: [String]!):[Employees]
+    getEmployeesResolvesVSS(data: [String]!):[Employees]
+
     getresultGlobalSurveyRP(data: [String]!):[ respuestasRP]
     getEmployeesResolvesEEO(data: [String]!):[Employees]
     getresultGlobalSurveyEEO(data: [String]!):[ respuestasEEO]
     getresultGlobalSurveyATS(data:[String]!):[respuestasATS]
+    getresultGlobalSurveyVSS(data:[String]!):[respuestasVSS]
+
+
     employeeActive(data: [String]!):[employeActive]
     deptoActive(data: [String]!):[depActive]
     sucActive(data: [String]!):[sucuActive]
@@ -87,14 +93,18 @@ type Mutation {
   rpValidadorPage8(data:[String]!):Data!
 
   eeoPage14(data:[String]!):Data!
+  vssPage1(data:[String]!):Data!
 
   rpPoliticaPrivacidad(data:[String]!):SurveyData!
   atsPoliticaPrivacidad(data:[String]!):SurveyData!
   atsPoliticaPrivacidadEval(data:[String]!):SurveyData!
 
   eeoPoliticaPrivacidad(data:[String]!):SurveyData!
+  vssPoliticaPrivacidad(data:[String]!):SurveyData!
 
  sendMail(data:[String]!):Data!
+ sendMailTeletrabajo(data:[String]!):Data!
+
  getAdmin(data:[String]!):[Admin]
  authRegisterSingleEmployee(data:[String]!):[regMAx]
   inactiveAdmin(data:[String]!):Auth!
@@ -544,7 +554,36 @@ type respuestasATS{
     ATSDetectado:String,
     Periodo:String
 }
-
+type respuestasVSS{
+    id:String,
+    Respuestas:String,
+    fk_preguntasVSS:String,
+    fk_Empleados:String,
+    ponderacion:String,
+    nombre: String,
+    ApellidoP:String,
+    ApellidoM:String,
+    Curp:String,
+    RFC:String,
+    FechaNacimiento:String,
+    Sexo:String,
+    EstadoCivil:String,
+    correo:String,
+    AreaTrabajo:String,
+    Puesto:String,
+    TipoPuesto:String,
+    NivelEstudios:String,
+    TipoPersonal:String,
+    JornadaTrabajo:String,
+    TipoContratacion:String,
+    TiempoPuesto:String,
+    ExperienciaLaboral:String,
+    RotacionTurnos:String,
+    CentroTrabajo:String,
+    fk_administrador:String,
+    fk_correos:String,
+    Periodo:String
+}
 type Admin {
 id:String!
  }

@@ -235,7 +235,6 @@ const SignupAdminAlfa =   (user) => {
     }
 
     const  LoginEmpresas = async (data) => {
-      console.log("data",data)
       let rfc = data[0]
       let password = data[1]
       let rfcData =  rfc
@@ -255,7 +254,6 @@ const SignupAdminAlfa =   (user) => {
                     bcrypt.compare(password,resultados[0].contraseña, function(err, result) {
           
                       if(result){
-                        console.log("resultados",result)
 
                         resolve({     
                           message: 'Login exitoso',
@@ -389,7 +387,6 @@ new Promise((resolve, reject) => {
 
 
 const AtsPage1 = async data => {
-
 return new Promise((resolve, reject) => {  
       client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[4]}','11','${data[3]}','${data[2]}')`);
       client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','1','${data[3]}','${data[2]}')`); 
@@ -424,7 +421,7 @@ return new Promise((resolve, reject) => {
       
       })
     };
-const AtsPage4 = async data => {      
+const AtsPage4 = async data => {    
   return new Promise((resolve, reject) => {
       client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[2]}','11','${data[1]}','${data[0]}')`);
       client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[3]}','1','${data[1]}','${data[0]}')`); 
@@ -447,8 +444,7 @@ const AtsPage4 = async data => {
       if(data[18]=='Si'){
         client.query(`update empleados set ATSDetectado='true' where id = ${data[1]} `);    
       }
-      client.query(`delete from tokenTemporalEvaluaciones where codigoSeguridad = '${data[20]}'`);   
-
+      client.query(`delete from tokenTemporalEvaluaciones where codigoSeguridad = '${data[20]}'`)
       client
         .query(`select Max(id) as idMaximo from correos where fk_empleados='${[data[1]]}' and encuesta = "ATS"`,
           function (error, redults, fields) {
@@ -698,6 +694,226 @@ const EEOPage14 = async data => {
     })
   };
 
+  const VSSPage1 = async data => {
+    let value1;
+    let value2;
+    let value3;
+    let value4;
+    let value5;
+    let value6;
+    let value7;
+    
+    let value8;
+    let value9;
+    let value10;
+    let value11;
+    let value12;
+    let value13;
+    let value14;
+    
+    if(data[3]){
+      value1 =data[3]
+    }else{
+      value1="NO APLICA"
+    }if(data[4]){
+      value2 =data[4]
+    }else{
+      value2="NO APLICA"
+    }if(data[5]){
+      value3 =data[5]
+    }else{
+      value3="NO APLICA"
+    }if(data[6]){
+      value4 =data[6]
+    }else{
+      value4="NO APLICA"
+    }if(data[7]){
+      value5 =data[7]
+    }else{
+      value5="NO APLICA"
+    }if(data[8]){
+      value6 =data[8]
+    }else{
+      value6="NO APLICA"
+    }if(data[9]){
+      value7 =data[9]
+    }else{
+      value7="NO APLICA"
+    }if(data[10]){
+      value8 =data[10]
+    }else{
+      value8="NO APLICA"
+    }if(data[11]){
+      value9 =data[11]
+    }else{
+      value9="NO APLICA"
+    }if(data[12]){
+      value10 =data[12]
+    }else{
+      value10="NO APLICA"
+    }if(data[13]){
+      value11 =data[13]
+    }else{
+      value11="NO APLICA"
+    }if(data[14]){
+      value12 =data[14]
+    }else{
+      value12="NO APLICA"
+    }if(data[15]){
+      value13 =data[15]
+    }else{
+      value13="NO APLICA"
+    }if(data[16]){
+      value14 =data[16]
+    }else{
+      value14="NO APLICA"
+    }
+    return new Promise((resolve, reject) => {
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${value1}','1','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${value2}','1','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${value3}','1','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${value4}','1','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${value5}','1','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${value6}','1','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${value7}','1','${data[1]}','${data[0]}')`); 
+
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${value8}','2','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${value9}','2','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${value10}','2','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${value11}','2','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${value12}','2','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${value13}','2','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${value14}','2','${data[1]}','${data[0]}')`); 
+
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[17]}','3','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[18]}','4','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[19]}','5','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[20]}','6','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[21]}','7','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[22]}','8','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[23]}','9','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[24]}','10','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[25]}','11','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[26]}','12','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[27]}','13','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[28]}','14','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[29]}','15','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[30]}','16','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[31]}','17','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[32]}','18','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[33]}','19','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[34]}','20','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[35]}','21','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[36]}','22','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[37]}','23','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[38]}','24','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[39]}','25','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[40]}','26','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[41]}','27','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[42]}','28','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[43]}','29','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[44]}','30','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[45]}','31','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[46]}','32','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[47]}','33','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[48]}','34','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[49]}','35','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[50]}','36','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[51]}','37','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[52]}','38','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[53]}','39','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[54]}','40','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[55]}','41','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[56]}','42','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[57]}','43','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[58]}','44','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[59]}','45','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[60]}','46','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[61]}','47','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[62]}','48','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[63]}','49','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[64]}','50','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[65]}','51','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[66]}','52','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[67]}','53','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[68]}','54','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[69]}','55','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[70]}','56','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[71]}','57','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[72]}','58','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[73]}','59','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[74]}','60','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[75]}','61','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[76]}','62','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[77]}','63','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[78]}','64','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[79]}','65','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[80]}','66','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[81]}','67','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[82]}','68','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[83]}','69','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[84]}','70','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[85]}','71','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[86]}','72','${data[1]}','${data[0]}')`);
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[87]}','73','${data[1]}','${data[0]}')`);  
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[88]}','74','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[89]}','75','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[90]}','76','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[91]}','77','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[92]}','78','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[93]}','79','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[94]}','80','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[95]}','81','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[96]}','82','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[97]}','83','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[98]}','84','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[99]}','85','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[100]}','86','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[101]}','87','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[102]}','88','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[103]}','89','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[104]}','90','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[105]}','91','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[106]}','92','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[107]}','93','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[108]}','94','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[109]}','95','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[110]}','96','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[111]}','97','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[112]}','98','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[113]}','99','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[114]}','100','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[115]}','101','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[116]}','102','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[117]}','103','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[118]}','104','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[119]}','105','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[120]}','106','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[121]}','107','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[122]}','108','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[123]}','109','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[124]}','110','${data[1]}','${data[0]}')`); 
+      client.query(`insert into respuestasVSS(respuestas,fk_preguntasVSS,fk_Empleados,Periodo) values ('${data[125]}','111','${data[1]}','${data[0]}')`); 
+
+
+      client.query(`delete from tokenTemporalEvaluaciones where codigoSeguridad = '${data[127]}'`);   
+  
+      client.query(`update empleados set VSSContestado ='true' where id = '${data[1]}'`);   
+      client.query(`insert into periodos(fk_empleados,periodo,encuesta,fechaEvaluacion) values ('${data[1]}','${data[0]}','VSS','${data[126]}')`);
+  
+      client
+          .query(`select Max(id) as idMaximo from correos where fk_empleados='${[data[1]]}' and encuesta = "VSS"`,
+            function (error, redults, fields) {
+            var string=JSON.stringify(redults);
+          var resultados1 =  JSON.parse(string); 
+          resolve(resultados1)                
+          var maximo = resultados1[0].idMaximo
+          client.query(`update correos set contestado ='true' where id = ${maximo} `); 
+          })
+         resolve({message:"registro exitoso"}) 
+      })
+    };
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const AtsPoliticaPrivacidad = async data => {
 return  new Promise((resolve, reject) => {
@@ -811,9 +1027,37 @@ const EEOPoliticaPrivacidad = async data => {
     )
     })
   };
+  VSSPoliticaPrivacidad = async (data)=>{
+    return  new Promise((resolve, reject) => {
+      client
+      .query(`select * from  empleados where id='${data[0]}'`,
+        function (error, results, fields) {
+        if (error) reject(error) 
+        var string=JSON.stringify(results);
+        var resultados =  JSON.parse(string); 
+        client.query(`select * from periodos where fk_empleados= '${resultados[0].id}' and encuesta= "VSS" and periodo = '${data[1]}' `,function(error,results2,fields){
+          var string2=JSON.stringify(results2);
+          var resultados2 =  JSON.parse(string2);
+          if(resultados2[0]){
+            resolve({message:"Evaluacion resuelta"})  
+          }else{
+            resolve(
+              {id:resultados[0].id,
+                nombre:resultados[0].nombre,
+                ApellidoP:resultados[0].ApellidoP,
+                ApellidoM:resultados[0].ApellidoM,
+                correo:resultados[0].correo,
+                fk_administrador:resultados[0].fk_administrador,
+                message: "Evaluacion activa"}
+            )  
+          }
+        })
+      },
+    )
+    })
+  }  
 
 const  SendMail = async (args) => {
-  console.log("args",args[5])
   return  new Promise((resolve, reject) => {   
   var LaFecha=new Date();
   var Mes=new Array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
@@ -848,7 +1092,6 @@ const  SendMail = async (args) => {
         client.query(`select * from tokenTemporalEvaluaciones where fk_empleados ='${args[1]}' and statusToken = 'Activo' and evaluacion = '${encuesta}'`,function(err,result,fields){
           var string = JSON.stringify(result)
           var resultado = JSON.parse(string)
-          console.log("resultado",resultado)
             if(resultado[0]){
             
             url =  "https://eval.diagnostico035.com/politicaPrivacidad:&" +  args[1] + "%" + resultado[0].codigoSeguridad
@@ -872,6 +1115,97 @@ const  SendMail = async (args) => {
             subject:`Nueva evaluación ${encuesta} de Diagnostico035 con ID de usuario único`,
             html: 
             `<p>Diagnóstico035 es una herramienta en la nube (100% web) que te ayuda a dar cumplimiento a la <strong> Normatividad NOM-035-STPS-2018 </strong>, a través de la evaluación de cada uno de tus colaboradores con el fin de identificar, analizar y mitigar los factores de riesgo psicosocial de tu empresa.
+                        <br/>
+                        <br/>
+                        Basado en su solicitud, adjunto en este correo la liga de acceso al sistema de evaluaciones.
+                        <br/>
+                        <br/>
+                        <strong>No olvide completar de forma satisfactoria el total de preguntas antes de enviar su evaluación.</strong>
+                        <br/>
+                        <strong>Acceda al siguiente link para completar el proceso ${url}</strong>
+                        <br/>
+                        <br/>
+    
+                        para mayor información visite nuestro canal de youtube https://www.youtube.com/channel/UC2isBB9Kv5lJE5rZsfU5xPw.
+                        <br/>
+                        <br/>
+                    </p>`,
+                    text:`Saludos cordiales, 
+                    <center><br/>
+                    <br/>
+                    El equipo de desarrollo de Diagnostico035<br/>
+                    www.diagnostico035.com<br/></center>`
+          };
+  
+          transporter.sendMail(mailOptions, function (err, info) {
+            
+            if(err){
+              console.log("este es el error" , err)
+              reject("err",err)
+            }else console.log("info",info)
+          });
+          resolve({message:`envio exitoso`});
+          client.query(`insert into correos(Encuesta,fecha,fk_empleados,contestado,fk_administrador) values ('${encuesta}','${FechaCompleta}','${args[1]}','false','${args[3]}')`); 
+          })
+      })       
+}
+
+const  SendMailTeletrabajo = async (args) => {
+  return  new Promise((resolve, reject) => {   
+  var LaFecha=new Date();
+  var Mes=new Array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+  var diasem=new Array('domingo','lunes','martes','miercoles','jueves','viernes','sabado');
+  var diasemana=LaFecha.getDay();
+  var FechaCompleta="";
+  var NumeroDeMes="";
+  var hora = LaFecha.getHours(); 
+  var minuto = LaFecha.getMinutes(); 
+  var segundo = LaFecha.getSeconds();
+  NumeroDeMes=LaFecha.getMonth();
+  FechaCompleta = diasem[diasemana]+" "+LaFecha.getDate()+" de "+Mes[NumeroDeMes]+" de "+LaFecha.getFullYear()+" "+hora+":"+minuto+":"+segundo;
+   var transporter = nodemailer.createTransport({
+      secure: false,
+      host: 'mail.diagnostico035.com',
+      port: 587,
+      auth: {
+              user: 'info@diagnostico035.com',
+              pass: '188l&bqN8$%'          },
+      tls: {rejectUnauthorized: false},
+      });
+      var encuesta ="";
+      if(args[2]=="1"){
+        encuesta="Verificación de Seguridad y Salud en el lugar de trabajo"
+      }if(args[2]=="2"){
+        encuesta="Evaluación de la conformidad"
+      }
+        var url = "";
+
+        client.query(`select * from tokenTemporalEvaluaciones where fk_empleados ='${args[1]}' and statusToken = 'Activo' and evaluacion = '${encuesta}'`,function(err,result,fields){
+          var string = JSON.stringify(result)
+          var resultado = JSON.parse(string)
+            if(resultado[0]){
+            
+              url =  "https://eval.diagnostico035.com/politicaPrivacidad:&" +  args[1] + "%" + resultado[0].codigoSeguridad
+            }else{
+
+            if(args[2]=="1"){
+              encuesta="VSS"
+            }if(args[2]=="2"){
+              encuesta="EC"
+            }
+                                                                                                                           
+            url =  "https://eval.diagnostico035.com/politicaPrivacidad:&" +  args[1] + "%" + args[4]
+            client.query(`insert into tokenTemporalEvaluaciones(codigoSeguridad,fechaCreacionToken,fechaExpiraicionToken,statusToken,evaluacion,fk_empleados) values ('${args[4]}','${FechaCompleta}','Token Vigente','Activo','${encuesta}','${args[1]}')`);
+          }
+
+
+          const mailOptions = {
+            from: 'info@diagnostico035.com',
+            to: args[5],
+            bcc:"jesus.francisco@ads,com.mx",
+            subject:`Nueva evaluación ${encuesta} de Diagnostico035 con ID de usuario único`,
+            html: 
+            `<p>Diagnóstico035 es una herramienta en la nube (100% web) que te ayuda a dar cumplimiento a la <strong> Normatividad NOM-035-STPS-2018 y NOM-035-STPS-2023 </strong>, a través de la evaluación de cada uno de tus colaboradores con el fin de identificar, analizar y mitigar los factores de riesgo psicosocial de tu empresa.
                         <br/>
                         <br/>
                         Basado en su solicitud, adjunto en este correo la liga de acceso al sistema de evaluaciones.
@@ -1023,7 +1357,20 @@ const  SendMail = async (args) => {
     })
   };
 
-
+  const ResultSingleSurveyVSS = async data => {
+    return  new Promise((resolve, reject) => {
+        client
+        .query(`select * from respuestasvss inner join empleados on respuestasvss.fk_empleados = empleados.id where respuestasvss.fk_empleados = '${data[0]}' and respuestasvss.periodo = '${data[1]}' `,
+          function (error, results, fields) {
+          var string=JSON.stringify(results);
+          var resultados =  JSON.parse(string); 
+          resolve(resultados
+          ) 
+        
+        },
+      )
+      })
+  };
   const ResultSingleSurveyRP = async data => {
       return  new Promise((resolve, reject) => {
           client
@@ -1481,7 +1828,23 @@ const GetEmployeesResolvesRP = async data => {
         }
     })
     };
-                                                                                  
+const GetEmployeesResolvesVSS = async data => { 
+  return new Promise((resolve, reject) => {
+      if(data[0]){
+        client.query(`select * from empleados inner join periodos on periodos.fk_empleados = empleados.id where empleados.fk_Administrador='${data[0]}' and periodos.encuesta='VSS'`,                                                                                   
+        function (error, results, fields) {
+          if(error) {
+            console.log("error" , error)
+          }
+          var string=JSON.stringify(results);
+          var resultados =  JSON.parse(string);   
+          resolve(resultados)
+          return client
+        },
+      )
+      }
+  })
+  };                                                                            
 const GetresultGlobalSurveyRP = async data => {
   return  new Promise((resolve, reject) => {
       client.query(`select * from empleados inner join respuestasrp on respuestasRP.fk_empleadosRP = empleados.id where empleados.id =' ${data[0]}'  and respuestasRP.periodo='${data[1]}'`,
@@ -1850,7 +2213,6 @@ const GetresultGlobalSurveyEEO = async data => {
               if (error) reject(error) 
               var string=JSON.stringify(results);
               var resultados =  JSON.parse(string);
-              console.log("resultados",resultados)    
               resolve(resultados) 
             },
           )
@@ -2088,7 +2450,23 @@ const GetresultGlobalSurveyEEO = async data => {
             )
             })
           }; 
-            
+        const GetresultGlobalSurveyVSS = async data => {
+          return  new Promise((resolve, reject) => {
+              client.query(`select * from empleados inner join respuestasvss on respuestasvss.fk_empleados= empleados.id where empleados.id =' ${data[0]}'  and respuestasvss.periodo='${data[1]}'`,
+                function (error, results, fields) {
+                  if(error) {
+                    console.log("error" ,error)
+                  }
+                if(results) { 
+                  var string=JSON.stringify(results);
+                  var resultados =  JSON.parse(string);
+                  resolve(resultados
+                  ) 
+                }  
+              },
+            )
+            })
+          };    
         const GetLogo = async data => {
           return  new Promise((resolve, reject) => {
               client.query(`select * from logos where fk_administrador =' ${data[0]}'`,
@@ -2133,7 +2511,6 @@ const GetresultGlobalSurveyEEO = async data => {
                           } else {
 
                             client.query(`update superusuario set contraseña='${hash}' where id = '${resultados[0].id}'`)
-                            console.log("random",random)
                             var transporter = nodemailer.createTransport({
   
                               secure: false,
@@ -2910,7 +3287,6 @@ const GetresultGlobalSurveyEEO = async data => {
       }) 
     }
     const ResendEmailSuperUSer = async data => {
-      console.log("data",data)
       return new Promise((resolve,reject) => {
         function makeid(length) {
           var result           = '';
@@ -2935,7 +3311,6 @@ const GetresultGlobalSurveyEEO = async data => {
             function (error, results, fields) {
               var string=JSON.stringify(results);
               var resultados =  JSON.parse(string);
-              console.log("resultados",resultados) 
               if(resultados[0]){
                 client.query(`update superusuario set contraseña = '${hash}' where RFC = '${data[2]}'`)
                 var transporter = nodemailer.createTransport({
@@ -3152,7 +3527,14 @@ const GetresultGlobalSurveyEEO = async data => {
             },
           )
       }
+      
       module.exports = {
+        ResultSingleSurveyVSS,
+        GetEmployeesResolvesVSS,
+        GetresultGlobalSurveyVSS,
+        VSSPage1,
+        VSSPoliticaPrivacidad,
+        SendMailTeletrabajo,
         GetActiveEvalEmployee,
         GetAllEvalEmployee,
         GetEmployeeById,
