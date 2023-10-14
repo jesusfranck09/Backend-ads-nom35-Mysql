@@ -1111,7 +1111,7 @@ const  SendMail = async (args) => {
           const mailOptions = {
             from: 'info@diagnostico035.com',
             to: args[5],
-            bcc:"jesus.francisco@ads,com.mx",
+            bcc:"jesus.francisco@ads.com.mx",
             subject:`Nueva evaluación ${encuesta} de Diagnostico035 con ID de usuario único`,
             html: 
             `<p>Diagnóstico035 es una herramienta en la nube (100% web) que te ayuda a dar cumplimiento a la <strong> Normatividad NOM-035-STPS-2018 </strong>, a través de la evaluación de cada uno de tus colaboradores con el fin de identificar, analizar y mitigar los factores de riesgo psicosocial de tu empresa.
@@ -1202,7 +1202,7 @@ const  SendMailTeletrabajo = async (args) => {
           const mailOptions = {
             from: 'info@diagnostico035.com',
             to: args[5],
-            bcc:"jesus.francisco@ads,com.mx",
+            bcc:"jesus.francisco@ads.com.mx",
             subject:`Nueva evaluación ${encuesta} de Diagnostico035 con ID de usuario único`,
             html: 
             `<p>Diagnóstico035 es una herramienta en la nube (100% web) que te ayuda a dar cumplimiento a la <strong> Normatividad NOM-035-STPS-2018 y NOM-035-STPS-2023 </strong>, a través de la evaluación de cada uno de tus colaboradores con el fin de identificar, analizar y mitigar los factores de riesgo psicosocial de tu empresa.
