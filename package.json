@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Backend con graphql",
   "main": "index.js",
-  "engines": { "node": "12.16.1", "npm": "^10.4.0" },
+  "engines": { "node": "^18.17.0", "npm": "^10.4.0" },
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
