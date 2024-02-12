@@ -3,7 +3,10 @@
   "version": "0.0.1",
   "description": "Backend con graphql",
   "main": "index.js",
-  "engines": { "node": "^18.17.0", "npm": "^10.4.0" },
+  "engines": {
+    "node": "^18.17.0",
+    "npm": "^10.4.0"
+  },
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
@@ -17,9 +20,6 @@
   "author": "frnk",
   "license": "MIT",
   "dependencies": {
-    "@apollo/server": "^4.10.0",
-    "apollo-server": "^3.13.0",
-    "apollo-server-express": "^3.13.0",
     "bcrypt": "^5.1.1",
     "body": "^5.1.0",
     "body-parser": "^1.20.2",
