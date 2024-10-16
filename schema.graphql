@@ -729,4 +729,5 @@ type tablePeriodo{
     encuesta:String
     fk_empleados:String
     fechaEvaluacion:String
+    AreaTrabajo:String
 }

@@ -1625,6 +1625,7 @@ const DeletePuestos = async data => {
   };
 
 const UpdateEmployees = async data => { 
+  console.log("data",`update empleados set nombre='${data[0].toUpperCase() }',ApellidoP ='${data[1].toUpperCase() }',ApellidoM='${data[2].toUpperCase() }',Curp='${data[3].toUpperCase() }',RFC='${data[4].toUpperCase() }', Sexo ='${data[5].toUpperCase() }',CentroTrabajo='${data[6].toUpperCase() }',telefono='${data[13].toUpperCase() }',correo='${data[7].toUpperCase() }',AreaTrabajo='${data[8].toUpperCase() }',Puesto='${data[9].toUpperCase() }',TipoPuesto= '${data[10].toUpperCase() }', FechaNacimiento= '${data[14].toUpperCase() }'  where id ='${data[11]}' and fk_administrador='${data[12]}'`)
   return new Promise((resolve, reject) => {
     client.query(`update empleados set nombre='${data[0].toUpperCase() }',ApellidoP ='${data[1].toUpperCase() }',ApellidoM='${data[2].toUpperCase() }',Curp='${data[3].toUpperCase() }',RFC='${data[4].toUpperCase() }', Sexo ='${data[5].toUpperCase() }',CentroTrabajo='${data[6].toUpperCase() }',telefono='${data[13].toUpperCase() }',correo='${data[7].toUpperCase() }',AreaTrabajo='${data[8].toUpperCase() }',Puesto='${data[9].toUpperCase() }',TipoPuesto= '${data[10].toUpperCase() }', FechaNacimiento= '${data[14].toUpperCase() }'  where id ='${data[11]}' and fk_administrador='${data[12]}'`)
     resolve({message:"actualizacion exitosa"}) 
