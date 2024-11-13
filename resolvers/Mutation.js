@@ -499,7 +499,14 @@ const rpPoliticaPrivacidadEval = async(_, { data }) => {
     const licencia = await  actions.RPPoliticaPrivacidadEval(divisiones)
     return licencia;
 };
+const eeoPoliticaPrivacidadEval = async(_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    const licencia = await  actions.EEOPoliticaPrivacidadEval(divisiones)
+    return licencia;
+};
 module.exports = {
+    eeoPoliticaPrivacidadEval,
     rpPoliticaPrivacidadEval,
     atsPageRespuestas,
     evaluacionats,

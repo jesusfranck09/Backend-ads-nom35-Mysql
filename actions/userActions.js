@@ -994,6 +994,28 @@ const RPPoliticaPrivacidadEval = async data => {
   })
   };
 
+  const EEOPoliticaPrivacidadEval = async data => {
+    return  new Promise((resolve, reject) => {
+      client
+      .query(`select * from  empleados where correo='${data[0]}'`,
+      function (error, results, fields) {
+      if (error) reject(error) 
+          var string=JSON.stringify(results);
+          var resultados =  JSON.parse(string); 
+          client.query(`select * from periodos where fk_empleados= '${resultados[0].id}' and encuesta= "EEO" and periodo = '${data[1]}'`,function(error,results2,fields){
+            var string2=JSON.stringify(results2);
+            var resultados2 =  JSON.parse(string2);
+            if(resultados2[0]){
+              resolve({message:"Evaluacion resuelta"})  
+            }else{
+              resolve(resultados[0])  
+            }
+          })
+        },
+    )
+    })
+    };
+
 const AtsPoliticaPrivacidadEval = async data => {
   return  new Promise((resolve, reject) => {
     client
@@ -3641,6 +3663,7 @@ const GetresultGlobalSurveyEEO = async data => {
           })
         };
       module.exports = {
+        EEOPoliticaPrivacidadEval,
         RPPoliticaPrivacidadEval,
         atsPageRespuestas,
         getEmployeesFkAdminCorreo,
