@@ -44,6 +44,7 @@ scalar Upload
     getPeriodoDesabilited(data: [String]!):[periodo]
     getEventos(data: [String]!):Data
     getEmployeesFkAdmin(data: [String]!):[JsonEmployee]
+    getEmployeesFkAdminCorreo(data: [String]!):[JsonEmployee]
     getEmpresas(data: [String]!):[DataAdmin]
     verifyPackSuperUser(data: [String]!):[Pack]
     countEmpresas(data: [String]!):Pack
@@ -87,6 +88,9 @@ type Mutation {
   registerRS(data:[String]):Data
   atsPage1(data:[String]!):Data!
   atsPage4(data:[String]!):Data!
+
+  evaluacionats(data:[String]!):Data!
+  atsPageRespuestas(data:[String]!):Data!
   rpPage8(data:[String]!):Data!
 
   rpValidadorPage7(data:[String]!):Data!
@@ -98,7 +102,7 @@ type Mutation {
   rpPoliticaPrivacidad(data:[String]!):SurveyData!
   atsPoliticaPrivacidad(data:[String]!):SurveyData!
   atsPoliticaPrivacidadEval(data:[String]!):SurveyData!
-
+  rpPoliticaPrivacidadEval(data:[String]!):SurveyData!
   eeoPoliticaPrivacidad(data:[String]!):SurveyData!
   vssPoliticaPrivacidad(data:[String]!):SurveyData!
 

@@ -421,6 +421,42 @@ return new Promise((resolve, reject) => {
       
       })
     };
+
+    const evaluacionats = async data => {
+
+      return new Promise((resolve, reject) => {  
+            client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[4]}','11','${data[3]}','${data[2]}')`);
+            client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','1','${data[3]}','${data[2]}')`); 
+            client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','2','${data[3]}','${data[2]}')`);
+            client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','3','${data[3]}','${data[2]}')`);
+            client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','4','${data[3]}','${data[2]}')`);
+            client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','5','${data[3]}','${data[2]}')`);
+            client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','6','${data[3]}','${data[2]}')`);
+            client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','7','${data[3]}','${data[2]}')`);
+            client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','8','${data[3]}','${data[2]}')`);
+            client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','9','${data[3]}','${data[2]}')`);
+            client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','10','${data[3]}','${data[2]}')`);
+            client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','12','${data[3]}','${data[2]}')`);
+            client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','13','${data[3]}','${data[2]}')`);
+            client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','14','${data[3]}','${data[2]}')`);
+            client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','15','${data[3]}','${data[2]}')`);
+            client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[0]}','16','${data[3]}','${data[2]}')`);
+            client.query(`update empleados set ATSContestado = 'true' where id = '${data[3]}'`);
+            client.query(`insert into periodos(fk_empleados,periodo,encuesta,fechaEvaluacion) values ('${data[3]}','${data[2]}','ATS','${data[5]}')`);    
+      
+            client
+              .query(`select Max(id) as idMaximo from correos where fk_empleados='${[data[3]]}' and encuesta = "ATS"`,
+                function (error, redults, fields) {
+                var string=JSON.stringify(redults);
+              var resultados1 =  JSON.parse(string); 
+              resolve(resultados1)                
+              var maximo = resultados1[0].idMaximo
+              client.query(`update correos set contestado ='true' where id = ${maximo} `); 
+              })   
+              return client  
+            
+            })
+          };
 const AtsPage4 = async data => {    
   return new Promise((resolve, reject) => {
       client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[2]}','11','${data[1]}','${data[0]}')`);
@@ -918,7 +954,7 @@ const EEOPage14 = async data => {
 const AtsPoliticaPrivacidad = async data => {
 return  new Promise((resolve, reject) => {
   client
-  .query(`select * from  empleados where id='${data[0]}'`,
+  .query(`select * from  empleados where correo='${data[0]}'`,
   function (error, results, fields) {
   if (error) reject(error) 
       var string=JSON.stringify(results);
@@ -936,6 +972,27 @@ return  new Promise((resolve, reject) => {
 )
 })
 };
+const RPPoliticaPrivacidadEval = async data => {
+  return  new Promise((resolve, reject) => {
+    client
+    .query(`select * from  empleados where correo='${data[0]}'`,
+    function (error, results, fields) {
+    if (error) reject(error) 
+        var string=JSON.stringify(results);
+        var resultados =  JSON.parse(string); 
+        client.query(`select * from periodos where fk_empleados= '${resultados[0].id}' and encuesta= "RP" and periodo = '${data[1]}'`,function(error,results2,fields){
+          var string2=JSON.stringify(results2);
+          var resultados2 =  JSON.parse(string2);
+          if(resultados2[0]){
+            resolve({message:"Evaluacion resuelta"})  
+          }else{
+            resolve(resultados[0])  
+          }
+        })
+      },
+  )
+  })
+  };
 
 const AtsPoliticaPrivacidadEval = async data => {
   return  new Promise((resolve, reject) => {
@@ -1847,6 +1904,7 @@ const GetEmployeesResolvesVSS = async data => {
   })
   };                                                                            
 const GetresultGlobalSurveyRP = async data => {
+  console.log(`select * from empleados inner join respuestasrp on respuestasRP.fk_empleadosRP = empleados.id where empleados.id =' ${data[0]}'  and respuestasRP.periodo='${data[1]}'`)
   return  new Promise((resolve, reject) => {
       client.query(`select * from empleados inner join respuestasrp on respuestasRP.fk_empleadosRP = empleados.id where empleados.id =' ${data[0]}'  and respuestasRP.periodo='${data[1]}'`,
         function (error, results, fields) {
@@ -2036,6 +2094,22 @@ const GetresultGlobalSurveyEEO = async data => {
             )
             })
             }; 
+
+            const getEmployeesFkAdminCorreo = async data => {
+              console.log("data",data)
+              return  new Promise((resolve, reject) => {
+                client
+                .query(`select * from empleados where correo='${data[0]}'`,
+                  function (error, results, fields) {
+                  if (error) reject(error) 
+                  var string=JSON.stringify(results);
+                  var resultados =  JSON.parse(string);           
+                  resolve(resultados)  
+                },
+              )
+              })
+              }; 
+
           const AddPeriodoInicial = async data => {
             return  new Promise((resolve, reject) => {
               client
@@ -3529,7 +3603,47 @@ const GetresultGlobalSurveyEEO = async data => {
           )
       }
       
+      const atsPageRespuestas = async data => {      
+        return new Promise((resolve, reject) => {
+            client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[2]}','11','${data[1]}','${data[0]}')`);
+            client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[3]}','1','${data[1]}','${data[0]}')`); 
+            client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[4]}','2','${data[1]}','${data[0]}')`);
+            client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[5]}','3','${data[1]}','${data[0]}')`);
+            client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[6]}','4','${data[1]}','${data[0]}')`);
+            client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[7]}','5','${data[1]}','${data[0]}')`);
+            client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[8]}','6','${data[1]}','${data[0]}')`);
+            client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[9]}','7','${data[1]}','${data[0]}')`);
+            client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[10]}','8','${data[1]}','${data[0]}')`);
+            client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[11]}','9','${data[1]}','${data[0]}')`);
+            client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[12]}','10','${data[1]}','${data[0]}')`);
+            client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[13]}','12','${data[1]}','${data[0]}')`);
+            client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[14]}','13','${data[1]}','${data[0]}')`);
+            client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[15]}','14','${data[1]}','${data[0]}')`);
+            client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[16]}','15','${data[1]}','${data[0]}')`);
+            client.query(`insert into respuestasATS(respuestas,fk_preguntasATS,fk_Empleados,Periodo) values ('${data[17]}','16','${data[1]}','${data[0]}')`);
+            client.query(`update empleados set ATSContestado = 'true' where id = '${data[1]}'`);
+            client.query(`insert into periodos(fk_empleados,periodo,encuesta,fechaEvaluacion) values ('${data[1]}','${data[0]}','ATS','${data[19]}')`);    
+            if(data[18]=='Si'){
+              client.query(`update empleados set ATSDetectado='true' where id = ${data[1]} `);    
+            }
+      
+            client
+              .query(`select Max(id) as idMaximo from correos where fk_empleados='${[data[1]]}' and encuesta = "ATS"`,
+                function (error, redults, fields) {
+                var string=JSON.stringify(redults);
+              var resultados1 =  JSON.parse(string); 
+              resolve(resultados1)                
+              var maximo = resultados1[0].idMaximo
+              client.query(`update correos set contestado ='true' where id = ${maximo} `); 
+              })
+      
+      
+          })
+        };
       module.exports = {
+        RPPoliticaPrivacidadEval,
+        atsPageRespuestas,
+        getEmployeesFkAdminCorreo,
         ResultSingleSurveyVSS,
         GetEmployeesResolvesVSS,
         GetresultGlobalSurveyVSS,
@@ -3665,5 +3779,6 @@ const GetresultGlobalSurveyEEO = async data => {
         SendMail,
         GetAdmin,
         ResultSingleSurveyRP,
-        ResultSingleSurveyEEO
+        ResultSingleSurveyEEO,
+        evaluacionats,
       }

@@ -194,6 +194,14 @@ const getEmployeesFkAdmin= async (_, { data }) => {
     .catch( err => err );
 };
 
+const getEmployeesFkAdminCorreo= async (_, { data }) => {
+    console.log("data",data)
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    return actions.getEmployeesFkAdminCorreo(divisiones)
+    .then( res => res)
+    .catch( err => err );
+};
 const getUsersTableEmployeesthisPeriodoEEO= async (_, { data }) => {
     var miCadena =data[0];
     var divisiones = miCadena.split(",");
@@ -426,7 +434,10 @@ const getActiveEvalEmployee = async(_, { data }) => {
     const licencia = await  actions.GetActiveEvalEmployee(divisiones)
     return licencia;
 };
+
+
      module.exports = {
+        getEmployeesFkAdminCorreo,
         getEmployeesResolvesVSS,
         getresultGlobalSurveyVSS,
         getActiveEvalEmployee,

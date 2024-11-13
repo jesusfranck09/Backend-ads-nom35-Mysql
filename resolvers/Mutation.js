@@ -480,7 +480,29 @@ const vssPoliticaPrivacidad = async (_,  data ) => {
                    return datosRS;
 
 };
+
+const evaluacionats = async(_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    const licencia = await  actions.evaluacionats(divisiones)
+    return licencia;
+};
+const atsPageRespuestas = async(_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    const licencia = await  actions.atsPageRespuestas(divisiones)
+    return licencia;
+};
+const rpPoliticaPrivacidadEval = async(_, { data }) => {
+    var miCadena =data[0];
+    var divisiones = miCadena.split(",");
+    const licencia = await  actions.RPPoliticaPrivacidadEval(divisiones)
+    return licencia;
+};
 module.exports = {
+    rpPoliticaPrivacidadEval,
+    atsPageRespuestas,
+    evaluacionats,
     vssPage1,
     vssPoliticaPrivacidad,
     sendMailTeletrabajo,
