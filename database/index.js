@@ -1,9 +1,9 @@
 var mysql = require('mysql');
 var con = mysql.createPool({
-  database:"heroku_e815156f37933c9",
-  host: "us-cdbr-iron-east-04.cleardb.net",
-  user: "b32fbf2647107b",
-  password: "57e93245",
+  database:"base_diagnostico",
+  host: "diagnostico035.cgeovhwjvxf3.us-east-1.rds.amazonaws.com",
+  user: "frank",
+  password: "Programacion2020",
   multipleStatements: true
 },
 
