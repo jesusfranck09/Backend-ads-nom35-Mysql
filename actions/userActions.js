@@ -208,6 +208,7 @@ const SignupAdminAlfa =   (user) => {
         client
         .query(`select * from  adminAlfa where correo='${email}' `,
        function (error, results, fields) {
+        console.log("error",error)
           var string=JSON.stringify(results);
           var resultados =  JSON.parse(string); 
             if(resultados[0]){
@@ -1414,14 +1415,11 @@ const  SendMailTeletrabajo = async (args) => {
       client
       .query(`select empleados.id,empleados.nombre, empleados.ApellidoP, empleados.ApellidoM,empleados.Curp,empleados.RFC,empleados.FechaNacimiento,empleados.Sexo ,empleados.EstadoCivil,empleados.CentroTrabajo,empleados.correo,empleados.telefono, empleados.AreaTrabajo,empleados.Puesto,empleados.TipoPuesto,empleados.NivelEstudios,empleados.TipoPersonal,empleados.JornadaTrabajo,empleados.TipoContratacion,empleados.TiempoPuesto,empleados.ExperienciaLaboral,empleados.RotacionTurnos,empleados.fk_Administrador,empleados.ATSContestado,empleados.RPContestado,empleados.EEOContestado,empleados.ATSDetectado,empleados.EmpleadoActivo,empleados.accesoPortal,empleados.passwordPortal,empleados.teletrabajo from empleados inner join administrador on empleados.fk_administrador = administrador.id where empleados.fk_administrador = '${data.data[0]}' and empleados.EmpleadoActivo ='true'`,
         function (error, results, fields) {
-          console.log("error",error)
-          console.log("fields",fields)
-
+         
         if (error) reject(error) 
         var string=JSON.stringify(results);
 
         var resultados =  JSON.parse(string); 
-        console.log("resultados",resultados)
 
         resolve(resultados) 
       },
@@ -2357,6 +2355,7 @@ const GetresultGlobalSurveyEEO = async data => {
             return  new Promise((resolve, reject) => {
               client.query(`select * from ventasAdminAlfa inner join adminAlfa on ventasAdminAlfa.fk_adminAlfa=adminAlfa.id inner join paquetes on ventasAdminAlfa.fk_paquetes = paquetes.id where ventasAdminAlfa.fk_adminAlfa = '${data[0]}' `,
                 function (error, results, fields) {
+                  console.log("error",error)
                 if (error) reject(error) 
                 var string=JSON.stringify(results);
                 var resultados =  JSON.parse(string);                

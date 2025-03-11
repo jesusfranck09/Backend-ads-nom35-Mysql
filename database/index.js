@@ -1,16 +1,29 @@
-var mysql = require('mysql');
-var con = mysql.createPool({
-  database:"base_diagnostico",
-  host: "diagnostico035.cgeovhwjvxf3.us-east-1.rds.amazonaws.com",
-  user: "frank",
-  password: "Programacion2020",
-  multipleStatements: true
-},
+// require('dotenv').config();
 
-console.log("connected!")
-)
+// // Requerir mysql
+// var mysql = require('mysql');
 
- module.exports=con;
+// // Crear la conexión a la base de datos con las variables de entorno
+// var con = mysql.createPool({
+//   host: process.env.DB_HOST,          // Usamos la variable de entorno DB_HOST
+//   user: process.env.DB_USER,          // Usamos la variable de entorno DB_USER
+//   password: process.env.DB_PASSWORD,  // Usamos la variable de entorno DB_PASSWORD
+//   database: process.env.DB_NAME,      // Usamos la variable de entorno DB_NAME
+//   multipleStatements: true
+// });
+
+// // Verificar la conexión
+// con.getConnection(function (err, connection) {
+//   if (err) {
+//     console.error('Error connecting to the database: ' + err.stack);
+//     return;
+//   }
+//   console.log('Connected to the database as id ' + connection.threadId);
+//   connection.release();  // Liberamos la conexión después de usarla
+// });
+
+// module.exports = con;
+
 
 //  var mysql = require('mysql');
 
