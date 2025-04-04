@@ -1,28 +1,28 @@
-// require('dotenv').config();
+require('dotenv').config();
 
-// // Requerir mysql
-// var mysql = require('mysql');
+// Requerir mysql
+var mysql = require('mysql');
 
-// // Crear la conexión a la base de datos con las variables de entorno
-// var con = mysql.createPool({
-//   host: process.env.DB_HOST,          // Usamos la variable de entorno DB_HOST
-//   user: process.env.DB_USER,          // Usamos la variable de entorno DB_USER
-//   password: process.env.DB_PASSWORD,  // Usamos la variable de entorno DB_PASSWORD
-//   database: process.env.DB_NAME,      // Usamos la variable de entorno DB_NAME
-//   multipleStatements: true
-// });
+// Crear la conexión a la base de datos con las variables de entorno
+var con = mysql.createPool({
+  host: process.env.DB_HOST,          // Usamos la variable de entorno DB_HOST
+  user: process.env.DB_USER,          // Usamos la variable de entorno DB_USER
+  password: process.env.DB_PASSWORD,  // Usamos la variable de entorno DB_PASSWORD
+  database: process.env.DB_NAME,      // Usamos la variable de entorno DB_NAME
+  multipleStatements: true
+});
 
-// // Verificar la conexión
-// con.getConnection(function (err, connection) {
-//   if (err) {
-//     console.error('Error connecting to the database: ' + err.stack);
-//     return;
-//   }
-//   console.log('Connected to the database as id ' + connection.threadId);
-//   connection.release();  // Liberamos la conexión después de usarla
-// });
+// Verificar la conexión
+con.getConnection(function (err, connection) {
+  if (err) {
+    console.error('Error connecting to the database: ' + err.stack);
+    return;
+  }
+  console.log('Connected to the database as id ' + connection.threadId);
+  connection.release();  // Liberamos la conexión después de usarla
+});
 
-// module.exports = con;
+module.exports = con;
 
 
 //  var mysql = require('mysql');
